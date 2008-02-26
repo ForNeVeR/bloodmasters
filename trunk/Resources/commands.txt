@@ -1,0 +1,76 @@
+
+List of console commands
+========================
+
+* /exit
+Exits the game immediately. (also /quit and /disconnect)
+
+* /players
+Shows a list of players on the server.
+
+* /join
+Joins the game.
+Usage:  /join team
+Where team can be:  spectators, game, red, blue
+
+* /simping
+Simulates latency.
+Usage:  /simping milliseconds
+
+* /simloss
+Simulates packetloss.
+Usage:  /simloss percentage
+
+* /dump
+Dumps the console contents to a file.
+Usage:  /dump filename
+
+* /kill
+Commit suicide.
+
+* /screenshot
+Makes a screenshot.
+
+* /togglehud
+Toggles the HUD on and off.
+Usefull for making a map screenshot.
+
+* /rcon
+Sends a remote control command to the server.
+Usage:  /rcon command [arguments]
+
+
+List of RCON commands
+=====================
+
+* login
+Use this to provide the RCON password and gain access to RCON.
+Usage:  /rcon login password
+
+* map
+This forces the server to load a map immediately.
+Usage:  /rcon map mapname
+Where mapname is the short name of the map to load
+
+* nextmap
+This forces the server to load the next map in the list.
+
+* restartmap
+This forces the server to restart the current map.
+
+* kick
+This kicks a client from the server.
+Usage:  /rcon kick player [, reason]
+Where player can be the player name or ID.
+(see /players for list of IDs)
+
+* ban
+This bans an IP address from the server.
+Usage:  /rcon ban player [, reason]
+Where player can be the player name or ID, or IP address.
+(see /players for list of IDs)
+
+* ip
+This shows the IP address of a player.
+Usage:  /rcon ip player
+Where player can be the player name or ID.

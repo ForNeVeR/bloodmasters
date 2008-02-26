@@ -1,0 +1,19 @@
+
+TODO FOR 1.3:
+- Shield keeps glowing when player of same team with static nearby.
+- Player still shooting while holding fire when switching from Waiting gamestate to Countdown.
+- Downloading maps crashes on standard apache directory index links.
+- Game should download maps as well (when switching to another map you dont have the game quits).
+- Powerup name displayed even when others pick up a powerup.
+- Fire the Ion Cannon inside a wall and it will electrocute players behind the wall.
+- Players can re-join the game when game has ended and scoreboard is shown.
+
+DONE FOR 1.3:
+
+- Overall visual effect enhancements.
+- Bridge in maps Cornish and Cornish CTF shorter.
+- Floor cracks in maps Dusk and Dusk CTF larger for better item pickup.
+- Changed lava pool and wider center passage in map Dusk CTF.
+- Complete remake of maps Portal Pest and Portal Pest CTF.
+- Adjusted damage strength of Minigun and Ion Cannon.
+- Minigun now needs to completely spin-down before spin-up.

@@ -1,0 +1,388 @@
+<VisualStudioProject>
+    <CSHARP
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{0232A66E-1D9B-483C-88A3-432F4EE78D12}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = "..\..\Resources\bm.ico"
+                AssemblyKeyContainerName = ""
+                AssemblyName = "BMLauncher"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "WinExe"
+                PreBuildEvent = ""
+                PostBuildEvent = ""
+                RootNamespace = "CodeImp.Bloodmasters.Launcher"
+                RunPostBuildEvent = "OnBuildSuccess"
+                StartupObject = ""
+            >
+                <Config
+                    Name = "Debug"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "DEBUG;TRACE;LAUNCHER"
+                    DocumentationFile = ""
+                    DebugSymbols = "true"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "true"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "false"
+                    OutputPath = "..\..\Build\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+                <Config
+                    Name = "Release"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "LAUNCHER"
+                    DocumentationFile = ""
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "true"
+                    OutputPath = "..\..\Build\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                    HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.dll"
+                />
+                <Reference
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                    HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
+                />
+                <Reference
+                    Name = "System.Windows.Forms"
+                    AssemblyName = "System.Windows.Forms"
+                    HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
+                />
+                <Reference
+                    Name = "Microsoft.DirectX"
+                    AssemblyName = "Microsoft.DirectX"
+                    HintPath = "C:\WINNT\Microsoft.NET\Managed DirectX\v9.03.91\Microsoft.DirectX.dll"
+                    AssemblyFolderKey = "hklm\current managed directx 9.3"
+                />
+                <Reference
+                    Name = "Microsoft.DirectX.Direct3D"
+                    AssemblyName = "Microsoft.DirectX.Direct3D"
+                    HintPath = "C:\WINNT\Microsoft.NET\Managed DirectX\v9.03.91\Microsoft.DirectX.Direct3D.dll"
+                    AssemblyFolderKey = "hklm\current managed directx 9.3"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                    HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
+                />
+            </References>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "General\Direct3D.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "General\General.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "General\IP2Country.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "General\IPRangeInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interface\DisplayAdapterItem.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interface\DisplayModeItem.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interface\FormDownload.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interface\FormDownload.resx"
+                    DependentUpon = "FormDownload.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Interface\FormError.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interface\FormError.resx"
+                    DependentUpon = "FormError.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Interface\FormGameInfo.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interface\FormGameInfo.resx"
+                    DependentUpon = "FormGameInfo.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Interface\FormGamePassword.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interface\FormGamePassword.resx"
+                    DependentUpon = "FormGamePassword.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Interface\FormGameSpecify.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interface\FormGameSpecify.resx"
+                    DependentUpon = "FormGameSpecify.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Interface\FormMain.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interface\FormMain.resx"
+                    DependentUpon = "FormMain.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Interface\FormOptions.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interface\FormOptions.resx"
+                    DependentUpon = "FormOptions.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Interface\GamesListItem.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interface\GamesListItemComparer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interface\InputKey.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Interface\ServerBrowser.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Archive.cs"
+                    Link = "..\Shared\Archive.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\ArchiveManager.cs"
+                    Link = "..\Shared\ArchiveManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\AssemblyInfo.cs"
+                    Link = "..\Shared\AssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Configuration.cs"
+                    Link = "..\Shared\Configuration.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Enums.cs"
+                    Link = "..\Shared\Enums.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Line2D.cs"
+                    Link = "..\Shared\Line2D.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Vector2D.cs"
+                    Link = "..\Shared\Vector2D.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Vector3D.cs"
+                    Link = "..\Shared\Vector3D.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Wad.cs"
+                    Link = "..\Shared\Wad.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Map\BlockMap.cs"
+                    Link = "..\Shared\Map\BlockMap.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Map\Linedef.cs"
+                    Link = "..\Shared\Map\Linedef.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Map\Map.cs"
+                    Link = "..\Shared\Map\Map.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Map\MapVertex.cs"
+                    Link = "..\Shared\Map\MapVertex.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Map\Node.cs"
+                    Link = "..\Shared\Map\Node.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Map\RejectMap.cs"
+                    Link = "..\Shared\Map\RejectMap.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Map\Sector.cs"
+                    Link = "..\Shared\Map\Sector.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Map\Segment.cs"
+                    Link = "..\Shared\Map\Segment.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Map\Sidedef.cs"
+                    Link = "..\Shared\Map\Sidedef.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Map\SubSector.cs"
+                    Link = "..\Shared\Map\SubSector.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Map\Thing.cs"
+                    Link = "..\Shared\Map\Thing.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Net\Connection.cs"
+                    Link = "..\Shared\Net\Connection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Net\Gateway.cs"
+                    Link = "..\Shared\Net\Gateway.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Net\MsgCmd.cs"
+                    Link = "..\Shared\Net\MsgCmd.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Net\NetMessage.cs"
+                    Link = "..\Shared\Net\NetMessage.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Net\NetMessageComparer.cs"
+                    Link = "..\Shared\Net\NetMessageComparer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Shared\Net\Packet.cs"
+                    Link = "..\Shared\Net\Packet.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+            </Include>
+        </Files>
+    </CSHARP>
+</VisualStudioProject>
+
