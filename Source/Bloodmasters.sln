@@ -1,0 +1,33 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters", "Client\Bloodmasters.csproj", "{406F2DC0-ED64-4D82-A75C-12DFC3300A66}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Debug - Linux = Debug - Linux
+		Debug - Windows = Debug - Windows
+		Release = Release
+		Release - Linux = Release - Linux
+		Release - Windows = Release - Windows
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug.ActiveCfg = Debug|.NET
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug.Build.0 = Debug|.NET
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug - Linux.ActiveCfg = Debug|.NET
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug - Linux.Build.0 = Debug|.NET
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug - Windows.ActiveCfg = Debug|.NET
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug - Windows.Build.0 = Debug|.NET
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release.ActiveCfg = Release|.NET
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release.Build.0 = Release|.NET
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release - Linux.ActiveCfg = Release|.NET
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release - Linux.Build.0 = Release|.NET
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release - Windows.ActiveCfg = Release|.NET
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release - Windows.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,69 @@
+Mapping for Bloodmasters using Doom Builder
+-------------------------------------------
+
+
+- Copy Bloodmasters.cfg and XenNode.exe to your Doom Builder folder.
+It doesn't matter where you keep the file Bloodmasters.wad.
+
+
+
+- Use Bloodmasters.wad as the IWAD for the Bloodmasters configuration.
+
+
+
+- You MUST use XenNode as nodebuilder. Any other nodebuilder may 
+appear to build the map correctly at first, but it will not be 
+optimized and cause a major performance loss!
+
+XenNode parameters:   %F -o %F
+
+
+
+- You MUST make a configuration lump in the map. When you load/create 
+your map using the Bloodmasters configuration file in Doom Builder, 
+go to the Scripts menu -> Edit CONFIG Lump. The game types shown
+in the sample below are required for the launcher to show the map
+in its list for the correct game modes.
+
+Sample configuration:
+
+title = "Lava Ruins";
+author = "Pascal vd Heiden";
+players = 12;
+ceilinglight = 0.188f;
+
+sound1 = "amblava.wav";
+sound2 = "ambpower.wav";
+
+dm = true;
+tdm = true;
+ctf = false;
+sc = false;
+tsc = false;
+st = false;
+tst = false;
+
+
+
+- Mark lines which are always blocking the light as "Solid Wall"! 
+This helps the nodebuilder optimizing the map.
+
+
+
+- The 3D Mode Start thing is also the position at which a player in 
+the game will start spectating after loading the map!
+
+
+
+- Do not have void areas in the middle of your map. Essentially, your 
+map should be inside one big square sector.
+
+
+
+- It is recommended to make a new .rar directory for your map and put
+your map and textures in there.
+
+
+- Testing through Doom Builder (F5) is not possible. You must save
+your map and launch the game with the normal launcher to test it.
+

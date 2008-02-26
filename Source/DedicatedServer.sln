@@ -1,0 +1,27 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DedicatedServer", "Server\DedicatedServer.csproj", "{15F2A8EE-878F-47BF-9C8B-C84D4B612F76}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug - Linux = Debug - Linux
+		Debug - Windows = Debug - Windows
+		Release - Linux = Release - Linux
+		Release - Windows = Release - Windows
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{15F2A8EE-878F-47BF-9C8B-C84D4B612F76}.Debug - Linux.ActiveCfg = Debug - Linux|.NET
+		{15F2A8EE-878F-47BF-9C8B-C84D4B612F76}.Debug - Linux.Build.0 = Debug - Linux|.NET
+		{15F2A8EE-878F-47BF-9C8B-C84D4B612F76}.Debug - Windows.ActiveCfg = Debug - Windows|.NET
+		{15F2A8EE-878F-47BF-9C8B-C84D4B612F76}.Debug - Windows.Build.0 = Debug - Windows|.NET
+		{15F2A8EE-878F-47BF-9C8B-C84D4B612F76}.Release - Linux.ActiveCfg = Release - Linux|.NET
+		{15F2A8EE-878F-47BF-9C8B-C84D4B612F76}.Release - Linux.Build.0 = Release - Linux|.NET
+		{15F2A8EE-878F-47BF-9C8B-C84D4B612F76}.Release - Windows.ActiveCfg = Release - Windows|.NET
+		{15F2A8EE-878F-47BF-9C8B-C84D4B612F76}.Release - Windows.Build.0 = Release - Windows|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

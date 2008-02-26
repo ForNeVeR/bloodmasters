@@ -1,0 +1,70 @@
+
+Bloodmasters server query protocol
+=====================================================================
+
+To query a server, send a UDP packet containing the following data:
+
+unsigned short (2 bytes):  Length of the packet (7 in this case)
+unsigned byte (1 byte):    Message code (13 in this case)
+signed integer (4 bytes):  Anything you like
+
+The last 4 bytes can be any integer you like. This integer will be
+returned to you when you receive your answer. A launcher can use this
+to store the current time and determine the ping to the server
+without having to send a seperate ICMP ping.
+
+=====================================================================
+
+When successfull, the server will answer with the following UDP data:
+
+unsigned short (2 bytes):  Length of the packet
+unsigned byte (1 byte):    Message code (13 in this case)
+signed integer (4 bytes):  Whatever you sent in the request
+unsigned byte (1 bytes):   Length of server title
+string (# bytes):          Server title
+boolean (1 byte):          True when locked with a password
+unsigned byte (1 bytes):   Length of website URL
+string (# bytes):          Website URL
+unsigned byte (1 byte):    Maximum clients
+unsigned byte (1 byte):    Maximum players
+unsigned byte (1 byte):    Game type (see below)
+unsigned byte (1 bytes):   Length of short map name
+string (# bytes):          Short map name
+unsigned byte (1 byte):    Current number of clients
+unsigned byte (1 byte):    Current number of players
+unsigned byte (1 byte):    Protocol version
+
+The structures that follow may change with protocol versions,
+so make sure the protocol version you read matches the
+protocol version you expected to ensure you will read the
+following structures correctly!
+
+The following structures apply to protocol version 27 and higher.
+
+signed short (2 bytes):    Score limit
+signed short (2 bytes):    Time limit
+boolean (1 byte):          True when forced to join smallest team
+
+For each client:
+    
+    unsigned byte (1 bytes):   Length of player name
+    string (# bytes):          Player name
+    unsigned byte (1 byte):    Player team
+    boolean (1 byte):          True when player is a spectator
+    signed short (2 bytes):    Player ping
+
+The following structures apply to protocol version 28 and higher.
+
+unsigned byte (1 bytes):   Length of build description
+string (# bytes):          Build description and version number
+
+
+=====================================================================
+
+Game types:
+
+0 = Deathmatch
+1 = Team Deathmatch
+2 = Capture The Flag
+3 = Scavenger
+4 = Team Scavenger

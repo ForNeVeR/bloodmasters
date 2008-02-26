@@ -1,0 +1,115 @@
+
+Definitions
+-------------------------------------------------------------
+
+Message:
+Single command/request with specific data fields depending
+on the message code. Can be reliable or unreliable
+(see Special Commands)
+
+Packet:
+Multiple messages combined and converted to a single data
+stream, ready for transmitting over the network.
+
+
+Networking architecture
+-------------------------------------------------------------
+
+The Connection
+
+- Keeps track of a connection with the remote peer.
+- Sends/receives pings with statistics.
+- Keeps track of statistics and Message IDs.
+- Unreliable messages are sent to the Gateway.
+- Reliable messages are sent to the Gateway and
+  are scheduled for retransmission.
+- Resends reliable message until confirmed.
+- Removes reliable messages when confirmed.
+- Sends confirmation when reliable message arrives.
+- Buffers out-of-band reliable messages.
+
+The Gateway
+
+- Buffers messages for sending.
+- Buffers arrived messages.
+- Combines buffered messages into a packet and sends it.
+- Splits incoming packets into messages and delivers them.
+- Maintains a collection of connections.
+- Buffers packets for ping simulation.
+- Drops packets for packetloss simulation.
+
+
+Messages:
+-------------------------------------------------------------
+2 bytes ushort	Length (used to combine and split messages)
+1 byte			Command
+4 bytes uint	PacketID (when reliable or confirming)
+# bytes			Data
+
+One packet can contain one or more messages. Use the length
+field to combine/split messages to/from packets.
+
+
+Special Commands:
+-------------------------------------------------------------
+- Command 128 is a ping (reliable)
+- Command 0 is a confirmation (includes a PacketID)
+
+- For all other commands, the MSB (0x80) indicates if
+  the message is sent reliable. If the MSB is set, the
+  message will contain a PacketID.
+
+Example:
+Command 2 = Unreliable message 2
+Command 130 = Reliable message 2
+
+
+Packet:
+-------------------------------------------------------------
+Packets are created from the buffered messages after one
+iteration. The messages are first sorted biggest first and
+then a bin packing algorythm will create the packets. The
+ideal packet size can be configured.
+
+Pseudo code of the packaging algorythm
+
+Messages = Collection of messages, sorted biggest first
+Packs = Collection of packages
+
+// Go for all messages
+foreach(M in Messages)
+{
+	// Reset best find
+	Waste = int.max;
+	Packet = null;
+	
+	// Go for all existing packages
+	foreach(P in Packs)
+	{
+		// Free space to hold M here?
+		if(space in P >= size of M)
+		{
+			// Less waste than previous find?
+			if(space in P - size of M < Waste)
+			{
+				// This packet qualifies
+				Waste = space in P - size of M;
+				Packet = P;
+			}
+		}
+	}
+	
+	// No suitable packet found?
+	if(Packet == null)
+	{
+		// Create new packet
+		Packet = new into Packs;
+	}
+	
+	// Store the message here
+	Add M to Packet;
+	Remove M from Messages;
+}
+
+
+

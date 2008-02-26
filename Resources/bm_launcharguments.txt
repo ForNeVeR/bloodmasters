@@ -1,0 +1,32 @@
+
+Bloodmasters launch arguments
+=====================================================================
+
+The Bloodmasters executable (bloodmasters.exe) is the actual game.
+This executable only listens to 1 argument on the command line which
+is the filename in which it will look for its startup information.
+
+Example:  bloodmasters.exe launchargs.cfg
+
+In this example, Bloodmasters will look for the file launchargs.cfg
+in its own directory. In this file you can put settings that override
+the original configuration (bloodmaster.cfg) and add settings which
+tell the game how to start.
+
+These are settings to tell the game how to start:
+
+join = "217.67.231.10:6969";
+This will start a client to join the server at the specified ip:port.
+
+host = "bmserver.cfg";
+This will start a server AND a client. This server will be hosting
+the game configured in the server settings file bmserver.cfg. The
+client will connecto to localhost once the server is started.
+
+dedicated = "bmserver.cfg";
+This will start a dedicated server hosting the game configured in
+the server settings file bmserver.cfg.
+
+For an example of a server settings configuration, use the
+Bloodmasters launcher to export server settings to a CFG file.
+

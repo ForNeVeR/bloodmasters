@@ -1,0 +1,50 @@
+GET THE LATEST IP 2 COUNTRY FILE HERE:
+http://ip-to-country.webhosting.info/node/view/5
+
+
+The CSV file contains five fields: 
+- Begining of IP address range 
+- Ending of IP address range 
+- Two-character country code based on ISO 3166 
+- Three-character country code based on ISO 3166 
+- Country name based on ISO 3166 
+
+This is a sample of how the CSV file is structured: 
+"0033996344","0033996351","GB","GBR","UNITED KINGDOM"
+"0050331648","0083886079","US","USA","UNITED STATES"
+"0094585424","0094585439","SE","SWE","SWEDEN"
+...
+
+Note: All IP addresses are represented as IP Numbers which is the numeric representation of the dotted IP address.
+
+
+You can import this data into any database by creating a table with the following fields:
+
+FIELD DATA TYPE FIELD DESCRIPTION 
+IP_FROM NUMERICAL (DOUBLE) Beginning of IP address range. 
+IP_TO NUMERICAL (DOUBLE) Ending of IP address range. 
+COUNTRY_CODE2 CHAR(2) Two-character country code based on ISO 3166. 
+COUNTRY_CODE3 CHAR(3) Three-character country code based on ISO 3166. 
+COUNTRY_NAME VARCHAR(50) Country name based on ISO 3166 
+
+You can query the above table, after you have imported the data into it, to find the country of a corresponding IP Number by issuing the following Select statement: 
+SELECT COUNTRY_NAME FROM <TableName> WHERE IP_FROM <= IP Number and IP_TO >= IP Number
+
+
+The IP_FROM and IP_TO fields of the IP-to-Country Database are numeric representations of the dotted IP address. The formula to convert an IP Address of the form A.B.C.D to an IP Number is:
+
+IP Number = A x (256*256*256) + B x (256*256) + C x 256 + D
+
+Which is the same as:
+
+IP Number = A x 16777216 + B x 65536 + C x 256 + D
+
+
+In PHP 4 you can use the following to convert a dotted IP Address to its corresponding IP Number:
+
+$ip_number = sprintf("%u", ip2long($dotted_ip_address));
+
+and this to convert IP Number to its corresponding dotted IP Address:
+
+$dotted_ip_address = long2ip($ip_number);
+
