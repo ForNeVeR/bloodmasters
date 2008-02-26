@@ -1,0 +1,10 @@
+type = "Doom Builder Map Settings Configuration";
+config = "Bloodmasters";
+
+MAP
+{
+	addwad = "";
+	addtexdir = "E:\\Projects\\Bloodmasters\\Build\\lavaruins.rar\\";
+	addflatdir = "E:\\Projects\\Bloodmasters\\Build\\Textures.rar\\";
+}
+

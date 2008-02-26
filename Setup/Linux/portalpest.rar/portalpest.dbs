@@ -1,0 +1,10 @@
+type = "Doom Builder Map Settings Configuration";
+config = "Bloodmasters";
+
+BMMAP
+{
+	addwad = "";
+	addtexdir = "E:\\Projects\\Bloodmasters\\Build\\Textures.rar\\";
+	addflatdir = "E:\\Projects\\Bloodmasters\\Build\\portalpest.rar\\";
+}
+

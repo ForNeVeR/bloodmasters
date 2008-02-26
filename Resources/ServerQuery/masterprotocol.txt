@@ -1,0 +1,18 @@
+
+Bloodmasters masterserver query protocol
+=====================================================================
+
+To query the masterserver, simply send a HTTP GET to get this URL:
+http://www.bloodmasters.com/bloodmasterslist.php
+
+The masterserver will answer with a plain text list of IP addresses
+and port numbers like this:
+
+217.67.231.10:6968
+217.67.231.10:6964
+217.67.231.10:6963
+217.67.231.10:6969
+217.67.231.10:6965
+
+Don't forget that the answer is in HTTP as well, so you'll have to
+parse the answer as HTTP to get the proper information.
