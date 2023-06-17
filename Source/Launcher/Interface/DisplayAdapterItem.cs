@@ -5,16 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using Vortice.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Launcher
 {
@@ -22,14 +13,14 @@ namespace CodeImp.Bloodmasters.Launcher
 	{
 		public int ordinal;
 		public string description;
-		
+
 		// Constructor
-		public DisplayAdapterItem(AdapterInformation ai)
+		public DisplayAdapterItem(int adapterIndex, AdapterIdentifier ai)
 		{
-			ordinal = ai.Adapter;
-			description = ai.Information.Description;
+			ordinal = adapterIndex;
+			description = ai.Description;
 		}
-		
+
 		// String representation
 		public override string ToString()
 		{

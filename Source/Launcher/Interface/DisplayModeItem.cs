@@ -6,28 +6,20 @@
 \********************************************************************/
 
 using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using Vortice.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Launcher
 {
 	public struct DisplayModeItem : IComparable
 	{
 		public DisplayMode mode;
-		
+
 		// Constructor
 		public DisplayModeItem(DisplayMode m)
 		{
 			mode = m;
 		}
-		
+
 		// String representation
 		public override string ToString()
 		{
@@ -35,14 +27,14 @@ namespace CodeImp.Bloodmasters.Launcher
 					Direct3D.GetBitDepth(mode.Format) + " @ " +
 					mode.RefreshRate + " Hz";
 		}
-		
+
 		// Hash value
 		public override int GetHashCode()
 		{
 			// Make a value for this mode that can be used for comparing
 			return ((mode.Width + mode.Height / 2) << 16) | (Direct3D.GetBitDepth(mode.Format) << 10) | mode.RefreshRate;
 		}
-		
+
 		// Compare
 		public int CompareTo(object obj)
 		{

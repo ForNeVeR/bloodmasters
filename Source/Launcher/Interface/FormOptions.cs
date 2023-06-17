@@ -5,17 +5,10 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
 using System.Collections;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Windows.Forms;
-using System.Diagnostics;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using Vortice.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Launcher
 {
@@ -88,13 +81,13 @@ namespace CodeImp.Bloodmasters.Launcher
 		private System.Windows.Forms.ComboBox cmbMoveMethod;
 		private System.Windows.Forms.CheckBox chkScreenFlashes;
 		private System.Windows.Forms.Label lblControlDesc;
-		
+
 		// Constructor
 		public FormOptions()
 		{
 			// Required for Windows Form Designer support
 			InitializeComponent();
-			
+
 			// Setup General
 			txtPlayerName.Text = General.playername;
 			chkFixedPort.Checked = General.config.ReadSetting("fixedclientport", false);
@@ -108,7 +101,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			chkLaserIntensity.Checked = (General.config.ReadSetting("laserintensity", 2) > 0);
 			if(chkLaserIntensity.Checked) chkLaserIntensity.Tag = General.config.ReadSetting("laserintensity", 2); else chkLaserIntensity.Tag = 2;
 			chkTeamColoredNames.Checked = General.config.ReadSetting("teamcolorednames", false);
-			
+
 			// Fill the controls combobox with some special keys
 			cmbControl.Items.Add(Keys.None);
 			cmbControl.Items.Add(Keys.LButton);
@@ -118,7 +111,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			cmbControl.Items.Add(Keys.XButton2);
 			cmbControl.Items.Add(EXTRAKEYS.MScrollUp);
 			cmbControl.Items.Add(EXTRAKEYS.MScrollDown);
-			
+
 			// Go for all controls
 			foreach(ListViewItem c in lstControls.Items)
 			{
@@ -128,11 +121,11 @@ namespace CodeImp.Bloodmasters.Launcher
 				c.SubItems[1].Text = InputKey.GetKeyName(keycode);
 				controlkeys.Add(c.Tag, keycode);
 			}
-			
+
 			// Other options in control
 			chkScrollWeapons.Checked = General.config.ReadSetting("scrollweapons", true);
 			cmbMoveMethod.SelectedIndex = General.config.ReadSetting("movemethod", 0);
-			
+
 			// Setup Graphics
 			last_mode = Direct3D.DisplayMode;
 			last_fsaa = Direct3D.DisplayFSAA;
@@ -146,7 +139,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			chkScreenFlashes.Checked = General.config.ReadSetting("screenflashes", true);
 			chkHighTextures.Checked = General.config.ReadSetting("hightextures", true);
 			trkGamma.Value = Direct3D.DisplayGamma;
-			
+
 			// Setup Sound
 			chkPlaySounds.Checked = General.config.ReadSetting("sounds", true);
 			chkPlayChatBeep.Checked = General.config.ReadSetting("soundchatbeep", true);
@@ -156,7 +149,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			chkRandomMusic.Checked = General.config.ReadSetting("musicrandom", true);
 			trkMusicVolume.Value = General.config.ReadSetting("musicvolume", 50);
 		}
-		
+
 		// Clean up any resources being used.
 		protected override void Dispose( bool disposing )
 		{
@@ -166,11 +159,11 @@ namespace CodeImp.Bloodmasters.Launcher
 				// Dispose components, if any
 				if(components != null) components.Dispose();
 			}
-			
+
 			// Let superior class know about the dispose
 			base.Dispose(disposing);
 		}
-		
+
 		#region Windows Form Designer generated code
 		/// <summary>
 		/// Required method for Designer support - do not modify
@@ -282,9 +275,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			((System.ComponentModel.ISupportInitialize)(this.trkSoundVolume)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trkMusicVolume)).BeginInit();
 			this.SuspendLayout();
-			// 
+			//
 			// btnOK
-			// 
+			//
 			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -295,9 +288,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.btnOK.TabIndex = 3;
 			this.btnOK.Text = "OK";
 			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-			// 
+			//
 			// btnCancel
-			// 
+			//
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -308,11 +301,11 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.btnCancel.TabIndex = 4;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-			// 
+			//
 			// tabsOptions
-			// 
-			this.tabsOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-				| System.Windows.Forms.AnchorStyles.Left) 
+			//
+			this.tabsOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+				| System.Windows.Forms.AnchorStyles.Left)
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.tabsOptions.Controls.Add(this.tabGeneral);
 			this.tabsOptions.Controls.Add(this.tabGraphics);
@@ -325,9 +318,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.tabsOptions.Size = new System.Drawing.Size(508, 272);
 			this.tabsOptions.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.tabsOptions.TabIndex = 5;
-			// 
+			//
 			// tabGeneral
-			// 
+			//
 			this.tabGeneral.Controls.Add(this.chkAutoSwitchWeapon);
 			this.tabGeneral.Controls.Add(this.chkLaserIntensity);
 			this.tabGeneral.Controls.Add(this.chkTeamColoredNames);
@@ -350,9 +343,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.tabGeneral.Size = new System.Drawing.Size(500, 245);
 			this.tabGeneral.TabIndex = 2;
 			this.tabGeneral.Text = "General";
-			// 
+			//
 			// chkAutoSwitchWeapon
-			// 
+			//
 			this.chkAutoSwitchWeapon.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkAutoSwitchWeapon.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.chkAutoSwitchWeapon.Location = new System.Drawing.Point(100, 176);
@@ -360,27 +353,27 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.chkAutoSwitchWeapon.Size = new System.Drawing.Size(168, 22);
 			this.chkAutoSwitchWeapon.TabIndex = 38;
 			this.chkAutoSwitchWeapon.Text = "Switch weapon on pickup";
-			// 
+			//
 			// chkLaserIntensity
-			// 
+			//
 			this.chkLaserIntensity.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkLaserIntensity.Location = new System.Drawing.Point(100, 152);
 			this.chkLaserIntensity.Name = "chkLaserIntensity";
 			this.chkLaserIntensity.Size = new System.Drawing.Size(168, 22);
 			this.chkLaserIntensity.TabIndex = 37;
 			this.chkLaserIntensity.Text = "Show guidance laser";
-			// 
+			//
 			// chkTeamColoredNames
-			// 
+			//
 			this.chkTeamColoredNames.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkTeamColoredNames.Location = new System.Drawing.Point(100, 128);
 			this.chkTeamColoredNames.Name = "chkTeamColoredNames";
 			this.chkTeamColoredNames.Size = new System.Drawing.Size(168, 22);
 			this.chkTeamColoredNames.TabIndex = 36;
 			this.chkTeamColoredNames.Text = "Show names with team color";
-			// 
+			//
 			// chkAutoDownload
-			// 
+			//
 			this.chkAutoDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkAutoDownload.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.chkAutoDownload.Location = new System.Drawing.Point(100, 80);
@@ -388,9 +381,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.chkAutoDownload.Size = new System.Drawing.Size(188, 22);
 			this.chkAutoDownload.TabIndex = 35;
 			this.chkAutoDownload.Text = "Auto-download maps";
-			// 
+			//
 			// chkAutoScreenshot
-			// 
+			//
 			this.chkAutoScreenshot.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkAutoScreenshot.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.chkAutoScreenshot.Location = new System.Drawing.Point(100, 104);
@@ -398,9 +391,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.chkAutoScreenshot.Size = new System.Drawing.Size(196, 22);
 			this.chkAutoScreenshot.TabIndex = 34;
 			this.chkAutoScreenshot.Text = "Auto-screenshot when game ends";
-			// 
+			//
 			// lblSnapsSpeedLabel
-			// 
+			//
 			this.lblSnapsSpeedLabel.BackColor = System.Drawing.Color.Transparent;
 			this.lblSnapsSpeedLabel.Location = new System.Drawing.Point(404, 16);
 			this.lblSnapsSpeedLabel.Name = "lblSnapsSpeedLabel";
@@ -409,9 +402,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblSnapsSpeedLabel.Text = "Snapshots resolution:";
 			this.lblSnapsSpeedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.lblSnapsSpeedLabel.UseMnemonic = false;
-			// 
+			//
 			// lblSnapsSpeed
-			// 
+			//
 			this.lblSnapsSpeed.BackColor = System.Drawing.Color.Transparent;
 			this.lblSnapsSpeed.Location = new System.Drawing.Point(404, 188);
 			this.lblSnapsSpeed.Name = "lblSnapsSpeed";
@@ -420,9 +413,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblSnapsSpeed.Text = "10 snapshots per sec.";
 			this.lblSnapsSpeed.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.lblSnapsSpeed.UseMnemonic = false;
-			// 
+			//
 			// trkSnapsSpeed
-			// 
+			//
 			this.trkSnapsSpeed.LargeChange = 10;
 			this.trkSnapsSpeed.Location = new System.Drawing.Point(420, 44);
 			this.trkSnapsSpeed.Maximum = 40;
@@ -436,9 +429,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.trkSnapsSpeed.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.trkSnapsSpeed.Value = 10;
 			this.trkSnapsSpeed.ValueChanged += new System.EventHandler(this.trkSnapsSpeed_ValueChanged);
-			// 
+			//
 			// lblQuerySpeedLabel
-			// 
+			//
 			this.lblQuerySpeedLabel.BackColor = System.Drawing.Color.Transparent;
 			this.lblQuerySpeedLabel.Location = new System.Drawing.Point(316, 16);
 			this.lblQuerySpeedLabel.Name = "lblQuerySpeedLabel";
@@ -447,9 +440,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblQuerySpeedLabel.Text = "Servers query speed:";
 			this.lblQuerySpeedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.lblQuerySpeedLabel.UseMnemonic = false;
-			// 
+			//
 			// lblQuerySpeed
-			// 
+			//
 			this.lblQuerySpeed.BackColor = System.Drawing.Color.Transparent;
 			this.lblQuerySpeed.Location = new System.Drawing.Point(320, 188);
 			this.lblQuerySpeed.Name = "lblQuerySpeed";
@@ -458,9 +451,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblQuerySpeed.Text = "2 servers per sec.";
 			this.lblQuerySpeed.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.lblQuerySpeed.UseMnemonic = false;
-			// 
+			//
 			// trkQuerySpeed
-			// 
+			//
 			this.trkQuerySpeed.LargeChange = 20;
 			this.trkQuerySpeed.Location = new System.Drawing.Point(332, 44);
 			this.trkQuerySpeed.Maximum = 100;
@@ -474,9 +467,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.trkQuerySpeed.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.trkQuerySpeed.Value = 2;
 			this.trkQuerySpeed.ValueChanged += new System.EventHandler(this.trkQuerySpeed_ValueChanged);
-			// 
+			//
 			// txtClientPort
-			// 
+			//
 			this.txtClientPort.Location = new System.Drawing.Point(204, 201);
 			this.txtClientPort.Maximum = new System.Decimal(new int[] {
 																		  65535,
@@ -497,18 +490,18 @@ namespace CodeImp.Bloodmasters.Launcher
 																		0,
 																		0,
 																		0});
-			// 
+			//
 			// chkFixedPort
-			// 
+			//
 			this.chkFixedPort.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkFixedPort.Location = new System.Drawing.Point(100, 200);
 			this.chkFixedPort.Name = "chkFixedPort";
 			this.chkFixedPort.Size = new System.Drawing.Size(108, 22);
 			this.chkFixedPort.TabIndex = 26;
 			this.chkFixedPort.Text = "Fixed client port:";
-			// 
+			//
 			// txtPlayerName
-			// 
+			//
 			this.txtPlayerName.AutoSize = false;
 			this.txtPlayerName.Location = new System.Drawing.Point(100, 24);
 			this.txtPlayerName.MaxLength = 40;
@@ -517,9 +510,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.txtPlayerName.TabIndex = 3;
 			this.txtPlayerName.Text = "";
 			this.txtPlayerName.Validating += new System.ComponentModel.CancelEventHandler(this.txtPlayerName_Validating);
-			// 
+			//
 			// label3
-			// 
+			//
 			this.label3.BackColor = System.Drawing.Color.Transparent;
 			this.label3.Location = new System.Drawing.Point(24, 24);
 			this.label3.Name = "label3";
@@ -528,9 +521,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.label3.Text = "Player name:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label3.UseMnemonic = false;
-			// 
+			//
 			// chkStartRefresh
-			// 
+			//
 			this.chkStartRefresh.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkStartRefresh.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.chkStartRefresh.Location = new System.Drawing.Point(100, 56);
@@ -538,9 +531,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.chkStartRefresh.Size = new System.Drawing.Size(188, 22);
 			this.chkStartRefresh.TabIndex = 30;
 			this.chkStartRefresh.Text = "Refresh servers list on startup";
-			// 
+			//
 			// tabGraphics
-			// 
+			//
 			this.tabGraphics.Controls.Add(this.chkScreenFlashes);
 			this.tabGraphics.Controls.Add(this.chkShowGibs);
 			this.tabGraphics.Controls.Add(this.chkHighTextures);
@@ -564,27 +557,27 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.tabGraphics.Size = new System.Drawing.Size(500, 245);
 			this.tabGraphics.TabIndex = 0;
 			this.tabGraphics.Text = "Graphics";
-			// 
+			//
 			// chkShowGibs
-			// 
+			//
 			this.chkShowGibs.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkShowGibs.Location = new System.Drawing.Point(324, 80);
 			this.chkShowGibs.Name = "chkShowGibs";
 			this.chkShowGibs.Size = new System.Drawing.Size(164, 22);
 			this.chkShowGibs.TabIndex = 23;
 			this.chkShowGibs.Text = "Show gibbing";
-			// 
+			//
 			// chkHighTextures
-			// 
+			//
 			this.chkHighTextures.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkHighTextures.Location = new System.Drawing.Point(324, 164);
 			this.chkHighTextures.Name = "chkHighTextures";
 			this.chkHighTextures.Size = new System.Drawing.Size(164, 22);
 			this.chkHighTextures.TabIndex = 21;
 			this.chkHighTextures.Text = "High detail textures";
-			// 
+			//
 			// lblGammaValue
-			// 
+			//
 			this.lblGammaValue.BackColor = System.Drawing.Color.Transparent;
 			this.lblGammaValue.Location = new System.Drawing.Point(276, 152);
 			this.lblGammaValue.Name = "lblGammaValue";
@@ -593,9 +586,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblGammaValue.Text = "0";
 			this.lblGammaValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.lblGammaValue.UseMnemonic = false;
-			// 
+			//
 			// trkGamma
-			// 
+			//
 			this.trkGamma.LargeChange = 2;
 			this.trkGamma.Location = new System.Drawing.Point(96, 144);
 			this.trkGamma.Name = "trkGamma";
@@ -603,36 +596,36 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.trkGamma.TabIndex = 19;
 			this.trkGamma.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.trkGamma.ValueChanged += new System.EventHandler(this.trkGamma_ValueChanged);
-			// 
+			//
 			// chkDynamicLights
-			// 
+			//
 			this.chkDynamicLights.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkDynamicLights.Location = new System.Drawing.Point(324, 136);
 			this.chkDynamicLights.Name = "chkDynamicLights";
 			this.chkDynamicLights.Size = new System.Drawing.Size(164, 22);
 			this.chkDynamicLights.TabIndex = 16;
 			this.chkDynamicLights.Text = "Dynamic lighting";
-			// 
+			//
 			// chkShowDecals
-			// 
+			//
 			this.chkShowDecals.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkShowDecals.Location = new System.Drawing.Point(324, 52);
 			this.chkShowDecals.Name = "chkShowDecals";
 			this.chkShowDecals.Size = new System.Drawing.Size(164, 22);
 			this.chkShowDecals.TabIndex = 15;
 			this.chkShowDecals.Text = "Show decals";
-			// 
+			//
 			// chkShowFPS
-			// 
+			//
 			this.chkShowFPS.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkShowFPS.Location = new System.Drawing.Point(324, 24);
 			this.chkShowFPS.Name = "chkShowFPS";
 			this.chkShowFPS.Size = new System.Drawing.Size(164, 22);
 			this.chkShowFPS.TabIndex = 14;
 			this.chkShowFPS.Text = "Show FPS and MSPF";
-			// 
+			//
 			// cmbFSAA
-			// 
+			//
 			this.cmbFSAA.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbFSAA.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.cmbFSAA.ItemHeight = 14;
@@ -643,9 +636,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.cmbFSAA.TabIndex = 13;
 			this.cmbFSAA.Visible = false;
 			this.cmbFSAA.SelectedIndexChanged += new System.EventHandler(this.cmbFSAA_SelectedIndexChanged);
-			// 
+			//
 			// lblFSAA
-			// 
+			//
 			this.lblFSAA.BackColor = System.Drawing.Color.Transparent;
 			this.lblFSAA.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.lblFSAA.Location = new System.Drawing.Point(220, 208);
@@ -656,18 +649,18 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblFSAA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.lblFSAA.UseMnemonic = false;
 			this.lblFSAA.Visible = false;
-			// 
+			//
 			// chkSyncRate
-			// 
+			//
 			this.chkSyncRate.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkSyncRate.Location = new System.Drawing.Point(100, 112);
 			this.chkSyncRate.Name = "chkSyncRate";
 			this.chkSyncRate.Size = new System.Drawing.Size(188, 22);
 			this.chkSyncRate.TabIndex = 11;
 			this.chkSyncRate.Text = "Synchronize with refresh rate";
-			// 
+			//
 			// chkWindowed
-			// 
+			//
 			this.chkWindowed.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkWindowed.Location = new System.Drawing.Point(100, 88);
 			this.chkWindowed.Name = "chkWindowed";
@@ -675,9 +668,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.chkWindowed.TabIndex = 10;
 			this.chkWindowed.Text = "Windowed";
 			this.chkWindowed.CheckedChanged += new System.EventHandler(this.chkWindowed_CheckedChanged);
-			// 
+			//
 			// cmbResolution
-			// 
+			//
 			this.cmbResolution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbResolution.Location = new System.Drawing.Point(100, 56);
 			this.cmbResolution.MaxDropDownItems = 12;
@@ -685,9 +678,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.cmbResolution.Size = new System.Drawing.Size(188, 22);
 			this.cmbResolution.TabIndex = 9;
 			this.cmbResolution.SelectedIndexChanged += new System.EventHandler(this.cmbResolution_SelectedIndexChanged);
-			// 
+			//
 			// label2
-			// 
+			//
 			this.label2.BackColor = System.Drawing.Color.Transparent;
 			this.label2.Location = new System.Drawing.Point(12, 56);
 			this.label2.Name = "label2";
@@ -696,9 +689,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.label2.Text = "Resolution:";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label2.UseMnemonic = false;
-			// 
+			//
 			// cmbAdapter
-			// 
+			//
 			this.cmbAdapter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbAdapter.Location = new System.Drawing.Point(100, 24);
 			this.cmbAdapter.MaxDropDownItems = 10;
@@ -706,9 +699,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.cmbAdapter.Size = new System.Drawing.Size(188, 22);
 			this.cmbAdapter.TabIndex = 7;
 			this.cmbAdapter.SelectedIndexChanged += new System.EventHandler(this.cmbAdapter_SelectedIndexChanged);
-			// 
+			//
 			// label1
-			// 
+			//
 			this.label1.BackColor = System.Drawing.Color.Transparent;
 			this.label1.Location = new System.Drawing.Point(12, 24);
 			this.label1.Name = "label1";
@@ -717,9 +710,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.label1.Text = "Display driver:";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.UseMnemonic = false;
-			// 
+			//
 			// lblGamma
-			// 
+			//
 			this.lblGamma.BackColor = System.Drawing.Color.Transparent;
 			this.lblGamma.Location = new System.Drawing.Point(12, 152);
 			this.lblGamma.Name = "lblGamma";
@@ -728,9 +721,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblGamma.Text = "Gamma:";
 			this.lblGamma.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.lblGamma.UseMnemonic = false;
-			// 
+			//
 			// tabControls
-			// 
+			//
 			this.tabControls.Controls.Add(this.grpControlOptions);
 			this.tabControls.Controls.Add(this.label5);
 			this.tabControls.Controls.Add(this.cmbControl);
@@ -744,9 +737,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.tabControls.Size = new System.Drawing.Size(500, 245);
 			this.tabControls.TabIndex = 1;
 			this.tabControls.Text = "Controls";
-			// 
+			//
 			// grpControlOptions
-			// 
+			//
 			this.grpControlOptions.Controls.Add(this.cmbMoveMethod);
 			this.grpControlOptions.Controls.Add(this.label4);
 			this.grpControlOptions.Controls.Add(this.chkScrollWeapons);
@@ -756,9 +749,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.grpControlOptions.TabIndex = 33;
 			this.grpControlOptions.TabStop = false;
 			this.grpControlOptions.Text = " Extra Options ";
-			// 
+			//
 			// cmbMoveMethod
-			// 
+			//
 			this.cmbMoveMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbMoveMethod.IntegralHeight = false;
 			this.cmbMoveMethod.Items.AddRange(new object[] {
@@ -770,9 +763,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.cmbMoveMethod.Size = new System.Drawing.Size(152, 22);
 			this.cmbMoveMethod.TabIndex = 35;
 			this.cmbMoveMethod.TabStop = false;
-			// 
+			//
 			// label4
-			// 
+			//
 			this.label4.BackColor = System.Drawing.Color.Transparent;
 			this.label4.Location = new System.Drawing.Point(8, 24);
 			this.label4.Name = "label4";
@@ -781,9 +774,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.label4.Text = "Movement:";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label4.UseMnemonic = false;
-			// 
+			//
 			// chkScrollWeapons
-			// 
+			//
 			this.chkScrollWeapons.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkScrollWeapons.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.chkScrollWeapons.Location = new System.Drawing.Point(20, 52);
@@ -791,9 +784,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.chkScrollWeapons.Size = new System.Drawing.Size(216, 22);
 			this.chkScrollWeapons.TabIndex = 33;
 			this.chkScrollWeapons.Text = "Use scrollwheel to switch weapons";
-			// 
+			//
 			// label5
-			// 
+			//
 			this.label5.BackColor = System.Drawing.Color.Transparent;
 			this.label5.Location = new System.Drawing.Point(240, 16);
 			this.label5.Name = "label5";
@@ -803,9 +796,9 @@ namespace CodeImp.Bloodmasters.Launcher
 				"e in the control box below. You can also select a special control such as a mous" +
 				"e button.";
 			this.label5.UseMnemonic = false;
-			// 
+			//
 			// cmbControl
-			// 
+			//
 			this.cmbControl.Enabled = false;
 			this.cmbControl.IntegralHeight = false;
 			this.cmbControl.Location = new System.Drawing.Point(288, 100);
@@ -819,9 +812,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.cmbControl.SelectedIndexChanged += new System.EventHandler(this.cmbControl_SelectedIndexChanged);
 			this.cmbControl.Leave += new System.EventHandler(this.cmbControl_Leave);
 			this.cmbControl.Enter += new System.EventHandler(this.cmbControl_Enter);
-			// 
+			//
 			// lblControl
-			// 
+			//
 			this.lblControl.BackColor = System.Drawing.Color.Transparent;
 			this.lblControl.Enabled = false;
 			this.lblControl.Location = new System.Drawing.Point(240, 100);
@@ -831,9 +824,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblControl.Text = "Control:";
 			this.lblControl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.lblControl.UseMnemonic = false;
-			// 
+			//
 			// lblControlDesc
-			// 
+			//
 			this.lblControlDesc.BackColor = System.Drawing.Color.Transparent;
 			this.lblControlDesc.Enabled = false;
 			this.lblControlDesc.Location = new System.Drawing.Point(288, 76);
@@ -843,9 +836,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblControlDesc.Text = "<select an action>";
 			this.lblControlDesc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.lblControlDesc.UseMnemonic = false;
-			// 
+			//
 			// lblAction
-			// 
+			//
 			this.lblAction.BackColor = System.Drawing.Color.Transparent;
 			this.lblAction.Enabled = false;
 			this.lblAction.Location = new System.Drawing.Point(240, 76);
@@ -855,9 +848,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblAction.Text = "Action:";
 			this.lblAction.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.lblAction.UseMnemonic = false;
-			// 
+			//
 			// lstControls
-			// 
+			//
 			this.lstControls.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 																						  this.clmAction,
 																						  this.clmControl});
@@ -930,19 +923,19 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lstControls.View = System.Windows.Forms.View.Details;
 			this.lstControls.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lstControls_MouseUp);
 			this.lstControls.SelectedIndexChanged += new System.EventHandler(this.lstControls_SelectedIndexChanged);
-			// 
+			//
 			// clmAction
-			// 
+			//
 			this.clmAction.Text = "Action";
 			this.clmAction.Width = 118;
-			// 
+			//
 			// clmControl
-			// 
+			//
 			this.clmControl.Text = "Control";
 			this.clmControl.Width = 70;
-			// 
+			//
 			// tabSound
-			// 
+			//
 			this.tabSound.Controls.Add(this.lblMusicVolume);
 			this.tabSound.Controls.Add(this.lblSoundVolume);
 			this.tabSound.Controls.Add(this.chkPlayTeamBeep);
@@ -960,9 +953,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.tabSound.Size = new System.Drawing.Size(500, 245);
 			this.tabSound.TabIndex = 3;
 			this.tabSound.Text = "Sound";
-			// 
+			//
 			// lblMusicVolume
-			// 
+			//
 			this.lblMusicVolume.BackColor = System.Drawing.Color.Transparent;
 			this.lblMusicVolume.Enabled = false;
 			this.lblMusicVolume.Location = new System.Drawing.Point(116, 196);
@@ -972,9 +965,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblMusicVolume.Text = "0%";
 			this.lblMusicVolume.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.lblMusicVolume.UseMnemonic = false;
-			// 
+			//
 			// lblSoundVolume
-			// 
+			//
 			this.lblSoundVolume.BackColor = System.Drawing.Color.Transparent;
 			this.lblSoundVolume.Enabled = false;
 			this.lblSoundVolume.Location = new System.Drawing.Point(40, 196);
@@ -984,9 +977,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblSoundVolume.Text = "0%";
 			this.lblSoundVolume.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.lblSoundVolume.UseMnemonic = false;
-			// 
+			//
 			// chkPlayTeamBeep
-			// 
+			//
 			this.chkPlayTeamBeep.Enabled = false;
 			this.chkPlayTeamBeep.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkPlayTeamBeep.Location = new System.Drawing.Point(208, 192);
@@ -995,9 +988,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.chkPlayTeamBeep.TabIndex = 19;
 			this.chkPlayTeamBeep.Text = "Beep on team chat message";
 			this.chkPlayTeamBeep.Visible = false;
-			// 
+			//
 			// chkPlayChatBeep
-			// 
+			//
 			this.chkPlayChatBeep.Enabled = false;
 			this.chkPlayChatBeep.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkPlayChatBeep.Location = new System.Drawing.Point(208, 168);
@@ -1006,9 +999,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.chkPlayChatBeep.TabIndex = 18;
 			this.chkPlayChatBeep.Text = "Beep on chat message";
 			this.chkPlayChatBeep.Visible = false;
-			// 
+			//
 			// chkPlaySounds
-			// 
+			//
 			this.chkPlaySounds.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkPlaySounds.Location = new System.Drawing.Point(208, 24);
 			this.chkPlaySounds.Name = "chkPlaySounds";
@@ -1016,9 +1009,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.chkPlaySounds.TabIndex = 17;
 			this.chkPlaySounds.Text = "Play sound effects";
 			this.chkPlaySounds.CheckedChanged += new System.EventHandler(this.chkPlaySounds_CheckedChanged);
-			// 
+			//
 			// trkSoundVolume
-			// 
+			//
 			this.trkSoundVolume.Enabled = false;
 			this.trkSoundVolume.LargeChange = 20;
 			this.trkSoundVolume.Location = new System.Drawing.Point(44, 44);
@@ -1031,9 +1024,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.trkSoundVolume.TickFrequency = 10;
 			this.trkSoundVolume.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.trkSoundVolume.ValueChanged += new System.EventHandler(this.trkSoundVolume_ValueChanged);
-			// 
+			//
 			// lblSoundVolumeLabel
-			// 
+			//
 			this.lblSoundVolumeLabel.BackColor = System.Drawing.Color.Transparent;
 			this.lblSoundVolumeLabel.Enabled = false;
 			this.lblSoundVolumeLabel.Location = new System.Drawing.Point(36, 20);
@@ -1043,9 +1036,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblSoundVolumeLabel.Text = "Effects volume";
 			this.lblSoundVolumeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.lblSoundVolumeLabel.UseMnemonic = false;
-			// 
+			//
 			// trkMusicVolume
-			// 
+			//
 			this.trkMusicVolume.Enabled = false;
 			this.trkMusicVolume.LargeChange = 20;
 			this.trkMusicVolume.Location = new System.Drawing.Point(120, 44);
@@ -1058,9 +1051,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.trkMusicVolume.TickFrequency = 10;
 			this.trkMusicVolume.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.trkMusicVolume.ValueChanged += new System.EventHandler(this.trkMusicVolume_ValueChanged);
-			// 
+			//
 			// lblMusicVolumeLabel
-			// 
+			//
 			this.lblMusicVolumeLabel.BackColor = System.Drawing.Color.Transparent;
 			this.lblMusicVolumeLabel.Enabled = false;
 			this.lblMusicVolumeLabel.Location = new System.Drawing.Point(112, 20);
@@ -1070,9 +1063,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblMusicVolumeLabel.Text = "Music volume";
 			this.lblMusicVolumeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.lblMusicVolumeLabel.UseMnemonic = false;
-			// 
+			//
 			// chkRandomMusic
-			// 
+			//
 			this.chkRandomMusic.Enabled = false;
 			this.chkRandomMusic.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkRandomMusic.Location = new System.Drawing.Point(208, 88);
@@ -1080,9 +1073,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.chkRandomMusic.Size = new System.Drawing.Size(188, 22);
 			this.chkRandomMusic.TabIndex = 12;
 			this.chkRandomMusic.Text = "Randomize music tracks";
-			// 
+			//
 			// chkPlayMusic
-			// 
+			//
 			this.chkPlayMusic.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkPlayMusic.Location = new System.Drawing.Point(208, 64);
 			this.chkPlayMusic.Name = "chkPlayMusic";
@@ -1090,18 +1083,18 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.chkPlayMusic.TabIndex = 11;
 			this.chkPlayMusic.Text = "Play music tracks";
 			this.chkPlayMusic.CheckedChanged += new System.EventHandler(this.chkPlayMusic_CheckedChanged);
-			// 
+			//
 			// chkScreenFlashes
-			// 
+			//
 			this.chkScreenFlashes.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.chkScreenFlashes.Location = new System.Drawing.Point(324, 108);
 			this.chkScreenFlashes.Name = "chkScreenFlashes";
 			this.chkScreenFlashes.Size = new System.Drawing.Size(164, 22);
 			this.chkScreenFlashes.TabIndex = 24;
 			this.chkScreenFlashes.Text = "Show screen flashes";
-			// 
+			//
 			// FormOptions
-			// 
+			//
 			this.AcceptButton = this.btnOK;
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.CancelButton = this.btnCancel;
@@ -1133,17 +1126,17 @@ namespace CodeImp.Bloodmasters.Launcher
 
 		}
 		#endregion
-		
+
 		// This clears a control on other actions than the specified action
 		private void ClearExistingControl(string newaction, int control)
 		{
 			bool changed;
-			
+
 			do
 			{
 				// Presume no changes made
 				changed = false;
-				
+
 				// Go for all in controlkeys
 				foreach(DictionaryEntry de in controlkeys)
 				{
@@ -1155,7 +1148,7 @@ namespace CodeImp.Bloodmasters.Launcher
 						{
 							// Set control to none
 							controlkeys[(string)de.Key] = (int)Keys.None;
-							
+
 							// This needs an update in the list
 							// so go for all items in the list
 							foreach(ListViewItem li in lstControls.Items)
@@ -1167,7 +1160,7 @@ namespace CodeImp.Bloodmasters.Launcher
 									li.SubItems[1].Text = InputKey.GetKeyName((int)Keys.None);
 								}
 							}
-							
+
 							// Collection changed, must leave now, I'll be back!
 							changed = true;
 							break;
@@ -1176,14 +1169,14 @@ namespace CodeImp.Bloodmasters.Launcher
 				}
 			} while(changed);
 		}
-		
+
 		// Cancel clicked
 		private void btnCancel_Click(object sender, System.EventArgs e)
 		{
 			// Close window
 			this.Close();
 		}
-		
+
 		// OK clicked
 		private void btnOK_Click(object sender, System.EventArgs e)
 		{
@@ -1198,17 +1191,17 @@ namespace CodeImp.Bloodmasters.Launcher
 			General.config.WriteSetting("autodownload", chkAutoDownload.Checked);
 			General.config.WriteSetting("autoswitchweapon", chkAutoSwitchWeapon.Checked);
 			General.config.WriteSetting("teamcolorednames", chkTeamColoredNames.Checked);
-			
+
 			// Apply controls
 			foreach(DictionaryEntry de in controlkeys)
 			{
 				General.config.WriteSetting("controls/" + de.Key, (int)de.Value);
 			}
-			
+
 			// Apply other options in controls
 			General.config.WriteSetting("scrollweapons", chkScrollWeapons.Checked);
 			General.config.WriteSetting("movemethod", cmbMoveMethod.SelectedIndex);
-			
+
 			// Apply Graphics
 			Direct3D.SelectAdapter(((DisplayAdapterItem)cmbAdapter.SelectedItem).ordinal);
 			Direct3D.DisplayMode = ((DisplayModeItem)cmbResolution.SelectedItem).mode;
@@ -1222,13 +1215,13 @@ namespace CodeImp.Bloodmasters.Launcher
 			General.config.WriteSetting("showfps", chkShowFPS.Checked);
 			General.config.WriteSetting("screenflashes", chkScreenFlashes.Checked);
 			General.config.WriteSetting("hightextures", chkHighTextures.Checked);
-			
+
 			// Laser intensity
 			if(chkLaserIntensity.Checked)
 				General.config.WriteSetting("laserintensity", (int)chkLaserIntensity.Tag);
 			else
 				General.config.WriteSetting("laserintensity", 0);
-			
+
 			// Apply Sound
 			General.config.WriteSetting("sounds", chkPlaySounds.Checked);
 			General.config.WriteSetting("soundchatbeep", chkPlayChatBeep.Checked);
@@ -1238,7 +1231,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			General.config.WriteSetting("musicrandom", chkRandomMusic.Checked);
 			General.config.WriteSetting("musicvolume", trkMusicVolume.Value);
 		}
-		
+
 		// Display Driver selected
 		private void cmbAdapter_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
@@ -1250,7 +1243,7 @@ namespace CodeImp.Bloodmasters.Launcher
 								last_mode.Width, last_mode.Height, (int)last_mode.Format, last_mode.RefreshRate);
 			}
 		}
-		
+
 		// Display Mode changed
 		private void cmbResolution_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
@@ -1271,7 +1264,7 @@ namespace CodeImp.Bloodmasters.Launcher
 					chkWindowed.Enabled = false;
 					chkWindowed.Checked = supwindowed;
 				}
-				
+
 				// Fill antialiasing list
 				last_mode = ((DisplayModeItem)cmbResolution.SelectedItem).mode;
 				Direct3D.FillAntialiasingList(cmbFSAA, ((DisplayAdapterItem)cmbAdapter.SelectedItem).ordinal,
@@ -1280,19 +1273,19 @@ namespace CodeImp.Bloodmasters.Launcher
 				lblFSAA.Enabled = cmbFSAA.Enabled;
 			}
 		}
-		
+
 		// Windowed changed
 		private void chkWindowed_CheckedChanged(object sender, System.EventArgs e)
 		{
 			// Same as resolution changing
 			cmbResolution_SelectedIndexChanged(sender, e);
-			
+
 			// No gamma in windowed mode
 			lblGamma.Enabled = !chkWindowed.Checked;
 			trkGamma.Enabled = !chkWindowed.Checked;
 			lblGammaValue.Enabled = !chkWindowed.Checked;
 		}
-		
+
 		// Antialias changed
 		private void cmbFSAA_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
@@ -1303,7 +1296,7 @@ namespace CodeImp.Bloodmasters.Launcher
 				last_fsaa = cmbFSAA.SelectedIndex - 1;
 			}
 		}
-		
+
 		// Control selected
 		private void lstControls_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
@@ -1312,16 +1305,16 @@ namespace CodeImp.Bloodmasters.Launcher
 			{
 				// Get the selected item
 				ListViewItem item = lstControls.SelectedItems[0];
-				
+
 				// Get the key associated with the control
 				int keycode = (int)controlkeys[item.Tag];
-				
+
 				// Enable controls
 				lblAction.Enabled = true;
 				lblControl.Enabled = true;
 				lblControlDesc.Enabled = true;
 				cmbControl.Enabled = true;
-				
+
 				// Show the control
 				lblControlDesc.Text = item.Text;
 				cmbControl.Text = InputKey.GetKeyName(keycode);
@@ -1339,7 +1332,7 @@ namespace CodeImp.Bloodmasters.Launcher
 				cmbControl.Text = "";
 			}
 		}
-		
+
 		// Mouse released from controls list
 		private void lstControls_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
@@ -1348,7 +1341,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			cmbControl.SelectionLength = 0;
 			cmbControl.SelectionStart = cmbControl.Text.Length;
 		}
-		
+
 		// Control key selected
 		private void cmbControl_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
@@ -1357,7 +1350,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			{
 				// Get the selected item
 				ListViewItem item = lstControls.SelectedItems[0];
-				
+
 				// Anything in combo selected?
 				if(cmbControl.SelectedItem != null)
 				{
@@ -1369,14 +1362,14 @@ namespace CodeImp.Bloodmasters.Launcher
 						controlkeys[item.Tag] = (int)cmbControl.SelectedItem;
 						cmbControl.SelectionLength = 0;
 						cmbControl.SelectionStart = cmbControl.Text.Length;
-						
+
 						// Clear this control from any other actions
 						ClearExistingControl((string)item.Tag, (int)cmbControl.SelectedItem);
 					}
 				}
 			}
 		}
-		
+
 		// Focus enters control key
 		private void cmbControl_Enter(object sender, System.EventArgs e)
 		{
@@ -1386,12 +1379,12 @@ namespace CodeImp.Bloodmasters.Launcher
 			tabsOptions.TabStop = false;
 			btnOK.TabStop = false;
 			btnCancel.TabStop = false;
-			
+
 			// Select nothing
 			cmbControl.SelectionLength = 0;
 			cmbControl.SelectionStart = cmbControl.Text.Length;
 		}
-		
+
 		// Focus leaves control key
 		private void cmbControl_Leave(object sender, System.EventArgs e)
 		{
@@ -1402,7 +1395,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			btnOK.TabStop = true;
 			btnCancel.TabStop = true;
 		}
-		
+
 		// Control key is pressed
 		private void cmbControl_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
@@ -1411,7 +1404,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			{
 				// Get the selected item
 				ListViewItem item = lstControls.SelectedItems[0];
-				
+
 				// Check if actually changing
 				if((int)controlkeys[item.Tag] != (int)e.KeyCode)
 				{
@@ -1421,16 +1414,16 @@ namespace CodeImp.Bloodmasters.Launcher
 					cmbControl.Text = e.KeyCode.ToString();
 					cmbControl.SelectionLength = 0;
 					cmbControl.SelectionStart = cmbControl.Text.Length;
-					
+
 					// Clear this control from any other actions
 					ClearExistingControl((string)item.Tag, (int)e.KeyCode);
 				}
 			}
-			
+
 			// Key handled
 			e.Handled = true;
 		}
-		
+
 		// Control key is pressed
 		private void cmbControl_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
 		{
@@ -1444,7 +1437,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			// Key handled
 			e.Handled = true;
 		}
-		
+
 		// Play Music checkbox clicked
 		private void chkPlayMusic_CheckedChanged(object sender, System.EventArgs e)
 		{
@@ -1454,7 +1447,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			lblMusicVolumeLabel.Enabled = chkPlayMusic.Checked;
 			trkMusicVolume.Enabled = chkPlayMusic.Checked;
 		}
-		
+
 		// Play Sounds checkbox clicked
 		private void chkPlaySounds_CheckedChanged(object sender, System.EventArgs e)
 		{
@@ -1465,12 +1458,12 @@ namespace CodeImp.Bloodmasters.Launcher
 			lblSoundVolume.Enabled = chkPlaySounds.Checked;
 			trkSoundVolume.Enabled = chkPlaySounds.Checked;
 		}
-		
+
 		// Validate player name
 		private void txtPlayerName_Validating(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			string playernameerror;
-			
+
 			// Check player name
 			playernameerror = General.ValidatePlayerName(txtPlayerName.Text);
 			if(playernameerror != null)
@@ -1479,40 +1472,40 @@ namespace CodeImp.Bloodmasters.Launcher
 				MessageBox.Show(this, playernameerror, "Bloodmasters",
 							MessageBoxButtons.OK, MessageBoxIcon.Exclamation,
 							MessageBoxDefaultButton.Button1);
-				
+
 				// Cancel validation
 				e.Cancel = true;
 			}
 		}
-		
+
 		// Music Volume changed
 		private void trkMusicVolume_ValueChanged(object sender, System.EventArgs e)
 		{
 			// Update label
 			lblMusicVolume.Text = trkMusicVolume.Value + "%";
 		}
-		
+
 		// Sound Volume changed
 		private void trkSoundVolume_ValueChanged(object sender, System.EventArgs e)
 		{
 			// Update label
 			lblSoundVolume.Text = trkSoundVolume.Value + "%";
 		}
-		
+
 		// Server query speed changed
 		private void trkQuerySpeed_ValueChanged(object sender, System.EventArgs e)
 		{
 			// Update label
 			lblQuerySpeed.Text = trkQuerySpeed.Value + " servers per sec.";
 		}
-		
+
 		// Snapshots speed changed
 		private void trkSnapsSpeed_ValueChanged(object sender, System.EventArgs e)
 		{
 			// Update label
 			lblSnapsSpeed.Text = trkSnapsSpeed.Value + " snapshots per sec.";
 		}
-		
+
 		// Gamma changed
 		private void trkGamma_ValueChanged(object sender, System.EventArgs e)
 		{
