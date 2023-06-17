@@ -4,7 +4,9 @@
 obj/
 
 /Build/**/*.config
+/Build/**/*.dll
 /Build/**/*.exe
+/Build/**/*.json
 /Build/**/*.pdb
 
 *.user

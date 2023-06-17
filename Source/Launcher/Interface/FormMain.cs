@@ -290,8 +290,6 @@ namespace CodeImp.Bloodmasters.Launcher
 			((System.ComponentModel.ISupportInitialize)(this.txtServerPlayers)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.txtServerClients)).BeginInit();
 			this.grpGeneral.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.stpPanel)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.stpVersion)).BeginInit();
 			this.SuspendLayout();
 			//
 			// picLogo
@@ -1224,8 +1222,6 @@ namespace CodeImp.Bloodmasters.Launcher
 			((System.ComponentModel.ISupportInitialize)(this.txtServerPlayers)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.txtServerClients)).EndInit();
 			this.grpGeneral.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.stpPanel)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.stpVersion)).EndInit();
 			this.ResumeLayout(false);
 
 		}
