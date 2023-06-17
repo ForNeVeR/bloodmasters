@@ -12,6 +12,7 @@
     <AssemblyName>BMLauncher</AssemblyName>
     <RootNamespace>CodeImp.Bloodmasters.Launcher</RootNamespace>
     <OutputPath>..\..\Build\</OutputPath>
+      <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
       <DefineConstants>$(DefineConstants);LAUNCHER</DefineConstants>
       <LangVersion>11</LangVersion>
       <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
