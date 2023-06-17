@@ -9,7 +9,6 @@ Build
 ### Commands
 Build the solution using Visual Studio (in the **Developer Command Prompt**):
 ```
-$ devenv.exe Source\Launcher.sln /Build
 $ devenv.exe Source\DedicatedServer.sln /Build
 $ devenv.exe Source\Bloodmasters.sln /Build
 ```

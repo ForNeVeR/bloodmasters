@@ -23,9 +23,6 @@ jobs:
       - name: Setup VS Dev Environment
         uses: seanmiddleditch/gha-setup-vsdevenv@v4
 
-      - name: Build launcher
-        run: devenv.exe Source\Launcher.sln /Build
-
       - name: Build server
         run: devenv.exe Source\DedicatedServer.sln /Build
 
