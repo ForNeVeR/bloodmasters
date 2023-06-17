@@ -1,590 +1,423 @@
-<VisualStudioProject>
-    <CSHARP
-        ProjectType = "Local"
-        ProductVersion = "7.10.3077"
-        SchemaVersion = "2.0"
-        ProjectGuid = "{15F2A8EE-878F-47BF-9C8B-C84D4B612F76}"
-    >
-        <Build>
-            <Settings
-                ApplicationIcon = ""
-                AssemblyKeyContainerName = ""
-                AssemblyName = "bmserver"
-                AssemblyOriginatorKeyFile = ""
-                DefaultClientScript = "JScript"
-                DefaultHTMLPageLayout = "Grid"
-                DefaultTargetSchema = "IE50"
-                DelaySign = "false"
-                OutputType = "Exe"
-                PreBuildEvent = ""
-                PostBuildEvent = ""
-                RootNamespace = "CodeImp.Bloodmasters.Server"
-                RunPostBuildEvent = "OnBuildSuccess"
-                StartupObject = "CodeImp.Bloodmasters.Server.General"
-            >
-                <Config
-                    Name = "Debug - Windows"
-                    AllowUnsafeBlocks = "true"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = "DEBUG;TRACE"
-                    DocumentationFile = ""
-                    DebugSymbols = "true"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "false"
-                    OutputPath = "..\..\Build\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
-                <Config
-                    Name = "Release - Windows"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = "TRACE"
-                    DocumentationFile = ""
-                    DebugSymbols = "false"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "true"
-                    OutputPath = "..\..\Build\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
-                <Config
-                    Name = "Debug - Linux"
-                    AllowUnsafeBlocks = "true"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = "DEBUG;TRACE;LINUX"
-                    DocumentationFile = ""
-                    DebugSymbols = "true"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "false"
-                    OutputPath = "..\..\Build\Linux\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
-                <Config
-                    Name = "Release - Linux"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = "TRACE;LINUX"
-                    DocumentationFile = ""
-                    DebugSymbols = "false"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "true"
-                    OutputPath = "..\..\Build\Linux\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
-            </Settings>
-            <References>
-                <Reference
-                    Name = "System"
-                    AssemblyName = "System"
-                    HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.dll"
-                />
-                <Reference
-                    Name = "System.Drawing"
-                    AssemblyName = "System.Drawing"
-                    HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
-                />
-            </References>
-        </Build>
-        <Files>
-            <Include>
-                <File
-                    RelPath = "General\Client.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "General\DynamicSector.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "General\GameServer.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "General\General.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "General\Platform.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "General\ProxyDoor.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\AmmoBullets.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\AmmoFuel.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\AmmoGrenades.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\AmmoPlasma.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\AmmoRockets.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\Armor25.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\Armor50.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\Avenger.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\BlueFlag.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\BlueScavengerItem.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\Flag.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\FloodedSector.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\Ghost.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\GrenadeLauncher.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\Health25.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\Health5.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\HealthMega.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\IonCannon.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\Item.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\Killer.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\Minigun.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\Nuke.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\Phoenix.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\PlasmaCannon.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\RedFlag.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\RedScavengerItem.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\RocketLauncher.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\ScavengerItem.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\ServerItem.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\Shields.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\Sprinter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\Static.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Items\WhiteScavengerItem.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Projectiles\Flames.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Projectiles\Grenade.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Projectiles\IonBall.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Projectiles\NukeDetonation.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Projectiles\PlasmaBall.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Projectiles\Projectile.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Projectiles\ProjectileInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Projectiles\Rocket.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Archive.cs"
-                    Link = "..\Shared\Archive.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\ArchiveManager.cs"
-                    Link = "..\Shared\ArchiveManager.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\AssemblyInfo.cs"
-                    Link = "..\Shared\AssemblyInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Collision.cs"
-                    Link = "..\Shared\Collision.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Configuration.cs"
-                    Link = "..\Shared\Configuration.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Enums.cs"
-                    Link = "..\Shared\Enums.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\IPhysicsState.cs"
-                    Link = "..\Shared\IPhysicsState.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\PhysicsState.cs"
-                    Link = "..\Shared\PhysicsState.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\PlayerCollision.cs"
-                    Link = "..\Shared\PlayerCollision.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Vector2D.cs"
-                    Link = "..\Shared\Vector2D.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Vector3D.cs"
-                    Link = "..\Shared\Vector3D.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Wad.cs"
-                    Link = "..\Shared\Wad.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\WallCollision.cs"
-                    Link = "..\Shared\WallCollision.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Map\BlockMap.cs"
-                    Link = "..\Shared\Map\BlockMap.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Map\Linedef.cs"
-                    Link = "..\Shared\Map\Linedef.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Map\Map.cs"
-                    Link = "..\Shared\Map\Map.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Map\MapVertex.cs"
-                    Link = "..\Shared\Map\MapVertex.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Map\Node.cs"
-                    Link = "..\Shared\Map\Node.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Map\RejectMap.cs"
-                    Link = "..\Shared\Map\RejectMap.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Map\Sector.cs"
-                    Link = "..\Shared\Map\Sector.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Map\Segment.cs"
-                    Link = "..\Shared\Map\Segment.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Map\Sidedef.cs"
-                    Link = "..\Shared\Map\Sidedef.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Map\SubSector.cs"
-                    Link = "..\Shared\Map\SubSector.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Map\Thing.cs"
-                    Link = "..\Shared\Map\Thing.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Net\Connection.cs"
-                    Link = "..\Shared\Net\Connection.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Net\Gateway.cs"
-                    Link = "..\Shared\Net\Gateway.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Net\MsgCmd.cs"
-                    Link = "..\Shared\Net\MsgCmd.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Net\NetMessage.cs"
-                    Link = "..\Shared\Net\NetMessage.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Net\NetMessageComparer.cs"
-                    Link = "..\Shared\Net\NetMessageComparer.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Shared\Net\Packet.cs"
-                    Link = "..\Shared\Net\Packet.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Weapons\Bullet.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Weapons\Weapon.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Weapons\WeaponInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Weapons\WGrenadeLauncher.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Weapons\WIonCannon.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Weapons\WLightChaingun.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Weapons\WMinigun.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Weapons\WPhoenix.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Weapons\WPlasmaCannon.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Weapons\WRocketLauncher.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-            </Include>
-        </Files>
-    </CSHARP>
-</VisualStudioProject>
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>7.10.3077</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{15F2A8EE-878F-47BF-9C8B-C84D4B612F76}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon />
+    <AssemblyKeyContainerName />
+    <AssemblyName>bmserver</AssemblyName>
+    <AssemblyOriginatorKeyFile />
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>CodeImp.Bloodmasters.Server</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>CodeImp.Bloodmasters.Server.General</StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug - Windows|AnyCPU' ">
+    <OutputPath>..\..\Build\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile />
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile />
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn />
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release - Windows|AnyCPU' ">
+    <OutputPath>..\..\Build\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile />
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile />
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn />
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug - Linux|AnyCPU' ">
+    <OutputPath>..\..\Build\Linux\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile />
+    <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
+    <DocumentationFile />
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn />
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release - Linux|AnyCPU' ">
+    <OutputPath>..\..\Build\Linux\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile />
+    <DefineConstants>TRACE;LINUX</DefineConstants>
+    <DocumentationFile />
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn />
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Shared\Archive.cs">
+      <Link>Shared\Archive.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\ArchiveManager.cs">
+      <Link>Shared\ArchiveManager.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\AssemblyInfo.cs">
+      <Link>Shared\AssemblyInfo.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Collision.cs">
+      <Link>Shared\Collision.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Configuration.cs">
+      <Link>Shared\Configuration.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Enums.cs">
+      <Link>Shared\Enums.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\IPhysicsState.cs">
+      <Link>Shared\IPhysicsState.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Map\BlockMap.cs">
+      <Link>Shared\Map\BlockMap.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Map\Linedef.cs">
+      <Link>Shared\Map\Linedef.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Map\Map.cs">
+      <Link>Shared\Map\Map.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Map\MapVertex.cs">
+      <Link>Shared\Map\MapVertex.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Map\Node.cs">
+      <Link>Shared\Map\Node.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Map\RejectMap.cs">
+      <Link>Shared\Map\RejectMap.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Map\Sector.cs">
+      <Link>Shared\Map\Sector.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Map\Segment.cs">
+      <Link>Shared\Map\Segment.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Map\Sidedef.cs">
+      <Link>Shared\Map\Sidedef.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Map\SubSector.cs">
+      <Link>Shared\Map\SubSector.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Map\Thing.cs">
+      <Link>Shared\Map\Thing.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Net\Connection.cs">
+      <Link>Shared\Net\Connection.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Net\Gateway.cs">
+      <Link>Shared\Net\Gateway.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Net\MsgCmd.cs">
+      <Link>Shared\Net\MsgCmd.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Net\NetMessage.cs">
+      <Link>Shared\Net\NetMessage.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Net\NetMessageComparer.cs">
+      <Link>Shared\Net\NetMessageComparer.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Net\Packet.cs">
+      <Link>Shared\Net\Packet.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\PhysicsState.cs">
+      <Link>Shared\PhysicsState.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\PlayerCollision.cs">
+      <Link>Shared\PlayerCollision.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Vector2D.cs">
+      <Link>Shared\Vector2D.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Vector3D.cs">
+      <Link>Shared\Vector3D.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\Wad.cs">
+      <Link>Shared\Wad.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Shared\WallCollision.cs">
+      <Link>Shared\WallCollision.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="General\Client.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="General\DynamicSector.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="General\GameServer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="General\General.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="General\Platform.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="General\ProxyDoor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\AmmoBullets.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\AmmoFuel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\AmmoGrenades.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\AmmoPlasma.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\AmmoRockets.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\Armor25.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\Armor50.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\Avenger.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\BlueFlag.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\BlueScavengerItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\Flag.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\FloodedSector.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\Ghost.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\GrenadeLauncher.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\Health25.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\Health5.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\HealthMega.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\IonCannon.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\Item.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\Killer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\Minigun.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\Nuke.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\Phoenix.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\PlasmaCannon.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\RedFlag.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\RedScavengerItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\RocketLauncher.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\ScavengerItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\ServerItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\Shields.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\Sprinter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\Static.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Items\WhiteScavengerItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Projectiles\Flames.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Projectiles\Grenade.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Projectiles\IonBall.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Projectiles\NukeDetonation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Projectiles\PlasmaBall.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Projectiles\Projectile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Projectiles\ProjectileInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Projectiles\Rocket.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Weapons\Bullet.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Weapons\Weapon.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Weapons\WeaponInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Weapons\WGrenadeLauncher.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Weapons\WIonCannon.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Weapons\WLightChaingun.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Weapons\WMinigun.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Weapons\WPhoenix.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Weapons\WPlasmaCannon.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Weapons\WRocketLauncher.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+    <PostBuildEvent />
+  </PropertyGroup>
+</Project>
