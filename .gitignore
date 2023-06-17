@@ -3,6 +3,7 @@
 
 obj/
 
+/Build/*.config
 /Build/*.exe
 /Build/*.pdb
 
