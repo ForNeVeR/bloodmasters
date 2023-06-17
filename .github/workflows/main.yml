@@ -28,3 +28,6 @@ jobs:
 
       - name: Build server
         run: devenv.exe Source\DedicatedServer.sln /Build
+
+      - name: Build client
+        run: devenv.exe Source\Bloodmasters.sln /Build
