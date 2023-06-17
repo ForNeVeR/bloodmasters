@@ -99,6 +99,11 @@ namespace CodeImp.Bloodmasters.Launcher
 			return true;
 		}
 
+        private static void Deinitialize()
+        {
+            Direct3D.DeinitDirectX();
+        }
+
 		// Main program entry
 		// This is where the fun begins
 		[STAThread] private static void Main(string[] args)
@@ -146,87 +151,105 @@ namespace CodeImp.Bloodmasters.Launcher
 			// Initialize
 			if(Initialize())
 			{
-				// Load configuration
-				if(LoadConfiguration())
-				{
-					// Load main window
-					mainwindow = new FormMain();
+                try
+                {
+                    // Load configuration
+                    if (LoadConfiguration())
+                    {
+                        // Load main window
+                        mainwindow = new FormMain();
 
-					// Show window
-					mainwindow.Show();
-					mainwindow.Update();
+                        // Show window
+                        mainwindow.Show();
+                        mainwindow.Update();
 
-					// Open all archives with archivemanager
-					mainwindow.ShowStatus("Loading data archives...");
-					ArchiveManager.Initialize(General.apppath, General.temppath);
+                        // Open all archives with archivemanager
+                        mainwindow.ShowStatus("Loading data archives...");
+                        ArchiveManager.Initialize(General.apppath, General.temppath);
 
-					// Refrehs maps in list
-					mainwindow.RefreshMapsLists();
+                        // Refrehs maps in list
+                        mainwindow.RefreshMapsLists();
 
-					// Select adapter
-					mainwindow.ShowStatus("Initializing video adapter...");
-					try { Direct3D.SelectAdapter(General.config.ReadSetting("displaydriver", 0)); }
-					catch(Exception)
-					{
-						// DirectX not installed?
-						MessageBox.Show(null, "Unable to initialize DirectX. Please ensure that you have the latest version of DirectX installed.", "Bloodmasters", MessageBoxButtons.OK, MessageBoxIcon.Error);
-						return;
-					}
+                        // Select adapter
+                        mainwindow.ShowStatus("Initializing video adapter...");
+                        try
+                        {
+                            Direct3D.SelectAdapter(General.config.ReadSetting("displaydriver", 0));
+                        }
+                        catch (Exception)
+                        {
+                            // DirectX not installed?
+                            MessageBox.Show(null,
+                                "Unable to initialize DirectX. Please ensure that you have the latest version of DirectX installed.",
+                                "Bloodmasters", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
 
-					// Validate adapter and, if not valid, select a valid adapter
-					deviceerror = Direct3D.SelectValidAdapter();
-					if(deviceerror == null)
-					{
-						// Try loading the flags?
-						if(File.Exists(ip2countryfilename))
-						{
-							// Load flag images
-							if(mainwindow.LoadFlagImages())
-							{
-								// Load ip-to-country database
-								mainwindow.ShowStatus("Loading IP country database...");
-								ip2country = new IP2Country(ip2countryfilename);
-								mainwindow.ShowStatus("Ready.");
-							}
-							else
-							{
-								// Empty lookup table
-								ip2country = new IP2Country();
-							}
-						}
-						else
-						{
-							// Empty lookup table
-							ip2country = new IP2Country();
-							mainwindow.LoadNoFlagImages();
-						}
+                        // Validate adapter and, if not valid, select a valid adapter
+                        deviceerror = Direct3D.SelectValidAdapter();
+                        if (deviceerror == null)
+                        {
+                            // Try loading the flags?
+                            if (File.Exists(ip2countryfilename))
+                            {
+                                // Load flag images
+                                if (mainwindow.LoadFlagImages())
+                                {
+                                    // Load ip-to-country database
+                                    mainwindow.ShowStatus("Loading IP country database...");
+                                    ip2country = new IP2Country(ip2countryfilename);
+                                    mainwindow.ShowStatus("Ready.");
+                                }
+                                else
+                                {
+                                    // Empty lookup table
+                                    ip2country = new IP2Country();
+                                }
+                            }
+                            else
+                            {
+                                // Empty lookup table
+                                ip2country = new IP2Country();
+                                mainwindow.LoadNoFlagImages();
+                            }
 
-						// Refresh list if preferred
-						if(General.config.ReadSetting("startuprefresh", true))
-							mainwindow.RefreshGamesList();
+                            // Refresh list if preferred
+                            if (General.config.ReadSetting("startuprefresh", true))
+                                mainwindow.RefreshGamesList();
 
-						// New player?
-						if(General.playername.ToLower().Trim() == "newbie")
-						{
-							// Ask to change the name
-							MessageBox.Show(mainwindow, "Welcome and thank you for trying Bloodmasters!\nPlease change your player name and configure your settings.", "Bloodmasters", MessageBoxButtons.OK, MessageBoxIcon.Information);
-							mainwindow.btnOptions_Click(null, EventArgs.Empty);
-						}
+                            // New player?
+                            if (General.playername.ToLower().Trim() == "newbie")
+                            {
+                                // Ask to change the name
+                                MessageBox.Show(mainwindow,
+                                    "Welcome and thank you for trying Bloodmasters!\nPlease change your player name and configure your settings.",
+                                    "Bloodmasters", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                mainwindow.btnOptions_Click(null, EventArgs.Empty);
+                            }
 
-						// Run from main window
-						mainwindow.tmrUpdateList.Enabled = true;
-						Application.Run(mainwindow);
+                            // Run from main window
+                            mainwindow.tmrUpdateList.Enabled = true;
+                            Application.Run(mainwindow);
 
-						// Save configuration
-						General.SaveConfiguration();
-					}
-					else
-					{
-						// No valid adapter exists
-						MessageBox.Show(null, "You do not have a valid video device that meets the requirements for this game.\nProblem description: " + deviceerror + "\n\nPlease ensure you have the latest video drivers for your video card (see manufacturer website) and that Microsoft DirectX 9 is properly installed.", "Bloodmasters", MessageBoxButtons.OK, MessageBoxIcon.Error);
-					}
-				}
-			}
+                            // Save configuration
+                            General.SaveConfiguration();
+                        }
+                        else
+                        {
+                            // No valid adapter exists
+                            MessageBox.Show(null,
+                                "You do not have a valid video device that meets the requirements for this game.\nProblem description: " +
+                                deviceerror +
+                                "\n\nPlease ensure you have the latest video drivers for your video card (see manufacturer website) and that Microsoft DirectX 9 is properly installed.",
+                                "Bloodmasters", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Deinitialize();
+                }
+            }
 		}
 
 		// This termines the entire application
