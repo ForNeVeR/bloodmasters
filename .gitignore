@@ -1,0 +1,9 @@
+.idea/
+.vs/
+
+obj/
+
+/Build/*.exe
+/Build/*.pdb
+
+*.user
