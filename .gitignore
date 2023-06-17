@@ -3,8 +3,8 @@
 
 obj/
 
-/Build/*.config
-/Build/*.exe
-/Build/*.pdb
+/Build/**/*.config
+/Build/**/*.exe
+/Build/**/*.pdb
 
 *.user
