@@ -1,33 +1,36 @@
-Microsoft Visual Studio Solution File, Format Version 8.00
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33801.468
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters", "Client\Bloodmasters.csproj", "{406F2DC0-ED64-4D82-A75C-12DFC3300A66}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Global
-	GlobalSection(SolutionConfiguration) = preSolution
-		Debug = Debug
-		Debug - Linux = Debug - Linux
-		Debug - Windows = Debug - Windows
-		Release = Release
-		Release - Linux = Release - Linux
-		Release - Windows = Release - Windows
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug - Linux|Any CPU = Debug - Linux|Any CPU
+		Debug - Windows|Any CPU = Debug - Windows|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release - Linux|Any CPU = Release - Linux|Any CPU
+		Release - Windows|Any CPU = Release - Windows|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ProjectConfiguration) = postSolution
-		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug.ActiveCfg = Debug|.NET
-		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug.Build.0 = Debug|.NET
-		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug - Linux.ActiveCfg = Debug|.NET
-		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug - Linux.Build.0 = Debug|.NET
-		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug - Windows.ActiveCfg = Debug|.NET
-		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug - Windows.Build.0 = Debug|.NET
-		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release.ActiveCfg = Release|.NET
-		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release.Build.0 = Release|.NET
-		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release - Linux.ActiveCfg = Release|.NET
-		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release - Linux.Build.0 = Release|.NET
-		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release - Windows.ActiveCfg = Release|.NET
-		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release - Windows.Build.0 = Release|.NET
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug - Linux|Any CPU.ActiveCfg = Debug|Any CPU
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug - Linux|Any CPU.Build.0 = Debug|Any CPU
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug - Windows|Any CPU.ActiveCfg = Debug|Any CPU
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug - Windows|Any CPU.Build.0 = Debug|Any CPU
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release - Linux|Any CPU.ActiveCfg = Release|Any CPU
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release - Linux|Any CPU.Build.0 = Release|Any CPU
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release - Windows|Any CPU.ActiveCfg = Release|Any CPU
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release - Windows|Any CPU.Build.0 = Release|Any CPU
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-	EndGlobalSection
-	GlobalSection(ExtensibilityAddIns) = postSolution
+		SolutionGuid = {66039823-8100-4135-B36B-FBC13B4047E7}
 	EndGlobalSection
 EndGlobal
