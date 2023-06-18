@@ -9,19 +9,17 @@
 // Name Score Frags Deaths Ping / Loss
 
 using System;
-using System.Drawing;
 using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using System.Drawing;
+using CodeImp.Bloodmasters.Client.Graphics;
+using Vortice.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
 {
 	public class Scoreboard
 	{
 		#region ================== Constants
-		
+
 		private const float BORDER_SIZE = 0.05f;
 		private const float ALPHA_NORMAL = 1.0f;
 		private const float ALPHA_DEAD = 0.6f;
@@ -48,88 +46,88 @@ namespace CodeImp.Bloodmasters.Client
 		private const float FLAG_SPACING = 0f;
 		private const float FLAG_WIDTH = 0.02f;
 		private const float FLAG_HEIGHT = 0.02f;
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		// Properties
 		private bool visible;
 		private bool updateneeded = true;
-		
+
 		// Clients array
 		private ArrayList clients;
-		
+
 		// Window border and lines
 		private WindowBorder window;
 		private Border[] headerline;
-		
+
 		// Table cells
 		private TextResource[,] cell;
-		
+
 		// Flag icons
 		private TextureResource redflag;
 		private TextureResource blueflag;
 		private TLVertex[] redflagclient;
 		private TLVertex[] blueflagclient;
-		
+
 		// Timing
 		private int lasttimeleftsec = -1;
-		
+
 		#endregion
-		
+
 		#region ================== Properties
-		
+
 		public bool Visible { get { return visible; } set { visible = value; } }
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public Scoreboard()
 		{
 			float rowtop;
 			float colleft;
 			string tempfile;
-			
+
 			// Clients array
 			clients = new ArrayList(32);
-			
+
 			// Create window
 			window = new WindowBorder(TABLE_X - TABLE_BORDERSPACING,
 									  TABLE_Y - TABLE_BORDERSPACING,
 									  TABLE_WIDTH + TABLE_BORDERSPACING * 2f,
 									  TABLE_HEIGHT + TABLE_BORDERSPACING * 2f,
 									  BORDER_SIZE);
-			
+
 			// Load the flag icons
 			tempfile = ArchiveManager.ExtractFile("Sprites/redflag_hud.tga");
 			redflag = Direct3D.LoadTexture(tempfile, true, false);
 			tempfile = ArchiveManager.ExtractFile("Sprites/blueflag_hud.tga");
 			blueflag = Direct3D.LoadTexture(tempfile, true, false);
-			
+
 			// Create header lines
 			headerline = new Border[4];
 			headerline[0] = new Border(General.ARGB(1f, 1f, 1f, 1f));
 			headerline[1] = new Border(General.ARGB(1f, 1f, 0.3f, 0.2f));
 			headerline[2] = new Border(General.ARGB(1f, 0.2f, 0.3f, 1f));
 			headerline[3] = new Border(General.ARGB(1f, 0.6f, 0.6f, 0.6f));
-			
+
 			// Create cells array
 			cell = new TextResource[TABLE_COLS, TABLE_ROWS];
-			
+
 			// Create all required cells
 			for(int y = 0; y < TABLE_ROWS; y++)
 			{
 				// Create cells for this row
 				for(int x = 0; x < TABLE_COLS; x++)
 					cell[x, y] = CreateTextResource("");
-				
+
 				// Calculate start coordinates
 				rowtop = TABLE_Y + (y * CELL_HEIGHT);
 				colleft = TABLE_X;
-				
+
 				// Set up each cell
 				cell[0, y].Viewport = new RectangleF(colleft, rowtop, CELL_NAME_WIDTH, CELL_HEIGHT); colleft += CELL_NAME_WIDTH;
 				cell[1, y].Viewport = new RectangleF(colleft, rowtop, CELL_SCORE_WIDTH, CELL_HEIGHT); colleft += CELL_SCORE_WIDTH;
@@ -137,7 +135,7 @@ namespace CodeImp.Bloodmasters.Client
 				cell[3, y].Viewport = new RectangleF(colleft, rowtop, CELL_DEATHS_WIDTH, CELL_HEIGHT); colleft += CELL_DEATHS_WIDTH;
 				cell[4, y].Viewport = new RectangleF(colleft, rowtop, CELL_PING_WIDTH, CELL_HEIGHT); colleft += CELL_PING_WIDTH;
 				cell[5, y].Viewport = new RectangleF(colleft, rowtop, CELL_LOSS_WIDTH, CELL_HEIGHT); colleft += CELL_LOSS_WIDTH;
-				
+
 				// Align cells
 				cell[0, y].HorizontalAlign = TextAlignX.Left;
 				cell[1, y].HorizontalAlign = TextAlignX.Right;
@@ -147,7 +145,7 @@ namespace CodeImp.Bloodmasters.Client
 				cell[5, y].HorizontalAlign = TextAlignX.Right;
 			}
 		}
-		
+
 		// Disposer
 		public void Dispose()
 		{
@@ -158,43 +156,43 @@ namespace CodeImp.Bloodmasters.Client
 				// Create cell
 				if(cell[x, y] != null) cell[x, y].Destroy();
 			}
-			
+
 			// Clean up header lines
 			for(int i = 0; i < 4; i++) headerline[i].Dispose();
-			
+
 			// Clean up
 			window.Dispose();
 			cell = null;
 			GC.SuppressFinalize(this);
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Resource Management
-		
+
 		// Destroys all resource for a device reset
 		public void UnloadResources()
 		{
 			// Clean up
 			window.DestroyGeometry();
 		}
-		
+
 		// Rebuilds the required resources
 		public void ReloadResources()
 		{
 			// Reload
 			window.CreateGeometry();
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Clients
-		
+
 		// This returns the client with the highest score
 		public Client GetWinningClient()
 		{
 			Client winner = null;
-			
+
 			// Go for all clients
 			foreach(Client c in clients)
 			{
@@ -205,38 +203,38 @@ namespace CodeImp.Bloodmasters.Client
 					if((winner == null) || (c.Score > winner.Score)) winner = c;
 				}
 			}
-			
+
 			// Return result
 			return winner;
 		}
-		
+
 		// This adds a client on the scoreboard
 		public void AddClient(Client c)
 		{
 			// Add client if not listed yet
 			if(!clients.Contains(c)) clients.Add(c);
-			
+
 			// Update needed
 			updateneeded = true;
 		}
-		
+
 		// This removes a client from the scoreboard
 		public void RemoveClient(Client c)
 		{
 			// Remove client if listed
 			if(clients.Contains(c)) clients.Remove(c);
-			
+
 			// Update needed
 			updateneeded = true;
 		}
-		
+
 		// This returns the section index for a client
 		public static int GetSectionIndex(Client c)
 		{
 			// Spectators to the bottom
 			if(c.IsSpectator) return 3; else return (int)c.Team;
 		}
-		
+
 		// This returns the status string
 		private string GetClientStatus(Client c)
 		{
@@ -246,11 +244,11 @@ namespace CodeImp.Bloodmasters.Client
 			else if(c.Actor == null) return "Dead";
 			else return "Playing";
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Board Drawing
-		
+
 		// This sets up a standard scoreboard font textresource
 		private TextResource CreateTextResource(string text)
 		{
@@ -265,7 +263,7 @@ namespace CodeImp.Bloodmasters.Client
 			t.Text = text;
 			return t;
 		}
-		
+
 		// This returns the section color
 		private string GetSectionColor(int section)
 		{
@@ -278,23 +276,23 @@ namespace CodeImp.Bloodmasters.Client
 				default: return "";
 			}
 		}
-		
+
 		// This sets the alpha intensity for an entire row
 		private void SetRowAlpha(int row, float alpha)
 		{
 			// Set alpha on all cells
 			for(int x = 0; x < TABLE_COLS; x++) cell[x, row].ModulateColor = General.ARGB(alpha, 1f, 1f, 1f);
 		}
-		
+
 		// This sets up a row for a specific client
 		private void SetupClientRow(int row, Client c)
 		{
 			float left, right, top, bottom;
-			
+
 			// Determine section color
 			int section = GetSectionIndex(c);
 			string sc = GetSectionColor(section);
-			
+
 			// Spectator section?
 			if(section == 3)
 			{
@@ -315,7 +313,7 @@ namespace CodeImp.Bloodmasters.Client
 				cell[3, row].Text = sc + c.Deaths;
 				cell[4, row].Text = sc + c.Ping + "ms";
 				cell[5, row].Text = sc + c.Loss + "%";
-				
+
 				// Only show dead clients translucent when playing
 				if(General.gamestate != GAMESTATE.GAMEFINISH)
 				{
@@ -328,7 +326,7 @@ namespace CodeImp.Bloodmasters.Client
 					// Show normal
 					SetRowAlpha(row, ALPHA_NORMAL);
 				}
-				
+
 				// Client carrying the flag?
 				if((c.Carrying != null) && (c.Carrying is Flag))
 				{
@@ -337,7 +335,7 @@ namespace CodeImp.Bloodmasters.Client
 					top = cell[0, row].Viewport.Top + FLAG_YOFFSET;
 					right = left + FLAG_WIDTH;
 					bottom = top + FLAG_HEIGHT;
-					
+
 					// Red or blue?
 					if(c.Carrying is RedFlag)
 					{
@@ -360,16 +358,16 @@ namespace CodeImp.Bloodmasters.Client
 				}
 			}
 		}
-		
+
 		// This sets up a row with headers and an underline
 		private void SetupHeaderRow(int row, int section)
 		{
 			string desc;
 			string tscore = "";
-			
+
 			// Determine section color
 			string sc = GetSectionColor(section);
-			
+
 			// Determine section description
 			switch(section)
 			{
@@ -379,7 +377,7 @@ namespace CodeImp.Bloodmasters.Client
 				case 3: desc = "Spectators"; break;
 				default: desc = "Clients"; break;
 			}
-			
+
 			// Spectator section?
 			if(section == 3)
 			{
@@ -395,7 +393,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Add team score?
 				if((section == 1) || (section == 2)) tscore = " (" + General.teamscore[section] + ")";
-				
+
 				// Setup cells
 				cell[0, row].Text = sc + desc;
 				cell[1, row].Text = sc + "Score" + tscore;
@@ -405,13 +403,13 @@ namespace CodeImp.Bloodmasters.Client
 				cell[5, row].Text = sc + "Loss";
 			}
 		}
-		
+
 		// This makes a row with server info
 		private void SetupServerInfoRow(int row)
 		{
 			// Make the complete string
 			string info = "Server:  " + General.servertitle + "  ^7(" + General.serveraddress + ":" + General.serverport + ")";
-			
+
 			// Setup cells
 			cell[0, row].Text = info;
 			cell[1, row].Text = "";
@@ -420,14 +418,14 @@ namespace CodeImp.Bloodmasters.Client
 			cell[4, row].Text = "";
 			cell[5, row].Text = "";
 		}
-		
+
 		// This makes a row with game info
 		private void SetupGameInfoRow(int row)
 		{
 			// Make the complete string
 			string info = "Game type:  " + General.GameTypeDescription(General.gametype) +
 						  "         Score limit:  " + General.scorelimit;
-			
+
 			// Show time remaining?
 			if(General.gamestate == GAMESTATE.PLAYING)
 			{
@@ -435,10 +433,10 @@ namespace CodeImp.Bloodmasters.Client
 				int msleft = General.gamestateend - General.currenttime;
 				TimeSpan t = new TimeSpan((long)msleft * 10000L);
 				string timeleft = (int)Math.Floor(t.TotalMinutes) + ":" + t.Seconds.ToString("00");
-				
+
 				// Append the string
 				info += "         Time left:  " + timeleft;
-				
+
 				// Keep last number of seconds
 				lasttimeleftsec = t.Seconds;
 			}
@@ -447,7 +445,7 @@ namespace CodeImp.Bloodmasters.Client
 				// No last time left
 				lasttimeleftsec = -1;
 			}
-			
+
 			// Setup cells
 			cell[0, row].Text = info;
 			cell[1, row].Text = "";
@@ -456,7 +454,7 @@ namespace CodeImp.Bloodmasters.Client
 			cell[4, row].Text = "";
 			cell[5, row].Text = "";
 		}
-		
+
 		// This clears a row
 		private void SetupEmptyRow(int row)
 		{
@@ -464,13 +462,13 @@ namespace CodeImp.Bloodmasters.Client
 			for(int x = 0; x < TABLE_COLS; x++) cell[x, row].Text = "";
 			//cell[0, row].Text = row.ToString();
 		}
-		
+
 		// This makes a line on a row
 		private void SetupLineRow(int row, int section)
 		{
 			// Clear all cells
 			for(int x = 0; x < TABLE_COLS; x++) cell[x, row].Text = "";
-			
+
 			// Setup line
 			headerline[section].Visible = true;
 			headerline[section].Position(cell[0, row].Left,
@@ -478,27 +476,27 @@ namespace CodeImp.Bloodmasters.Client
 										 cell[5, row].Right,
 										 (cell[5, row].Top + (CELL_HEIGHT * 0.5f)) + LINE_SIZE);
 		}
-		
+
 		// This updates the board immediately
 		private void UpdateBoard()
 		{
 			int section = -1;
 			int y = 0;
-			
+
 			// Sort the clients
 			clients.Sort(new ClientComparer());
-			
+
 			// Reset the lines
 			for(int i = 0; i < 4; i++) headerline[i].Visible = false;
-			
+
 			// Reset flags
 			blueflagclient = null;
 			redflagclient = null;
-			
+
 			// Setup scoreboard header
 			SetupServerInfoRow(y); y++;
 			SetupGameInfoRow(y); y++;
-			
+
 			// Start at the top
 			foreach(Client c in clients)
 			{
@@ -507,35 +505,35 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Spacing
 					SetupEmptyRow(y); y++;
-					SetupEmptyRow(y); y++; 
-					
+					SetupEmptyRow(y); y++;
+
 					// Change current section
 					section = GetSectionIndex(c);
-					
+
 					// Setup section header
 					SetupHeaderRow(y, section); y++;
 					SetupLineRow(y, section); y++;
 				}
-				
+
 				// Setup client row
 				SetupClientRow(y, c); y++;
 			}
-			
+
 			// Continue clearing the board until the end
 			while(y < TABLE_ROWS)
 			{
 				// Make an empty row
 				SetupEmptyRow(y); y++;
 			}
-			
+
 			// Updated
 			updateneeded = false;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Processing
-		
+
 		// This indicates the board needs updating
 		public void Update()
 		{
@@ -543,7 +541,7 @@ namespace CodeImp.Bloodmasters.Client
 			updateneeded = true;
 			General.hud.UpdateScore();
 		}
-		
+
 		// Processing
 		public void Process()
 		{
@@ -559,14 +557,14 @@ namespace CodeImp.Bloodmasters.Client
 				// Show only when game has ended
 				visible = (General.gamestate == GAMESTATE.GAMEFINISH);
 			}
-			
+
 			// Update the board?
 			if(visible && updateneeded) UpdateBoard();
-			
+
 			// Calculate number of seconds
 			int msleft = General.gamestateend - General.currenttime;
 			TimeSpan t = new TimeSpan((long)msleft * 10000L);
-			
+
 			// Time to update game line?
 			if(t.Seconds != lasttimeleftsec)
 			{
@@ -574,11 +572,11 @@ namespace CodeImp.Bloodmasters.Client
 				SetupGameInfoRow(1);
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Rendering
-		
+
 		// Rendering
 		public void Render()
 		{
@@ -587,25 +585,25 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Render the window
 				window.Render();
-				
+
 				// Go for all cells to render
 				for(int y = 0; y < TABLE_ROWS; y++)
 				for(int x = 0; x < TABLE_COLS; x++)
 				{
 					// Render cell
-					Direct3D.d3dd.RenderState.TextureFactor = cell[x, y].ModulateColor;
+					Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, cell[x, y].ModulateColor);
 					cell[x, y].Render();
 				}
-				
+
 				// Normal blending
-				Direct3D.d3dd.RenderState.TextureFactor = -1;
-				
+                Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+
 				// Render flag icons
 				Direct3D.d3dd.SetTexture(0, redflag.texture);
 				if(redflagclient != null) Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, redflagclient);
 				Direct3D.d3dd.SetTexture(0, blueflag.texture);
 				if(blueflagclient != null) Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, blueflagclient);
-				
+
 				// Render the lines
 				for(int i = 0; i < 4; i++)
 				{
@@ -614,7 +612,7 @@ namespace CodeImp.Bloodmasters.Client
 				}
 			}
 		}
-		
+
 		#endregion
 	}
 }

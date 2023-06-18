@@ -6,62 +6,56 @@
 \********************************************************************/
 
 using System;
-using System.Drawing;
-using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
 
 namespace CodeImp.Bloodmasters.Client
 {
 	public abstract class Decal
 	{
 		#region ================== Constants
-		
+
 		// Timing
 		private const int RND_STAY_TIME = 5000;
 		private const int FADE_TIME = 5000;
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		// Settings
 		public static int decaltimeout;
 		public static bool showdecals;
-		
+
 		// Position
 		protected float x = 0f;
 		protected float y = 0f;
 		protected float z = 0f;
-		
+
 		// Timing
 		protected int fadetime;
 		protected int fadecolor;
 		protected bool permanent;
-		
+
 		// VisualSector
 		protected VisualSector sector;
-		
+
 		#endregion
-		
+
 		#region ================== Properties
-		
+
 		public float X { get { return x; } }
 		public float Y { get { return y; } }
 		public float Z { get { return z; } }
 		public VisualSector VisualSector { get { return sector; } }
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public Decal(bool permanent)
 		{
 			this.permanent = permanent;
-			
+
 			// Permanent decal?
 			if(permanent)
 			{
@@ -74,11 +68,11 @@ namespace CodeImp.Bloodmasters.Client
 				fadetime = General.currenttime + decaltimeout +
 							General.random.Next(RND_STAY_TIME);
 			}
-			
+
 			// Start full bright
 			fadecolor = -1;
 		}
-		
+
 		// Dispose
 		// This can also be called by the decal itsself
 		// so it must remove itsself from any wall/floor completely
@@ -86,25 +80,25 @@ namespace CodeImp.Bloodmasters.Client
 		{
 			GC.SuppressFinalize(this);
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Resource Management
-		
+
 		// This unloads all unstable resources
 		public virtual void UnloadResources()
 		{
 		}
-		
+
 		// This rebuilds unstable resources
 		public virtual void ReloadResources()
 		{
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Processing
-		
+
 		// Process this decal
 		public virtual void Process()
 		{
@@ -128,14 +122,14 @@ namespace CodeImp.Bloodmasters.Client
 				}
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Rendering
-		
+
 		// Render the decal
 		public abstract void Render();
-		
+
 		#endregion
 	}
 }

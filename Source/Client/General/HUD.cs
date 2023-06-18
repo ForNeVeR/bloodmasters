@@ -11,48 +11,45 @@
 using System;
 using System.Drawing;
 using System.Globalization;
-using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using CodeImp.Bloodmasters.Client.Graphics;
+using Vortice.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
 {
 	public class HUD
 	{
 		#region ================== Constants
-		
+
 		// Message timeouts
 		public const int MSG_DEATH_TIMEOUT = 3000;
 		public const int MSG_ITEM_TIMEOUT = 1000;
-		
+
 		// Fade speeds
 		private const float SMALL_FADE_SPEED = 0.02f;
 		private const float BIG_FADE_SPEED = 0.02f;
 		private const float ITEM_FADE_SPEED = 0.01f;
-		
+
 		// Screen flashes
 		private const float FLASH_RED = 0.8f;
 		private const float FLASH_FADE = 0.01f;
 		private const float FLASH_MAX = 0.9f;
 		private const float FLASH_ALPHA = 0.7f;
-		
+
 		// Status bar flashes
 		private const int FLASH_TIME = 200;
-		
+
 		// Window coordinates
 		private const float BAR_TOP = 0.911f;
 		private const float BAR_HEIGHT = 0.092f;
 		private const float BORDER_SIZE = 0.02f;
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		// Show HUD items?
 		public static bool showhud = true;
-		
+
 		// Health/Armor/Weapon/Ammo
 		private WindowBorder healthwnd;
 		private WindowBorder armorwnd;
@@ -77,7 +74,7 @@ namespace CodeImp.Bloodmasters.Client
 		private TextResource callvotetext;
 		private int prevhealth;
 		private int healthflashtime;
-		
+
 		// Centered messages
 		private TextResource itemmessage;
 		private TextResource smallmessage;
@@ -88,7 +85,7 @@ namespace CodeImp.Bloodmasters.Client
 		private int bigfadeout = 0;
 		private float itemfade = 0f;
 		private int itemfadeout = 0;
-		
+
 		// FPS counter
 		private bool showfps;				// Count and show the FPS?
 		private int fps_lasttime;			// Time FPS was last measured
@@ -96,40 +93,40 @@ namespace CodeImp.Bloodmasters.Client
 		private int fps_count;				// FPS measured
 		private TextResource fps_text;		// The displayed FPS text
 		private TextResource mspf_text;		// The displayed MSPF text
-		
+
 		// Screen flashes
 		private Border flashborder;
 		private float flashalpha;
 		private bool showscreenflashes;
-		
+
 		// Callvotes
 		private string callvotedesc;
-		
+
 		// Countdown
 		private int lastcountdown;
-		
+
 		#endregion
-		
+
 		#region ================== Properties
-		
+
 		public bool ShowFPS { get { return showfps; } set { showfps = value; } }
 		public int LastCountdownNumber { get { return lastcountdown; } set { lastcountdown = value; } }
 		public string CallVoteDescription { get { return callvotedesc; } set { callvotedesc = value; } }
 		public bool ShowScreenFlashes { get { return showscreenflashes; } set { showscreenflashes = value; } }
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public HUD()
 		{
 			string tempfile;
 			int i;
-			
+
 			// Read settings
 			showhud = General.config.ReadSetting("showhud", true);
-			
+
 			// Vertices for bottom bar
 			barverts = Direct3D.TLRect(0f, 0.91f * (float)Direct3D.DisplayHeight,
 					(float)Direct3D.DisplayWidth, (float)Direct3D.DisplayHeight);
@@ -137,14 +134,14 @@ namespace CodeImp.Bloodmasters.Client
 			barverts[1].color = General.ARGB(0f, 0f, 0f, 0f);
 			barverts[2].color = General.ARGB(1f, 0f, 0f, 0f);
 			barverts[3].color = General.ARGB(1f, 0f, 0f, 0f);
-			
+
 			// Make windows
 			healthwnd = new WindowBorder(-0.003f, BAR_TOP, 0.19f, BAR_HEIGHT, BORDER_SIZE);
 			armorwnd = new WindowBorder(0.19f, BAR_TOP, 0.19f, BAR_HEIGHT, BORDER_SIZE);
 			weaponwnd = new WindowBorder(0.384f, BAR_TOP, 0.23f, BAR_HEIGHT, BORDER_SIZE);
 			powerupwnd = new WindowBorder(0.618f, BAR_TOP, 0.155f, BAR_HEIGHT, BORDER_SIZE);
 			scorewnd = new WindowBorder(0.776f, BAR_TOP, 0.226f, BAR_HEIGHT, BORDER_SIZE);
-			
+
 			// Load textures
 			tempfile = ArchiveManager.ExtractFile("General.rar/healthicon.tga");
 			healthicon = Direct3D.LoadTexture(tempfile, true);
@@ -152,7 +149,7 @@ namespace CodeImp.Bloodmasters.Client
 			armoricon = Direct3D.LoadTexture(tempfile, true);
 			tempfile = ArchiveManager.ExtractFile("General.rar/red.bmp");
 			flashtexture = Direct3D.LoadTexture(tempfile, true);
-			
+
 			// Weapon textures
 			for(i = 0; i < (int)WEAPON.TOTAL_WEAPONS; i++)
 			{
@@ -160,7 +157,7 @@ namespace CodeImp.Bloodmasters.Client
 				tempfile = ArchiveManager.ExtractFile("General.rar/weapon" + weaponnum.ToString(CultureInfo.InvariantCulture) + "icon.tga");
 				weaponicons[i] = Direct3D.LoadTexture(tempfile, true);
 			}
-			
+
 			// Powerup textures
 			for(i = 0; i < (int)POWERUP.TOTAL_POWERUPS; i++)
 			{
@@ -168,19 +165,19 @@ namespace CodeImp.Bloodmasters.Client
 				tempfile = ArchiveManager.ExtractFile("General.rar/powerup" + powerupnum.ToString(CultureInfo.InvariantCulture) + "icon.tga");
 				powerupicons[i] = Direct3D.LoadTexture(tempfile, true);
 			}
-			
+
 			// Create screen flash
 			flashborder = new Border(General.ARGB(0f, FLASH_RED, 0f, 0f));
 			flashborder.Position(0f, 0f, 1f, 1f);
 			flashborder.Color = General.ARGB(1f, 1f, 1f, 1f);
 			flashborder.Texture = flashtexture;
-			
+
 			// Make vertices for health icon
 			healthverts = Direct3D.TLRect(0.016f * (float)Direct3D.DisplayWidth,
 										  0.935f * (float)Direct3D.DisplayHeight,
 										  0.052f * (float)Direct3D.DisplayWidth,
 										  0.981f * (float)Direct3D.DisplayHeight);
-			
+
 			// Setup health text
 			healthtext = Direct3D.CreateTextResource(General.charset_shaded);
 			healthtext.Texture = General.font_shaded.texture;
@@ -189,13 +186,13 @@ namespace CodeImp.Bloodmasters.Client
 			healthtext.Viewport = new RectangleF(0.07f, 0.94f, 0.04f, 0.04f);
 			healthtext.Colors = TextResource.color_brighttext;
 			healthtext.Scale = 1.0f;
-			
+
 			// Make vertices for armor icon
 			armorverts = Direct3D.TLRect(0.208f * (float)Direct3D.DisplayWidth,
 										 0.926f * (float)Direct3D.DisplayHeight,
 										 0.253f * (float)Direct3D.DisplayWidth,
 										 0.984f * (float)Direct3D.DisplayHeight);
-			
+
 			// Setup armor text
 			armortext = Direct3D.CreateTextResource(General.charset_shaded);
 			armortext.Texture = General.font_shaded.texture;
@@ -204,13 +201,13 @@ namespace CodeImp.Bloodmasters.Client
 			armortext.Viewport = new RectangleF(0.27f, 0.94f, 0.04f, 0.04f);
 			armortext.Colors = TextResource.color_brighttext;
 			armortext.Scale = 1.0f;
-			
+
 			// Make vertices for weapon icon
 			weaponverts = Direct3D.TLRect(0.400f * (float)Direct3D.DisplayWidth,
 										  0.930f * (float)Direct3D.DisplayHeight,
 										  0.495f * (float)Direct3D.DisplayWidth,
 										  0.995f * (float)Direct3D.DisplayHeight);
-			
+
 			// Setup ammo text
 			ammotext = Direct3D.CreateTextResource(General.charset_shaded);
 			ammotext.Texture = General.font_shaded.texture;
@@ -219,13 +216,13 @@ namespace CodeImp.Bloodmasters.Client
 			ammotext.Viewport = new RectangleF(0.5f, 0.94f, 0.04f, 0.04f);
 			ammotext.Colors = TextResource.color_brighttext;
 			ammotext.Scale = 1.0f;
-			
+
 			// Make vertices for powerup icon
 			powerupverts = Direct3D.TLRect(0.634f * (float)Direct3D.DisplayWidth,
 										  0.933f * (float)Direct3D.DisplayHeight,
 										  0.678f * (float)Direct3D.DisplayWidth,
 										  0.982f * (float)Direct3D.DisplayHeight);
-			
+
 			// Setup powerup text
 			poweruptext = Direct3D.CreateTextResource(General.charset_shaded);
 			poweruptext.Texture = General.font_shaded.texture;
@@ -234,7 +231,7 @@ namespace CodeImp.Bloodmasters.Client
 			poweruptext.Viewport = new RectangleF(0.685f, 0.94f, 0.04f, 0.04f);
 			poweruptext.Colors = TextResource.color_brighttext;
 			poweruptext.Scale = 1.0f;
-			
+
 			// Setup score text
 			scoretext = Direct3D.CreateTextResource(General.charset_shaded);
 			scoretext.Texture = General.font_shaded.texture;
@@ -243,7 +240,7 @@ namespace CodeImp.Bloodmasters.Client
 			scoretext.Viewport = new RectangleF(0.8f, 0.94f, 0.04f, 0.04f);
 			scoretext.Colors = TextResource.color_brighttext;
 			scoretext.Scale = 1.0f;
-			
+
 			// Setup small message
 			smallmessage = Direct3D.CreateTextResource(General.charset_shaded);
 			smallmessage.Texture = General.font_shaded.texture;
@@ -252,7 +249,7 @@ namespace CodeImp.Bloodmasters.Client
 			smallmessage.Viewport = new RectangleF(0f, 0.12f, 1f, 0f);
 			smallmessage.Colors = TextResource.color_brighttext;
 			smallmessage.Scale = 0.6f;
-			
+
 			// Setup big message
 			bigmessage = Direct3D.CreateTextResource(General.charset_shaded);
 			bigmessage.Texture = General.font_shaded.texture;
@@ -261,7 +258,7 @@ namespace CodeImp.Bloodmasters.Client
 			bigmessage.Viewport = new RectangleF(0f, 0.18f, 1f, 0f);
 			bigmessage.Colors = TextResource.color_brighttext;
 			bigmessage.Scale = 1.0f;
-			
+
 			// Setup item message
 			itemmessage = Direct3D.CreateTextResource(General.charset_shaded);
 			itemmessage.Texture = General.font_shaded.texture;
@@ -270,7 +267,7 @@ namespace CodeImp.Bloodmasters.Client
 			itemmessage.Viewport = new RectangleF(0f, 0.89f, 1f, 0f);
 			itemmessage.Colors = TextResource.color_brighttext;
 			itemmessage.Scale = 0.6f;
-			
+
 			// Setup FPS text
 			fps_text = Direct3D.CreateTextResource(General.charset_shaded);
 			fps_text.Texture = General.font_shaded.texture;
@@ -279,7 +276,7 @@ namespace CodeImp.Bloodmasters.Client
 			fps_text.Viewport = new RectangleF(0f, 0.025f, 0.995f, 1f);
 			fps_text.Colors = TextResource.color_brighttext;
 			fps_text.Scale = 0.4f;
-			
+
 			// Setup MSPF text
 			mspf_text = Direct3D.CreateTextResource(General.charset_shaded);
 			mspf_text.Texture = General.font_shaded.texture;
@@ -288,7 +285,7 @@ namespace CodeImp.Bloodmasters.Client
 			mspf_text.Viewport = new RectangleF(0f, 0.005f, 0.995f, 1f);
 			mspf_text.Colors = TextResource.color_brighttext;
 			mspf_text.Scale = 0.4f;
-			
+
 			// Setup callvote text
 			callvotetext = Direct3D.CreateTextResource(General.charset_shaded);
 			callvotetext.Texture = General.font_shaded.texture;
@@ -298,7 +295,7 @@ namespace CodeImp.Bloodmasters.Client
 			callvotetext.Colors = TextResource.color_brighttext;
 			callvotetext.Scale = 0.4f;
 		}
-		
+
 		// Dispose
 		public void Dispose()
 		{
@@ -320,11 +317,11 @@ namespace CodeImp.Bloodmasters.Client
 			if(scorewnd != null) scorewnd.Dispose();
 			GC.SuppressFinalize(this);
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Resource Management
-		
+
 		// Destroys all resource for a device reset
 		public void UnloadResources()
 		{
@@ -335,7 +332,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(powerupwnd != null) powerupwnd.DestroyGeometry();
 			if(scorewnd != null) scorewnd.DestroyGeometry();
 		}
-		
+
 		// Rebuilds the required resources
 		public void ReloadResources()
 		{
@@ -346,11 +343,11 @@ namespace CodeImp.Bloodmasters.Client
 			if(powerupwnd != null) powerupwnd.CreateGeometry();
 			if(scorewnd != null) scorewnd.CreateGeometry();
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Messages
-		
+
 		// This shows the spectating message when spectating
 		// Affects only the small message
 		public void ShowModeMessage()
@@ -396,7 +393,7 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Find the winning client
 					Client winner = General.scoreboard.GetWinningClient();
-					
+
 					// Show winner in message
 					ShowSmallMessage(winner.Name + " ^7has won this round!", 0);
 				}
@@ -407,7 +404,7 @@ namespace CodeImp.Bloodmasters.Client
 				}
 			}
 		}
-		
+
 		// This shows a small message
 		// If timeout is 0 it will be displayed until removed manually
 		public void ShowSmallMessage(string msg, int timeout)
@@ -415,7 +412,7 @@ namespace CodeImp.Bloodmasters.Client
 			// Set the message
 			smallmessage.Text = msg;
 			smallfade = 1f;
-			
+
 			// Determine disappear time
 			if(timeout == 0)
 			{
@@ -428,14 +425,14 @@ namespace CodeImp.Bloodmasters.Client
 				smallfadeout = General.currenttime + timeout;
 			}
 		}
-		
+
 		// This hides (fades out) the small message
 		public void HideSmallMessage()
 		{
 			// Fade out now
 			smallfadeout = General.currenttime;
 		}
-		
+
 		// This shows a big message
 		// If timeout is 0 it will be displayed until removed manually
 		public void ShowBigMessage(string msg, int timeout)
@@ -443,7 +440,7 @@ namespace CodeImp.Bloodmasters.Client
 			// Set the message
 			bigmessage.Text = msg;
 			bigfade = 1f;
-			
+
 			// Determine disappear time
 			if(timeout == 0)
 			{
@@ -456,14 +453,14 @@ namespace CodeImp.Bloodmasters.Client
 				bigfadeout = General.currenttime + timeout;
 			}
 		}
-		
+
 		// This hides (fades out) the big message
 		public void HideBigMessage()
 		{
 			// Fade out now
 			bigfadeout = General.currenttime;
 		}
-		
+
 		// This shows an item message
 		public void ShowItemMessage(string msg)
 		{
@@ -472,45 +469,45 @@ namespace CodeImp.Bloodmasters.Client
 			itemfade = 1f;
 			itemfadeout = General.currenttime + MSG_ITEM_TIMEOUT;
 		}
-		
+
 		// This hides (fades out) the item message
 		public void HideItemMessage()
 		{
 			// Fade out now
 			itemfadeout = General.currenttime;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Screen Flashes
-		
+
 		// This cumulatively adds brightness to the screen flash
 		public void FlashScreen(float amount)
 		{
 			// Flash
 			flashalpha += amount;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Methods
-		
+
 		// This updates the score values
 		public void UpdateScore()
 		{
 			int totalitems, score, topscore;
 			Client c;
-			
+
 			// Local client available?
 			if(General.localclient == null) return;
-			
+
 			// Deathmatch?
 			if((General.gametype == GAMETYPE.DM))
 			{
 				// Winning client
 				c = General.scoreboard.GetWinningClient();
 				if(c != null) topscore = c.Score; else topscore = 0;
-				
+
 				// Show scores
 				scoretext.Text = General.localclient.Score + " / " + topscore;
 			}
@@ -528,16 +525,16 @@ namespace CodeImp.Bloodmasters.Client
 				// Calculate values
 				totalitems = ScavengerItem.CountTotalItems(General.localclient.Team);
 				score = totalitems - ScavengerItem.CountRemainingItems(General.localclient.Team);
-				
+
 				// Score text dislays items taken and total items
 				scoretext.Text = score + " / " + totalitems;
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Processing
-		
+
 		// This processes the HUD
 		public void Process()
 		{
@@ -554,34 +551,34 @@ namespace CodeImp.Bloodmasters.Client
 					if(thiscountdown < 4) DirectSound.PlaySound("voc_" + thiscountdown + ".wav");
 				}
 			}
-			
+
 			// Callvote in progress?
 			if(General.callvotetimeout > 0)
 			{
 				// Determine countdown number in seconds
 				int votecountdown = (int)Math.Ceiling(((float)General.callvotetimeout - (float)General.currenttime) / 1000f);
-				
+
 				// Remove callvote when countdown reaches 0
 				if(votecountdown <= 0) General.callvotetimeout = 0;
-				
+
 				// Make the callvote text
 				callvotetext.Text = "Votes for " + callvotedesc + ": " + General.callvotes + "  (callvote timeout: " + votecountdown + ")";
 			}
-			
+
 			// Fade out small message?
 			if((smallfadeout < General.currenttime) && (smallfade > 0f)) smallfade -= SMALL_FADE_SPEED;
-			
+
 			// Fade out big message?
 			if((bigfadeout < General.currenttime) && (bigfade > 0f)) bigfade -= BIG_FADE_SPEED;
-			
+
 			// Fade out item message?
 			if((itemfadeout < General.currenttime) && (itemfade > 0f)) itemfade -= ITEM_FADE_SPEED;
-			
+
 			// Decrease flash fade
 			if(flashalpha > FLASH_MAX) flashalpha = FLASH_MAX;
 			else if(flashalpha > 0f) flashalpha -= FLASH_FADE;
 			else if(flashalpha < 0f) flashalpha = 0f;
-			
+
 			// Health lowering?
 			if(General.localclient.Health < prevhealth)
 			{
@@ -589,10 +586,10 @@ namespace CodeImp.Bloodmasters.Client
 				healthtext.Colors = TextResource.color_code[4];
 				healthflashtime = General.currenttime + FLASH_TIME;
 			}
-			
+
 			// Keep prev health
 			prevhealth = General.localclient.Health;
-			
+
 			// Reset health flash?
 			if((healthflashtime > 0) && (healthflashtime < General.currenttime))
 			{
@@ -601,16 +598,16 @@ namespace CodeImp.Bloodmasters.Client
 				healthflashtime = 0;
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Rendering
-		
+
 		// This render screen flashes
 		public void RenderScreenFlashes()
 		{
 			float a;
-			
+
 			// Flash?
 			if(showscreenflashes && (flashalpha > 0f))
 			{
@@ -620,13 +617,13 @@ namespace CodeImp.Bloodmasters.Client
 				flashborder.Render();
 			}
 		}
-		
+
 		// This renders the status
 		public void RenderStatus()
 		{
 			// Set drawing mode
 			Direct3D.SetDrawMode(DRAWMODE.TLMODALPHA);
-			
+
 			// Render bottom bar?
 			if(!General.localclient.IsSpectator)
 			{
@@ -634,52 +631,52 @@ namespace CodeImp.Bloodmasters.Client
 				//Direct3D.d3dd.RenderState.TextureFactor = -1;
 				//Direct3D.d3dd.SetTexture(0, null);
 				//Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, barverts);
-				
+
 				// Render windows
 				healthwnd.Render();
 				armorwnd.Render();
 				weaponwnd.Render();
 				if(General.localclient.Powerup != POWERUP.NONE) powerupwnd.Render();
 				scorewnd.Render();
-				
+
 				// Render the health
-				Direct3D.d3dd.RenderState.TextureFactor = -1;
+				Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
 				Direct3D.d3dd.SetTexture(0, healthicon.texture);
 				Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, healthverts);
 				healthtext.Text = General.localclient.Health.ToString();
 				healthtext.Render();
-				
+
 				// Render the armor
-				Direct3D.d3dd.RenderState.TextureFactor = -1;
+                Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
 				Direct3D.d3dd.SetTexture(0, armoricon.texture);
 				Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, armorverts);
 				armortext.Text = General.localclient.Armor.ToString();
 				armortext.Render();
-				
+
 				// Weapon?
 				if(General.localclient.CurrentWeapon != null)
 				{
 					// Get current client weapon info
 					Weapon w = General.localclient.CurrentWeapon;
-					
+
 					// Render the weapon/ammo
-					Direct3D.d3dd.RenderState.TextureFactor = -1;
+                    Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
 					Direct3D.d3dd.SetTexture(0, weaponicons[(int)w.WeaponID].texture);
 					Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, weaponverts);
 					ammotext.Text = General.localclient.Ammo[(int)w.AmmoType].ToString();
 					ammotext.Render();
 				}
-				
+
 				// Powerup?
 				if(General.localclient.Powerup != POWERUP.NONE)
 				{
 					// Get the powerup number
 					int pid = (int)General.localclient.Powerup;
-					
+
 					// Determine countdown in seconds
 					int pcount = (int)General.localclient.PowerupCount;
 					int pcountsec = (int)Math.Ceiling((float)pcount / 1000f);
-					
+
 					// Powerup fired?
 					if(General.localclient.PowerupFired)
 					{
@@ -691,34 +688,34 @@ namespace CodeImp.Bloodmasters.Client
 						// Show normal powerup countdown
 						poweruptext.Text = pcountsec.ToString();
 					}
-					
+
 					// Render the powerup
-					Direct3D.d3dd.RenderState.TextureFactor = -1;
+                    Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
 					Direct3D.d3dd.SetTexture(0, powerupicons[pid - 1].texture);
 					Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, powerupverts);
 					poweruptext.Render();
 				}
-				
+
 				// Render the score
-				Direct3D.d3dd.RenderState.TextureFactor = -1;
+                Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
 				scoretext.Render();
 			}
-			
+
 			// Callvote in progress?
 			if(General.callvotetimeout > 0)
 			{
 				// Render the callvote
-				Direct3D.d3dd.RenderState.TextureFactor = -1;
+                Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
 				callvotetext.Render();
 			}
 		}
-		
+
 		// This renders the 2 big messages
 		public void RenderMessages()
 		{
 			// Set drawing mode
 			Direct3D.SetDrawMode(DRAWMODE.TLMODALPHA);
-			
+
 			// Show the HUD parts?
 			if(HUD.showhud)
 			{
@@ -726,54 +723,54 @@ namespace CodeImp.Bloodmasters.Client
 				if(smallfade > 0.01f)
 				{
 					// Render small message
-					Direct3D.d3dd.RenderState.TextureFactor = General.ARGB(smallfade, 1f, 1f, 1f);
+					Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(smallfade, 1f, 1f, 1f));
 					smallmessage.Render();
 				}
-				
+
 				// Render big message?
 				if(bigfade > 0.01f)
 				{
 					// Render big message
-					Direct3D.d3dd.RenderState.TextureFactor = General.ARGB(bigfade, 1f, 1f, 1f);
+					Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(bigfade, 1f, 1f, 1f));
 					bigmessage.Render();
 				}
-				
+
 				// Render item message?
 				if(itemfade > 0.01f)
 				{
 					// Render big message
-					Direct3D.d3dd.RenderState.TextureFactor = General.ARGB(itemfade, 1f, 1f, 1f);
+                    Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(itemfade, 1f, 1f, 1f));
 					itemmessage.Render();
 				}
 			}
 		}
-		
+
 		// This renders the FPS
 		public void RenderFPS()
 		{
 			// Set drawing mode
 			Direct3D.SetDrawMode(DRAWMODE.TLMODALPHA);
-			
+
 			// Show FPS?
 			if(showfps)
 			{
 				// Count this frame
 				fps_count++;
-				
+
 				// Time to measure the FPS?
 				if(General.currenttime >= fps_measuretime)
 				{
 					// Update the FPS text object
 					fps_text.Text = fps_count + " FPS";
-					
+
 					// Update the MSPF text object
 					float mspf = (float)(General.currenttime - fps_lasttime) / (float)fps_count;
 					mspf_text.Text = mspf.ToString("0.00") + " MSPF";
-					
+
 					// Reset for next measure
 					fps_count = 0;
 					fps_lasttime = General.currenttime;
-					
+
 					// If the frame took too long, skip ahead to current time, otherwise,
 					// only add a second to the previous time for accurate measuring.
 					if(General.currenttime - fps_measuretime > 2000)
@@ -781,14 +778,14 @@ namespace CodeImp.Bloodmasters.Client
 					else
 						fps_measuretime += 1000;
 				}
-				
+
 				// Render FPS and MSPF
-				Direct3D.d3dd.RenderState.TextureFactor = General.ARGB(1f, 1f, 1f, 1f);
+				Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(1f, 1f, 1f, 1f));
 				fps_text.Render();
 				mspf_text.Render();
 			}
 		}
-		
+
 		#endregion
 	}
 }

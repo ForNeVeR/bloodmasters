@@ -10,24 +10,21 @@
 // other classes in the engine.
 
 #region Namespace usage
+
 using System;
+using System.Collections;
+using System.Diagnostics;
+using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Net;
-using System.Drawing;
-using System.Text;
-using System.Collections;
-using System.Threading;
-using System.Globalization;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
 using System.Reflection;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 using CodeImp.Bloodmasters.Server;
-using CodeImp.Bloodmasters;
-using CodeImp;
+
 #endregion
 
 namespace CodeImp.Bloodmasters.Client
@@ -38,9 +35,9 @@ namespace CodeImp.Bloodmasters.Client
 		[DllImport("user32.dll")] public static extern int LockWindowUpdate(IntPtr hwnd);
 		[DllImport("kernel32.dll")] public static extern short QueryPerformanceCounter(ref long x);
 		[DllImport("kernel32.dll")] public static extern short QueryPerformanceFrequency(ref long x);
-		
+
 		#region ================== Constants
-		
+
 		// Networking
 		public const int CONNECT_TIMEOUT = 30000;
 		public const int LOADING_TIMEOUT = 10000; //40000;
@@ -48,27 +45,27 @@ namespace CodeImp.Bloodmasters.Client
 		public const int DISCONNECT_TIMEOUT = 1000;
 		public const string UNKNOWN_PLAYER_NAME = "(unknown player)";
 		public const int AUTO_SCREENSHOT_DELAY = 300;
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		// Application paths and name
 		public static string apppath = "";
 		public static string appname = "";
 		public static string temppath = "";
-		
+
 		// Filenames
 		private static string configfilename = "Bloodmasters.cfg";
 		private static string logfilename = "";
-		
+
 		// Configuration
 		public static Configuration config;
-		
+
 		// Windows
 		public static FormGame gamewindow = null;
 		public static FormServer serverwindow = null;
-		
+
 		// Status
 		public static bool clientrunning = false;
 		public static bool serverrunning = false;
@@ -77,7 +74,7 @@ namespace CodeImp.Bloodmasters.Client
 		public static int serverport = 0;
 		public static string disconnectreason = "";
 		public static bool connecting;
-		
+
 		// Game Client
 		public static Map map;
 		public static Arena arena;
@@ -88,13 +85,13 @@ namespace CodeImp.Bloodmasters.Client
 		public static Jukebox jukebox;
 		public static GameMenu gamemenu;
 		public static WeaponDisplay weapondisplay;
-		
+
 		// Settings
 		public static bool scrollweapons;
 		public static bool autoswitchweapon;
 		public static int movemethod;
 		public static WEAPON[] bestweapons;
-		
+
 		// Game info
 		public static string playername;
 		public static int scorelimit;
@@ -114,16 +111,16 @@ namespace CodeImp.Bloodmasters.Client
 		public static bool joinsmallestteam;
 		public static int callvotetimeout;
 		public static int callvotes;
-		
+
 		// Game Server
 		public static GameServer server;
 		public static string serverconfig;
-		
+
 		// Networking
 		public static Gateway gateway;
 		public static Connection conn;
 		private static Thread networkproc;
-		
+
 		// Clock
 		public static long timefrequency = -1;
 		public static double timescale;
@@ -131,63 +128,63 @@ namespace CodeImp.Bloodmasters.Client
 		public static int currenttime;			// Current time of this frame
 		public static int accumulator;			// Buffer for delta time
 		public static int previoustime;			// Previous frame time
-		
+
 		// Auto-screenshot
 		public static int screenshottime;
 		public static bool autoscreenshot;
-		
+
 		// Randomizer
 		public static Random random = new Random();
-		
+
 		// Font charsets
 		public static CharSet charset_shaded;
-		
+
 		// Font textures
 		public static TextureResource font_shaded;
-		
+
 		// Console texture
 		public static TextureResource console_edge;
-		
+
 		// Background
 		public static SurfaceResource background;
-		
+
 		#endregion
-		
+
 		#region ================== Initialize / Terminate
-		
+
 		// This is the very first initialize of the engine
 		private static bool Initialize()
 		{
 			// Enable OS visual styles
 			Application.EnableVisualStyles();
 			Application.DoEvents();		// This must be here to work around a .NET bug
-			
+
 			// Setup application path
 			Uri localpath = new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase), true);
 			apppath = localpath.AbsolutePath;
-			
+
 			// Setup application name
 			appname = Assembly.GetExecutingAssembly().GetName().Name;
-			
+
 			// Temporary directory (in system temporary directory)
 			do { temppath = Path.Combine(Path.GetTempPath(), RandomString(8)); }
 			while(Directory.Exists(temppath) || File.Exists(temppath));
-			
+
 			// Make temporary directory
 			Directory.CreateDirectory(temppath);
-			
+
 			// Ensure a Music directory exists
 			string musicdir = Path.Combine(General.apppath, "Music");
 			if(!Directory.Exists(musicdir)) Directory.CreateDirectory(musicdir);
-			
+
 			// Open all archives with archivemanager
 			ArchiveManager.Initialize(General.apppath, General.temppath);
 			ArchiveManager.OpenArchive(Path.Combine(General.apppath, "sprites"));
-			
+
 			// Setup filenames
 			configfilename = Path.Combine(General.apppath, configfilename);
 			logfilename = Path.Combine(apppath, appname + ".log");
-			
+
 			// Get the high resolution clock frequency
 			if(QueryPerformanceFrequency(ref timefrequency) == 0)
 			{
@@ -199,7 +196,7 @@ namespace CodeImp.Bloodmasters.Client
 				// Set time scale
 				timescale = (1d / (double)timefrequency) * 1000d;
 			}
-			
+
 			// Initialize DirectX
 			try { Direct3D.InitDX(); }
 			catch(Exception)
@@ -208,11 +205,11 @@ namespace CodeImp.Bloodmasters.Client
 				MessageBox.Show(null, "Unable to initialize DirectX. Please ensure that you have the latest version of DirectX installed.", "Bloodmasters", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
-			
+
 			// Return success
 			return true;
 		}
-		
+
 		// This is the loading of standard
 		// resources and setting up defaults
 		private static bool LoadStandardComponents()
@@ -222,57 +219,57 @@ namespace CodeImp.Bloodmasters.Client
 			previoustime = General.GetCurrentTime();
 			realtime = General.GetCurrentTime() + 1;
 			accumulator = 0;
-			
+
 			// Initialize for client?
 			if(clientrunning)
 			{
 				// Initialize color codes
 				TextResource.Initialize();
-				
+
 				// Load font charsets
 				charset_shaded = new CharSet(ArchiveManager.ExtractFile("general.rar/charset_shaded.cfg"));
 				charset_shaded.SetColorCode(Consts.COLOR_CODE_SIGN);
-				
+
 				// Fonts
 				font_shaded = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.rar/font_shaded.tga"), false, true);
-				
+
 				// Window
 				WindowBorder.texture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.rar/window.tga"), false, false);
-				
+
 				// Load the background
 				background = Direct3D.LoadSurfaceResource(ArchiveManager.ExtractFile("general.rar/background.bmp"), Pool.SystemMemory);
-				
+
 				// Make the console
 				console = new GConsole();
-				
+
 				// Make the chat box
 				chatbox = new ChatBox();
-				
+
 				// Initialize the mouse cursor
 				MouseCursor.Initialize();
-				
+
 				// Make the HUD
 				hud = new HUD();
 				hud.ShowFPS = config.ReadSetting("showfps", false);
 				hud.ShowScreenFlashes = config.ReadSetting("screenflashes", true);
-				
+
 				// Make weapon display
 				weapondisplay = new WeaponDisplay();
-				
+
 				// Make the menu
 				gamemenu = new GameMenu();
-				
+
 				// Make the scoreboard
 				scoreboard = new Scoreboard();
-				
+
 				// Make the jukebox
 				if(config.ReadSetting("music", true)) jukebox = new Jukebox();
 			}
-			
+
 			// Return success
 			return true;
 		}
-		
+
 		// This unloads all resources and the game
 		private static void Terminate()
 		{
@@ -282,7 +279,7 @@ namespace CodeImp.Bloodmasters.Client
 				// Clear screen
 				try { Direct3D.ClearScreen(); }
 				catch(Exception) { }
-				
+
 				// Erase device references
 				Direct3D.d3dd.SetTexture(0, null);
 				Direct3D.d3dd.SetTexture(1, null);
@@ -290,16 +287,16 @@ namespace CodeImp.Bloodmasters.Client
 				Direct3D.d3dd.Indices = null;
 				Direct3D.d3dd.EvictManagedResources();
 			}
-			
+
 			// Disconnect immediately
 			Disconnect(true);
-			
+
 			// Unload the map
 			UnloadMap();
-			
+
 			// Unload generic resources
 			UnloadGenericResources();
-			
+
 			// Terminate game components
 			if(hud != null) hud.Dispose(); hud = null;
 			if(console != null) console.Dispose(); console = null;
@@ -307,21 +304,21 @@ namespace CodeImp.Bloodmasters.Client
 			if(jukebox != null) jukebox.Dispose(); jukebox = null;
 			if(weapondisplay != null) weapondisplay.Dispose(); weapondisplay = null;
 			if(scoreboard != null) scoreboard.Dispose(); scoreboard = null;
-			
+
 			// Dispose any general resources
 			if(font_shaded != null) font_shaded.Dispose();
 			if(background != null) background.Destroy();
-			
+
 			// Terminate the mouse cursors
 			MouseCursor.Terminate();
-			
+
 			// Terminate Direct3D
 			Direct3D.Terminate();
-			
+
 			// Terminate server stuff
 			if(server != null) server.Dispose();
 			server = null;
-			
+
 			// Check if the game window was created
 			if(gamewindow != null)
 			{
@@ -330,7 +327,7 @@ namespace CodeImp.Bloodmasters.Client
 				gamewindow.Dispose();
 				gamewindow = null;
 			}
-			
+
 			// Check if the server window was created
 			if(serverwindow != null)
 			{
@@ -340,25 +337,25 @@ namespace CodeImp.Bloodmasters.Client
 				serverwindow = null;
 			}
 		}
-		
+
 		// This termines the entire application
 		public static void Exit()
 		{
 			// Close archives
 			ArchiveManager.Dispose();
-			
+
 			// Delete the temporary directory
 			if(General.temppath != "")
 				try { Directory.Delete(General.temppath, true); } catch(Exception) { }
-			
+
 			// End of program
 			Application.Exit();
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Configuration
-		
+
 		// Loads the settings configuration
 		private static bool LoadConfiguration()
 		{
@@ -367,7 +364,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Load configuration
 				config = new Configuration(configfilename, true);
-				
+
 				// Check for errors
 				if(config.ErrorResult != 0)
 				{
@@ -376,7 +373,7 @@ namespace CodeImp.Bloodmasters.Client
 									Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return false;
 				}
-				
+
 				// Success
 				return true;
 			}
@@ -387,15 +384,15 @@ namespace CodeImp.Bloodmasters.Client
 				return false;
 			}
 		}
-		
+
 		// This parses command line arguments
 		public static bool ApplyCmdConfiguration(string[] args)
 		{
 			IDictionary weaponorder;
 			int i;
-			
+
 			string allargs = string.Join(" ", args);
-			
+
 			// Check if settings configuration file exists
 			if(!File.Exists(allargs))
 			{
@@ -412,16 +409,16 @@ namespace CodeImp.Bloodmasters.Client
 					allargs = Path.Combine(apppath, allargs);
 				}
 			}
-			
+
 			Configuration cargs = new Configuration();
 			cargs.LoadConfiguration(allargs, true);
-			
+
 			// Check if no errors
 			if(cargs.ErrorResult == 0)
 			{
 				// Apply settings to configuration
 				config = config + cargs;
-				
+
 				// Apply configuration settings
 				Direct3D.DisplayWidth = config.ReadSetting("displaywidth", 800);
 				Direct3D.DisplayHeight = config.ReadSetting("displayheight", 600);
@@ -446,12 +443,12 @@ namespace CodeImp.Bloodmasters.Client
 				Client.teamcolorednames = config.ReadSetting("teamcolorednames", false);
 				General.autoscreenshot = config.ReadSetting("autoscreenshot", false);
 				General.movemethod = config.ReadSetting("movemethod", 0);
-				
+
 				// Make array for best weapons
 				weaponorder = config.ReadSetting("weaponorder", new Hashtable());
 				bestweapons = new WEAPON[weaponorder.Count];
 				i = 0;
-				
+
 				// Go for all best weapons in rpeferred order
 				foreach(DictionaryEntry de in weaponorder)
 				{
@@ -459,7 +456,7 @@ namespace CodeImp.Bloodmasters.Client
 					int w = int.Parse((string)de.Key);
 					bestweapons[i++] = (WEAPON)w;
 				}
-				
+
 				// Success
 				return true;
 			}
@@ -471,31 +468,31 @@ namespace CodeImp.Bloodmasters.Client
 				return false;
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Logging
-		
+
 		// This writes text to the log file
 		public static void WriteLogLine(string text)
 		{
 			// Open or create the log file
 			StreamWriter log = File.AppendText(logfilename);
-			
+
 			// Write the text to the file
 			log.WriteLine(text);
-			
+
 			// Close the file
 			log.Close();
 			log = null;
 		}
-		
+
 		// This writes an exception to the log file
 		public static void WriteErrorLine(Exception error)
 		{
 			// Open or create the log file
 			StreamWriter log = File.AppendText(logfilename);
-			
+
 			// Write the error to the file
 			log.WriteLine();
 			log.WriteLine(DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
@@ -503,12 +500,12 @@ namespace CodeImp.Bloodmasters.Client
 			log.WriteLine(error.Message);
 			log.WriteLine(error.StackTrace);
 			log.WriteLine();
-			
+
 			// Close the file
 			log.Close();
 			log = null;
 		}
-		
+
 		// This dumps an exception to the error file
 		public static void OutputError(Exception error)
 		{
@@ -518,11 +515,11 @@ namespace CodeImp.Bloodmasters.Client
 			errcfg.WriteSetting("message", error.Message);
 			errcfg.WriteSetting("exception", error.GetType().Name);
 			errcfg.WriteSetting("details", error.Source + " throws " + error.GetType().Name + ":\r\n" + error.Message + "\r\n" + error.StackTrace);
-			
+
 			// Output configuration to error stream
 			Console.Error.WriteLine(errcfg.OutputConfiguration());
 		}
-		
+
 		// This dumps a custom error to the error file
 		public static void OutputCustomError(string error)
 		{
@@ -530,22 +527,22 @@ namespace CodeImp.Bloodmasters.Client
 			Configuration errcfg = new Configuration();
 			errcfg.WriteSetting("datetime", DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
 			errcfg.WriteSetting("message", error);
-			
+
 			// Output configuration to error stream
 			Console.Error.WriteLine(errcfg.OutputConfiguration());
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Connect / Login
-		
+
 		// This logs in to the server
 		// Returns the StartGameInfo message on success, null on failure
 		private static bool Login(int connectid, out string reason)
 		{
 			int timeout = General.GetCurrentTime() + CONNECT_TIMEOUT;
 			NetMessage msg, rconmsg, rep = null;
-			
+
 			// Send a player login request
 			msg = conn.CreateMessage(MsgCmd.PlayerLogin, true);
 			if(msg != null)
@@ -557,7 +554,7 @@ namespace CodeImp.Bloodmasters.Client
 				msg.AddData((bool)General.autoswitchweapon);
 				msg.Send();
 			}
-			
+
 			// Wait for StartGameInfo answer
 			while(timeout > General.GetCurrentTime())
 			{
@@ -576,7 +573,7 @@ namespace CodeImp.Bloodmasters.Client
 							rconmsg.AddData("login " + server.RConPassword);
 							rconmsg.Send();
 						}
-						
+
 						// Apply the server information
 						servertitle = rep.GetString();
 						serverwebsite = rep.GetString();
@@ -589,12 +586,12 @@ namespace CodeImp.Bloodmasters.Client
 						localclientid = rep.GetByte();
 						teamgame = rep.GetBool();
 						joinsmallestteam = rep.GetBool();
-						
+
 						// Return success
 						reason = "";
 						return true;
 					}
-					
+
 					// Check if connection refused
 					if(rep.Command == MsgCmd.ConnectRefused)
 					{
@@ -604,38 +601,38 @@ namespace CodeImp.Bloodmasters.Client
 					}
 				}
 			}
-			
+
 			// Timed out
 			reason = "Connection request timed out";
 			return false;
 		}
-		
+
 		// This waits for a messages and returns it
 		// or returns null when timeout reached
 		private static NetMessage WaitForMessage(int timeouttime)
 		{
 			NetMessage msg = null;
-			
+
 			// Wait for reply
 			while((gateway != null) && (timeouttime > General.GetCurrentTime()))
 			{
 				// Process networking
 				if(serverrunning) server.Process();
 				gateway.Process();
-				
+
 				// Get message and return it
 				msg = gateway.GetNextMessage();
 				if(msg != null) return msg;
-				
+
 				// Allow events
 				Application.DoEvents();
 				Thread.Sleep(10);
 			}
-			
+
 			// Nothing
 			return null;
 		}
-		
+
 		// This waits for all reliable messages to be confirmed
 		// or until timeout reached
 		private static void WaitForConfirms(int timeouttime)
@@ -646,13 +643,13 @@ namespace CodeImp.Bloodmasters.Client
 				// Process networking
 				if(serverrunning) server.Process();
 				gateway.Process();
-				
+
 				// Allow events
 				Application.DoEvents();
 				Thread.Sleep(10);
 			}
 		}
-		
+
 		// This establishes a connection with the server
 		// Returns the connection id on success, otherwise returns 0
 		public static int Connect(out string reason)
@@ -663,41 +660,41 @@ namespace CodeImp.Bloodmasters.Client
 			int connectid = 0;
 			int port = 0;
 			int simping, simloss;
-			
+
 			// Initial client state settings
 			gametype = GAMETYPE.DM;
 			disconnectreason = "";
-			
+
 			// Set specific port number if configured
 			if(config.ReadSetting("fixedclientport", false))
 				port = config.ReadSetting("clientport", 0);
-			
+
 			// Get lag/loss simulation settings
 			simping = config.ReadSetting("simulateping", 0);
 			simloss = config.ReadSetting("simulateloss", 0);
-			
+
 			// Make the gateway and connection
 			gateway = new Gateway(port, simping, simloss);
 			IPEndPoint target = new IPEndPoint(IPAddress.Parse(serveraddress), serverport);
 			conn = gateway.CreateConnection(target);
 			conn.SetTimeout(CONNECT_TIMEOUT);
 			conn.ShowDataMeasures = config.ReadSetting("shownetstats", false);
-			
+
 			// Send connection request
 			msg = conn.CreateMessage(MsgCmd.ConnectRequest, false);
 			msg.AddData(Gateway.PROTOCOL_VERSION);
 			msg.Send();
-			
+
 			// If no other reason is given, the reason is timeout
 			reason = "Connection request timed out";
-			
+
 			// Keep waiting until timeout
 			while((timeout > General.GetCurrentTime()) && (gateway != null))
 			{
 				// Wait for an answer
 				resend = General.GetCurrentTime() + CONNECT_RESEND_INTERVAL;
 				rep = WaitForMessage(resend);
-				
+
 				// Message received?
 				if(rep != null)
 				{
@@ -723,14 +720,14 @@ namespace CodeImp.Bloodmasters.Client
 					if(gateway != null) msg.Send();
 				}
 			}
-			
+
 			// Disconnect if attempt failed
 			if(connectid == 0) Disconnect(false);
-			
+
 			// Return result
 			return connectid;
 		}
-		
+
 		// This disconnects from the server
 		public static void Disconnect(bool notifyserver)
 		{
@@ -739,25 +736,25 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Clear reliable messages
 				conn.ResetQueue(false);
-				
+
 				// Send reliable disconnect message
 				NetMessage msg = conn.CreateMessage(MsgCmd.Disconnect, true);
 				msg.Send();
-				
+
 				// Process networking until timeout or confirmed
 				WaitForConfirms(General.GetCurrentTime() + DISCONNECT_TIMEOUT);
 			}
-			
+
 			// Dispose networking
 			if(gateway != null) gateway.Dispose();
 			gateway = null;
 			conn = null;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Clients
-		
+
 		// This ensures a client is set at the given id
 		// and makes an unknown client if the slot is null
 		public static void EnsureClient(int id)
@@ -769,7 +766,7 @@ namespace CodeImp.Bloodmasters.Client
 				clients[id] = new Client(id, true, TEAM.NONE, UNKNOWN_PLAYER_NAME, false);
 			}
 		}
-		
+
 		// This removes all playing actors
 		public static void RemovePlayingActors()
 		{
@@ -780,7 +777,7 @@ namespace CodeImp.Bloodmasters.Client
 				if(c != null) c.DestroyActor(true);
 			}
 		}
-		
+
 		// This stops all playing actors
 		public static void StopPlayingActors()
 		{
@@ -791,7 +788,7 @@ namespace CodeImp.Bloodmasters.Client
 				if(c != null) c.StopActor();
 			}
 		}
-		
+
 		// This tests a ray for collision with a client
 		public static bool FindRayPlayerCollision(Vector3D start, Vector3D end, Actor exclude, ref Vector3D point, ref object obj, ref float u)
 		{
@@ -799,12 +796,12 @@ namespace CodeImp.Bloodmasters.Client
 			Vector3D intp, delta;
 			Vector2D delta2d;
 			bool found = false;
-			
+
 			// Get trajectory length
 			delta = end - start;
 			delta2d = (Vector2D)delta;
 			delta2dlensq = delta2d.LengthSq();
-			
+
 			// Go for all players
 			foreach(Client c in General.clients)
 			{
@@ -817,13 +814,13 @@ namespace CodeImp.Bloodmasters.Client
 					{
 						// Calculate intersection point
 						intp = start + (delta * uray);
-						
+
 						// Check if within Z heights
 						if((intp.z > c.Actor.Position.z) && (intp.z < (c.Actor.Position.z + Consts.PLAYER_HEIGHT)))
 						{
 							// Calculate 2D distance from collision to player
 							Vector2D dist = (Vector2D)intp - (Vector2D)c.Actor.Position;
-							
+
 							// Check if close enough to collide
 							if(dist.Length() < Consts.PLAYER_RADIUS)
 							{
@@ -837,23 +834,23 @@ namespace CodeImp.Bloodmasters.Client
 					}
 				}
 			}
-			
+
 			// Return result
 			return found;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Networking
-		
+
 		// This processes incoming messages
 		public static void ProcessNetworking()
 		{
 			NetMessage msg;
-			
+
 			// Process gateway
 			if(gateway != null) gateway.Process();
-			
+
 			// Still connected?
 			if((conn != null) && !conn.Disposed)
 			{
@@ -871,7 +868,7 @@ namespace CodeImp.Bloodmasters.Client
 				disconnectreason = "Connection to the game server timed out.";
 			}
 		}
-		
+
 		// Handle a single message
 		public static void HandleNetworkMessage(NetMessage msg)
 		{
@@ -914,14 +911,14 @@ namespace CodeImp.Bloodmasters.Client
 					case MsgCmd.PlayerNameChange: hPlayerNameChange(msg); break;
 					case MsgCmd.CallvoteStatus: hCallvoteStatus(msg); break;
 					case MsgCmd.CallvoteEnd: hCallvoteEnd(msg); break;
-					
+
 					default:
 						//if(General.console != null) General.console.AddMessage("Unknown command message " + (int)msg.Cmd);
 						break;
 				}
 			}
 		}
-		
+
 		// Call vote status
 		private static void hCallvoteStatus(NetMessage msg)
 		{
@@ -929,20 +926,20 @@ namespace CodeImp.Bloodmasters.Client
 			string desc = msg.GetString();
 			int votes = msg.GetInt();
 			int timeleft = msg.GetInt();
-			
+
 			// Set the time left
 			General.callvotetimeout = General.currenttime + timeleft;
-			
+
 			// Set the number of votes
 			General.callvotes = votes;
-			
+
 			// Set the description
 			General.hud.CallVoteDescription = desc;
-			
+
 			// Make bleep sound
 			DirectSound.PlaySound("messagebeep.wav");
 		}
-		
+
 		// Call vote ended
 		private static void hCallvoteEnd(NetMessage msg)
 		{
@@ -950,37 +947,37 @@ namespace CodeImp.Bloodmasters.Client
 			General.callvotetimeout = 0;
 			General.callvotes = 0;
 		}
-		
+
 		// Player Name Change
 		private static void hPlayerNameChange(NetMessage msg)
 		{
 			Client player = null;
-			
+
 			// Read information
 			int id = msg.GetInt();
 			string newname = msg.GetString();
-			
+
 			// Ensure a client exists on this slot
 			if((id < 255) && (id > -1)) EnsureClient(id);
-			
+
 			// Get player object
 			player = clients[id];
-			
+
 			// Client renamed
 			General.console.AddMessage(player.Name + "^7 renamed to " + newname);
-			
+
 			// Local player?
 			if(player == General.localclient)
 			{
 				// Change name locally
 				General.playername = newname;
 			}
-			
+
 			// Change player name and update scoreboard
 			player.SetName(newname);
 			General.scoreboard.Update();
 		}
-		
+
 		// Game snapshot
 		private static void hGameSnapshot(NetMessage msg)
 		{
@@ -988,35 +985,35 @@ namespace CodeImp.Bloodmasters.Client
 			teamscore[1] = msg.GetInt();
 			teamscore[2] = msg.GetInt();
 		}
-		
+
 		// Map has changed
 		private static void hMapChange(NetMessage msg)
 		{
 			string reason;
-			
+
 			// Apply new map information
 			mapname = msg.GetString();
 			maptitle = msg.GetString();
-			
+
 			// Spectate
 			General.localclient.DestroyActor(false);
 			General.localclient.Team = TEAM.NONE;
 			General.localclient.IsSpectator = true;
 			hud.ShowModeMessage();
-			
+
 			// Start network processor
 			// This will answer pings while map is being loaded
 			StartNetworkProcessor();
-			
+
 			// Unload the map
 			UnloadMap();
-			
+
 			// Load the new map
 			reason = LoadMap();
-			
+
 			// Stop network processor
 			StopNetworkProcessor();
-			
+
 			// Check game loading result
 			if(reason != "")
 			{
@@ -1024,17 +1021,17 @@ namespace CodeImp.Bloodmasters.Client
 				return;
 			}
 		}
-		
+
 		// Flag scored
 		private static void hScoreFlag(NetMessage msg)
 		{
 			// Read information
 			int id = msg.GetByte();
 			string itemkey = msg.GetString();
-			
+
 			// Ensure a client exists on this slot
 			EnsureClient(id);
-			
+
 			// Find the item
 			Item i = arena.GetItemByKey(itemkey);
 			if(i is Flag)
@@ -1048,17 +1045,17 @@ namespace CodeImp.Bloodmasters.Client
 				if(General.console != null) General.console.AddMessage("Unknown item " + itemkey + " to score!");
 			}
 		}
-		
+
 		// Flag returned
 		private static void hReturnFlag(NetMessage msg)
 		{
 			// Read information
 			int id = msg.GetByte();
 			string itemkey = msg.GetString();
-			
+
 			// Ensure a client exists on this slot
 			if(id < 255) EnsureClient(id);
-			
+
 			// Find the item
 			Item i = arena.GetItemByKey(itemkey);
 			if(i is Flag)
@@ -1073,22 +1070,22 @@ namespace CodeImp.Bloodmasters.Client
 				if(General.console != null) General.console.AddMessage("Unknown item " + itemkey + " to return!");
 			}
 		}
-		
+
 		// Fire intensity update
 		private static void hFireIntensity(NetMessage msg)
 		{
 			// Read update information
 			int id = msg.GetByte();
 			int intensity = msg.GetShort();
-			
+
 			// Ensure a client exists on this slot
 			EnsureClient(id);
-			
+
 			// Update intensity
 			if(intensity < 1000) intensity = 1000;
 			if(clients[id].Actor != null) clients[id].Actor.SetOnFire(intensity);
 		}
-		
+
 		// Powerup countdown update
 		private static void hPowerupCountUpdate(NetMessage msg)
 		{
@@ -1096,7 +1093,7 @@ namespace CodeImp.Bloodmasters.Client
 			int attime = msg.GetInt();
 			int countdown = msg.GetInt();
 			bool powerupfired = msg.GetBool();
-			
+
 			// Local client available?
 			if(General.localclient != null)
 			{
@@ -1104,14 +1101,14 @@ namespace CodeImp.Bloodmasters.Client
 				General.localclient.SetPowerupCountdown(countdown + (General.currenttime - attime), powerupfired);
 			}
 		}
-		
+
 		// Damage given to player
 		private static void hDamageGiven(NetMessage msg)
 		{
 			// Play hit sound
 			DirectSound.PlaySound("hitplayer.wav");
 		}
-		
+
 		// Shield Hit
 		private static void hShieldHit(NetMessage msg)
 		{
@@ -1119,10 +1116,10 @@ namespace CodeImp.Bloodmasters.Client
 			int id = msg.GetByte();
 			float angle = msg.GetFloat();
 			float fadeout = msg.GetFloat();
-			
+
 			// Ensure a client exists on this slot
 			EnsureClient(id);
-			
+
 			// Client has an actor?
 			if(clients[id].Actor != null)
 			{
@@ -1130,12 +1127,12 @@ namespace CodeImp.Bloodmasters.Client
 				new ShieldEffect(clients[id].Actor, angle, fadeout);
 			}
 		}
-		
+
 		// Spawn a projectile
 		private static void hSpawnProjectile(NetMessage msg)
 		{
 			Projectile p = null;
-			
+
 			// Read projectile information
 			string pid = msg.GetString();
 			PROJECTILE type = (PROJECTILE)(int)msg.GetByte();
@@ -1147,29 +1144,29 @@ namespace CodeImp.Bloodmasters.Client
 			float vz = msg.GetFloat();
 			int source = msg.GetByte();
 			TEAM team = (TEAM)(int)msg.GetByte();
-			
+
 			// Ensure a client exists on this slot
 			//EnsureClient(source);
-			
+
 			// Create vectors
 			Vector3D pos = new Vector3D(px, py, pz);
 			Vector3D vel = new Vector3D(vx, vy, vz);
-			
+
 			// Create projectile
 			p = General.arena.GetProjectile(pid);
 			if(p == null) p = General.arena.CreateProjectile(type, pid, pos, vel);
 				else p.Update(pos, vel);
-			
+
 			// Apply settings
 			p.SourceID = source;
 			p.Team = team;
 		}
-		
+
 		// Update a projectile
 		private static void hUpdateProjectile(NetMessage msg)
 		{
 			Projectile p = null;
-			
+
 			// Read projectile information
 			string pid = msg.GetString();
 			PROJECTILE type = (PROJECTILE)(int)msg.GetByte();
@@ -1181,31 +1178,31 @@ namespace CodeImp.Bloodmasters.Client
 			float vz = msg.GetFloat();
 			int source = msg.GetByte();
 			TEAM team = (TEAM)(int)msg.GetByte();
-			
+
 			// Ensure a client exists on this slot
 			//EnsureClient(source);
-			
+
 			// Create vectors
 			Vector3D pos = new Vector3D(px, py, pz);
 			Vector3D vel = new Vector3D(vx, vy, vz);
-			
+
 			// Find the projectile
 			p = General.arena.GetProjectile(pid);
 			if(p == null) p = General.arena.CreateProjectile(type, pid, pos, new Vector3D());
-			
+
 			// Apply settings
 			p.SourceID = source;
 			p.Team = team;
-			
+
 			// Update it
 			if(p != null) p.Update(pos, vel);
 		}
-		
+
 		// Destroy a projectile
 		private static void hTeleportProjectile(NetMessage msg)
 		{
 			Projectile p = null;
-			
+
 			// Read projectile information
 			string pid = msg.GetString();
 			PROJECTILE type = (PROJECTILE)(int)msg.GetByte();
@@ -1218,26 +1215,26 @@ namespace CodeImp.Bloodmasters.Client
 			float vx = msg.GetFloat();
 			float vy = msg.GetFloat();
 			float vz = msg.GetFloat();
-			
+
 			// Create vectors
 			Vector3D oldpos = new Vector3D(ox, oy, oz);
 			Vector3D pos = new Vector3D(px, py, pz);
 			Vector3D vel = new Vector3D(vx, vy, vz);
-			
+
 			// Find the projectile
 			p = General.arena.GetProjectile(pid);
 			if(p == null) General.arena.CreateProjectile(type, pid, oldpos, new Vector3D());
-			
+
 			// Teleport it
 			if(p != null) p.TeleportTo(oldpos, pos, vel);
 		}
-		
+
 		// Destroy a projectile
 		private static void hDestroyProjectile(NetMessage msg)
 		{
 			Projectile p = null;
 			Client hitplayer = null;
-			
+
 			// Read projectile information
 			string pid = msg.GetString();
 			PROJECTILE type = (PROJECTILE)(int)msg.GetByte();
@@ -1246,62 +1243,62 @@ namespace CodeImp.Bloodmasters.Client
 			float px = msg.GetFloat();
 			float py = msg.GetFloat();
 			float pz = msg.GetFloat();
-			
+
 			// Get the player being hit
 			if(hitplayerid < 255)
 			{
 				// Ensure clients exist
 				EnsureClient(hitplayerid);
-				
+
 				// Get player object
 				hitplayer = clients[hitplayerid];
 			}
-			
+
 			// Create vectors
 			Vector3D pos = new Vector3D(px, py, pz);
-			
+
 			// Find the projectile
 			p = General.arena.GetProjectile(pid);
 			if(p == null) General.arena.CreateProjectile(type, pid, pos, new Vector3D());
-			
+
 			// Destroy it
 			if(p != null) p.Destroy(pos, silent, hitplayer);
 		}
-		
+
 		// Client switches weapon
 		private static void hSwitchWeapon(NetMessage msg)
 		{
 			// Get the weapon id from message
 			WEAPON weaponid = (WEAPON)msg.GetInt();
 			bool silent = msg.GetBool();
-			
+
 			// Switch weapon
 			General.localclient.SwitchWeapon(weaponid, silent);
 		}
-		
+
 		// Client teleports
 		private static void hTeleportClient(NetMessage msg)
 		{
 			// Get the ID from message
 			int id = msg.GetByte();
-			
+
 			// Ensure a client exists on this slot
 			EnsureClient(id);
-			
+
 			// Spawn actor from message
 			clients[id].Teleport(msg);
 		}
-		
+
 		// Handle game state change
 		private static void hGameStateChange(NetMessage msg)
 		{
 			// Get the new gamestate
 			GAMESTATE newstate = (GAMESTATE)msg.GetByte();
 			int gamestatelen = msg.GetInt();
-			
+
 			// Time until gamestate timeout
 			gamestateend = General.currenttime + gamestatelen;
-			
+
 			// When round or game is finished
 			if((newstate == GAMESTATE.ROUNDFINISH) ||
 			   (newstate == GAMESTATE.GAMEFINISH))
@@ -1310,16 +1307,16 @@ namespace CodeImp.Bloodmasters.Client
 				StopPlayingActors();
 				General.localclient.ReleaseAllWeapons();
 				RemovePlayingActors();
-				
+
 				// Set auto-screenshot time
 				screenshottime = realtime + AUTO_SCREENSHOT_DELAY;
 			}
-			
+
 			// Changing to new game?
 			if(((gamestate == GAMESTATE.ROUNDFINISH) ||
 			    (gamestate == GAMESTATE.GAMEFINISH)) &&
 			   (newstate == GAMESTATE.WAITING)) RemovePlayingActors();
-			
+
 			// Countdown ended?
 			if((gamestate == GAMESTATE.COUNTDOWN) &&
 			   (newstate == GAMESTATE.PLAYING))
@@ -1327,16 +1324,16 @@ namespace CodeImp.Bloodmasters.Client
 				// Show FIGHT!
 				hud.ShowBigMessage("FIGHT!", 1000);
 				DirectSound.PlaySound("voc_fight.wav");
-				
+
 				// Remove all actors
 				arena.RespawnAllItems();
 				RemovePlayingActors();
-				
+
 				// Reset team scores
 				teamscore[1] = 0;
 				teamscore[2] = 0;
 			}
-			
+
 			// Or new game just started playing?
 			if((gamestate == GAMESTATE.SPAWNING) &&
 			   (newstate == GAMESTATE.PLAYING))
@@ -1345,20 +1342,20 @@ namespace CodeImp.Bloodmasters.Client
 				teamscore[1] = 0;
 				teamscore[2] = 0;
 			}
-			
+
 			// Apply the new gamestate
 			gamestate = newstate;
-			
+
 			// Update the HUD
 			General.hud.ShowModeMessage();
 		}
-		
+
 		// Handle client death
 		private static void hClientDead(NetMessage msg)
 		{
 			int sourcescore = 0;
 			int targetscore = 0;
-			
+
 			// Get the arguments
 			int targetid = msg.GetByte();
 			int sourceid = msg.GetByte();
@@ -1372,11 +1369,11 @@ namespace CodeImp.Bloodmasters.Client
 			float velz = msg.GetFloat();
 			float pushx = msg.GetFloat();
 			float pushy = msg.GetFloat();
-			
+
 			// Ensure the clients exist
 			if(sourceid < 255) EnsureClient(sourceid);
 			if(targetid < 255) EnsureClient(targetid);
-			
+
 			// Set client position/velocity
 			if(clients[targetid].Actor != null)
 			{
@@ -1386,13 +1383,13 @@ namespace CodeImp.Bloodmasters.Client
 				act.State.vel = new Vector3D(velx, vely, velz);
 				act.PushVector = new Vector2D(pushx, pushy);
 			}
-			
+
 			// Kill this client
 			clients[targetid].Kill(method);
-			
+
 			// Show the message
 			General.console.AddMessage(message, true);
-			
+
 			// Am I the source?
 			if(sourceid == General.localclient.ID)
 			{
@@ -1401,11 +1398,11 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// I am an idiot
 					//General.hud.ShowSmallMessage("^7You killed yourself", HUD.MSG_DEATH_TIMEOUT);
-					
+
 					// Adjust score
 					if((General.gametype == GAMETYPE.DM) ||
 					   (General.gametype == GAMETYPE.TDM)) sourcescore = -1;
-					
+
 					// Make red flash
 					if(method == DEATHMETHOD.NORMAL) General.hud.FlashScreen(0.6f);
 					if(method == DEATHMETHOD.GIBBED) General.hud.FlashScreen(2f);
@@ -1414,13 +1411,13 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// I killed someone! yay!
 					General.hud.ShowSmallMessage("^7You killed " + clients[targetid].Name, HUD.MSG_DEATH_TIMEOUT);
-					
+
 					// Not on the same team?
 					if((clients[targetid].Team != clients[sourceid].Team) || !teamgame)
 					{
 						// Count a frag for me
 						clients[sourceid].Frags++;
-						
+
 						// Adjust score
 						if((General.gametype == GAMETYPE.DM) ||
 						   (General.gametype == GAMETYPE.TDM)) sourcescore = 1;
@@ -1435,13 +1432,13 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// I got owned
 					General.hud.ShowSmallMessage("^7You were killed by " + clients[sourceid].Name, HUD.MSG_DEATH_TIMEOUT);
-					
+
 					// Not on the same team?
 					if((clients[targetid].Team != clients[sourceid].Team) || !teamgame)
 					{
 						// Count a frag for him
 						clients[sourceid].Frags++;
-						
+
 						// Adjust score
 						if((General.gametype == GAMETYPE.DM) ||
 						   (General.gametype == GAMETYPE.TDM)) sourcescore = 1;
@@ -1451,12 +1448,12 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Some force of nature killed me
 					//General.hud.ShowSmallMessage("^7You committed suicide!", HUD.MSG_DEATH_TIMEOUT);
-					
+
 					// Adjust score
 					if((General.gametype == GAMETYPE.DM) ||
 					   (General.gametype == GAMETYPE.TDM)) targetscore = -1;
 				}
-				
+
 				// Make red flash
 				if(method == DEATHMETHOD.NORMAL) General.hud.FlashScreen(0.6f);
 				if(method == DEATHMETHOD.GIBBED) General.hud.FlashScreen(2f);
@@ -1471,61 +1468,61 @@ namespace CodeImp.Bloodmasters.Client
 					if((sourceid < 255) && (targetid != sourceid)) sourcescore = 1; else targetscore = -1;
 				}
 			}
-			
+
 			// Count the death
 			clients[targetid].Deaths++;
-			
+
 			// Scavenger mode: loser loses 10 points!
 			if((General.gametype == GAMETYPE.SC) ||
 			   (General.gametype == GAMETYPE.TSC)) targetscore = -10;
-			
+
 			// Change source score
 			if(sourceid < 255)
 			{
 				clients[sourceid].Score += sourcescore;
 				if(General.teamgame) General.teamscore[(int)clients[sourceid].Team] += sourcescore;
 			}
-			
+
 			// Change target score
 			if(targetid < 255)
 			{
 				clients[targetid].Score += targetscore;
 				if(General.teamgame) General.teamscore[(int)clients[targetid].Team] += targetscore;
 			}
-			
+
 			// Update scoreboard
 			General.scoreboard.Update();
 		}
-		
+
 		// Client takes damage
 		private static void hTakeDamage(NetMessage msg)
 		{
 			byte targetid = msg.GetByte();
-			
+
 			// Ensure the clients exist
 			EnsureClient(targetid);
-			
+
 			// Take damage
 			clients[targetid].TakeDamage(msg);
 		}
-		
+
 		// Handle full Status Update
 		private static void hStatusUpdate(NetMessage msg)
 		{
 			// Health and armor
 			General.localclient.Health = msg.GetByte();
 			General.localclient.Armor = msg.GetByte();
-			
+
 			// Ammo
 			for(int i = 0; i < (int)AMMO.TOTAL_AMMO_TYPES; i++)
 			{
 				// Update ammo
 				General.localclient.Ammo[i] = msg.GetShort();
 			}
-			
+
 			// Update ammo display
 			General.weapondisplay.UpdateAmmo();
-			
+
 			// Weapons
 			for(int i = 0; i < (int)WEAPON.TOTAL_WEAPONS; i++)
 			{
@@ -1542,7 +1539,7 @@ namespace CodeImp.Bloodmasters.Client
 				}
 			}
 		}
-		
+
 		// Handle ItemPickup
 		private static void hItemPickup(NetMessage msg)
 		{
@@ -1552,14 +1549,14 @@ namespace CodeImp.Bloodmasters.Client
 			int delay = msg.GetInt();
 			bool attach = msg.GetBool();
 			bool silent = msg.GetBool();
-			
+
 			// Find the item
 			Item i = arena.GetItemByKey(itemkey);
 			if(i != null)
 			{
 				// Ensure a client exists on this slot
 				EnsureClient(clientid);
-				
+
 				// Pickup item
 				i.Pickup(clients[clientid], delay, attach, silent);
 			}
@@ -1569,14 +1566,14 @@ namespace CodeImp.Bloodmasters.Client
 				if(General.console != null) General.console.AddMessage("Unknown item " + itemkey + " to pick up!");
 			}
 		}
-		
+
 		// Handle ClientCorrection
 		private static void hClientCorrection(NetMessage msg)
 		{
 			// Perform client correction for local client
 			General.localclient.ClientCorrection(msg);
 		}
-		
+
 		// Handle Sector Movement
 		private static void hSectorMovement(NetMessage msg)
 		{
@@ -1587,12 +1584,12 @@ namespace CodeImp.Bloodmasters.Client
 				int sectorid = msg.GetInt();
 				float targetheight = msg.GetFloat();
 				float movespeed = msg.GetFloat();
-				
+
 				// Move the sector
 				General.map.Sectors[sectorid].MoveTo(targetheight, movespeed);
 			}
 		}
-		
+
 		// Handle Snapshots
 		private static void hSnapshots(NetMessage msg)
 		{
@@ -1601,80 +1598,80 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Get the client id
 				int id = msg.GetByte();
-				
+
 				// Ensure a client exists here
 				EnsureClient(id);
-				
+
 				// Spawn actor from message
 				clients[id].GetSnapshotFromMessage(msg);
 			}
 		}
-		
+
 		// Handle SpawnActor
 		private static void hSpawnActor(NetMessage msg)
 		{
 			// Get the ID from message
 			int id = msg.GetByte();
-			
+
 			// Ensure a client exists on this slot
 			EnsureClient(id);
-			
+
 			// Spawn actor from message
 			clients[id].SpawnActor(msg);
 		}
-		
+
 		// Handle ChangeTeam
 		private static void hChangeTeam(NetMessage msg)
 		{
 			// Read data
 			TEAM t = (TEAM)msg.GetByte();
 			bool s = msg.GetBool();
-			
+
 			// Lose actor
 			General.localclient.DestroyActor(false);
-			
+
 			// Apply settings to client
 			General.localclient.Team = t;
 			General.localclient.IsSpectator = s;
 			General.localclient.SetName(General.localclient.Name);
 			hud.ShowModeMessage();
-			
+
 			// Update scores on HUD
 			hud.UpdateScore();
 		}
-		
+
 		// Handle ClientDisposed
 		private static void hClientDisposed(NetMessage msg)
 		{
 			// Get the ID from message
 			int id = msg.GetByte();
-			
+
 			// Dispose this client
 			if(clients[id] != null) clients[id].Dispose();
 		}
-		
+
 		// Handle ClientUpdate
 		private static void hClientUpdate(NetMessage msg)
 		{
 			// Get the ID from message
 			int id = msg.GetByte();
-			
+
 			// Ensure a client exists on this slot
 			EnsureClient(id);
-			
+
 			// Update client from message
 			clients[id].UpdateFromMessage(msg);
-			
+
 			// Update scoreboard
 			General.scoreboard.Update();
 		}
-		
+
 		// Handle ShowMessage
 		private static void hShowMessage(NetMessage msg)
 		{
 			bool showonscreen;
 			string message;
-			
+
 			try
 			{
 				// Read the parameters
@@ -1682,30 +1679,30 @@ namespace CodeImp.Bloodmasters.Client
 				message = msg.GetString();
 			}
 			catch(Exception) { return; }
-			
+
 			// Show the message
 			console.AddMessage(message, showonscreen);
 		}
-		
+
 		// Handle SayMessage
 		private static void hSayMessage(NetMessage msg)
 		{
 			string message;
-			
+
 			try
 			{
 				// Read the parameters
 				message = msg.GetString();
 			}
 			catch(Exception) { return; }
-			
+
 			// Show the message
 			console.AddMessage(message, true);
-			
+
 			// Make message sound
 			DirectSound.PlaySound("messagebeep.wav");
 		}
-		
+
 		// Handle Disconnect
 		private static void hDisconnect(NetMessage msg)
 		{
@@ -1715,15 +1712,15 @@ namespace CodeImp.Bloodmasters.Client
 				disconnectreason = "Disconnected from server: " + msg.GetString();
 			}
 			catch(Exception) { return; }
-			
+
 			// End the game
 			gamewindow.Close();
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Game Loop
-		
+
 		// This is the main game loop
 		private static void GeneralLoop()
 		{
@@ -1732,12 +1729,12 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Process and render a single frame
 				DoOneFrame(true, true, true);
-				
+
 				// Process messages
 				Application.DoEvents();
 			}
 		}
-		
+
 		// This makes adjustments to catch up any lag
 		public static void CatchLag()
 		{
@@ -1745,34 +1742,34 @@ namespace CodeImp.Bloodmasters.Client
 			previoustime = GetCurrentTime();
 			accumulator = 0;
 		}
-		
+
 		// This processes and renders a single frame
 		public static void DoOneFrame(bool process, bool render, bool renderhud)
 		{
 			int deltatime;
-			
+
 			// Calculate the frame time
 			realtime = GetCurrentTime();
 			deltatime = realtime - previoustime;
 			previoustime = realtime;
 			accumulator += deltatime;
-			
+
 			// Do processing?
 			if(process)
 			{
 				// Always process networking
 				if(serverrunning) server.gateway.Process();
 				if(clientrunning) gateway.Process();
-				
+
 				// Enough delta time for processing the game?
 				while(accumulator >= Consts.TIMESTEP)
 				{
 					// Advance time
 					currenttime += Consts.TIMESTEP;
-					
+
 					// Process a server pass
 					if(serverrunning) server.Process();
-					
+
 					// Process a client pass
 					if(clientrunning)
 					{
@@ -1787,12 +1784,12 @@ namespace CodeImp.Bloodmasters.Client
 						gamemenu.Process();
 						if(jukebox != null) jukebox.Process();
 					}
-					
+
 					// Time processed
 					accumulator -= Consts.TIMESTEP;
 				}
 			}
-			
+
 			// Client?
 			if(clientrunning)
 			{
@@ -1804,19 +1801,19 @@ namespace CodeImp.Bloodmasters.Client
 					{
 						// Prepare for rendering
 						if(arena != null) arena.PrepareRendering();
-						
+
 						// Begin scene rendering
 						Direct3D.d3dd.SetRenderTarget(0, Direct3D.backbuffer);
 						Direct3D.d3dd.DepthStencilSurface = Direct3D.depthbuffer;
 						Direct3D.d3dd.BeginScene();
-						
-						
+
+
 						// Render a game frame
 						if(arena != null)
 							arena.Render();
 						else
 							RenderBackground();
-						
+
 						// Render the HUD and Console
 						if(renderhud) hud.RenderScreenFlashes();
 						if(!scoreboard.Visible) hud.RenderMessages();
@@ -1827,22 +1824,22 @@ namespace CodeImp.Bloodmasters.Client
 						if(renderhud) gamemenu.Render();
 						if(renderhud) console.Render();
 						if(renderhud) chatbox.Render();
-						
+
 						// Render the mouse cursor
 						if(gamewindow.MouseInside && renderhud) MouseCursor.Render();
-						
-						
+
+
 						// Unset textures and streams
 						Direct3D.d3dd.SetTexture(0, null);
 						Direct3D.d3dd.SetTexture(1, null);
 						Direct3D.d3dd.SetStreamSource(0, null, 0);
-						
+
 						// Done rendering
 						Direct3D.d3dd.EndScene();
-						
+
 						// Present the scene
 						Direct3D.FinishRendering();
-						
+
 						// Time to make a screenshot?
 						if((screenshottime > 0) && (screenshottime < realtime) && autoscreenshot)
 						{
@@ -1865,23 +1862,23 @@ namespace CodeImp.Bloodmasters.Client
 				Thread.Sleep(2);
 			}
 		}
-		
+
 		// This renders the background
 		private static void RenderBackground()
 		{
 			// Determine target position
 			Point pos = new Point((int)((float)(Direct3D.DisplayWidth - background.Width) * 0.5f),
 			                      (int)((float)(Direct3D.DisplayHeight - background.Height) * 0.5f));
-			
+
 			// Draw background logo on screen
 			try { Direct3D.d3dd.UpdateSurface(background.surface, Direct3D.backbuffer, pos); }
 			catch(Exception) { }
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Game Loading
-		
+
 		// This loads generic resources
 		private static bool LoadGenericResources()
 		{
@@ -1889,15 +1886,15 @@ namespace CodeImp.Bloodmasters.Client
 			hud.ShowSmallMessage("Loading sounds...", 0);
 			hud.ShowBigMessage("", 0);
 			DoOneFrame(false, true, false);
-			
+
 			// Initialize DirectSound
 			if(!DirectSound.Initialize(gamewindow)) return false;
-			
+
 			// Show loading screen (hud message)
 			hud.ShowSmallMessage("Loading graphics...", 0);
 			hud.ShowBigMessage("", 0);
 			DoOneFrame(false, true, false);
-			
+
 			// Load generic images/textures
 			General.console_edge = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.rar/console.bmp"), false, true);
 			Shadow.texture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.rar/objshadow.tga"), false, true);
@@ -1924,10 +1921,10 @@ namespace CodeImp.Bloodmasters.Client
 			FleshDebris.LoadGibLimps();
 			WallDecal.LoadTextures();
 			FloorDecal.LoadTextures();
-			
+
 			// Load actor animations
 			Actor.LoadAnimations(teamgame);
-			
+
 			// Load animations
 			Animation.Load("sprites/teleport.cfg");
 			Animation.Load("sprites/rocketexplode.cfg");
@@ -1937,14 +1934,14 @@ namespace CodeImp.Bloodmasters.Client
 			Animation.Load("sprites/phoenixflare.cfg");
 			Animation.Load("sprites/phoenixfire.cfg");
 			Animation.Load("sprites/rage.cfg");
-			
+
 			// Light templates for static lights
 			for(int i = 0; i < StaticLight.NUM_LIGHT_TEMPLATES; i++)
 			{
 				// Load light template
 				StaticLight.lightimages[i] = Direct3D.LoadSurfaceResource(ArchiveManager.ExtractFile("general.rar/lightimage" + i.ToString(CultureInfo.InvariantCulture) + ".bmp"), Pool.Default);
 			}
-			
+
 			// Only when using dynamic lights
 			if(DynamicLight.dynamiclights)
 			{
@@ -1955,17 +1952,17 @@ namespace CodeImp.Bloodmasters.Client
 					DynamicLight.lightimages[i] = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.rar/lightimage" + i.ToString(CultureInfo.InvariantCulture) + ".bmp"), true, false);
 				}
 			}
-			
+
 			// Create geometry
 			Sprite.CreateGeometry();
 			WallDecal.CreateGeometry();
 			Shadow.CreateGeometry();
 			Bullet.CreateGeometry();
-			
+
 			// Success
 			return true;
 		}
-		
+
 		// This unloads generic resources
 		private static void UnloadGenericResources()
 		{
@@ -1974,59 +1971,59 @@ namespace CodeImp.Bloodmasters.Client
 			WallDecal.DestroyGeometry();
 			Shadow.DestroyGeometry();
 			Bullet.DestroyGeometry();
-			
+
 			// Clear animations
 			Animation.UnloadAll();
-			
+
 			// Terminate DirectSound
 			DirectSound.Terminate();
 		}
-		
+
 		// This starts the map
 		private static string LoadMap()
 		{
 			NetMessage msg, rep;
 			int waittimeout;
 			bool gotsnapshot = false;
-			
+
 			// Set long connection timeout
 			conn.SetTimeout(LOADING_TIMEOUT);
-			
+
 			// Show loading screen (hud message)
 			hud.ShowSmallMessage("Loading map...", 0);
 			hud.ShowBigMessage(maptitle, 0);
 			DoOneFrame(false, true, false);
-			
+
 			// Make clients array and add myself as client
 			clients = new Client[maxclients];
 			General.localclient = new Client(localclientid, true, TEAM.NONE, playername, true);
 			clients[localclientid] = General.localclient;
-			
+
 			// Load the map
 			try { map = new Map(mapname, false, temppath); }
 			catch(FileNotFoundException) { return "You do not have the map \"" + mapname + "\"."; }
-			
+
 			// Load the arena
 			arena = new Arena();
-			
+
 			// Render a single frame to let all lightmaps initialize
 			DoOneFrame(false, true, false);
-			
+
 			// Show starting screen (hud message)
 			hud.ShowSmallMessage("Waiting for snapshot...", 0);
 			hud.ShowBigMessage("", 0);
 			DoOneFrame(false, true, false);
-			
+
 			// Catch up lag
 			CatchLag();
-			
+
 			// Done loading
 			if(!conn.Disposed)
 			{
 				msg = conn.CreateMessage(MsgCmd.GameStarted, true);
 				msg.Send();
 			}
-			
+
 			// Wait for a snapshot
 			waittimeout = General.GetCurrentTime() + 5000;
 			while((conn != null) && !conn.Disposed && (waittimeout > General.GetCurrentTime()))
@@ -2058,32 +2055,32 @@ namespace CodeImp.Bloodmasters.Client
 					}
 				}
 			}
-			
+
 			// Snapshot received?
 			if(gotsnapshot)
 			{
 				// Hide the windows cursor
 				gamewindow.Cursor = new Cursor(ArchiveManager.ExtractFile("general.rar/cursor_none.cur"));
-				
+
 				// Catch up lag
 				CatchLag();
-				
+
 				// Set normal connection timeout
 				conn.SetTimeout(Connection.DEFAULT_TIMEOUT);
-				
+
 				// Show welcome message
 				if(serverwebsite.Trim() != "")
 					console.AddMessage("Welcome to " + servertitle + "^7.  Visit us at " + serverwebsite);
 				else
 					console.AddMessage("Welcome to " + servertitle + "^7.");
-				
+
 				// Hide loading message
 				hud.HideSmallMessage();
 				hud.HideBigMessage();
-				
+
 				// Show mode message
 				hud.ShowModeMessage();
-				
+
 				// No problems
 				return "";
 			}
@@ -2093,7 +2090,7 @@ namespace CodeImp.Bloodmasters.Client
 				return "Connection to the game server was lost.";
 			}
 		}
-		
+
 		// This unloads the map
 		private static void UnloadMap()
 		{
@@ -2104,15 +2101,15 @@ namespace CodeImp.Bloodmasters.Client
 				clients = null;
 				General.localclient = null;
 			}
-			
+
 			// Unload arena and map
 			if(arena != null) arena.Dispose(); arena = null;
 			if(map != null) map.Dispose(); map = null;
-			
+
 			// Hide the scoreboard
 			if(scoreboard != null) scoreboard.Visible = false;
 		}
-		
+
 		// This processes network messages in the background
 		private static void NetworkProcessor()
 		{
@@ -2124,26 +2121,26 @@ namespace CodeImp.Bloodmasters.Client
 				// and to buffer incoming packets.
 				if(serverrunning) server.gateway.Process();
 				if(clientrunning) gateway.Process();
-				
+
 				// Wait or leave when interrupted
 				try { Thread.Sleep(100); }
 				catch(Exception) { return; }
 			}
 		}
-		
+
 		// This starts the network processor
 		private static void StartNetworkProcessor()
 		{
 			// Stop if any is running
 			StopNetworkProcessor();
-			
+
 			// Start the network processor to answer pings
 			networkproc = new Thread(new ThreadStart(NetworkProcessor));
 			networkproc.Name = "NetworkProcessor";
 			networkproc.Priority = ThreadPriority.AboveNormal;
 			networkproc.Start();
 		}
-		
+
 		// This stops the network processor
 		private static void StopNetworkProcessor()
 		{
@@ -2155,18 +2152,18 @@ namespace CodeImp.Bloodmasters.Client
 				networkproc = null;
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Startup
-		
+
 		// Main program entry
 		// This is where the fun begins
 		[STAThread] private static void Main(string[] args)
 		{
 			// This will keep a thrown exception
 			Exception ex = null;
-			
+
 			// Debugger attached?
 			if(Debugger.IsAttached)
 			{
@@ -2180,7 +2177,7 @@ namespace CodeImp.Bloodmasters.Client
 					// Run within exception handlers
 					_Main(args);
 				}
-				
+
 				// Catch any errors
 				catch(Exception e)
 				{
@@ -2189,7 +2186,7 @@ namespace CodeImp.Bloodmasters.Client
 					{
 						// Make a more descriptive error
 						ex = new OutOfVideoMemoryException("Out of video memory while loading the game. Please choose a lower screen resolution or lower graphics options.", e);
-						
+
 						// Log the error
 						WriteErrorLine(ex);
 						OutputError(ex);
@@ -2203,19 +2200,19 @@ namespace CodeImp.Bloodmasters.Client
 					}
 				}
 			}
-			
+
 			// Terminate game
 			Terminate();
-			
+
 			// End of program
 			Exit();
 		}
-		
+
 		// This load the application
 		private static void _Main(string[] args)
 		{
 			string deviceerror = null;
-			
+
 			// No arguments give nat all?
 			if(args.Length == 0)
 			{
@@ -2225,94 +2222,105 @@ namespace CodeImp.Bloodmasters.Client
 				catch(Exception) { }
 				return;
 			}
-			
+
 			// Initialize
 			if(Initialize())
 			{
-				// Load configuration
-				if(LoadConfiguration())
-				{
-					// Parse command line arguments
-					if(ApplyCmdConfiguration(args))
-					{
-						// Select adapter
-						Direct3D.SelectAdapter(General.config.ReadSetting("displaydriver", 0));
-						
-						// Validate adapter and, if not valid, select a valid adapter
-						deviceerror = Direct3D.SelectValidAdapter();
-						if(deviceerror == null)
-						{
-							// Get the command-line instructions
-							string joinaddr = config.ReadSetting("join", "");
-							string hostfile = config.ReadSetting("host", "");
-							string dedfile = config.ReadSetting("dedicated", "");
-							
-							// Join a game?
-							if(joinaddr != "")
-							{
-								// Joining
-								clientrunning = true;
-								serverrunning = false;
-								
-								// Set address and port
-								string[] addrparts = joinaddr.Split(':');
-								serveraddress = addrparts[0];
-								serverport = int.Parse(addrparts[1]);
-								
-								// Set password
-								serverpassword = config.ReadSetting("password", "");
-							}
-							// Hosting a game?
-							else if(hostfile != "")
-							{
-								// Hosting
-								clientrunning = true;
-								serverrunning = true;
-								
-								// Correct path if needed
-								if(!File.Exists(hostfile)) hostfile = Path.Combine(apppath, hostfile);
-								
-								// Load server configuration
-								Configuration scfg = new Configuration(true);
-								scfg.LoadConfiguration(hostfile, true);
-								serverconfig = scfg.OutputConfiguration("", false);
-								
-								// Set address and port
-								serveraddress = "127.0.0.1";
-								serverport = scfg.ReadSetting("port", 6969);
-								
-								// Set password
-								serverpassword = scfg.ReadSetting("password", "");
-							}
-							// Hosting dedicated?
-							else if(dedfile != "")
-							{
-								// Hosting dedicated
-								clientrunning = false;
-								serverrunning = true;
-								
-								// Correct path if needed
-								if(!File.Exists(dedfile)) hostfile = Path.Combine(apppath, dedfile);
-								
-								// Load server configuration
-								Configuration scfg = new Configuration(true);
-								scfg.LoadConfiguration(dedfile, true);
-								serverconfig = scfg.OutputConfiguration("", false);
-							}
-							
-							// Start the game!
-							StartGame();
-						}
-						else
-						{
-							// No valid adapter exists
-							MessageBox.Show(null, "You do not have a valid video device that meets the requirements for this game.\nProblem description: " + deviceerror + "\n\nPlease ensure you have the latest video drivers for your video card (see manufacturer website) and that Microsoft DirectX 9 is properly installed.", "Bloodmasters", MessageBoxButtons.OK, MessageBoxIcon.Error);
-						}
-					}
-				}
-			}
+                try
+                {
+                    // Load configuration
+                    if (LoadConfiguration())
+                    {
+                        // Parse command line arguments
+                        if (ApplyCmdConfiguration(args))
+                        {
+                            // Select adapter
+                            Direct3D.SelectAdapter(General.config.ReadSetting("displaydriver", 0));
+
+                            // Validate adapter and, if not valid, select a valid adapter
+                            deviceerror = Direct3D.SelectValidAdapter();
+                            if (deviceerror == null)
+                            {
+                                // Get the command-line instructions
+                                string joinaddr = config.ReadSetting("join", "");
+                                string hostfile = config.ReadSetting("host", "");
+                                string dedfile = config.ReadSetting("dedicated", "");
+
+                                // Join a game?
+                                if (joinaddr != "")
+                                {
+                                    // Joining
+                                    clientrunning = true;
+                                    serverrunning = false;
+
+                                    // Set address and port
+                                    string[] addrparts = joinaddr.Split(':');
+                                    serveraddress = addrparts[0];
+                                    serverport = int.Parse(addrparts[1]);
+
+                                    // Set password
+                                    serverpassword = config.ReadSetting("password", "");
+                                }
+                                // Hosting a game?
+                                else if (hostfile != "")
+                                {
+                                    // Hosting
+                                    clientrunning = true;
+                                    serverrunning = true;
+
+                                    // Correct path if needed
+                                    if (!File.Exists(hostfile)) hostfile = Path.Combine(apppath, hostfile);
+
+                                    // Load server configuration
+                                    Configuration scfg = new Configuration(true);
+                                    scfg.LoadConfiguration(hostfile, true);
+                                    serverconfig = scfg.OutputConfiguration("", false);
+
+                                    // Set address and port
+                                    serveraddress = "127.0.0.1";
+                                    serverport = scfg.ReadSetting("port", 6969);
+
+                                    // Set password
+                                    serverpassword = scfg.ReadSetting("password", "");
+                                }
+                                // Hosting dedicated?
+                                else if (dedfile != "")
+                                {
+                                    // Hosting dedicated
+                                    clientrunning = false;
+                                    serverrunning = true;
+
+                                    // Correct path if needed
+                                    if (!File.Exists(dedfile)) hostfile = Path.Combine(apppath, dedfile);
+
+                                    // Load server configuration
+                                    Configuration scfg = new Configuration(true);
+                                    scfg.LoadConfiguration(dedfile, true);
+                                    serverconfig = scfg.OutputConfiguration("", false);
+                                }
+
+                                // Start the game!
+                                StartGame();
+                            }
+                            else
+                            {
+                                // No valid adapter exists
+                                MessageBox.Show(null,
+                                    "You do not have a valid video device that meets the requirements for this game.\nProblem description: " +
+                                    deviceerror +
+                                    "\n\nPlease ensure you have the latest video drivers for your video card (see manufacturer website) and that Microsoft DirectX 9 is properly installed.",
+                                    "Bloodmasters", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                }
+                finally
+                {
+                    Direct3D.DeinitDirectX();
+                }
+            }
 		}
-		
+
 		// This launches the game
 		private static void StartGame()
 		{
@@ -2321,24 +2329,24 @@ namespace CodeImp.Bloodmasters.Client
 			clients = null;
 			string reason;
 			connecting = true;
-			
+
 			// Initialize for client?
 			if(clientrunning)
 			{
 				// Load game window
 				gamewindow = new FormGame(Direct3D.DisplayWindowed);
-				
+
 				// Initialize Direct3D
 				if(!Direct3D.Initialize(gamewindow)) return;
-				
+
 				// Setup defaults and load standard components
 				if(!LoadStandardComponents()) return;
 			}
-			
+
 			// Discard events
 			if(clientrunning) gamewindow.Update();
 			Application.DoEvents();
-			
+
 			// Start server?
 			if(serverrunning)
 			{
@@ -2357,12 +2365,12 @@ namespace CodeImp.Bloodmasters.Client
 					hud.ShowBigMessage("", 0);
 					DoOneFrame(false, true, false);
 				}
-				
+
 				// Create the server
 				server = new GameServer();
 				server.Initialize(serverconfig);
 			}
-			
+
 			// Initialize for client?
 			if(clientrunning)
 			{
@@ -2370,7 +2378,7 @@ namespace CodeImp.Bloodmasters.Client
 				hud.ShowSmallMessage("Connecting to game server...", 0);
 				hud.ShowBigMessage(serveraddress + ":" + serverport, 0);
 				DoOneFrame(false, true, false);
-				
+
 				// Connect to server
 				int connectid = General.Connect(out reason);
 				if(connectid == 0)
@@ -2390,23 +2398,23 @@ namespace CodeImp.Bloodmasters.Client
 						return;
 					}
 				}
-				
+
 				// Done conneccting
 				connecting = false;
-				
+
 				// Start network processor
 				// This will answer pings while game is being loaded
 				StartNetworkProcessor();
-				
+
 				// Load generic resources
 				if(!LoadGenericResources()) return;
-				
+
 				// Connected, now load the map
 				reason = LoadMap();
-				
+
 				// Stop network processor
 				StopNetworkProcessor();
-				
+
 				// Check game loading result
 				if(reason != "")
 				{
@@ -2414,10 +2422,10 @@ namespace CodeImp.Bloodmasters.Client
 					return;
 				}
 			}
-			
+
 			// Run the general loop
 			GeneralLoop();
-			
+
 			// Check game result
 			if(disconnectreason != "")
 			{
@@ -2425,22 +2433,22 @@ namespace CodeImp.Bloodmasters.Client
 				return;
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Misc Functions
-		
+
 		// This returns the time in milliseconds
 		public static int GetCurrentTime()
 		{
 			long timecount = 0;
-			
+
 			// High resolution clock available?
 			if(timefrequency != -1)
 			{
 				// Get the high resolution count
 				QueryPerformanceCounter(ref timecount);
-				
+
 				// Calculate high resolution time in milliseconds
 				//return (int)(((double)timecount / (double)timefrequency) * 1000d);
 				return (int)((double)timecount * timescale);
@@ -2451,7 +2459,7 @@ namespace CodeImp.Bloodmasters.Client
 				return Environment.TickCount;
 			}
 		}
-		
+
 		// This gets a description for a game type
 		public static string GameTypeDescription(GAMETYPE g)
 		{
@@ -2466,7 +2474,7 @@ namespace CodeImp.Bloodmasters.Client
 				default: return "Unknown";
 			}
 		}
-		
+
 		// This returns a color for the given team number
 		public static int TeamColor(TEAM t, float a)
 		{
@@ -2478,34 +2486,34 @@ namespace CodeImp.Bloodmasters.Client
 				default: return 0;
 			}
 		}
-		
+
 		// This returns the next power of 2
 		public static int NextPowerOf2(int v)
 		{
 			int p = 0;
-			
+
 			// Continue increasing until higher than v
 			while(Math.Pow(2, p) < v) p++;
-			
+
 			// Return power
-			return (int)Math.Pow(2, p); 
+			return (int)Math.Pow(2, p);
 		}
-		
+
 		// This trims the last color code from a string
 		public static string TrimColorCodes(string str)
 		{
 			// Remove all color code signs from the end of the string
 			return str.TrimEnd(Consts.COLOR_CODE_SIGN.ToCharArray());
 		}
-		
+
 		// This strips color codes from a string
 		public static string StripColorCodes(string str)
 		{
 			StringBuilder result = new StringBuilder(str.Length);
-			
+
 			// Split the string by color code
 			string[] pieces = str.Split(Consts.COLOR_CODE_SIGN.ToCharArray());
-			
+
 			// Go for all pieces and append them
 			result.Append(pieces[0]);
 			for(int i = 1; i < pieces.Length; i++)
@@ -2517,50 +2525,50 @@ namespace CodeImp.Bloodmasters.Client
 					result.Append(pieces[i].Substring(1));
 				}
 			}
-			
+
 			// Return final string
 			return result.ToString();
 		}
-		
+
 		// This creates a string of random ASCII chars
 		public static string RandomString(int len)
 		{
 			string result = "";
-			
+
 			// ASCII chars to use
 			const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
-			
+
 			// Make string
 			for(int i = 0; i < len; i++)
 			{
 				result += chars[random.Next(chars.Length)];
 			}
-			
+
 			// Returrn result
 			return result;
 		}
-		
+
 		// Make a random color
 		public static int RandomColor()
 		{
 			return Color.FromArgb((int)(random.NextDouble() * 255f), (int)(random.NextDouble() * 255f), (int)(random.NextDouble() * 255f)).ToArgb();
 		}
-		
+
 		// Make a color from RGB
 		public static int RGB(int r, int g, int b) { return Color.FromArgb(r, g, b).ToArgb(); }
-		
+
 		// Make a color from RGB
 		public static int RGB(float r, float g, float b)
 		{
 			return Color.FromArgb((int)(r * 255f), (int)(g * 255f), (int)(b * 255f)).ToArgb();
 		}
-		
+
 		// Make a color from ARGB
 		public static int ARGB(float a, float r, float g, float b)
 		{
 			return Color.FromArgb((int)(a * 255f), (int)(r * 255f), (int)(g * 255f), (int)(b * 255f)).ToArgb();
 		}
-		
+
 		#endregion
 	}
 }

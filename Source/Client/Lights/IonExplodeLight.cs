@@ -5,12 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using CodeImp.Bloodmasters.Client.Graphics;
 
 namespace CodeImp.Bloodmasters.Client
 {

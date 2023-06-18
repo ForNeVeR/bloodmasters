@@ -10,14 +10,9 @@
 // function from the Direct3D class to create a text resource
 // of this type.
 
-using System;
-using System.Text;
-using System.Collections;
 using System.Drawing;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using System.Text;
+using CodeImp.Bloodmasters.Client.Graphics;
 
 namespace CodeImp.Bloodmasters.Client
 {

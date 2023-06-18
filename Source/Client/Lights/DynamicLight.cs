@@ -6,13 +6,8 @@
 \********************************************************************/
 
 using System;
-using System.IO;
-using System.Drawing;
 using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using CodeImp.Bloodmasters.Client.Graphics;
 
 namespace CodeImp.Bloodmasters.Client
 {
