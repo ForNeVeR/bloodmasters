@@ -8,7 +8,8 @@
 using System;
 using System.Numerics;
 using CodeImp.Bloodmasters.Client.Graphics;
-using Vortice.Direct3D9;
+using SharpDX;
+using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -40,10 +41,10 @@ namespace CodeImp.Bloodmasters.Client
 		private TextureResource texture;
 
 		// Geometry
-		private IDirect3DVertexBuffer9 vertices = null;
+		private VertexBuffer vertices = null;
 		private Matrix4x4 decalmatrix;
-		private Matrix4x4 lightmapmatrix;
-		private Matrix4x4 dynlightmapoffsets;
+		private Matrix lightmapmatrix;
+		private Matrix dynlightmapoffsets;
 		private float angle;
 		private float origx, origy;
 
@@ -216,15 +217,15 @@ namespace CodeImp.Bloodmasters.Client
 			// Create lightmap matrix
 			float lx = sector.LightmapScaledX(origx);
 			float ly = sector.LightmapScaledY(origy);
-			lightmapmatrix = Matrix4x4.Identity;
-			lightmapmatrix *= Matrix4x4.CreateScale(sector.LightmapScaleX * w * 0.7f,
+			lightmapmatrix = Matrix.Identity;
+			lightmapmatrix *= Matrix.Scaling(sector.LightmapScaleX * w * 0.7f,
 											 sector.LightmapScaleY * h * 0.7f, 1f);
 			lightmapmatrix *= Direct3D.MatrixTranslateTx(lx, ly);
 
 			// Make dynamic lightmap matrix
-			dynlightmapoffsets = Matrix4x4.Identity;
-			dynlightmapoffsets *= Matrix4x4.CreateScale(w, h, 1f);
-			dynlightmapoffsets *= Matrix4x4.CreateRotationZ(angle);
+			dynlightmapoffsets = Matrix.Identity;
+			dynlightmapoffsets *= Matrix.Scaling(w, h, 1f);
+			dynlightmapoffsets *= Matrix.RotationZ(angle);
 			dynlightmapoffsets *= Direct3D.MatrixTranslateTx(x, y);
 		}
 

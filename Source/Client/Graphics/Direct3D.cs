@@ -17,7 +17,11 @@ using System.IO;
 using System.Numerics;
 using System.Windows.Forms;
 using CodeImp.Bloodmasters.Client.Graphics;
-using Vortice.Direct3D9;
+using SharpDX;
+using SharpDX.Direct3D9;
+using SharpDX.Mathematics.Interop;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -33,14 +37,12 @@ namespace CodeImp.Bloodmasters.Client
 
 		#region ================== Variables
 
-        private static IDirect3D9Ex _direct3D9Ex;
-
 		// Devices
-		public static IDirect3DDevice9 d3dd;
-		public static IDirect3DSurface9 backbuffer;
-		public static IDirect3DSurface9 depthbuffer;
+		public static Device d3dd;
+		public static Surface backbuffer;
+		public static Surface depthbuffer;
 		private static Form rendertarget;
-		private static int adapterIndex;
+		private static AdapterInformation adapter;
 
 		// Current settings
 		private static DisplayMode displaymode;
@@ -51,7 +53,7 @@ namespace CodeImp.Bloodmasters.Client
 		private static Format lightmapformat;
 		private static int displaygamma;
 		public static bool hightextures;
-		private static Viewport displayviewport;
+		private static RawViewportF displayviewport;
 		private static Rectangle screencliprect;
 
 		// Resources
@@ -61,24 +63,24 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Stateblocks
 		private static DRAWMODE lastdrawmode = DRAWMODE.UNDEFINED;
-		private static IDirect3DStateBlock9 sb_tlmodalpha;		// Used for TnL alpha blending with texture and argument
-		private static IDirect3DStateBlock9 sb_nalpha;			// Used for standard alpha blending
-		private static IDirect3DStateBlock9 sb_nadditivealpha;	// Used for additive alpha blending
-		private static IDirect3DStateBlock9 sb_nlightmap;			// Used for rendering with a lightmap
-		private static IDirect3DStateBlock9 sb_nlightmapalpha;	// Used for rendering objects
-		private static IDirect3DStateBlock9 sb_tllightblend;		// Used for lightmap blending
-		private static IDirect3DStateBlock9 sb_tllightdraw;		// Used for lightmap building
-		private static IDirect3DStateBlock9 sb_nlines;			// Used for rendering lines
-		private static IDirect3DStateBlock9 sb_pnormal;			// Used for normal particles
-		private static IDirect3DStateBlock9 sb_padditive;			// Used for additive particles
-		private static IDirect3DStateBlock9 sb_nlightblend;		// Used for lightmap blending
+		private static StateBlock sb_tlmodalpha;		// Used for TnL alpha blending with texture and argument
+		private static StateBlock sb_nalpha;			// Used for standard alpha blending
+		private static StateBlock sb_nadditivealpha;	// Used for additive alpha blending
+		private static StateBlock sb_nlightmap;			// Used for rendering with a lightmap
+		private static StateBlock sb_nlightmapalpha;	// Used for rendering objects
+		private static StateBlock sb_tllightblend;		// Used for lightmap blending
+		private static StateBlock sb_tllightdraw;		// Used for lightmap building
+		private static StateBlock sb_nlines;			// Used for rendering lines
+		private static StateBlock sb_pnormal;			// Used for normal particles
+		private static StateBlock sb_padditive;			// Used for additive particles
+		private static StateBlock sb_nlightblend;		// Used for lightmap blending
 
 		#endregion
 
 		#region ================== Properties
 
 		// Display mode settings
-		public static int DisplayAdapter { get { return adapterIndex; } }
+		public static int DisplayAdapter { get { return adapter.Adapter; } }
 		public static int DisplayWidth { get { return displaymode.Width; } set { displaymode.Width = value; } }
 		public static int DisplayHeight { get { return displaymode.Height; } set { displaymode.Height = value; } }
 		public static int DisplayFormat { get { return (int)displaymode.Format; } set { displaymode.Format = (Format)value; } }
@@ -89,7 +91,7 @@ namespace CodeImp.Bloodmasters.Client
 		public static int DisplayGamma { get { return displaygamma; } set { displaygamma = value; } }
 		public static DisplayMode DisplayMode { get { return displaymode; } set { displaymode = value; } }
 		public static Format LightmapFormat { get { return lightmapformat; } }
-		public static Viewport DisplayViewport { get { return displayviewport; } }
+		public static RawViewportF DisplayViewport { get { return displayviewport; } }
 		public static Rectangle ScreenClipRectangle { get { return screencliprect; } }
 
 		#endregion
@@ -105,37 +107,35 @@ namespace CodeImp.Bloodmasters.Client
 			string result = null;
 
             // Check if the NVPerfHud adapter exists
-            for (var i = 0; i < _direct3D9Ex.AdapterCount; ++i)
+            foreach(AdapterInformation a in d3dd.Direct3D.Adapters)
             {
-                var a = _direct3D9Ex.GetAdapterIdentifier(i);
-
                 // Is this the NVPerfHud adapter?
-                if(string.Compare(a.Description, NVPERFHUD_ADAPTER, StringComparison.OrdinalIgnoreCase) == 0)
+                if(string.Compare(a.Details.Description, NVPERFHUD_ADAPTER, StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     // Select this adapter
-                    adapterIndex = i;
+                    adapter = a;
                     return null;
                 }
             }
 
 			// Check if the current adapter is invalid
-            if(ValidateDevice(adapterIndex) != null)
+            if(ValidateDevice(adapter.Adapter) != null)
             {
                 // Go for all adapters to find a valid adapter
-                for (var a = 0; a < _direct3D9Ex.AdapterCount; ++a)
+                foreach(AdapterInformation a in d3dd.Direct3D.Adapters)
                 {
                     // Select adapter if valid
-                    error = ValidateDevice(a);
+                    error = ValidateDevice(a.Adapter);
                     if(error == null)
                     {
                         // Valid one found
-                        adapterIndex = a;
+                        adapter = a;
                         return null;
                     }
                     else
                     {
                         // If this is the default adapter
-                        if(a == 0)
+                        if(a.Adapter == 0)
                         {
                             // return this error as result
                             result = error;
@@ -188,19 +188,19 @@ namespace CodeImp.Bloodmasters.Client
         public static void SelectAdapter(int index)
         {
             // Check if there is such an adapter
-            if(index < _direct3D9Ex.AdapterCount)
+            if(index < d3dd.Direct3D.AdapterCount)
             {
                 // Select this adapter
-                adapterIndex = index;
+                adapter = d3dd.Direct3D.Adapters[index];
             }
             else
             {
                 // Select the default adapter
-                adapterIndex = 0;
+                adapter = d3dd.Direct3D.Adapters[0];
             }
 
             // Write setting to configuration
-            General.config.WriteSetting("displaydriver", adapterIndex);
+            General.config.WriteSetting("displaydriver", adapter);
         }
 
         // This returns a specific display mode
@@ -209,7 +209,7 @@ namespace CodeImp.Bloodmasters.Client
             int counter = 0;
 
             // Enumerate all display modes
-            foreach(DisplayMode d in GetAdapterDisplayModes(adapterIndex))
+            foreach(DisplayMode d in GetAdapterDisplayModes(adapter))
             {
                 // Return settings if this the mode to use
                 if(index == counter) return d;
@@ -230,10 +230,10 @@ namespace CodeImp.Bloodmasters.Client
 		{
 			// In case windowed is true, the display format
 			// must be set to the current format
-            if(windowed) mode.Format = _direct3D9Ex.GetAdapterDisplayMode(adapterIndex).Format;
+            if(windowed) mode.Format = adapter.CurrentDisplayMode.Format;
 
 			// Go for all display modes to find the one specified
-            var allmodes = GetAdapterDisplayModes(adapterIndex);
+            var allmodes = GetAdapterDisplayModes(adapter);
 			foreach(DisplayMode dm in allmodes)
 			{
 				// Check if this is the same mode
@@ -255,7 +255,7 @@ namespace CodeImp.Bloodmasters.Client
 			// If the exact mode could not be found,
 			// try searching again, but disregard the refreshrate.
 			// Go for all display modes to find a matching mode
-            allmodes = GetAdapterDisplayModes(adapterIndex);
+            allmodes = GetAdapterDisplayModes(adapter);
 			foreach(DisplayMode dm in allmodes)
 			{
 				// Check if this is the same mode
@@ -276,7 +276,7 @@ namespace CodeImp.Bloodmasters.Client
 			// If the mode can still not be found,
 			// try searching again, but disregard refreshrate and format.
 			// Go for all display modes to find a matching mode
-            allmodes = GetAdapterDisplayModes(adapterIndex);
+            allmodes = GetAdapterDisplayModes(adapter);
 			foreach(DisplayMode dm in allmodes)
 			{
 				// Check if this is the same mode
@@ -296,7 +296,7 @@ namespace CodeImp.Bloodmasters.Client
 			// Still no matching display mode found?
 			// Then just pick the first valid one.
 			// Go for all display modes to find the first valid mode
-            allmodes = GetAdapterDisplayModes(adapterIndex);
+            allmodes = GetAdapterDisplayModes(adapter);
 			foreach(DisplayMode dm in allmodes)
 			{
 				// Check if this format is supported
@@ -319,20 +319,21 @@ namespace CodeImp.Bloodmasters.Client
             // The resolution must be at least 640x480
             if((mode.Width < 640) || (mode.Height < 480)) return false;
 
+            var direct3d = d3dd.Direct3D;
             // Test if the display format is supported by the device
-            var result = _direct3D9Ex.CheckDeviceType(adapterIndex, DeviceType.Hardware,
+            var result = direct3d.CheckDeviceType(adapter.Adapter, DeviceType.Hardware,
                 mode.Format, mode.Format, windowed);
-            if(result != 0) return false;
+            if(!result) return false;
 
             // Test if we can create surfaces of display format
-            result = _direct3D9Ex.CheckDeviceFormat(adapterIndex, DeviceType.Hardware, mode.Format,
+            result = direct3d.CheckDeviceFormat(adapter.Adapter, DeviceType.Hardware, mode.Format,
                 0, ResourceType.Surface, mode.Format);
-            if(result != 0) return false;
+            if(!result) return false;
 
             // Test if we can create rendertarget textures of display format
-            result = _direct3D9Ex.CheckDeviceFormat(adapterIndex, DeviceType.Hardware, mode.Format,
+            result = direct3d.CheckDeviceFormat(adapter.Adapter, DeviceType.Hardware, mode.Format,
                 (int)Usage.RenderTarget, ResourceType.Texture, mode.Format);
-            if(result != 0) return false;
+            if(!result) return false;
 
             // Everything seems to be supported
             return true;
@@ -391,7 +392,7 @@ namespace CodeImp.Bloodmasters.Client
 		private static void ChooseLightmapFormat()
 		{
 			// Rendertarget textures of X8R8G8B8 format?
-            var result = _direct3D9Ex.CheckDeviceFormat(adapterIndex, DeviceType.Hardware, displaymode.Format,
+            var result = _direct3D9Ex.CheckDeviceFormat(adapter, DeviceType.Hardware, displaymode.Format,
 						(int)Usage.RenderTarget, ResourceType.Texture, Format.X8R8G8B8);
 			if(result == 0)
 			{
@@ -453,7 +454,7 @@ namespace CodeImp.Bloodmasters.Client
         {
             // Initialize variables
             _direct3D9Ex = D3D9.Direct3DCreate9Ex();
-            adapterIndex = 0;
+            adapter = 0;
             displaymode = new DisplayMode();
         }
 
@@ -1548,7 +1549,7 @@ namespace CodeImp.Bloodmasters.Client
 				else
 				{
 					// Load texture file
-					t =  TextureLoader.FromFile(d3dd, Path.Combine(General.apppath, filename), width, height, mipmaplevels, Usage.None, Format.Unknown,
+					t =  Texture.FromFile(d3dd, Path.Combine(General.apppath, filename), width, height, mipmaplevels, Usage.None, Format.Unknown,
 												Pool.Managed, Filter.Linear | Filter.MirrorU | Filter.MirrorV | Filter.Dither,
 												Filter.Triangle, 0, ref i);
 
@@ -1728,15 +1729,16 @@ namespace CodeImp.Bloodmasters.Client
 
 		#region ================== Tools
 
-        private static List<DisplayMode> GetAdapterDisplayModes(int adapter)
+        private static List<DisplayMode> GetAdapterDisplayModes(AdapterInformation a)
         {
+            var direct3d = d3dd.Direct3D;
             var displayModes = new List<DisplayMode>();
             foreach (var format in Enum.GetValues<Format>())
             {
-                var count = _direct3D9Ex.GetAdapterModeCount(adapter, format);
+                var count = direct3d.GetAdapterModeCount(a.Adapter, format);
                 for (var i = 0; i < count; ++i)
                 {
-                    var mode = _direct3D9Ex.EnumAdapterModes(adapter, format, i);
+                    var mode = direct3d.EnumAdapterModes(adapter.Adapter, format, i);
                     displayModes.Add(mode);
                 }
             }
@@ -1779,9 +1781,9 @@ namespace CodeImp.Bloodmasters.Client
 		}
 
 		// This creates a translation matrix for 2D texture coordinates
-		public static Matrix4x4 MatrixTranslateTx(float x, float y)
+		public static Matrix MatrixTranslateTx(float x, float y)
 		{
-			var m = Matrix4x4.Identity;
+			var m = Matrix.Identity;
 			m.M31 = x;
 			m.M32 = y;
 			return m;

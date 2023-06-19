@@ -9,8 +9,6 @@ using System;
 using System.Drawing;
 using System.Globalization;
 using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
 using CodeImp.Bloodmasters;
 using CodeImp;
 
@@ -19,48 +17,48 @@ namespace CodeImp.Bloodmasters.Client
 	public class FleshDebris : Debris
 	{
 		#region ================== Constants
-		
+
 		private const float FLOOR_DECELERATION = 0.9f;
 		private const int SOUND_VARIATIONS = 4;
 		private const int PARTICLE_MIN_TIME = 50;
 		private const int PARTICLE_RANDOM_TIME = 200;
 		public const int GIB_LIMBS = 8;
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		// Debris texture
 		public static TextureResource[] textures = new TextureResource[GIB_LIMBS];
-		
+
 		// Particles
 		private int particletime = 0;
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Disposer
-		
+
 		// Constructor
 		public FleshDebris(Vector3D pos, Vector3D vel, int limpindex) : base(pos, vel)
 		{
 			// Set the texture
 			SetTexture(textures[limpindex].texture);
-			
+
 			// Next particle time
 			particletime = General.currenttime + General.random.Next(PARTICLE_RANDOM_TIME);
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Methods
-		
+
 		// This returns a random flesh gib number
 		public static int RandomFlesh()
 		{
 			// First 3 are leg, arm and head
 			return General.random.Next(FleshDebris.GIB_LIMBS - 3) + 3;
 		}
-		
+
 		// This loads all limb
 		public static void LoadGibLimps()
 		{
@@ -71,7 +69,7 @@ namespace CodeImp.Bloodmasters.Client
 				textures[i-1] = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/limb" + i.ToString(CultureInfo.InvariantCulture) + "_0_0001.tga"), true);
 			}
 		}
-		
+
 		// This makes a random sound
 		private void MakeCollideSound()
 		{
@@ -83,7 +81,7 @@ namespace CodeImp.Bloodmasters.Client
 				DirectSound.PlaySound("bloodsplat" + var.ToString(CultureInfo.InvariantCulture) + ".wav", pos);
 			}
 		}
-		
+
 		// This spawns a bunch of particles
 		private void SplashParticles()
 		{
@@ -94,13 +92,13 @@ namespace CodeImp.Bloodmasters.Client
 				General.arena.p_blood.Add(pos + new Vector3D(0f, 0f, 0.1f), Vector3D.Random(General.random, 0.06f, 0.06f, 0.3f), General.ARGB(1f, 0.8f, 0f, 0f));
 			}
 		}
-		
+
 		// When being processed
 		public override void Process()
 		{
 			// Process base
 			base.Process();
-			
+
 			// Not disposed?
 			if(!Disposed)
 			{
@@ -110,7 +108,7 @@ namespace CodeImp.Bloodmasters.Client
 					// Spawn particle
 					Vector3D particlevel = vel * 0.5f + Vector3D.Random(General.random, 0.02f, 0.02f, 0f);
 					General.arena.p_blood.Add(pos, particlevel, General.ARGB(1f, 0.8f, 0f, 0f));
-					
+
 					// Extend time
 					particletime += PARTICLE_MIN_TIME + General.random.Next(PARTICLE_RANDOM_TIME);
 				}
@@ -123,7 +121,7 @@ namespace CodeImp.Bloodmasters.Client
 			Sidedef sd;
 			Sector s;
 			bool onfloor;
-			
+
 			// Colliding with a wall?
 			if(hitobj is Sidedef)
 			{
@@ -133,20 +131,20 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Get the sidedef
 					sd = (Sidedef)hitobj;
-					
+
 					// Particle splash
 					if(sector.VisualSector.InScreen) SplashParticles();
-					
+
 					// Stop all movement
 					vel = new Vector3D(0f, 0f, 0f);
 					this.collisions = false;
-					
+
 					// Stop rotating
 					this.StopRotating();
-					
+
 					// Bloodsplat!
 					if(sector.VisualSector.InScreen) MakeCollideSound();
-					
+
 					// Spawn wall blood here
 					WallDecal.Spawn(pos.x, pos.y, pos.z, 3f, WallDecal.blooddecals, false);
 				}
@@ -161,7 +159,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Get the sector
 				s = (Sector)hitobj;
-				
+
 				// Hitting the floor?
 				if(s.CurrentFloor > (pos.z - 1f))
 				{
@@ -192,7 +190,7 @@ namespace CodeImp.Bloodmasters.Client
 							pos.z = s.CurrentFloor;
 							onfloor = true;
 						}
-						
+
 						// Falling on floor in liquid sector?
 						if((SECTORMATERIAL)sector.Material == SECTORMATERIAL.LIQUID)
 						{
@@ -201,18 +199,18 @@ namespace CodeImp.Bloodmasters.Client
 							{
 								// Make splash sound
 								DirectSound.PlaySound("dropwater.wav", pos, 0.5f);
-								
+
 								// Determine type of splash to make
 								switch(sector.LiquidType)
 								{
 									case LIQUID.WATER: FloodedSector.SpawnWaterParticles(pos, new Vector3D(0f, 0f, 0.5f), 10); break;
 									case LIQUID.LAVA: FloodedSector.SpawnLavaParticles(pos, new Vector3D(0f, 0f, 0.5f), 10); break;
 								}
-								
+
 								// Also splash blood
 								SplashParticles();
 							}
-							
+
 							// Dispose debris
 							this.Dispose();
 						}
@@ -223,29 +221,29 @@ namespace CodeImp.Bloodmasters.Client
 							{
 								// Particle splash
 								if(sector.VisualSector.InScreen) SplashParticles();
-								
+
 								// Bloodsplat!
 								if(sector.VisualSector.InScreen) MakeCollideSound();
 								if(onfloor) FloorDecal.Spawn(s, pos.x, pos.y, FloorDecal.blooddecals, false, false, true);
-								
+
 								// Fade out
 								this.FadeOut();
 							}
-							
+
 							// Stop here
 							this.StopRotating();
-							
+
 							// Stop Z movement and decelerate
 							vel = new Vector3D(vel.x * FLOOR_DECELERATION,
 												vel.y * FLOOR_DECELERATION, 0f);
-							
+
 							// Done moving?
 							if((Math.Abs(vel.x) < 0.001f) &&
 							(Math.Abs(vel.y) < 0.001f))
 							{
 								// Bloodsplat!
 								if(onfloor) FloorDecal.Spawn(s, pos.x, pos.y, FloorDecal.blooddecals, false, true, false);
-								
+
 								// Stopped
 								this.StopMoving();
 							}
@@ -276,7 +274,7 @@ namespace CodeImp.Bloodmasters.Client
 				this.Dispose();
 			}
 		}
-		
+
 		#endregion
 	}
 }

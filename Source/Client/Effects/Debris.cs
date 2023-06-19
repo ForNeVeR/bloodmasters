@@ -7,7 +7,9 @@
 
 using System;
 using System.Numerics;
-using Vortice.Direct3D9;
+using SharpDX;
+using SharpDX.Direct3D9;
+using SharpDX.Mathematics.Interop;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -40,7 +42,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Appearance
 		private Sprite sprite = null;
-		private IDirect3DTexture9 texture = null;
+		private Texture texture = null;
 		private float size = 3.5f;
 		private float fade = 1f;
 		private float size_floor = 0f;
@@ -48,7 +50,7 @@ namespace CodeImp.Bloodmasters.Client
 		private int changedir;
 		private int direction;
 		private int nextdirtime;
-		private Matrix4x4 texdirmatrix;
+		private RawMatrix texdirmatrix;
 		private int fadeouttime = int.MaxValue;
 		private bool foudeoutset = false;
 		protected bool collisions = true;
@@ -120,7 +122,7 @@ namespace CodeImp.Bloodmasters.Client
 		}
 
 		// This sets a texture
-		protected void SetTexture(IDirect3DTexture9 t)
+		protected void SetTexture(Texture t)
 		{
 			// Apply texture
 			texture = t;
@@ -261,17 +263,17 @@ namespace CodeImp.Bloodmasters.Client
 		}
 
 		// This makes a texture matrix for a given direction number
-		private Matrix4x4 DirectionCellMatrix(int dirnumber)
+		private Matrix DirectionCellMatrix(int dirnumber)
 		{
-            Matrix4x4 cell;
+            Matrix cell;
 
 			// Determine cell x and y
 			float cellx = dirnumber % 4;
 			float celly = dirnumber / 4;
 
 			// Make the matrix for the cell
-			cell = Matrix4x4.Identity;
-			cell *= Matrix4x4.CreateScale(0.25f, 0.25f, 1f);
+			cell = Matrix.Identity;
+			cell *= Matrix.Scaling(0.25f, 0.25f, 1f);
 			cell *= Direct3D.MatrixTranslateTx(cellx * 0.25f, celly * 0.25f);
 
 			// Return result
@@ -310,12 +312,12 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Set render mode
 					Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
-					Direct3D.d3dd.RenderState.TextureFactor = General.ARGB(fade, 1f, 1f, 1f);
+					Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(fade, 1f, 1f, 1f));
 
 					// Set texture
 					Direct3D.d3dd.SetTexture(0, texture);
 					Direct3D.d3dd.SetTexture(1, sector.VisualSector.Lightmap);
-					Direct3D.d3dd.Transform.Texture0 = texdirmatrix;
+					Direct3D.d3dd.SetTransform(TransformState.Texture0, texdirmatrix);
 
 					// Render the sprite
 					sprite.Render();

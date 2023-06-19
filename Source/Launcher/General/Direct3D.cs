@@ -13,6 +13,7 @@ using Vortice.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Launcher
 {
+    // TODO: Migrate this to Vortice!
 	internal sealed class Direct3D
 	{
 		#region ================== Constants

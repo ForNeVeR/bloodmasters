@@ -21,10 +21,4 @@ internal static class Direct3DDeviceEx
                 sizeof(T));
         }
     }
-
-    public static void SetWorldTransform(this IDirect3DDevice9 device, Matrix4x4 matrix)
-    {
-        var transformState = (TransformState)256; // corresponds to D3DTS_WORLDMATRIX(0)
-        device.SetTransform(transformState, matrix);
-    }
 }

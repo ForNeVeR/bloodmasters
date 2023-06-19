@@ -11,98 +11,101 @@
 
 using System;
 using System.IO;
-using System.Drawing;
 using System.Collections;
 using System.Reflection;
 using System.Globalization;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
 using CodeImp.Bloodmasters;
 using CodeImp;
+using CodeImp.Bloodmasters.Client.Graphics;
+using SharpDX;
+using SharpDX.Direct3D9;
+using SharpDX.Mathematics.Interop;
+using Color = System.Drawing.Color;
+using RectangleF = System.Drawing.RectangleF;
 
 namespace CodeImp.Bloodmasters.Client
 {
 	public class Arena
 	{
 		#region ================== Constants
-		
+
 		// Camera
 		private const float CAMERA_HEIGHT = 60f;
 		private const float CAMERA_SCROLL_SPEED = 1.5f;
 		private const float CAMERA_SLIDE_MUL = 0.1f;
 		private const float CAMERA_AIM_LENGTH = 60f;
-		
+
 		// View area
 		private const float SCREEN_AREA_HEIGHT = 120f;
 		private const float SCREEN_AREA_WIDTH = 120f;
 		private const float SCREEN_AREA_X = -10f;
 		private const float SCREEN_AREA_Y = 10f;
-		
+
 		// VisualSector merging
 		private const bool MERGE_SECTORS = true;
 		private const float MAX_MERGE_HEIGHT_DIFF = 4f;
-		
+
 		// Dynamic lightmap
 		private const int DYNAMIC_LIGHTMAP_SIZE = 512;
 		private const float DYNAMIC_LIGHTMAP_SCALE_X = DYNAMIC_LIGHTMAP_SIZE / SCREEN_AREA_WIDTH;
 		private const float DYNAMIC_LIGHTMAP_SCALE_Y = DYNAMIC_LIGHTMAP_SIZE / SCREEN_AREA_HEIGHT;
 		private const float DYNAMIC_LIGHTMAP_ADJUST_X = 9.88f; //9.99f;
 		private const float DYNAMIC_LIGHTMAP_ADJUST_Y = -10.05f; //-9.99f;
-		
+
 		// Initial memory to allocate for objects
 		public const int INITIAL_OBJECTS_MEMORY = 3000;
-		
+
 		// Liquid textures
 		public const string LIQUID_TEX_WATER = "liquid01";
 		public const string LIQUID_TEX_LAVA = "liquid02";
 		public const string LIQUID_TEXFILE_WATER = "liquid01.bmp";
 		public const string LIQUID_TEXFILE_LAVA = "liquid02.bmp";
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		// Map sectors for rendering
 		private ArrayList sectors;
-		
+
 		// All game objects for rendering
 		// This array is sorted back-to-front every frame
 		private ArrayList objects;
-		
+
 		// Lights on the map
 		private ArrayList staticlights;
 		private ArrayList dynamiclights;
-		
+
 		// Items on the map
 		private Hashtable items;
-		
+
 		// Decals on the map
 		private ArrayList decals;
-		
+
 		// Actors on the map
 		private ArrayList actors;
-		
+
 		// Projectiles
 		private Hashtable projectiles;
-		
+
 		// Particles
 		public ParticleCollection p_dust;
 		public ParticleCollection p_magic;
 		public ParticleCollection p_smoke;
 		public ParticleCollection p_trail;
 		public ParticleCollection p_blood;
-		
+
 		// Liquids
 		public LiquidGraphics liquidwater;
 		public LiquidGraphics liquidlava;
-		
+
 		// Dynamic lightmap
 		public Texture dynamiclightmap;
 		private float lightmapx;
 		private float lightmapy;
 		private Matrix lightmaptransform;
 		private bool firstframe = true;
-		
+
 		// Camera
 		private Vector2 c_target;
 		private Vector2 c_pos;
@@ -116,18 +119,18 @@ namespace CodeImp.Bloodmasters.Client
 		private Matrix c_norm_projection = Matrix.OrthoRH(80f, 60f, -100f, 1000f);
 		//private Matrix c_light_projection = Matrix.OrthoOffCenterRH(0, SCREEN_AREA_WIDTH, 0, SCREEN_AREA_HEIGHT, 0f, 1000f);
 		private Matrix c_light_projection = Matrix.OrthoRH(SCREEN_AREA_WIDTH, -SCREEN_AREA_HEIGHT, -100f, 1000f);
-		
+
 		// Mouse aim
 		// mouseactor are the XY on the local actor's XY plane
 		// mousemap are the XY on the targeted sector's XY plane
 		//private Vector3 mouseactor;
 		private Vector3 mousemap;
 		private Sector mousemapsector;
-		
+
 		#endregion
-		
+
 		#region ================== Properties
-		
+
 		public ArrayList VisualSectors { get { return sectors; } }
 		public ArrayList StaticLights { get { return staticlights; } }
 		public ArrayList DynamicLights { get { return dynamiclights; } }
@@ -145,31 +148,31 @@ namespace CodeImp.Bloodmasters.Client
 		public float LightmapY { get { return lightmapy; } }
 		public Matrix LightmapMatrix { get { return lightmaptransform; } }
 		public Vector3D HitOnMap { get { return hitonmap; } }
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public Arena()
 		{
 			int thinggametype = (int)Math.Pow(2, (int)General.gametype);
 			VisualSector vs;
 			Item item;
-			
+
 			// Assign reference already
 			General.arena = this;
-			
+
 			// Create dynamic lightmap
 			CreateLightmap();
-			
+
 			// Initialize projectiles
 			Projectile.Initialize();
-			
+
 			// Load liquids
 			liquidwater = new LiquidGraphics(LIQUID_TEXFILE_WATER, 12);
 			liquidlava = new LiquidGraphics(LIQUID_TEXFILE_LAVA, 8);
-			
+
 			// Create dust particle collections
 			p_dust = new ParticleCollection("general.rar/particle0.tga", DRAWMODE.PNORMAL);
 			p_dust.Lightmapped = true;
@@ -182,7 +185,7 @@ namespace CodeImp.Bloodmasters.Client
 			p_dust.MinimumResize = -0.001f;
 			p_dust.RandomResize = 0f;
 			p_dust.FadeIn = false;
-			
+
 			// Create magical particle collections
 			p_magic = new ParticleCollection("general.rar/particle1.tga", DRAWMODE.PADDITIVE);
 			p_magic.Lightmapped = false;
@@ -195,7 +198,7 @@ namespace CodeImp.Bloodmasters.Client
 			p_magic.MinimumResize = 0f;
 			p_magic.RandomResize = 0f;
 			p_magic.FadeIn = false;
-			
+
 			// Create smoke particle collections
 			p_smoke = new ParticleCollection("general.rar/particle2.tga", DRAWMODE.PNORMAL);
 			p_smoke.Lightmapped = true;
@@ -208,7 +211,7 @@ namespace CodeImp.Bloodmasters.Client
 			p_smoke.MinimumResize = 0.005f;
 			p_smoke.RandomResize = 0.01f;
 			p_smoke.FadeIn = true;
-			
+
 			// Create smoke particle collections
 			p_trail = new ParticleCollection("general.rar/particle4.tga", DRAWMODE.PNORMAL);
 			p_trail.Lightmapped = true;
@@ -221,7 +224,7 @@ namespace CodeImp.Bloodmasters.Client
 			p_trail.MinimumResize = 0.004f;
 			p_trail.RandomResize = 0.006f;
 			p_trail.FadeIn = false;
-			
+
 			// Create blood particle collections
 			p_blood = new ParticleCollection("general.rar/particle3.tga", DRAWMODE.PNORMAL);
 			p_blood.Lightmapped = true;
@@ -234,15 +237,15 @@ namespace CodeImp.Bloodmasters.Client
 			p_blood.MinimumResize = 0.01f;
 			p_blood.RandomResize = 0.01f;
 			p_blood.FadeIn = false;
-			
+
 			// Camera position
 			c_pos = new Vector2(50f, -80f);
-			
+
 			// Determine camera vector
 			c_vec = Vector3.Subtract(new Vector3(0f, 0f, 0f), c_offset);
 			c_vec.Normalize();
 			spectateplayer = -1;
-			
+
 			// Make arrays
 			sectors = new ArrayList();
 			staticlights = new ArrayList();
@@ -252,10 +255,10 @@ namespace CodeImp.Bloodmasters.Client
 			decals = new ArrayList();
 			actors = new ArrayList();
 			projectiles = new Hashtable();
-			
+
 			// Ensure unique item ids start at 0
 			Item.uniquekeyindex = 0;
-			
+
 			// Make all visual sectors
 			for(int s = 0; s < General.map.Sectors.Length; s++)
 			{
@@ -263,10 +266,10 @@ namespace CodeImp.Bloodmasters.Client
 				vs = new VisualSector(General.map.Sectors[s]);
 				sectors.Add(vs);
 			}
-			
+
 			// Merge visual sectors
 			if(MERGE_SECTORS) MergeVisualSectors();
-			
+
 			// Go for all things
 			foreach(Thing t in General.map.Things)
 			{
@@ -275,7 +278,7 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Determine in which sector thing is
 					t.DetermineSector();
-					
+
 					// Go for all types in this assembly
 					Assembly asm = Assembly.GetExecutingAssembly();
 					Type[] asmtypes = asm.GetTypes();
@@ -289,7 +292,7 @@ namespace CodeImp.Bloodmasters.Client
 							{
 								// Get item attribute
 								ClientItem attr = (ClientItem)Attribute.GetCustomAttribute(tp, typeof(ClientItem), false);
-								
+
 								// Same ID number?
 								if(t.Type == attr.ThingID)
 								{
@@ -307,7 +310,7 @@ namespace CodeImp.Bloodmasters.Client
 										// Throw the actual exception
 										throw(e.InnerException);
 									}
-									
+
 									// If the item is not temporary
 									// then add it to the items list
 									if(!item.Temporary) items.Add(item.Key, item); else item.Dispose();
@@ -317,33 +320,33 @@ namespace CodeImp.Bloodmasters.Client
 					}
 				}
 			}
-			
+
 			// Finishes the visual sectors
 			FinishVisualSectors();
-			
+
 			// DEBUG: Output statistics
 			//WriteMapDebugInfo();
-			
+
 			// Show map information
 			General.console.AddMessage("Loaded map \"" + General.map.Title + "\" (" + General.map.Name + ") created by " + General.map.Author);
 		}
-		
+
 		// Destructor
 		public void Dispose()
 		{
 			// Dispose all visual sectors
 			if(sectors != null) foreach(VisualSector s in sectors) s.Dispose();
-			
+
 			// Dispose all lights
 			if(staticlights != null) while(staticlights.Count > 0) ((StaticLight)staticlights[0]).Dispose();
 			if(dynamiclights != null) while(dynamiclights.Count > 0) ((DynamicLight)dynamiclights[0]).Dispose();
-			
+
 			// Dispose all decals
 			if(decals != null) while(decals.Count > 0) ((Decal)decals[0]).Dispose();
-			
+
 			// Dispose all actors
 			if(actors != null) while(actors.Count > 0) ((Actor)actors[0]).Dispose();
-			
+
 			// Dispose all items
 			if(items != null)
 			{
@@ -353,7 +356,7 @@ namespace CodeImp.Bloodmasters.Client
 				itemsarray = null;
 				itemscol = null;
 			}
-			
+
 			// Dispose all projectiles
 			if(projectiles != null)
 			{
@@ -363,17 +366,17 @@ namespace CodeImp.Bloodmasters.Client
 				prjarray = null;
 				prjcol = null;
 			}
-			
+
 			// Dispose particles
 			p_dust.Dispose();
 			p_magic.Dispose();
 			p_smoke.Dispose();
 			p_trail.Dispose();
 			p_blood.Dispose();
-			
+
 			// Destroy dynamic lightmap
 			DestroyLightmap();
-			
+
 			// Clean up
 			staticlights = null;
 			dynamiclights = null;
@@ -387,21 +390,21 @@ namespace CodeImp.Bloodmasters.Client
 			p_trail = null;
 			p_blood = null;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Map
-		
+
 		// This merges visual sectors
 		private void MergeVisualSectors()
 		{
 			bool merged;
-			
+
 			do
 			{
 				// No merges yet
 				merged = false;
-				
+
 				// Go for all visual sectors to test for merging
 				foreach(VisualSector va in sectors)
 				{
@@ -417,7 +420,7 @@ namespace CodeImp.Bloodmasters.Client
 							// Determine floor height differences
 							float nh = Math.Max(va.HighestFloor, vb.HighestFloor);
 							float nl = Math.Min(va.LowestFloor, vb.LowestFloor);
-							
+
 							// Check if merging is possible
 							if((va.FixedLight == vb.FixedLight) &&
 								(va.AmbientLight == vb.AmbientLight) &&
@@ -429,7 +432,7 @@ namespace CodeImp.Bloodmasters.Client
 								// Make union bounary
 								RectangleF u = RectangleF.Union(va.SectorBounds,
 									vb.SectorBounds);
-								
+
 								// Check if va is the bigger sector
 								if(u == va.SectorBounds)
 								{
@@ -451,7 +454,7 @@ namespace CodeImp.Bloodmasters.Client
 							}
 						}
 					}
-					
+
 					// Break when merged
 					if(merged) break;
 				}
@@ -459,7 +462,7 @@ namespace CodeImp.Bloodmasters.Client
 				// Continue until no more merging
 			while(merged);
 		}
-		
+
 		// This indexes and builds geometry for visual sectors
 		private void FinishVisualSectors()
 		{
@@ -468,39 +471,39 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Get the sector object
 				VisualSector s = ((VisualSector)sectors[i]);
-				
+
 				// Set the index
 				s.SetIndex(i);
-				
+
 				// Make lightmap
 				s.CreateLightmap();
-				
+
 				// Build geometry
 				s.BuildGeometry();
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Debug
-		
+
 		// This outputs map information
 		private void WriteMapDebugInfo()
 		{
 			int dynvissecs = 0;
-			
+
 			// Open file for writing
 			FileStream outfile = File.Open(Path.Combine(General.apppath, "mapinfo.txt"),
 				FileMode.Create, FileAccess.Write, FileShare.Read);
 			StreamWriter writer = new StreamWriter(outfile);
-			
+
 			// Count number of dynamic visualsectors
 			foreach(VisualSector vs in sectors)
 			{
 				// Count
 				if(vs.DynamicLightmap) dynvissecs++;
 			}
-			
+
 			// Wring general information
 			writer.WriteLine("Map information for: " + General.map.Title + " (" + General.map.Name + ")");
 			writer.WriteLine("Things: " + General.map.Things.Length);
@@ -513,7 +516,7 @@ namespace CodeImp.Bloodmasters.Client
 			writer.WriteLine("Nodes: " + General.map.Nodes.Length);
 			writer.WriteLine("Lights: " + staticlights.Count);
 			writer.WriteLine("VisualSectors: " + sectors.Count + " (" + dynvissecs + " dynamic)");
-			
+
 			// Go for all lights
 			writer.WriteLine("");
 			writer.WriteLine("Lights information");
@@ -526,7 +529,7 @@ namespace CodeImp.Bloodmasters.Client
 				writer.WriteLine("--------------------------------------------");
 				lg.WriteLightDebugInfo(writer);
 			}
-			
+
 			// Go for all visual sectors
 			writer.WriteLine("");
 			writer.WriteLine("VisualSectors structure information");
@@ -539,76 +542,76 @@ namespace CodeImp.Bloodmasters.Client
 				writer.WriteLine("--------------------------------------------");
 				vs.WriteSectorDebugInfo(writer);
 			}
-			
+
 			// Close file
 			writer.Flush();
 			outfile.Flush();
 			writer.Close();
 			outfile.Close();
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Resource Management
-		
+
 		// Destroys all resource for a device reset
 		public void UnloadResources()
 		{
 			// Destroy all sector resources
 			foreach(VisualSector s in sectors) s.UnloadResources();
-			
+
 			// Destroy all light resources
 			foreach(StaticLight l in staticlights) l.UnloadResources();
-			
+
 			// Destroy floor decals
 			foreach(Decal d in decals)
 				if(d.GetType() == typeof(FloorDecal)) (d as FloorDecal).DestroyGeometry();
-			
+
 			// Destroy dynamic lightmap
 			DestroyLightmap();
-			
+
 			// Destroy liquids
 			liquidlava.UnloadResources();
 			liquidwater.UnloadResources();
-			
+
 			// Destroy generic stuff
 			Sprite.DestroyGeometry();
 			WallDecal.DestroyGeometry();
 			Shadow.DestroyGeometry();
 			Bullet.DestroyGeometry();
 		}
-		
+
 		// Rebuilds the required resources
 		public void ReloadResources()
 		{
 			// Reload sectors
 			foreach(VisualSector s in sectors) s.ReloadResources();
-			
+
 			// Reload all lights
 			foreach(StaticLight l in staticlights) l.ReloadResources();
-			
+
 			// Reload floor decals
 			foreach(Decal d in decals)
 				if(d.GetType() == typeof(FloorDecal)) (d as FloorDecal).CreateGeometry();
-			
+
 			// Create dynamic lightmap
 			CreateLightmap();
-			
+
 			// Reload liquids
 			liquidlava.ReloadResources();
 			liquidwater.ReloadResources();
-			
+
 			// Reload generic stuff
 			Sprite.CreateGeometry();
 			WallDecal.CreateGeometry();
 			Shadow.CreateGeometry();
 			Bullet.CreateGeometry();
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Lightmap
-		
+
 		// This makes the dynamic lightmap
 		private void CreateLightmap()
 		{
@@ -620,7 +623,7 @@ namespace CodeImp.Bloodmasters.Client
 					Usage.RenderTarget, Direct3D.LightmapFormat, Pool.Default);
 			}
 		}
-		
+
 		// This destroys the dynamic lightmap
 		private void DestroyLightmap()
 		{
@@ -628,11 +631,11 @@ namespace CodeImp.Bloodmasters.Client
 			if(dynamiclightmap != null) dynamiclightmap.Dispose();
 			dynamiclightmap = null;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Items
-		
+
 		// This respawns ALL items
 		public void RespawnAllItems()
 		{
@@ -641,12 +644,12 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Get reference to the item
 				Item i = (Item)de.Value;
-				
+
 				// Respawn item now
 				i.Respawn(false);
 			}
 		}
-		
+
 		// This returns an item or null if the item does not exist
 		public Item GetItemByKey(string key)
 		{
@@ -662,37 +665,37 @@ namespace CodeImp.Bloodmasters.Client
 				return null;
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Actors
-		
+
 		// This adds an actor
 		public void AddActor(Actor a)
 		{
 			// Add actor to the list
 			actors.Add(a);
 		}
-		
+
 		// This removes an actor
 		public void RemoveActor(Actor a)
 		{
 			// Remove the actor
 			actors.Remove(a);
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Projectiles
-		
+
 		// This creates a projectile by ID number
 		public Projectile CreateProjectile(PROJECTILE type, string id, Vector3D start, Vector3D vel)
 		{
 			Assembly asm = Assembly.GetExecutingAssembly();
-			
+
 			// Get the projectile type
 			Type tp = Projectile.GetProjectileType(type);
-			
+
 			// Valid projectile type?
 			if(tp != null)
 			{
@@ -705,10 +708,10 @@ namespace CodeImp.Bloodmasters.Client
 					args[2] = vel;
 					Projectile p = (Projectile)asm.CreateInstance(tp.FullName, false, BindingFlags.Default,
 						null, args, CultureInfo.CurrentCulture, new object[0]);
-					
+
 					// Add to array
 					if(!p.Disposed) projectiles.Add(id, p);
-					
+
 					// Return projectile
 					return p;
 				}
@@ -719,18 +722,18 @@ namespace CodeImp.Bloodmasters.Client
 					throw(e.InnerException);
 				}
 			}
-			
+
 			// Nothing found!
 			return null;
 		}
-		
+
 		// Remove a projectile
 		public void RemoveProjectile(Projectile p)
 		{
 			// Remove if exists
 			if(projectiles.Contains(p.ID)) projectiles.Remove(p.ID);
 		}
-		
+
 		// Get a projectile
 		public Projectile GetProjectile(string id)
 		{
@@ -746,53 +749,53 @@ namespace CodeImp.Bloodmasters.Client
 				return null;
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Decals
-		
+
 		// This adds a decal
 		public void AddDecal(Decal d)
 		{
 			// Add decal to the list
 			decals.Add(d);
 		}
-		
+
 		// This removes a decal
 		public void RemoveDecal(Decal d)
 		{
 			// Remove the decal
 			decals.Remove(d);
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Game Objects
-		
+
 		// This is called by VisualObject to add to sorted list
 		public void AddVisualObject(VisualObject vo)
 		{
 			// Add object to list
 			objects.Add(vo);
 		}
-		
+
 		// This is called by VisualObject to remove from sorted list
 		public void RemoveVisualObject(VisualObject vo)
 		{
 			// Remove object from list
 			objects.Remove(vo);
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Camera
-		
+
 		// This changes spectator mode
 		public void SwitchSpectatorMode()
 		{
 			// Spectating?
 			if((General.localclient == null) || !General.localclient.IsSpectator) return;
-			
+
 			// Spectating someone?
 			if(spectateplayer > -1)
 			{
@@ -807,24 +810,24 @@ namespace CodeImp.Bloodmasters.Client
 				if(!SpectateNextPlayer()) spectateplayer = -1;
 			}
 		}
-		
+
 		// This changes spectating to next player
 		// Returns false when no next player could be found
 		public bool SpectateNextPlayer()
 		{
 			int clientstried = 0;
 			int newclient = spectateplayer;
-			
+
 			// Spectating?
 			if((General.localclient == null) || !General.localclient.IsSpectator) return false;
 			if(spectateplayer == -1) return false;
-			
+
 			do
 			{
 				// Next
 				newclient++;
 				if(newclient >= General.clients.Length) newclient = 0;
-				
+
 				// Cancel when too many clients tried
 				clientstried++;
 				if(clientstried > General.clients.Length + 2) return false;
@@ -833,30 +836,30 @@ namespace CodeImp.Bloodmasters.Client
 				General.clients[newclient].IsSpectator ||
 				General.clients[newclient].IsLoading ||
 				General.clients[newclient].IsLocal);
-			
+
 			// New spectator client
 			spectateplayer = newclient;
 			General.hud.ShowModeMessage();
 			return true;
 		}
-		
+
 		// This changes spectating to previous player
 		// Returns false when no previous player could be found
 		public bool SpectatePrevPlayer()
 		{
 			int clientstried = 0;
 			int newclient = spectateplayer;
-			
+
 			// Spectating?
 			if((General.localclient == null) || !General.localclient.IsSpectator) return false;
 			if(spectateplayer == -1) return false;
-			
+
 			do
 			{
 				// Next
 				newclient--;
 				if(newclient < 0) newclient = General.clients.Length - 1;
-				
+
 				// Cancel when too many clients tried
 				clientstried++;
 				if(clientstried > General.clients.Length + 2) return false;
@@ -865,19 +868,19 @@ namespace CodeImp.Bloodmasters.Client
 				General.clients[newclient].IsSpectator ||
 				General.clients[newclient].IsLoading ||
 				General.clients[newclient].IsLocal);
-			
+
 			// New spectator client
 			spectateplayer = newclient;
 			General.hud.ShowModeMessage();
 			return true;
 		}
-		
+
 		// This controls the camera by input or actor
 		private void PositionCamera()
 		{
 			float cx = 0f, cy = 0f;
 			Vector3 vactor;
-			
+
 			// Check if spectating?
 			if(General.localclient.IsSpectator)
 			{
@@ -895,14 +898,14 @@ namespace CodeImp.Bloodmasters.Client
 						{
 							// Get actor camera coordinates
 							vactor = GetActorCameraPosition(General.clients[spectateplayer].Actor);
-							
+
 							// Check if we can position the camera
 							if(!float.IsNaN(vactor.X) && !float.IsNaN(vactor.Y))
 							{
 								// Move camera to actor
 								c_target.X = vactor.X;
 								c_target.Y = vactor.Y;
-								
+
 								// Slide camera to target
 								SlideCameraToTarget();
 							}
@@ -927,28 +930,28 @@ namespace CodeImp.Bloodmasters.Client
 						cx += (float)Math.Sin(Math.PI * 0.75);
 						cy += (float)Math.Cos(Math.PI * 0.75);
 					}
-					
+
 					// Scroll up?
 					if(General.gamewindow.ControlPressed("walkup"))
 					{
 						cx += (float)Math.Sin(Math.PI * 1.75);
 						cy += (float)Math.Cos(Math.PI * 1.75);
 					}
-					
+
 					// Scroll left?
 					if(General.gamewindow.ControlPressed("walkleft"))
 					{
 						cx += (float)Math.Sin(Math.PI * 1.25);
 						cy += (float)Math.Cos(Math.PI * 1.25);
 					}
-					
+
 					// Scroll right?
 					if(General.gamewindow.ControlPressed("walkright"))
 					{
 						cx += (float)Math.Sin(Math.PI * 0.25);
 						cy += (float)Math.Cos(Math.PI * 0.25);
 					}
-					
+
 					// Scroll anywhwere?
 					if((cx != 0f) || (cy != 0f))
 					{
@@ -956,7 +959,7 @@ namespace CodeImp.Bloodmasters.Client
 						float clen = 1f / (float)Math.Sqrt(cx * cx + cy * cy);
 						cx = (cx * clen) * CAMERA_SCROLL_SPEED;
 						cy = (cy * clen) * CAMERA_SCROLL_SPEED;
-						
+
 						// Move camera
 						c_pos.X += cx;
 						c_pos.Y += cy;
@@ -970,7 +973,7 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Get actor camera coordinates
 					vactor = GetActorCameraPosition(General.localclient.Actor);
-					
+
 					// Check if we can position the camera
 					if(!float.IsNaN(vactor.X) && !float.IsNaN(vactor.Y))
 					{
@@ -980,23 +983,23 @@ namespace CodeImp.Bloodmasters.Client
 						float resolutionlen = (float)Math.Sqrt(Direct3D.DisplayWidth * Direct3D.DisplayWidth + Direct3D.DisplayHeight * Direct3D.DisplayHeight);
 						float length = ((float)Math.Sqrt(dx * dx + dy * dy) / resolutionlen) * CAMERA_AIM_LENGTH;
 						float angle = (float)Math.Atan2(dy, dx) + (float)Math.PI * 0.25f;
-						
+
 						// Set target coordinates
 						c_target.X = vactor.X + (float)Math.Sin(angle) * length;
 						c_target.Y = vactor.Y + (float)Math.Cos(angle) * length;
-						
+
 						// Slide camera to target
 						SlideCameraToTarget();
 					}
 				}
 			}
-			
+
 			// Setup view matrix for camera
 			Vector3 pos = new Vector3(c_pos.X, c_pos.Y, 60f);
 			Vector3 tgt = Vector3.Add(pos, c_offset);
 			c_matrix = Matrix.LookAtRH(pos, tgt, c_rotate);
 		}
-		
+
 		// This calculates the visible screen rectangle in map coordinates
 		private void DetermineScreenArea()
 		{
@@ -1006,29 +1009,29 @@ namespace CodeImp.Bloodmasters.Client
 			float w = SCREEN_AREA_WIDTH;
 			float h = SCREEN_AREA_HEIGHT;
 			screenarea = new RectangleF(l, t, w, h);
-			
+
 			// Lightmap offset to match screen area
 			lightmapx = screenarea.X;
 			lightmapy = screenarea.Y;
-			
+
 			// Create lightmap transformation matrix
 			lightmaptransform = Matrix.Identity;
 			lightmaptransform *= Direct3D.MatrixTranslateTx(-lightmapx, -lightmapy);
 			lightmaptransform *= Matrix.Scaling(1f / SCREEN_AREA_WIDTH, 1f / SCREEN_AREA_HEIGHT, 1f);
 		}
-		
+
 		// This moves the camera pos towards the target
 		public void SlideCameraToTarget()
 		{
 			// Delta coordinates to move along
 			float dx = c_target.X - c_pos.X;
 			float dy = c_target.Y - c_pos.Y;
-			
+
 			// Calculate new position
 			c_pos.X += dx * CAMERA_SLIDE_MUL;
 			c_pos.Y += dy * CAMERA_SLIDE_MUL;
 		}
-		
+
 		// This positions the camera immediately
 		public void SetCamera(Vector2D pos)
 		{
@@ -1036,110 +1039,109 @@ namespace CodeImp.Bloodmasters.Client
 			c_pos = new Vector2(pos.x, pos.y);
 			c_target = c_pos;
 		}
-		
+
 		// This projects coordinates from world space to screen space
 		public Vector3 Projected(Vector3 pos)
 		{
 			// Project coordinates
-			return Vector3.Project(pos, Direct3D.d3dd.Viewport,
-				c_norm_projection, c_matrix, Matrix.Identity);
+			return pos.Project(Direct3D.d3dd.Viewport, c_norm_projection, c_matrix, Matrix.Identity);
 		}
-		
+
 		// This projects coordinates from screen space to world space
 		public Vector3 Unprojected(Vector3 pos)
 		{
 			// Project coordinates
-			return Vector3.Unproject(pos, Direct3D.d3dd.Viewport,
+			return pos.Unproject(Direct3D.d3dd.Viewport,
 				c_norm_projection, c_matrix, Matrix.Identity);
 		}
-		
+
 		// This calculates the screen location of the actor
 		private Vector3 GetActorCameraPosition(Actor a)
 		{
 			Vector3 vactor, acscreen;
-			
+
 			// To correctly take the Z coordinates of
 			// the actor into account, we first cast the
 			// coordinates to screen space, then back to
 			// the camera space without Z.
 			vactor = new Vector3(a.Position.x, a.Position.y, a.Position.z);
-			acscreen = Vector3.Project(vactor, Direct3D.d3dd.Viewport,
+			acscreen = vactor.Project(Direct3D.d3dd.Viewport,
 				c_norm_projection, c_matrix, Matrix.Identity);
 			acscreen.Z = 0.1f;
-			vactor = Vector3.Unproject(acscreen, Direct3D.d3dd.Viewport,
+			vactor = acscreen.Unproject(Direct3D.d3dd.Viewport,
 				c_norm_projection, c_matrix, Matrix.Identity);
-			
+
 			// Return coordinates
 			return vactor;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Processing
-		
+
 		// This processes the entire arena
 		public void Process()
 		{
 			int i;
-			
+
 			// Process all sectors
 			foreach(Sector s in General.map.Sectors) s.Process();
-			
+
 			// Process all clients
 			foreach(Client c in General.clients) if(c != null) c.Process();
-			
+
 			// Process visual objects
 			for(i = objects.Count - 1; i >= 0; i--)
 			{
 				VisualObject o = (VisualObject)objects[i];
 				o.Process();
 			}
-			
+
 			// Process particles
 			p_dust.Process();
 			p_magic.Process();
 			p_smoke.Process();
 			p_blood.Process();
 			p_trail.Process();
-			
+
 			// Process liquids
 			liquidwater.Process();
 			liquidlava.Process();
-			
+
 			// Make the camera position
 			PositionCamera();
-			
+
 			// Set the coordinates for sound listener
 			Vector2 listenpos = Vector2.Add(c_pos, new Vector2(c_offset.X, c_offset.Y));
 			DirectSound.SetListenCoordinates(new Vector2D(listenpos.X, listenpos.Y));
-			
+
 			// Determine visible map portion
 			DetermineScreenArea();
-			
+
 			// Process all dynamic lights
 			for(i = dynamiclights.Count - 1; i >= 0; i--)
 			{
 				DynamicLight d  = (DynamicLight)dynamiclights[i];
 				d.Process();
 			}
-			
+
 			// Process all sectors
 			foreach(VisualSector vs in sectors) vs.Process();
-			
+
 			// Process all items
 			foreach(DictionaryEntry de in items) ((Item)de.Value).Process();
-			
+
 			// Determine where the mouse points
 			DetermineMouseMapLocation();
-			
+
 			// Process all decals
 			for(i = decals.Count - 1; i >= 0; i--)
 				((Decal)decals[i]).Process();
-			
+
 			// Sort all objects back-to-front
 			objects.Sort();
 		}
-		
+
 		// This determines where the mouse is in map coordinates
 		private void DetermineMouseMapLocation()
 		{
@@ -1152,36 +1154,36 @@ namespace CodeImp.Bloodmasters.Client
 			float u = 2f;
 			float uline = 0f;
 			bool hit;
-			
+
 			// Mouse coordinates
 			float mx = General.gamewindow.Mouse.X;
 			float my = General.gamewindow.Mouse.Y;
-			
+
 			// Unproject mouse coordinates for ray start
-			r1 = Vector3.Unproject(new Vector3(mx, my, 0f), Direct3D.d3dd.Viewport,
+			r1 = new Vector3(mx, my, 0f).Unproject(Direct3D.d3dd.Viewport,
 						c_norm_projection, c_matrix, Matrix.Identity);
-			
+
 			// Unproject mouse coordinates for ray end
-			r2 = Vector3.Unproject(new Vector3(mx, my, 1f), Direct3D.d3dd.Viewport,
+			r2 = new Vector3(mx, my, 1f).Unproject(Direct3D.d3dd.Viewport,
 						c_norm_projection, c_matrix, Matrix.Identity);
-			
+
 			// Do a ray-map intersection test
 			p1 = new Vector3D(r1.X, r1.Y, r1.Z);
 			p2 = new Vector3D(r2.X, r2.Y, r2.Z);
 			General.map.FindRayMapCollision(p1, p2, ref mouseonmap, ref obj, ref u, ref uline);
-			
+
 			// Hit found?
 			if(obj != null)
 			{
 				// Copy hit coordinates
 				mousemap = new Vector3(mouseonmap.x, mouseonmap.y, mouseonmap.z);
-				
+
 				// Copy sector
 				if(obj is Sidedef)
 					mousemapsector = ((Sidedef)obj).Sector;
 				else if(obj is Sector)
 					mousemapsector = (Sector)obj;
-				
+
 				// Actor in game?
 				if(General.localclient.Actor != null)
 				{
@@ -1194,7 +1196,7 @@ namespace CodeImp.Bloodmasters.Client
 					u = 200f;
 					hit = General.map.FindRayMapCollision(p1, p2, ref hitonmap, ref obj, ref u, ref uline);
 					if(!hit) hitonmap = p2;
-					
+
 					/*
 					{
 						// Cannot shoot here
@@ -1220,18 +1222,18 @@ namespace CodeImp.Bloodmasters.Client
 				//MouseCursor.CursorColor = -1;
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Rendering
-		
+
 		// This will render a cross at given coordinates
 		public void RenderPoint(Vector3D pos, Color c)
 		{
 			const float xlen = 0.4f;
 			const float zlen = 2f;
 			LVertex[] verts = new LVertex[6];
-			
+
 			verts[0].color = c.ToArgb();
 			verts[0].x = pos.x - xlen;
 			verts[0].y = pos.y;
@@ -1256,20 +1258,20 @@ namespace CodeImp.Bloodmasters.Client
 			verts[5].x = pos.x;
 			verts[5].y = pos.y;
 			verts[5].z = pos.z + zlen;
-			
+
 			// No matrices
-			Direct3D.d3dd.Transform.World = Matrix.Identity;
-			
+			Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
+
 			// Draw line
 			Direct3D.SetDrawMode(DRAWMODE.NLINES);
 			Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.LineList, 3, verts);
 		}
-		
+
 		// This will render a line at given coordinates
 		public void RenderLine(Vector3D start, Vector3D end, Color c)
 		{
 			LVertex[] verts = new LVertex[2];
-			
+
 			verts[0].color = c.ToArgb();
 			verts[0].x = start.x;
 			verts[0].y = start.y;
@@ -1278,27 +1280,27 @@ namespace CodeImp.Bloodmasters.Client
 			verts[1].x = end.x;
 			verts[1].y = end.y;
 			verts[1].z = end.z;
-			
+
 			// No matrices
-			Direct3D.d3dd.Transform.World = Matrix.Identity;
-			
+			Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
+
 			// Draw line
 			Direct3D.SetDrawMode(DRAWMODE.NLINES);
 			Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.LineList, 1, verts);
 		}
-		
+
 		// This will prepare for rendering
 		public void PrepareRendering()
 		{
 			Surface lightmapsurface;
-			
+
 			// Render liquids
 			liquidwater.Render();
 			liquidlava.Render();
-			
+
 			// Set normal viewport
 			//Direct3D.d3dd.Viewport = Direct3D.DisplayViewport;
-			
+
 			// Initializing lights?
 			if(firstframe)
 			{
@@ -1309,14 +1311,14 @@ namespace CodeImp.Bloodmasters.Client
 					l.PrepareLightmap();
 				}
 			}
-			
+
 			// Go for all sectors
 			foreach(VisualSector s in sectors)
 			{
 				// Prepare your lightmap
 				if(firstframe || s.InScreen) s.PrepareLightmap();
 			}
-			
+
 			// Only when using dynamic lights
 			if(DynamicLight.dynamiclights)
 			{
@@ -1324,64 +1326,64 @@ namespace CodeImp.Bloodmasters.Client
 				lightmapsurface = dynamiclightmap.GetSurfaceLevel(0);
 				Direct3D.d3dd.DepthStencilSurface = null;
 				Direct3D.d3dd.SetRenderTarget(0, lightmapsurface);
-				Direct3D.d3dd.Clear(ClearFlags.Target, 0, 0f, 0);
+				Direct3D.d3dd.Clear(ClearFlags.Target, new RawColorBGRA(), 0f, 0);
 				Direct3D.d3dd.BeginScene();
-				
+
 				// Setup matrices
-				Direct3D.d3dd.Transform.Projection = c_light_projection;
-				Direct3D.d3dd.Transform.World = Matrix.Identity;
-				Direct3D.d3dd.Transform.View = Matrix.Translation(-c_pos.X + DYNAMIC_LIGHTMAP_ADJUST_X,
-																  -c_pos.Y + DYNAMIC_LIGHTMAP_ADJUST_Y, 0f);
-				
+				Direct3D.d3dd.SetTransform(TransformState.Projection, c_light_projection);
+				Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
+				Direct3D.d3dd.SetTransform(TransformState.View, Matrix.Translation(-c_pos.X + DYNAMIC_LIGHTMAP_ADJUST_X,
+																  -c_pos.Y + DYNAMIC_LIGHTMAP_ADJUST_Y, 0f));
+
 				// Set drawing mode
 				Direct3D.SetDrawMode(DRAWMODE.NLIGHTBLEND);
-				
+
 				// Set the light texture
 				Direct3D.d3dd.SetTexture(0, DynamicLight.lightimages[2].texture);
-				
+
 				// Go for all dynamic lights
 				foreach(DynamicLight d in dynamiclights)
 				{
 					// Render the light
 					d.Render();
 				}
-				
+
 				// Done rendering lightmap
 				Direct3D.d3dd.EndScene();
-				
+
 				// Clean up
 				lightmapsurface.Dispose();
 			}
 		}
-		
+
 		// This will render the entire arena
 		public void Render()
 		{
 			// Setup matrices
-			Direct3D.d3dd.Transform.Projection = c_norm_projection;
-			Direct3D.d3dd.Transform.World = Matrix.Identity;
-			Direct3D.d3dd.Transform.View = c_matrix;
-			Direct3D.d3dd.Transform.Texture0 = Matrix.Identity;
-			Direct3D.d3dd.Transform.Texture1 = Matrix.Identity;
-			if(DynamicLight.dynamiclights) Direct3D.d3dd.Transform.Texture2 = lightmaptransform;
-			
+			Direct3D.d3dd.SetTransform(TransformState.Projection, c_norm_projection);
+			Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
+			Direct3D.d3dd.SetTransform(TransformState.View, c_matrix);
+			Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
+			Direct3D.d3dd.SetTransform(TransformState.Texture1, Matrix.Identity);
+			if(DynamicLight.dynamiclights) Direct3D.d3dd.SetTransform(TransformState.Texture2, lightmaptransform);
+
 			// Setup dynamic lightmap
 			if(DynamicLight.dynamiclights) Direct3D.d3dd.SetTexture(2, dynamiclightmap);
-			
+
 			// Go for all sectors
 			foreach(VisualSector s in sectors)
 			{
 				// Render this sector
 				s.RenderGeometry();
 			}
-			
+
 			if(Decal.showdecals)
 			{
 				// Render mode for decals
 				Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
-				Direct3D.d3dd.RenderState.ZBufferWriteEnable = false;
-				Direct3D.d3dd.Transform.Texture0 = Matrix.Identity;
-				
+				Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
+				Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
+
 				// Go for all decals
 				foreach(Decal d in decals)
 				{
@@ -1389,21 +1391,21 @@ namespace CodeImp.Bloodmasters.Client
 					d.Render();
 				}
 			}
-			
+
 			// Go for 2 render passes
 			for(int p = 0; p < 2; p++) RenderObjectsPass(p);
-			
+
 			// Set drawing mode
 			Direct3D.SetDrawMode(DRAWMODE.TLMODALPHA);
-			Direct3D.d3dd.RenderState.TextureFactor = -1;
-			
+			Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+
 			// Go for all actors
 			foreach(Actor a in actors)
 			{
 				// Render the actor name
 				if(a != null) a.RenderName();
 			}
-			
+
 			// LASERS FOR REMOTE PLAYERS
 			/*
 			// Go for all actors
@@ -1420,14 +1422,14 @@ namespace CodeImp.Bloodmasters.Client
 						Vector3D endpos = Laser.GetSourcePosition(a) + Vector3D.FromActorAngle(a.AimAngle, a.AimAngleZ, 200f);
 						Vector3D endpoint = endpos;
 						General.map.FindRayMapCollision(a.Position, endpos, ref endpoint, ref obj, ref u, ref uline);
-						
+
 						// Render laser
 						Laser.Render(Laser.GetSourcePosition(a), endpoint);
 					}
 				}
 			}
 			*/
-			
+
 			// Client available?
 			if(General.localclient != null)
 			{
@@ -1438,59 +1440,59 @@ namespace CodeImp.Bloodmasters.Client
 					Laser.Render(Laser.GetSourcePosition(General.localclient.Actor), hitonmap);
 				}
 			}
-			
+
 			// Render all particles
 			p_dust.Render();
 			p_blood.Render();
 			p_trail.Render();
 			p_smoke.Render();
 			p_magic.Render();
-			
+
 			// Do the 3rd render pass
 			RenderObjectsPass(2);
-			
+
 			// DEBUG:
 			//RenderPoint(new Vector3D(mousemap.X, mousemap.Y, mousemap.Z), Color.Aqua);
-			
+
 			/*
 			// DEBUG:
 			TLVertex[] verts = Direct3D.TLRect(0f, 0f, 256f, 256f);
 			Direct3D.d3dd.SetTexture(0, dynamiclightmap);
 			Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, verts);
 			*/
-			
+
 			// Unset textures and streams
 			Direct3D.d3dd.SetTexture(0, null);
 			Direct3D.d3dd.SetTexture(1, null);
 			Direct3D.d3dd.SetTexture(2, null);
-			Direct3D.d3dd.SetStreamSource(0, null, 0);
-			
+			Direct3D.d3dd.SetStreamSource(0, null, 0, 0);
+
 			// No longer first frame
 			firstframe = false;
 		}
-		
+
 		// This renders one objects pass
 		private void RenderObjectsPass(int pass)
 		{
 			// Render mode for shadows
 			Direct3D.SetDrawMode(DRAWMODE.NALPHA);
-			Direct3D.d3dd.RenderState.ZBufferWriteEnable = false;
-			
+			Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
+
 			// Shadow texture and vertices
 			Direct3D.d3dd.SetTexture(0, Shadow.texture.texture);
 			Direct3D.d3dd.SetTexture(1, null);
-			Direct3D.d3dd.SetStreamSource(0, Shadow.vertices, 0);
-			
+			Direct3D.d3dd.SetStreamSource(0, Shadow.vertices, 0, Shadow.vertices.Description.SizeInBytes); // TODO: SizeInBytes is suspicious, was TypeSize originally, check/compare this
+
 			// Go for all visual objects
 			foreach(VisualObject vo in objects)
 			{
 				// Render the object shadow
 				if(vo.RenderPass == pass) vo.RenderShadow();
 			}
-			
+
 			// Render mode for objects
-			Direct3D.d3dd.Transform.Texture0 = Matrix.Identity;
-			
+			Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
+
 			// Go for all visual objects
 			foreach(VisualObject vo in objects)
 			{
@@ -1498,7 +1500,7 @@ namespace CodeImp.Bloodmasters.Client
 				if(vo.RenderPass == pass) vo.Render();
 			}
 		}
-		
+
 		#endregion
 	}
 }

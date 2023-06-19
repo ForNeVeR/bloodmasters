@@ -9,8 +9,6 @@ using System;
 using System.Drawing;
 using System.Globalization;
 using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
 using CodeImp.Bloodmasters;
 using CodeImp;
 
@@ -19,29 +17,29 @@ namespace CodeImp.Bloodmasters.Client
 	public class Client
 	{
 		#region ================== Constants
-		
+
 		// Rate at which 'idle' ClientMoves are sent to the server
 		public const int CLIENTMOVE_INTERVAL = 50;
-		
+
 		// Static powerup rate for client only
 		private const int POWERUP_STATIC_RATE = 50;
-		
+
 		// Death sound variants
 		public readonly int[] DEATH_SOUND_VARS = new int[] {3, 2, 0};
-		
+
 		// Teleport delay
 		public const int TELEPORT_DELAY = 500;
-		
+
 		// Shield hitpoint distance
 		public const float SHIELD_DISTANCE = 5f;
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		// In-game
 		private Actor actor = null;
-		
+
 		// Client properties
 		private int id;
 		private string name;
@@ -53,49 +51,49 @@ namespace CodeImp.Bloodmasters.Client
 		private bool loading;
 		private bool shooting = false;
 		private Item carry = null;
-		
+
 		// Local client only
 		private ArrayList localmoves;
-		
+
 		// Player status (local only)
 		private int health;
 		private int armor;
-		
+
 		// Weapons/ammo
 		private int[] ammo = new int[(int)AMMO.TOTAL_AMMO_TYPES];
 		private Weapon[] allweapons = new Weapon[(int)WEAPON.TOTAL_WEAPONS];
 		private Weapon currentweapon = null;
 		private Weapon switchweapon = null;
 		private bool weaponswitchlock = false;
-		
+
 		// Powerup
 		private POWERUP powerup;
 		private int powercount;
 		private int powerinterval;
 		private int powerintcount;
 		private bool powerupfired;
-		
+
 		// Player score
 		private int score;
 		private int frags;
 		private int deaths;
-		
+
 		// Networking
 		private int clientmovetime;
 		private float prevwalkangle = -2f;
 		private bool prevshooting = false;
 		public static int timenudge;
-		
+
 		// Misc
 		public static bool showcollisions;
 		public static bool teamcolorednames;
 		public bool respawnpressed;
 		private ISound hurtsound = null;
-		
+
 		#endregion
-		
+
 		#region ================== Properties
-		
+
 		public int ID { get { return id; } }
 		public string Name { get { return name; } }
 		public Item Carrying { get { return carry; } set { carry = value; } }
@@ -120,11 +118,11 @@ namespace CodeImp.Bloodmasters.Client
 		public int PowerupCount { get { return powercount; } }
 		public bool PowerupFired { get { return powerupfired; } }
 		public bool IsShooting { get { return shooting; } }
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public Client(int id, bool spect, TEAM team, string name, bool local)
 		{
@@ -133,13 +131,13 @@ namespace CodeImp.Bloodmasters.Client
 			this.spectator = spect;
 			this.team = team;
 			SetName(name);
-			
+
 			// Initialize ClientMove timer
 			clientmovetime = General.currenttime;
-			
+
 			// Add to scoreboard
 			General.scoreboard.AddClient(this);
-			
+
 			// Check if local client
 			if(local)
 			{
@@ -147,13 +145,13 @@ namespace CodeImp.Bloodmasters.Client
 				localmoves = new ArrayList();
 			}
 		}
-		
+
 		// Disposer
 		public void Dispose()
 		{
 			// Remove from scoreboard
 			General.scoreboard.RemoveClient(this);
-			
+
 			// Clean up
 			if(hurtsound != null) hurtsound.Dispose();
 			DestroyActor(false);
@@ -161,18 +159,18 @@ namespace CodeImp.Bloodmasters.Client
 			localmoves = null;
 			GC.SuppressFinalize(this);
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Weapons / Ammo
-		
+
 		// This gives all weapons
 		public void GiveAllWeapons()
 		{
 			// Give all weapons
 			for(int i = 0; i < (int)WEAPON.TOTAL_WEAPONS; i++) GiveWeapon((WEAPON)i);
 		}
-		
+
 		// This releases all weapons
 		public void ReleaseAllWeapons()
 		{
@@ -183,7 +181,7 @@ namespace CodeImp.Bloodmasters.Client
 				if(allweapons[i] != null) allweapons[i].Released();
 			}
 		}
-		
+
 		// This gives a weapon
 		public void GiveWeapon(WEAPON weaponid)
 		{
@@ -193,18 +191,18 @@ namespace CodeImp.Bloodmasters.Client
 				// Give me this weapon
 				allweapons[(int)weaponid] = Weapon.CreateFromID(this, weaponid);
 				if(General.autoswitchweapon && !shooting) switchweapon = allweapons[(int)weaponid];
-				
+
 				// Update weapon display
 				if(this == General.localclient) General.weapondisplay.UpdateWeaponSet();
 			}
 		}
-		
+
 		// This checks if a weapon is available
 		public bool HasWeapon(WEAPON weaponid)
 		{
 			return (allweapons[(int)weaponid] != null);
 		}
-		
+
 		// This removes a weapon
 		public void RemoveWeapon(WEAPON weaponid)
 		{
@@ -217,23 +215,23 @@ namespace CodeImp.Bloodmasters.Client
 					// No more current weapon
 					currentweapon = null;
 				}
-				
+
 				// Switching to weapon?
 				if(switchweapon == allweapons[(int)weaponid])
 				{
 					// No more switching to this weapon
 					switchweapon = null;
 				}
-				
+
 				// Dispose and remove weapon
 				allweapons[(int)weaponid].Dispose();
 				allweapons[(int)weaponid] = null;
-				
+
 				// Update weapon display
 				if(this == General.localclient) General.weapondisplay.UpdateWeaponSet();
 			}
 		}
-		
+
 		// This removes all weapons
 		public void ClearWeapons()
 		{
@@ -246,7 +244,7 @@ namespace CodeImp.Bloodmasters.Client
 			powercount = 0;
 			powerupfired = false;
 		}
-		
+
 		// This switches the current weapon
 		public void SwitchWeapon(WEAPON weaponid, bool silent)
 		{
@@ -255,7 +253,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Set the current weapon
 				currentweapon = allweapons[(int)weaponid];
-				
+
 				// Release lock if this is the wanted weapon
 				//if((currentweapon == switchweapon) || (switchweapon == null))
 				{
@@ -263,40 +261,40 @@ namespace CodeImp.Bloodmasters.Client
 					weaponswitchlock = false;
 					switchweapon = null;
 				}
-				
+
 				// Update weapon display
 				if(this == General.localclient) General.weapondisplay.UpdateSelection();
-				
+
 				// Show the switch?
 				if(!silent)
 				{
 					// Make sound
 					if(actor != null) DirectSound.PlaySound("weaponswitch.wav", actor.Position);
-					
+
 					// Show weapon name
 					General.hud.ShowItemMessage(currentweapon.Description);
 					General.weapondisplay.Show();
 				}
 			}
 		}
-		
+
 		// This requests switching weapon
 		public void RequestSwitchWeaponNext(bool forward)
 		{
 			int dir, idx, count = 0;
-			
+
 			// Must have an actor and a weapon
 			if((actor == null) || (currentweapon == null)) return;
-			
+
 			// Determine switching direction
 			if(forward) dir = 1; else dir = -1;
-			
+
 			// Start from current weapon if not switching yet
 			if(switchweapon == null) switchweapon = currentweapon;
-			
+
 			// Determine start
 			idx = (int)switchweapon.WeaponID;
-			
+
 			// Go for all weapons to find the next
 			while(count <= (int)WEAPON.TOTAL_WEAPONS)
 			{
@@ -305,7 +303,7 @@ namespace CodeImp.Bloodmasters.Client
 				if(idx < 0) idx = (int)WEAPON.TOTAL_WEAPONS - 1;
 				if(idx >= (int)WEAPON.TOTAL_WEAPONS) idx = 0;
 				count++;
-				
+
 				// This weapon available?
 				if(HasWeapon((WEAPON)idx))
 				{
@@ -317,26 +315,26 @@ namespace CodeImp.Bloodmasters.Client
 						SendWeaponSwitch();
 						weaponswitchlock = true;
 					}
-					
+
 					// Done here
 					break;
 				}
 			}
-			
+
 			// Update weapon display
 			General.weapondisplay.UpdateSelection();
-			
+
 			// Show weapon name
 			General.hud.ShowItemMessage(switchweapon.Description);
 			General.weapondisplay.Show();
 		}
-		
+
 		// This requests switching weapon
 		public void RequestSwitchWeaponTo(WEAPON weaponid, bool check)
 		{
 			// Must have an actor and a weapon
 			if((actor == null) || (currentweapon == null)) return;
-			
+
 			// Perform checks?
 			if(check)
 			{
@@ -351,10 +349,10 @@ namespace CodeImp.Bloodmasters.Client
 						SendWeaponSwitch();
 						weaponswitchlock = true;
 					}
-					
+
 					// Update weapon display
 					General.weapondisplay.UpdateSelection();
-					
+
 					// Show weapon name
 					General.hud.ShowItemMessage(allweapons[(int)weaponid].Description);
 					General.weapondisplay.Show();
@@ -367,18 +365,18 @@ namespace CodeImp.Bloodmasters.Client
 				weaponswitchlock = true;
 			}
 		}
-		
+
 		// This sets the switch lock
 		public void SetWeaponSwitchLock()
 		{
 			// Set the lock
 			weaponswitchlock = true;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Powerups
-		
+
 		// This fires the powerup
 		public void FirePowerup()
 		{
@@ -394,7 +392,7 @@ namespace CodeImp.Bloodmasters.Client
 				}
 			}
 		}
-		
+
 		// This sets the powerup countdown
 		public void SetPowerupCountdown(int count, bool fired)
 		{
@@ -405,13 +403,13 @@ namespace CodeImp.Bloodmasters.Client
 				// Play the nuke countdown sound
 				DirectSound.PlaySound("countdownnuke.wav");
 			}
-			
+
 			// Set the timeout
 			powerupfired = fired;
 			powercount = count;
 			powerinterval = General.currenttime;
 		}
-		
+
 		// This processes powerups, if any
 		private void ProcessPowerup()
 		{
@@ -426,26 +424,26 @@ namespace CodeImp.Bloodmasters.Client
 					{
 						// Get the lightning object
 						Lightning l = (Lightning)actor.Lightnings[i];
-						
+
 						// Remove lightning if coming from me
 						if(l.Source == this.Actor) l.Dispose();
 					}
 				}
 			}
-			
+
 			// Update actor?
 			if(actor != null)
 			{
 				// Update actor for powerup
 				actor.ShowNuke = (powerup == POWERUP.NUKE);
 				actor.ShowRage = (powerup == POWERUP.KILLER) || (powerup == POWERUP.AVENGER);
-				
+
 				// Killer powerup?
 				if(powerup == POWERUP.KILLER) actor.RageColor = General.ARGB(1f, 1f, 0.2f, 0.1f);
-				
+
 				// Avenger powerup?
 				if(powerup == POWERUP.AVENGER) actor.RageColor = General.ARGB(1f, 0.9f, 0.2f, 1f);
-				
+
 				// Ghost powerup?
 				if(powerup == POWERUP.GHOST)
 				{
@@ -460,14 +458,14 @@ namespace CodeImp.Bloodmasters.Client
 					if(actor.Name != formattedname) actor.Name = formattedname;
 				}
 			}
-			
+
 			// Leave when no powerup
 			if(powerup == POWERUP.NONE) return;
-			
+
 			// Countdown
 			powercount -= Consts.TIMESTEP;
 			if(powercount < 0) powercount = 0;
-			
+
 			// Powerup process time?
 			if(powerinterval <= General.currenttime)
 			{
@@ -478,37 +476,37 @@ namespace CodeImp.Bloodmasters.Client
 				}
 			}
 		}
-		
+
 		// This does stuff for the Static powerup
 		public void ProcessStaticPowerup()
 		{
 			Vector3D dpos, cpos;
 			bool haslightning;
-			
+
 			// Advance interval time
 			powerinterval = General.currenttime + POWERUP_STATIC_RATE;
 			if(powerintcount == 0) powerintcount = 1; else powerintcount = 0;
-			
+
 			// Must have an actor to continue
 			if(actor == null) return;
-			
+
 			// Spawn a random shock?
 			if(actor.Sector.VisualSector.InScreen && (General.random.Next(10) < 2))
 			{
 				// Determine shock coordinates
 				cpos = actor.Position + new Vector3D(0f, 0f, 7f);
 				dpos = actor.Position + Vector3D.Random(General.random, 12f, 12f, 0f);
-				
+
 				// Spawn shock around player
 				DirectSound.PlaySound("lightning_e.wav", actor.Position);
 				new Shock(cpos, dpos, -0.5f);
 				new ShockLight(cpos, 100);
 				new ShockLight(dpos, 100);
 			}
-			
+
 			// Determine my position
 			dpos = actor.State.pos + new Vector3D(0f, 0f, 6f);
-			
+
 			// Go for all playing clients
 			foreach(Client c in General.clients)
 			{
@@ -517,7 +515,7 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Presume no lightning
 					haslightning = false;
-					
+
 					// Client alive and not myself?
 					if((!c.loading) && (!c.IsSpectator) && (c.Actor != null))
 					{
@@ -526,13 +524,13 @@ namespace CodeImp.Bloodmasters.Client
 						{
 							// Determine client position
 							cpos = c.Actor.State.pos + new Vector3D(0f, 0f, 6f);
-							
+
 							// Calculate distance to this player
 							Vector3D delta = cpos - dpos;
 							delta.z *= Consts.POWERUP_STATIC_Z_SCALE;
 							float distance = delta.Length();
 							delta.Normalize();
-							
+
 							// Within static range?
 							if(distance < Consts.POWERUP_STATIC_RANGE)
 							{
@@ -541,7 +539,7 @@ namespace CodeImp.Bloodmasters.Client
 								{
 									// Check if no lighting to this client yet
 									foreach(Lightning l in actor.Lightnings) if((l.Source == this.Actor) && (l.Target == c.Actor)) haslightning = true;
-									
+
 									// Create lighting
 									if(!haslightning) new Lightning(this.Actor, 8f, c.Actor, 8f, true, true);
 									haslightning = true;
@@ -549,7 +547,7 @@ namespace CodeImp.Bloodmasters.Client
 							}
 						}
 					}
-					
+
 					// Check if lightning should be found and removed
 					if(!haslightning)
 					{
@@ -568,24 +566,24 @@ namespace CodeImp.Bloodmasters.Client
 				}
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Methods
-		
+
 		// This stops the actor from moving
 		public void StopActor()
 		{
 			// Stop moving
 			if(actor != null) actor.State.vel = new Vector3D(0f, 0f, actor.State.vel.z);
 		}
-		
+
 		// This sets the player name
 		public void SetName(string newname)
 		{
 			// Set the player name
 			name = newname;
-			
+
 			// Set the formatted name
 			if(Client.teamcolorednames)
 			{
@@ -602,11 +600,11 @@ namespace CodeImp.Bloodmasters.Client
 				// With original colors
 				formattedname = name;
 			}
-			
+
 			// If an actor exists, apply the new name
 			if(actor != null) actor.Name = formattedname;
 		}
-		
+
 		// This kills the client and leaves the actor dead
 		public void Kill(DEATHMETHOD method)
 		{
@@ -624,35 +622,35 @@ namespace CodeImp.Bloodmasters.Client
 						DirectSound.PlaySound("death" + (int)method + "var" + var + ".wav", actor.Position);
 					}
 				}
-				
+
 				// Spawn floor blood here
 				if((method != DEATHMETHOD.QUIET) && (actor.HighestSector != null) && (actor.HighestSector.Material != (int)SECTORMATERIAL.LIQUID))
 					FloorDecal.Spawn(actor.HighestSector, actor.Position.x, actor.Position.y, FloorDecal.blooddecals, false, true, false);
-				
+
 				// Kill and detach actor
 				actor.Die(method);
 				actor = null;
-				
+
 				// Remove weapons
 				ClearWeapons();
-				
+
 				// Update scoreboard
 				//General.scoreboard.Update();
 			}
 		}
-		
+
 		// This removes the client actor from game
 		public void DestroyActor(bool silent)
 		{
 			int teamcolor;
-			
+
 			// Carrying something?
 			if(carry != null)
 			{
 				// Drop if its a flag, otherwise detach normally
 				if(carry is Flag) (carry as Flag).Drop(); else carry.Detach();
 			}
-			
+
 			// Actor in the game?
 			if(actor != null)
 			{
@@ -661,7 +659,7 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Play leave sound here
 					DirectSound.PlaySound("playerleave.wav", actor.Position);
-					
+
 					// Determines team color
 					switch(team)
 					{
@@ -670,7 +668,7 @@ namespace CodeImp.Bloodmasters.Client
 						case TEAM.BLUE: teamcolor = General.ARGB(1f, 0f, 0.6f, 1f); break;
 						default: teamcolor = Color.White.ToArgb(); break;
 					}
-					
+
 					// Add particles
 					for(int i = 0; i < 20; i++)
 						General.arena.p_dust.Add(actor.Position + Vector3D.Random(General.random, 2.5f, 2.5f, 2f) + new Vector3D(0f, 0f, 8f),
@@ -688,60 +686,60 @@ namespace CodeImp.Bloodmasters.Client
 						General.arena.p_smoke.Add(actor.Position + Vector3D.Random(General.random, 3f, 3f, 0f),
 							Vector3D.Random(General.random, 0.02f, 0.02f, 0.02f) + actor.State.vel * 0.1f, General.ARGB(1f, 0.6f, 0.6f, 0.6f));
 				}
-				
+
 				// Remove the actor from game
 				actor.Dispose(); actor = null;
 				ClearWeapons();
 			}
-			
+
 			// Clear moves when local client
 			if(this.IsLocal) localmoves.Clear();
-			
+
 			// Not walking or shooting anymore
 			prevwalkangle = -2f;
 			prevshooting = false;
 		}
-		
+
 		// This spawns the player in a new actor
 		// NOTE: The id has already been taken from the message
 		public void SpawnActor(NetMessage msg)
 		{
 			int teamcolor;
-			
+
 			// Read the details from message
 			bool start = msg.GetBool();
 			float x = msg.GetFloat();
 			float y = msg.GetFloat();
 			team = (TEAM)msg.GetByte();
-			
+
 			// Get the sector height at xy
 			SubSector ssec = General.map.GetSubSectorAt(x, y);
 			float z = ssec.Sector.HeightFloor;
-			
+
 			// Make actor position
 			Vector3D actorpos = new Vector3D(x, y, z);
-			
+
 			// Clear moves when spawning local client
 			if(this.IsLocal) localmoves.Clear();
-			
+
 			// When not local, create all weapons
 			if(!this.IsLocal) GiveAllWeapons();
-			
+
 			// Pascal 11-01-2006: Fix for invisible players
 			if(actor == null)
 			{
 				// Make an actor here
 				actor = new Actor(actorpos, (int)team, id);
 			}
-			
+
 			// Not walking or shooting
 			prevwalkangle = -2f;
 			prevshooting = false;
-			
+
 			// Set the actor name
 			//this.SetName(name);
 			actor.Name = formattedname;
-			
+
 			// Check if this is not
 			// the initial setup
 			if(!start)
@@ -753,7 +751,7 @@ namespace CodeImp.Bloodmasters.Client
 					DirectSound.PlaySound("playerspawn.wav");
 				else if(actor.Sector.VisualSector.InScreen)
 					DirectSound.PlaySound("playerspawn.wav", actor.Position);
-				
+
 				// In screen or local?
 				if(this.IsLocal || actor.Sector.VisualSector.InScreen)
 				{
@@ -765,10 +763,10 @@ namespace CodeImp.Bloodmasters.Client
 						case TEAM.BLUE: teamcolor = General.ARGB(1f, 0.4f, 0.5f, 1f); break;
 						default: teamcolor = Color.White.ToArgb(); break;
 					}
-					
+
 					// Create spawn light
 					new SpawnLight(actorpos, teamcolor);
-					
+
 					// Add particles
 					for(int i = 0; i < 20; i++)
 						General.arena.p_magic.Add(actorpos + Vector3D.Random(General.random, 2f, 2f, 2f),
@@ -780,16 +778,16 @@ namespace CodeImp.Bloodmasters.Client
 						General.arena.p_smoke.Add(actor.Position + Vector3D.Random(General.random, 3f, 3f, 0f),
 							Vector3D.Random(General.random, 0.02f, 0.02f, 0.1f), General.ARGB(1f, 0.6f, 0.6f, 0.6f));
 				}
-				
+
 				// Update scoreboard
 				General.scoreboard.Update();
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Receiving
-		
+
 		// This teleports the client
 		// NOTE: The id has already been taken from the message
 		public void Teleport(NetMessage msg)
@@ -801,39 +799,39 @@ namespace CodeImp.Bloodmasters.Client
 			float newx = msg.GetFloat();
 			float newy = msg.GetFloat();
 			float newz = msg.GetFloat();
-			
+
 			// Make vectors
 			Vector3D oldpos = new Vector3D(oldx, oldy, oldz);
 			Vector3D newpos = new Vector3D(newx, newy, newz);
-			
+
 			// Spawn teleport effects
 			new TeleportEffect(oldpos, this.team, false);
 			new TeleportEffect(newpos, this.team, false);
-			
+
 			// Play teleport sound at both locations
 			DirectSound.PlaySound("teleport.wav", oldpos);
 			DirectSound.PlaySound("teleport.wav", newpos);
-			
+
 			// Check if we have an actor
 			if(actor != null)
 			{
 				// Remove lightning
 				actor.RemoveAllLightnings();
-				
+
 				// Apply position
 				actor.State.pos = newpos;
-				
+
 				// Reset velocity
 				actor.State.vel = new Vector3D(0f, 0f, 0f);
-				
+
 				// Position the actor
 				actor.Move(newpos);
-				
+
 				// Clear local moves
 				if(localmoves != null) localmoves.Clear();
 			}
 		}
-		
+
 		// This acts upon damage given to this player
 		// NOTE: The id has already been taken from the message
 		public void TakeDamage(NetMessage msg)
@@ -841,7 +839,7 @@ namespace CodeImp.Bloodmasters.Client
 			// Read the details from message
 			int damage = msg.GetInt();
 			int hurtlevel = msg.GetByte();
-			
+
 			// Unless quiet hurting
 			if(hurtlevel > 0)
 			{
@@ -849,7 +847,7 @@ namespace CodeImp.Bloodmasters.Client
 				hurtlevel += General.random.Next(3) - 1;
 				if(hurtlevel > 5) hurtlevel = 5;
 				if((damage > 7) && (hurtlevel < 1)) hurtlevel = 1;
-				
+
 				// Can only play sound when actor exists
 				if((this.actor != null) && (hurtlevel > 0))
 				{
@@ -858,27 +856,27 @@ namespace CodeImp.Bloodmasters.Client
 					{
 						// Dispose old sound
 						if(hurtsound != null) hurtsound.Dispose();
-						
+
 						// Make hurt sound
 						hurtsound = DirectSound.GetSound("hurt" + hurtlevel.ToString(CultureInfo.InvariantCulture) + ".wav", true);
 						hurtsound.Position = this.actor.Position;
 						hurtsound.Play();
 					}
 				}
-				
+
 				// Flash when local player is hurt
 				if(this == General.localclient)
 					General.hud.FlashScreen((float)damage / 20f);
 			}
 		}
-		
+
 		// This receives a ClientCorrection for the local client
 		public void ClientCorrection(NetMessage msg)
 		{
 			LocalMove lm;
 			Vector2D pushvec;
 			int i = 0;
-			
+
 			// Check if we have an actor
 			if(actor != null)
 			{
@@ -892,25 +890,25 @@ namespace CodeImp.Bloodmasters.Client
 				actor.State.vel.z = msg.GetFloat();
 				pushvec.x = msg.GetFloat();
 				pushvec.y = msg.GetFloat();
-				
+
 				// Set start push vector
 				actor.PushVector = pushvec;
-				
+
 				// Go for all local moves
 				while(i < localmoves.Count)
 				{
 					// Get the move object
 					lm = (LocalMove)localmoves[i];
-					
+
 					// Correct the move
 					if(lm.CorrectMove(basetime))
 					{
 						// Apply the move to the actor
 						lm.ApplyTo(actor);
-						
+
 						// Process the actor's physics
 						actor.ProcessMovement();
-						
+
 						// Next move
 						i++;
 					}
@@ -922,7 +920,7 @@ namespace CodeImp.Bloodmasters.Client
 				}
 			}
 		}
-		
+
 		// This gets a snapshot from message
 		// NOTE: The id has already been taken from the message
 		public void GetSnapshotFromMessage(NetMessage msg)
@@ -936,7 +934,7 @@ namespace CodeImp.Bloodmasters.Client
 			float az = msg.GetFloat();
 			POWERUP pu = (POWERUP)(int)msg.GetByte();
 			byte shootweapon = msg.GetByte();
-			
+
 			// Check if we have an actor
 			if(actor != null)
 			{
@@ -945,14 +943,14 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Apply position
 					actor.State.pos = new Vector3D(px, py, actor.State.pos.z);
-					
+
 					// Apply velocity
 					actor.State.vel = new Vector3D(vx, vy, actor.State.vel.z);
-					
+
 					// Apply aim angle
 					actor.AimAngle = aa;
 					actor.AimAngleZ = az;
-					
+
 					// Shooting a weapon?
 					if(shootweapon < 255)
 					{
@@ -965,11 +963,11 @@ namespace CodeImp.Bloodmasters.Client
 						// Release weapons
 						ReleaseAllWeapons();
 					}
-					
+
 					// Advance state by timenudge
 					actor.AdvanceByTimenudge();
 				}
-				
+
 				// Apply powerup
 				if(pu != powerup)
 				{
@@ -985,7 +983,7 @@ namespace CodeImp.Bloodmasters.Client
 				SendNeedActor();
 			}
 		}
-		
+
 		// This updates client information from message
 		// NOTE: The id has already been taken from the message
 		public void UpdateFromMessage(NetMessage msg)
@@ -997,7 +995,7 @@ namespace CodeImp.Bloodmasters.Client
 			deaths = msg.GetShort();
 			score = msg.GetShort();
 			loading = msg.GetBool();
-			
+
 			// Only for other players there is more information
 			if(!this.IsLocal)
 			{
@@ -1005,7 +1003,7 @@ namespace CodeImp.Bloodmasters.Client
 				SetName(msg.GetString());
 				TEAM newteam = (TEAM)msg.GetByte();
 				spectator = msg.GetBool();
-				
+
 				// When going spectating or changing team
 				if(spectator || (newteam != team))
 				{
@@ -1015,15 +1013,15 @@ namespace CodeImp.Bloodmasters.Client
 					this.SetName(name);
 				}
 			}
-			
+
 			// Update scoreboard
 			General.scoreboard.Update();
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Sending
-		
+
 		// This sends a ClientMove to the server
 		private void SendClientMove(float moveangle, float aimangle, float aimanglez, bool shooting)
 		{
@@ -1043,7 +1041,7 @@ namespace CodeImp.Bloodmasters.Client
 				}
 			}
 		}
-		
+
 		// Pascal 11-01-2006: Fixing invisible players
 		// This sends a request for an actor
 		private void SendNeedActor()
@@ -1057,7 +1055,7 @@ namespace CodeImp.Bloodmasters.Client
 				msg.Send();
 			}
 		}
-		
+
 		// This sends a respawn request to the server
 		private void SendRespawnRequest()
 		{
@@ -1069,7 +1067,7 @@ namespace CodeImp.Bloodmasters.Client
 				msg.Send();
 			}
 		}
-		
+
 		// This sends message to fire powerup
 		private void SendFirePowerup()
 		{
@@ -1081,14 +1079,14 @@ namespace CodeImp.Bloodmasters.Client
 				msg.Send();
 			}
 		}
-		
+
 		// This sends a SwitchWeapon request
 		private void SendWeaponSwitch()
 		{
 			// Send a RespawnRequest message
 			SendWeaponSwitchEx(switchweapon.WeaponID);
 		}
-		
+
 		// This sends a SwitchWeapon request
 		private void SendWeaponSwitchEx(WEAPON weaponid)
 		{
@@ -1101,11 +1099,11 @@ namespace CodeImp.Bloodmasters.Client
 				msg.Send();
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Processing
-		
+
 		// This processes the client
 		public void Process()
 		{
@@ -1113,10 +1111,10 @@ namespace CodeImp.Bloodmasters.Client
 			float aimangle = 0f;
 			float aimanglez = 0f;
 			LocalMove lm;
-			
+
 			// Presume not shooting
 			shooting = false;
-			
+
 			// Check if this is the local client
 			if(this.IsLocal)
 			{
@@ -1128,18 +1126,18 @@ namespace CodeImp.Bloodmasters.Client
 					aimangle = AimingControl();
 					aimanglez = AimingControlZ();
 					shooting = ShootingControl();
-					
+
 					// Apply input to the actor
 					actor.AimAngle = aimangle;
 					actor.AimAngleZ = aimanglez;
-					
+
 					// Make a local move
 					lm = new LocalMove(General.currenttime, walkangle);
 					localmoves.Add(lm);
-					
+
 					// Apply move to actor
 					lm.ApplyTo(actor);
-					
+
 					// When the walking angle changed, we must send
 					// a ClientMove immediately. Otherwise, send a
 					// ClientMove at 'idle' interval.
@@ -1162,18 +1160,18 @@ namespace CodeImp.Bloodmasters.Client
 					RespawnControl();
 				}
 			}
-			
+
 			// Process powerups
 			this.ProcessPowerup();
 		}
-		
+
 		// This takes care of walking control and returns
 		// the walking angle or a negative value when not walking
 		private float WalkingControl(bool onfloor)
 		{
 			bool cd, cu, cl, cr;
 			float angle = -2f;
-			
+
 			// Allowed to move?
 			if(actor.TeleportLock < General.currenttime)
 			{
@@ -1182,7 +1180,7 @@ namespace CodeImp.Bloodmasters.Client
 				cu = General.gamewindow.ControlPressed("walkup");
 				cl = General.gamewindow.ControlPressed("walkleft");
 				cr = General.gamewindow.ControlPressed("walkright");
-				
+
 				// Anything pressed at all?
 				if(cd || cu || cl || cr)
 				{
@@ -1195,23 +1193,23 @@ namespace CodeImp.Bloodmasters.Client
 					else if( cd && !cu &&  cl && !cr) angle = 1.00f;
 					else if(!cd && !cu &&  cl && !cr) angle = 1.25f;
 					else if(!cd &&  cu &&  cl && !cr) angle = 1.50f;
-					
+
 					// Make correct walking angle
 					if(angle > -1f) angle *= (float)Math.PI;
-					
+
 					// Actor-relative movement
 					if(General.movemethod == 2)
 						angle -= actor.AimAngle - (float)Math.PI * 0.75f;
-					
+
 					// Map-relative movement
 					if(General.movemethod == 1)
 						angle += (float)Math.PI * 0.25f;
-					
+
 					// Wrap around
 					while(angle > (float)Math.PI * 2f) angle -= (float)Math.PI * 2f;
 					while(angle < 0) angle += (float)Math.PI * 2f;
 				}
-				
+
 				// Return walking angle
 				return angle;
 			}
@@ -1221,7 +1219,7 @@ namespace CodeImp.Bloodmasters.Client
 				return -2f;
 			}
 		}
-		
+
 		// This takes care of aiming and returns
 		// the current aim angle
 		private float AimingControl()
@@ -1231,11 +1229,11 @@ namespace CodeImp.Bloodmasters.Client
 			float dx = General.arena.MouseAtMap.X - actor.State.pos.x;
 			float dy = General.arena.MouseAtMap.Y - actor.State.pos.y;
 			float angle = (float)Math.Atan2(dy, dx);
-			
+
 			// Return aim angle
 			return angle;
 		}
-		
+
 		// This takes care of aiming and returns
 		// the current Z aim angle
 		private float AimingControlZ()
@@ -1246,27 +1244,27 @@ namespace CodeImp.Bloodmasters.Client
 			float dy = General.arena.MouseAtMap.Y - actor.State.pos.y;
 			Vector2D dxy = new Vector2D(dx, dy);
 			float anglez = -(float)Math.Atan2(dxy.Length(), dz);
-			
+
 			// Return aim angle
 			return anglez;
 		}
-		
+
 		// This takes care of shooting input
 		private bool ShootingControl()
 		{
 			Weapon ww;
-			
+
 			// Not allowed to shoot during finish
 			if((General.gamestate == GAMESTATE.ROUNDFINISH) ||
 			   (General.gamestate == GAMESTATE.GAMEFINISH)) return false;
-			
+
 			// Not allowed to shoot during countdown or spawning
 			if((General.gamestate == GAMESTATE.COUNTDOWN) ||
 			   (General.gamestate == GAMESTATE.SPAWNING)) return false;
-			
+
 			// Not allowed to shoot when no current weapon
 			if(currentweapon == null) return false;
-			
+
 			// Determine if shooting input is given
 			if(General.gamewindow.ControlPressed("fireweapon"))
 			{
@@ -1278,7 +1276,7 @@ namespace CodeImp.Bloodmasters.Client
 					{
 						// Make the local weapon fire
 						currentweapon.Trigger();
-						
+
 						// Shooting
 						return true;
 					}
@@ -1286,7 +1284,7 @@ namespace CodeImp.Bloodmasters.Client
 					{
 						// Release the trigger
 						currentweapon.Released();
-						
+
 						// Locked for switching
 						return false;
 					}
@@ -1295,7 +1293,7 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Release the trigger
 					currentweapon.Released();
-					
+
 					// Find the next best weapon
 					foreach(WEAPON w in General.bestweapons)
 					{
@@ -1304,7 +1302,7 @@ namespace CodeImp.Bloodmasters.Client
 						{
 							// Get a reference to this weapon
 							ww = allweapons[(int)w];
-							
+
 							// Check if the weapon has enough ammo to fire
 							if(ammo[(int)ww.AmmoType] >= ww.UseAmmo)
 							{
@@ -1314,7 +1312,7 @@ namespace CodeImp.Bloodmasters.Client
 							}
 						}
 					}
-					
+
 					// No ammo
 					return false;
 				}
@@ -1323,12 +1321,12 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Release the trigger
 				currentweapon.Released();
-				
+
 				// No shooting
 				return false;
 			}
 		}
-		
+
 		// This takes care of respawn input
 		private void RespawnControl()
 		{
@@ -1340,7 +1338,7 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Send a respawn request
 					SendRespawnRequest();
-					
+
 					// Now pressed
 					respawnpressed = true;
 				}
@@ -1351,7 +1349,7 @@ namespace CodeImp.Bloodmasters.Client
 				respawnpressed = false;
 			}
 		}
-		
+
 		#endregion
 	}
 }

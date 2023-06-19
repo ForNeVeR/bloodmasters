@@ -8,31 +8,31 @@
 using System;
 using System.Drawing;
 using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
 using CodeImp.Bloodmasters;
 using CodeImp;
+using SharpDX;
+using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
 {
 	public class NukeSign
 	{
 		#region ================== Constants
-		
+
 		private const float Z_BIAS = 0.04f;
 		private const float SIZE = 6f;
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		// Texture
 		public static TextureResource texture;
-		
+
 		#endregion
-		
+
 		#region ================== Rendering
-		
+
 		// This renders the nuke sign
 		public static void RenderAt(float x, float y, float z)
 		{
@@ -40,12 +40,12 @@ namespace CodeImp.Bloodmasters.Client
 			Matrix scale = Matrix.Scaling(SIZE, SIZE, 1f);
 			Matrix position = Matrix.Translation(x, y, z + Z_BIAS);
 			Matrix rotate = Matrix.RotationZ((float)General.currenttime * 0.004f);
-			Direct3D.d3dd.Transform.World = Matrix.Multiply(Matrix.Multiply(rotate, scale), position);
-			
+			Direct3D.d3dd.SetTransform(TransformState.World,  Matrix.Multiply(Matrix.Multiply(rotate, scale), position));
+
 			// Render shadow
 			Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
 		}
-		
+
 		#endregion
 	}
 }
