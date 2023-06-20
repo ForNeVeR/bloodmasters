@@ -9,36 +9,30 @@
 // Use the LoadTextureResource function from the Direct3D class
 // to create a texture resource of this type.
 
-using System;
-using System.IO;
-using System.Drawing;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
 {
 	public class TextureResource : ITextureResource
 	{
 		#region ================== Variables
-		
+
 		// Texture and info
 		private string filename;
 		public Texture texture = null;
 		public ImageInformation info;
-		
+
 		#endregion
-		
+
 		#region ================== Properties
-		
+
 		public ImageInformation Info { get { return info; } }
 		public Texture Texture { get { return texture; } }
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public TextureResource(string f, Texture t, ImageInformation i)
 		{
@@ -47,22 +41,22 @@ namespace CodeImp.Bloodmasters.Client
 			info = i;
 			texture = t;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Methods
-		
+
 		// This unloads the resource
 		public void Dispose()
 		{
 			// Remove from cache
 			Direct3D.RemoveTextureCache(filename);
-			
+
 			// Clean up
 			if(texture != null) texture.Dispose();
 			texture = null;
 		}
-		
+
 		#endregion
 	}
 }

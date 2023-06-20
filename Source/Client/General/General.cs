@@ -14,7 +14,6 @@
 using System;
 using System.Collections;
 using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -24,6 +23,8 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using CodeImp.Bloodmasters.Server;
+using SharpDX;
+using SharpDX.Direct3D9;
 
 #endregion
 
@@ -283,7 +284,7 @@ namespace CodeImp.Bloodmasters.Client
 				// Erase device references
 				Direct3D.d3dd.SetTexture(0, null);
 				Direct3D.d3dd.SetTexture(1, null);
-				Direct3D.d3dd.SetStreamSource(0, null, 0);
+				Direct3D.d3dd.SetStreamSource(0, null, 0, 0);
 				Direct3D.d3dd.Indices = null;
 				Direct3D.d3dd.EvictManagedResources();
 			}
@@ -1832,7 +1833,7 @@ namespace CodeImp.Bloodmasters.Client
 						// Unset textures and streams
 						Direct3D.d3dd.SetTexture(0, null);
 						Direct3D.d3dd.SetTexture(1, null);
-						Direct3D.d3dd.SetStreamSource(0, null, 0);
+						Direct3D.d3dd.SetStreamSource(0, null, 0, 0);
 
 						// Done rendering
 						Direct3D.d3dd.EndScene();
@@ -1871,7 +1872,7 @@ namespace CodeImp.Bloodmasters.Client
 			                      (int)((float)(Direct3D.DisplayHeight - background.Height) * 0.5f));
 
 			// Draw background logo on screen
-			try { Direct3D.d3dd.UpdateSurface(background.surface, Direct3D.backbuffer, pos); }
+			try { Direct3D.d3dd.UpdateSurface(background.surface, null, Direct3D.backbuffer, pos); }
 			catch(Exception) { }
 		}
 
@@ -2182,10 +2183,10 @@ namespace CodeImp.Bloodmasters.Client
 				catch(Exception e)
 				{
 					// Out of video memory?
-					if(e is OutOfVideoMemoryException)
+					if(e is SharpDXException { ResultCode: var rc } && rc == ResultCode.OutOfVideoMemory)
 					{
 						// Make a more descriptive error
-						ex = new OutOfVideoMemoryException("Out of video memory while loading the game. Please choose a lower screen resolution or lower graphics options.", e);
+						ex = new Exception("Out of video memory while loading the game. Please choose a lower screen resolution or lower graphics options.", e);
 
 						// Log the error
 						WriteErrorLine(ex);
@@ -2551,22 +2552,22 @@ namespace CodeImp.Bloodmasters.Client
 		// Make a random color
 		public static int RandomColor()
 		{
-			return Color.FromArgb((int)(random.NextDouble() * 255f), (int)(random.NextDouble() * 255f), (int)(random.NextDouble() * 255f)).ToArgb();
+			return System.Drawing.Color.FromArgb((int)(random.NextDouble() * 255f), (int)(random.NextDouble() * 255f), (int)(random.NextDouble() * 255f)).ToArgb();
 		}
 
 		// Make a color from RGB
-		public static int RGB(int r, int g, int b) { return Color.FromArgb(r, g, b).ToArgb(); }
+		public static int RGB(int r, int g, int b) { return System.Drawing.Color.FromArgb(r, g, b).ToArgb(); }
 
 		// Make a color from RGB
 		public static int RGB(float r, float g, float b)
 		{
-			return Color.FromArgb((int)(r * 255f), (int)(g * 255f), (int)(b * 255f)).ToArgb();
+			return System.Drawing.Color.FromArgb((int)(r * 255f), (int)(g * 255f), (int)(b * 255f)).ToArgb();
 		}
 
 		// Make a color from ARGB
 		public static int ARGB(float a, float r, float g, float b)
 		{
-			return Color.FromArgb((int)(a * 255f), (int)(r * 255f), (int)(g * 255f), (int)(b * 255f)).ToArgb();
+			return System.Drawing.Color.FromArgb((int)(a * 255f), (int)(r * 255f), (int)(g * 255f), (int)(b * 255f)).ToArgb();
 		}
 
 		#endregion

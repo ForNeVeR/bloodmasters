@@ -11,8 +11,7 @@
 using System;
 using System.Drawing;
 using System.Globalization;
-using CodeImp.Bloodmasters.Client.Graphics;
-using Vortice.Direct3D9;
+using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
 {

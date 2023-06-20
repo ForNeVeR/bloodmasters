@@ -11,57 +11,54 @@
 // create a surface resource of this type.
 
 using System;
-using System.IO;
 using System.Drawing;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using System.IO;
+using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
 {
 	public sealed class SurfaceResource : Resource
 	{
 		#region ================== Variables
-		
+
 		// This is what this class is all about
 		private string resourcefilename = "";
 		public Surface surface = null;
-		
+
 		// Memory pool where to store this resource
 		private Pool memorypool = Pool.Default;
-		
+
 		// Surface properties
 		private int width = 0;
 		private int height = 0;
-		
+
 		#endregion
-		
+
 		#region ================== Properties
-		
+
 		public string Filename { get { return resourcefilename; } }
 		public int Width { get { return width; } }
 		public int Height { get { return height; } }
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public SurfaceResource(string filename, string referencename, Pool pool) : base(referencename)
 		{
 			// Keep the memory pool
 			memorypool = pool;
-			
+
 			// Set the filename and load resource
 			resourcefilename = filename;
 			this.Load();
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Functions
-		
+
 		// This loads the resource from the given filename
 		public override void Load()
 		{
@@ -70,22 +67,22 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Load the image
 				Image img = Image.FromFile(resourcefilename);
-				
+
 				// Set the properties
 				width = img.Size.Width;
 				height = img.Size.Height;
-				
+
 				// We dont need that image anymore
 				img.Dispose();
 				img = null;
 				GC.Collect();
-				
+
 				// Create the surface
 				surface = Direct3D.d3dd.CreateOffscreenPlainSurface(width, height, (Format)Direct3D.DisplayFormat, memorypool);
-				
+
 				// Load the file into the surface
 				SurfaceLoader.FromFile(surface, resourcefilename, Filter.None, 0);
-				
+
 				// Inform the base class about this load
 				base.Load();
 			}
@@ -95,7 +92,7 @@ namespace CodeImp.Bloodmasters.Client
 				throw new FileNotFoundException("Cannot find the specified file \"" + resourcefilename + "\"", resourcefilename);
 			}
 		}
-		
+
 		// This unloads the resource
 		public override void Unload()
 		{
@@ -106,11 +103,11 @@ namespace CodeImp.Bloodmasters.Client
 				surface.Dispose();
 			}
 			surface = null;
-			
+
 			// Inform the base class about this unload
 			base.Unload();
 		}
-		
+
 		#endregion
 	}
 }
