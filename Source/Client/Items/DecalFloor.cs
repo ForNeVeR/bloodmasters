@@ -5,36 +5,28 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
-
 namespace CodeImp.Bloodmasters.Client
 {
 	[ClientItem(7003, Temporary=true)]
 	public class DecalFloor : Item
 	{
 		#region ================== Constants
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public DecalFloor(Thing t) : base(t)
 		{
 			// Create the decal
 			FloorDecal.Spawn(t.Sector, t.X, t.Y, FloorDecal.blooddecals, true, false, false);
 		}
-		
+
 		#endregion
 	}
 }

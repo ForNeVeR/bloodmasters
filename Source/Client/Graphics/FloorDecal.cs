@@ -6,7 +6,6 @@
 \********************************************************************/
 
 using System;
-using System.Numerics;
 using CodeImp.Bloodmasters.Client.Graphics;
 using SharpDX;
 using SharpDX.Direct3D9;
@@ -42,7 +41,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Geometry
 		private VertexBuffer vertices = null;
-		private Matrix4x4 decalmatrix;
+		private Matrix decalmatrix;
 		private Matrix lightmapmatrix;
 		private Matrix dynlightmapoffsets;
 		private float angle;
@@ -209,10 +208,10 @@ namespace CodeImp.Bloodmasters.Client
 			// Create decal matrix
 			float w = texture.info.Width * size;
 			float h = texture.info.Height * size;
-			decalmatrix = Matrix4x4.Identity;
-			decalmatrix *= Matrix4x4.CreateScale(w, h, 1f);
-			decalmatrix *= Matrix4x4.CreateRotationZ(angle);
-			decalmatrix *= Matrix4x4.CreateTranslation(x, y, z);
+			decalmatrix = Matrix.Identity;
+			decalmatrix *= Matrix.Scaling(w, h, 1f);
+			decalmatrix *= Matrix.RotationZ(angle);
+			decalmatrix *= Matrix.Translation(x, y, z);
 
 			// Create lightmap matrix
 			float lx = sector.LightmapScaledX(origx);
@@ -233,12 +232,11 @@ namespace CodeImp.Bloodmasters.Client
 		public unsafe void CreateGeometry()
 		{
 			// Create vertex buffer
-			vertices = Direct3D.d3dd.CreateVertexBuffer(sizeof(MVertex) * 4,
+			vertices = new VertexBuffer(Direct3D.d3dd, sizeof(MVertex) * 4,
 				Usage.WriteOnly, MVertex.Format, Pool.Default);
 
 			// Lock vertex buffer
-			var verts = vertices.Lock<MVertex>(0, sizeof(MVertex) * 4,
-													LockFlags.None);
+			var verts = vertices.Lock<MVertex>(0, 4);
 
 			// Lefttop
 			verts[0].x = -0.5f;
@@ -337,13 +335,13 @@ namespace CodeImp.Bloodmasters.Client
 				if(sc.Dynamic)
 				{
 					// Make world matrix
-					var m = Matrix4x4.CreateTranslation(0f, 0f, sc.CurrentFloor - sc.HeightFloor);
-					Direct3D.d3dd.SetWorldTransform(decalmatrix * m);
+					var m = Matrix.Translation(0f, 0f, sc.CurrentFloor - sc.HeightFloor);
+					Direct3D.d3dd.SetTransform(TransformState.World, decalmatrix * m);
 				}
 				else
 				{
 					// Reset world matrix
-					Direct3D.d3dd.SetWorldTransform(decalmatrix);
+					Direct3D.d3dd.SetTransform(TransformState.World, decalmatrix);
 				}
 
 				// Apply lightmap matrix
@@ -361,7 +359,7 @@ namespace CodeImp.Bloodmasters.Client
 				Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, base.fadecolor);
 
 				// Render it!
-				Direct3D.d3dd.DrawPrimitive(PrimitiveType.TriangleStrip, 0, 2);
+				Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
 			}
 		}
 

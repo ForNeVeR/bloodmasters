@@ -10,18 +10,15 @@
 // the console, HUD or music.
 
 using System;
-using System.IO;
 using System.Collections;
-using System.Reflection;
 using System.Globalization;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using System.IO;
+using System.Reflection;
 using CodeImp.Bloodmasters.Client.Graphics;
 using SharpDX;
 using SharpDX.Direct3D9;
 using SharpDX.Mathematics.Interop;
 using Color = System.Drawing.Color;
-using RectangleF = System.Drawing.RectangleF;
 
 namespace CodeImp.Bloodmasters.Client
 {

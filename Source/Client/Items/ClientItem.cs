@@ -6,12 +6,6 @@
 \********************************************************************/
 
 using System;
-using System.Drawing;
-using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -28,7 +22,7 @@ namespace CodeImp.Bloodmasters.Client
 		private string sound = "";
 		private bool onfloor = true;
 		private float spriteoffset = 0f;
-		
+
 		// Properties
 		public int ThingID { get { return thingid; } }
 		public string Sprite { get { return defaultsprite; } set { defaultsprite = value; } }
@@ -39,7 +33,7 @@ namespace CodeImp.Bloodmasters.Client
 		public bool OnFloor { get { return onfloor; } set { onfloor = value; } }
 		public string Sound { get { return sound; } set { sound = value; } }
 		public float SpriteOffset { get { return spriteoffset; } set { spriteoffset = value; } }
-		
+
 		// Constructor
 		public ClientItem(int thingid)
 		{

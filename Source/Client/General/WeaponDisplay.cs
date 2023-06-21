@@ -31,7 +31,7 @@ namespace CodeImp.Bloodmasters.Client
 		private TextResource[] ammotexts = new TextResource[(int)WEAPON.TOTAL_WEAPONS];
 
 		// Icon vertices
-		private TLVertex[][] iconvertices = new TLVertex[][(int)WEAPON.TOTAL_WEAPONS];
+		private TLVertex[][] iconvertices = new TLVertex[(int)WEAPON.TOTAL_WEAPONS][];
 
 		// Selection
 		private TLVertex[] selection;

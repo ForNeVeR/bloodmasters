@@ -7,12 +7,7 @@
 
 using System;
 using System.IO;
-using System.Collections;
-using CodeImp;
-
 #if CLIENT
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
 #endif
 
 namespace CodeImp.Bloodmasters
@@ -20,11 +15,11 @@ namespace CodeImp.Bloodmasters
 	public class Thing
 	{
 		#region ================== Constants
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		private int index;
 		private float x;
 		private float y;
@@ -37,11 +32,11 @@ namespace CodeImp.Bloodmasters
 		private int[] arg;				// Thing arguments (usage depends on thing type or action)
 		private Sector sector = null;
 		private Map map;
-		
+
 		#endregion
-		
+
 		#region ================== Properties
-		
+
 		public int Index { get { return index; } }
 		public int Type { get { return type; } }
 		public float X { get { return x; } }
@@ -53,11 +48,11 @@ namespace CodeImp.Bloodmasters
 		public ACTION Action { get { return action; } }
 		public int[] Arg { get { return arg; } }
 		public Sector Sector{ get { return sector; } }
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public Thing(BinaryReader data, int index, Map map)
 		{
@@ -75,7 +70,7 @@ namespace CodeImp.Bloodmasters
 			arg = new int[5];
 			for(int k = 0; k < 5; k++) arg[k] = data.ReadByte();
 		}
-		
+
 		// Destructor
 		public void Dispose()
 		{
@@ -83,29 +78,29 @@ namespace CodeImp.Bloodmasters
 			map = null;
 			sector = null;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Methods
-		
+
 		// This determines the sector where the thing is in
 		public void DetermineSector()
 		{
 			Sidedef s;
 			Linedef l;
-			
+
 			// Get nearest linedef
 			l = map.GetNearestLine(x, y);
-			
+
 			// Determine side of line
 			float side = l.SideOfLine(x, y);
 			if(side < 0) s = l.Front; else s = l.Back;
-			
+
 			// Determine sector
 			if(s != null) sector = s.Sector;
 		}
-		
-		
+
+
 		#endregion
 	}
 }

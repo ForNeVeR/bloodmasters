@@ -5,29 +5,21 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
-
 namespace CodeImp.Bloodmasters.Client
 {
 	[ClientItem(7004, Sprite="rock1.tga", Description="Rock", Bob=false)]
 	public class Rock1 : Item
 	{
 		#region ================== Constants
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public Rock1(Thing t) : base(t)
 		{
@@ -35,17 +27,17 @@ namespace CodeImp.Bloodmasters.Client
 			renderbias = -30f;
 			renderpass = 0;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Override RenderShadow so no shadow is rendered
 		public override void RenderShadow()
 		{
 			// No shadow
 		}
-		
+
 		#endregion
 	}
 }

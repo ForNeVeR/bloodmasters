@@ -5,14 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
-
 namespace CodeImp.Bloodmasters.Client
 {
 	[ClientItem(3006, Sprite="avenger.cfg",
@@ -23,22 +15,22 @@ namespace CodeImp.Bloodmasters.Client
 	public class Avenger : Powerup
 	{
 		#region ================== Constants
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public Avenger(Thing t) : base(t)
 		{
 		}
-		
+
 		#endregion
-		
+
 		// When picked up / taken
 		public override void Take(Client clnt)
 		{
@@ -48,7 +40,7 @@ namespace CodeImp.Bloodmasters.Client
 				// Set the powerup countdown
 				clnt.SetPowerupCountdown(Consts.POWERUP_AVENGER_COUNT, false);
 			}
-			
+
 			// Call the base class
 			base.Take(clnt);
 		}

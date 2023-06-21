@@ -5,53 +5,47 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.IO;
-using System.Drawing;
 using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using System.IO;
 
 namespace CodeImp.Bloodmasters.Client
 {
 	public class Jukebox
 	{
 		#region ================== Constants
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		// Tracks to play
 		private string[] playlist;
-		
+
 		// Music settings
 		private float volume;
-		
+
 		// Current track
 		private int currentitem = 0;
 		private Track currenttrack = null;
-		
+
 		#endregion
-		
+
 		#region ================== Properties
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public Jukebox()
 		{
 			// Determine volume
 			volume = (float)General.config.ReadSetting("musicvolume", 50) / 100f;
-			
+
 			// Make playlist from directory
 			string musicdir = Path.Combine(General.apppath, "Music");
 			playlist = Directory.GetFiles(musicdir, "*.mp3");
-			
+
 			// Randomize playlist?
 			if(General.config.ReadSetting("musicrandom", true))
 			{
@@ -63,7 +57,7 @@ namespace CodeImp.Bloodmasters.Client
 					{
 						// Pick a random entry b
 						int b = General.random.Next(playlist.Length);
-						
+
 						// Swap items
 						string temp = playlist[a];
 						playlist[a] = playlist[b];
@@ -78,7 +72,7 @@ namespace CodeImp.Bloodmasters.Client
 				sorter.Sort();
 				playlist = (string[])sorter.ToArray(typeof(string));
 			}
-			
+
 			// Start playing the first track
 			if(playlist.Length > 0)
 			{
@@ -87,21 +81,21 @@ namespace CodeImp.Bloodmasters.Client
 				currenttrack.Play(volume, 0f, false);
 			}
 		}
-		
+
 		// Disposer
 		public void Dispose()
 		{
 			// Dispose current track
 			if(currenttrack != null) currenttrack.Dispose();
-			
+
 			// Clean up
 			playlist = null;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Processing
-		
+
 		// This processes the jukebox
 		public void Process()
 		{
@@ -113,7 +107,7 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Dispose current track
 					currenttrack.Dispose();
-					
+
 					// Go to next track
 					currentitem++;
 					if(currentitem == playlist.Length) currentitem = 0;
@@ -122,7 +116,7 @@ namespace CodeImp.Bloodmasters.Client
 				}
 			}
 		}
-		
+
 		#endregion
 	}
 }

@@ -6,12 +6,6 @@
 \********************************************************************/
 
 using System;
-using System.IO;
-using System.Threading;
-using Microsoft.DirectX;
-using Microsoft.DirectX.DirectSound;
-using CodeImp.Bloodmasters;
-using CodeImp;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -24,7 +18,7 @@ namespace CodeImp.Bloodmasters.Client
 		void Play(bool repeat);
 		void Play(float volume, bool repeat);
 		void Stop();
-		
+
 		bool Repeat { get; }
 		bool AutoDispose { get; set; }
 		string Filename { get; }
@@ -33,6 +27,6 @@ namespace CodeImp.Bloodmasters.Client
 		bool Positional { get; }
 		Vector2D Position { get; set; }
 		bool Disposed { get; }
-		
+
 	}
 }

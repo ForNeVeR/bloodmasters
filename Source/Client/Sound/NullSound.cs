@@ -1,11 +1,3 @@
-using System;
-using System.IO;
-using System.Threading;
-using Microsoft.DirectX;
-using Microsoft.DirectX.DirectSound;
-using CodeImp.Bloodmasters;
-using CodeImp;
-
 namespace CodeImp.Bloodmasters.Client
 {
 	/// <summary>
@@ -17,7 +9,7 @@ namespace CodeImp.Bloodmasters.Client
 		public NullSound()
 		{
 		}
-		
+
 		public void ResetSettings()
 		{
 			// TODO:  Add NullSound.ResetSettings implementation
@@ -136,7 +128,7 @@ namespace CodeImp.Bloodmasters.Client
 				return false;
 			}
 		}
-		
+
 		public void Dispose()
 		{
 			// TODO:  Add NullSound.Dispose implementation

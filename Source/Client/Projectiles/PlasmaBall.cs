@@ -6,13 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Drawing;
-using System.Globalization;
-using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -20,46 +14,46 @@ namespace CodeImp.Bloodmasters.Client
 	public class PlasmaBall : Projectile
 	{
 		#region ================== Constants
-		
+
 		private const float SPRITE_SIZE = 3f;
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		// Static components
 		public static TextureResource plasmaball;
-		
+
 		// Members
 		private Sprite sprite;
 		private ISound flying;
 		private DynamicLight light;
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public PlasmaBall(string id, Vector3D start, Vector3D vel) : base(id, start, vel)
 		{
 			// Copy properties
 			state.pos = start;
 			state.vel = vel;
-			
+
 			// Make the ball sprite
 			sprite = new Sprite(start, SPRITE_SIZE, false, true);
 			UpdateSprite();
-			
+
 			// Make the light
 			light = new DynamicLight(start, 10f, General.ARGB(0.3f, 0.4f, 0.8f, 1f), 3);
-			
+
 			// Create flying sound
 			//flying = DirectSound.GetSound("plasmafly.wav", true);
 			flying = new NullSound();
 			flying.Position = start;
 			flying.Play(true);
 		}
-		
+
 		// Dispose
 		public override void Dispose()
 		{
@@ -68,59 +62,59 @@ namespace CodeImp.Bloodmasters.Client
 			sprite = null;
 			flying = null;
 			light.Dispose();
-			
+
 			// Dispose base
 			base.Dispose();
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Methods
-		
+
 		// This updates the sprite for the velocity
 		private void UpdateSprite()
 		{
 			Vector2D normal;
 			float rotangle;
-			
+
 			// Calculate sprite rotation angle
 			normal = state.vel;
 			normal.Normalize();
 			rotangle = (float)Math.Atan2(-normal.y, normal.x) + (float)Math.PI * 0.25f;
 			sprite.Rotation = rotangle;
-			
+
 			// Update sprite
 			sprite.Update();
 		}
-		
+
 		// When teleported
 		public override void TeleportTo(Vector3D oldpos, Vector3D newpos, Vector3D newvel)
 		{
 			// Teleport base class
 			base.TeleportTo(oldpos, newpos, newvel);
-			
+
 			// Update sprites
 			UpdateSprite();
 		}
-		
+
 		// When updated
 		public override void Update(Vector3D newpos, Vector3D newvel)
 		{
 			// Update base class
 			base.Update(newpos, newvel);
-			
+
 			// Update sprites
 			UpdateSprite();
 		}
-		
+
 		// When destroyed
 		public override void Destroy(Vector3D atpos, bool silent, Client hitplayer)
 		{
 			Vector3D decalpos = atpos;
-			
+
 			// Where are we now?
 			Sector sector = General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
-			
+
 			// Not silent?
 			if((silent == false) && (sector != null))
 			{
@@ -137,11 +131,11 @@ namespace CodeImp.Bloodmasters.Client
 							for(int i = 0; i < 2; i++)
 								General.arena.p_blood.Add(atpos, state.vel * 0.04f, General.ARGB(1f, 1f, 0.0f, 0.0f));
 						}
-						
+
 						// Floor decal
 						if((sector != null) && (sector.Material != (int)SECTORMATERIAL.LIQUID) && (General.random.Next(100) < 30))
 							FloorDecal.Spawn(sector, state.pos.x, state.pos.y, FloorDecal.blooddecals, false, true, false);
-						
+
 						// Create wall decal
 						if(General.random.Next(100) < 50)
 							WallDecal.Spawn(state.pos.x, state.pos.y, state.pos.z + (float)General.random.NextDouble() * 10f - 6f, Consts.PLAYER_DIAMETER, WallDecal.blooddecals, false);
@@ -151,7 +145,7 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Track back a little
 					decalpos = atpos - this.state.vel;
-					
+
 					// Near the floor?
 					if(((decalpos.z - sector.CurrentFloor) < 2f) &&
 					   ((decalpos.z - sector.CurrentFloor) > -2f))
@@ -166,14 +160,14 @@ namespace CodeImp.Bloodmasters.Client
 						WallDecal.Spawn(decalpos.x, decalpos.y, decalpos.z, 2f, WallDecal.plasmadecals, false);
 					}
 				}
-				
+
 				// Kill flying sound
 				flying.Stop();
-				
+
 				// Make hit sound
 				if(sector.VisualSector.InScreen)
 					DirectSound.PlaySound("plasmahit.wav", atpos);
-				
+
 				// Check if on screen
 				if(sector.VisualSector.InScreen)
 				{
@@ -193,7 +187,7 @@ namespace CodeImp.Bloodmasters.Client
 					// Make splash sound
 					if(sector.VisualSector.InScreen)
 						DirectSound.PlaySound("dropwater.wav", atpos);
-					
+
 					// Check if on screen
 					if(sector.VisualSector.InScreen)
 					{
@@ -206,27 +200,27 @@ namespace CodeImp.Bloodmasters.Client
 					}
 				}
 			}
-			
+
 			// Destroy base
 			base.Destroy(atpos, silent, hitplayer);
 		}
-		
+
 		// Process the projectile
 		public override void Process()
 		{
 			// Process base object
 			base.Process();
-			
+
 			// Position sprite
 			sprite.Position = this.state.pos;
-			
+
 			// Position light
 			light.Position = this.state.pos;
-			
+
 			// Update sound coodinates
 			flying.Position = state.pos;
 		}
-		
+
 		// Render the projectile
 		public override void Render()
 		{
@@ -235,20 +229,20 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Set render mode
 				Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-				Direct3D.d3dd.RenderState.TextureFactor = -1;
-				Direct3D.d3dd.RenderState.ZBufferEnable = true;
-				
+				Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+				Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
+
 				// No lightmap
 				Direct3D.d3dd.SetTexture(1, null);
-				
+
 				// Texture
 				Direct3D.d3dd.SetTexture(0, PlasmaBall.plasmaball.texture);
-				
+
 				// Render sprite
 				sprite.Render();
 			}
 		}
-		
+
 		#endregion
 	}
 }

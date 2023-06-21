@@ -6,10 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Drawing;
 using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -204,7 +201,7 @@ namespace CodeImp.Bloodmasters.Client
 					// Set render mode
 					Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
 					Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
-					//Direct3D.d3dd.RenderState.ZBufferEnable = false;
+					//Direct3D.d3dd.SetRenderState(RenderState.ZEnable, false);
 
 					// No lightmap
 					Direct3D.d3dd.SetTexture(1, null);
@@ -216,7 +213,7 @@ namespace CodeImp.Bloodmasters.Client
 					sprite.Render();
 
 					// Restore Z buffer
-					//Direct3D.d3dd.RenderState.ZBufferEnable = true;
+					//Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
 				}
 			}
 		}

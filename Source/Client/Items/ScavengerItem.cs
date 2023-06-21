@@ -5,21 +5,14 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Globalization;
 using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
 
 namespace CodeImp.Bloodmasters.Client
 {
 	public class ScavengerItem : Item
 	{
 		#region ================== Variables
-		
+
 		// Team info
 		protected TEAM thisteam;
 		protected TEAM otherteam;
@@ -27,32 +20,32 @@ namespace CodeImp.Bloodmasters.Client
 		protected string otherteamcolor;
 		protected string thisteamname;
 		protected string thisteamcolor;
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public ScavengerItem(Thing t) : base(t)
 		{
 		}
-		
+
 		// Disposer
 		public override void Dispose()
 		{
 			// Dispose base
 			base.Dispose();
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Methods
-		
+
 		// This counts the total items for a team
 		public static int CountTotalItems(TEAM team)
 		{
 			int result = 0;
-			
+
 			// Go for all items in the map
 			foreach(DictionaryEntry de in General.arena.Items)
 			{
@@ -61,21 +54,21 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Get the object
 					ScavengerItem si = (ScavengerItem)de.Value;
-					
+
 					// Count item when for this team
 					if(si.thisteam == team) result++;
 				}
 			}
-			
+
 			// Return result
 			return result;
 		}
-		
+
 		// This counts the remaining items for a team
 		public static int CountRemainingItems(TEAM team)
 		{
 			int result = 0;
-			
+
 			// Go for all items in the map
 			foreach(DictionaryEntry de in General.arena.Items)
 			{
@@ -84,7 +77,7 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Get the object
 					ScavengerItem si = (ScavengerItem)de.Value;
-					
+
 					// Item for this team?
 					if(si.thisteam == team)
 					{
@@ -93,11 +86,11 @@ namespace CodeImp.Bloodmasters.Client
 					}
 				}
 			}
-			
+
 			// Return result
 			return result;
 		}
-		
+
 		// This respawns all items for a team
 		public static void RespawnItems(TEAM team)
 		{
@@ -109,7 +102,7 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Get the object
 					ScavengerItem si = (ScavengerItem)de.Value;
-					
+
 					// Item for this team?
 					if(si.thisteam == team)
 					{
@@ -119,7 +112,7 @@ namespace CodeImp.Bloodmasters.Client
 				}
 			}
 		}
-		
+
 		// This sets team names and colors
 		protected void SetTeam(TEAM team)
 		{
@@ -155,19 +148,19 @@ namespace CodeImp.Bloodmasters.Client
 				otherteamcolor = "^7";
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Control
-		
+
 		// When picked up / taken
 		public override void Take(Client clnt)
 		{
 			int remaining = 0;
-			
+
 			// Call the base class
 			base.Take(clnt);
-			
+
 			// Item on same team as client?
 			if(thisteam == clnt.Team)
 			{
@@ -181,39 +174,39 @@ namespace CodeImp.Bloodmasters.Client
 				clnt.Score--;
 				General.teamscore[(int)clnt.Team]--;
 			}
-			
+
 			// Count remaining items
 			remaining = CountRemainingItems(thisteam);
-			
+
 			// Last item for this team?
 			if(remaining == 0)
 			{
 				// Play capture sound
 				DirectSound.PlaySound("flagcapture.wav");
-				
+
 				// Show message?
 				if(thisteam != TEAM.NONE)
 				{
 					// Show message
 					General.hud.ShowBigMessage(thisteamcolor + thisteamname.ToUpper() + " TEAM FINISHED A ROUND!", 3000);
 				}
-				
+
 				// Respawn them all!
 				RespawnItems(thisteam);
 			}
-			
+
 			// Update scoreboard and hud
 			General.scoreboard.Update();
 			General.hud.UpdateScore();
 		}
-		
+
 		// When processed
 		public override void Process()
 		{
 			// Process base class
 			base.Process();
 		}
-		
+
 		#endregion
 	}
 }

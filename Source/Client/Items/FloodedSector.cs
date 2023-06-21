@@ -5,48 +5,40 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
-
 namespace CodeImp.Bloodmasters.Client
 {
 	[ClientItem(9003, Visible=false, OnFloor=false)]
 	public class FloodedSector : Item
 	{
 		#region ================== Constants
-		
+
 		private const int TICK_INTERVAL = 100;
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		private int ticktime;
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public FloodedSector(Thing t) : base(t)
 		{
 			// Apply liquid settings to sector
 			t.Sector.LiquidType = (LIQUID)t.Arg[0];
 			t.Sector.LiquidHeight = this.Position.z;
-			
+
 			// Set timer
 			ticktime = General.currenttime;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Processing
-		
+
 		// Processing
 		public override void Process()
 		{
@@ -75,15 +67,15 @@ namespace CodeImp.Bloodmasters.Client
 						}
 					}
 				}
-				
+
 				// Increase timer
 				ticktime += TICK_INTERVAL;
 			}
-			
+
 			// Pass control to base class
 			base.Process();
 		}
-		
+
 		// This makes particles for a player in water
 		public static void SpawnWaterParticles(Actor a, int amount)
 		{
@@ -91,7 +83,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(a.State.vel.LengthSq() > 0.0001f)
 				SpawnWaterParticles(a.Position, a.Velocity, amount);
 		}
-		
+
 		// This makes particles for a position in water
 		public static void SpawnWaterParticles(Vector3D pos, Vector3D vel, int amount)
 		{
@@ -109,7 +101,7 @@ namespace CodeImp.Bloodmasters.Client
 							General.ARGB(1f, 0.5f, 0.9f, 1f));
 			}
 		}
-		
+
 		// This makes particles for a player in lava
 		public static void SpawnLavaParticles(Actor a, int amount)
 		{
@@ -117,7 +109,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(a.State.vel.LengthSq() > 0.0001f)
 				SpawnLavaParticles(a.Position, a.Velocity, amount);
 		}
-		
+
 		// This makes particles for a position in lava
 		public static void SpawnLavaParticles(Vector3D pos, Vector3D vel, int amount)
 		{
@@ -132,7 +124,7 @@ namespace CodeImp.Bloodmasters.Client
 							General.ARGB(1f, 1f, 1f, 0.4f));
 			}
 		}
-		
+
 		#endregion
 	}
 }

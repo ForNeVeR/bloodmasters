@@ -5,6 +5,8 @@
         <TargetFramework>net7.0-windows</TargetFramework>
         <UseWindowsForms>true</UseWindowsForms>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+        <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -451,6 +453,7 @@
     <Compile Include="Graphics\CharSet.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Graphics\ColorOperator.cs" />
     <Compile Include="Graphics\Decal.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -475,6 +478,7 @@
     <Compile Include="Graphics\ParticleCollection.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Graphics\RectangleEx.cs" />
     <Compile Include="Graphics\SectorShadow.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -484,6 +488,8 @@
     <Compile Include="Graphics\Sprite.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Graphics\Vector3Ex.cs" />
+    <Compile Include="Graphics\VertexBufferEx.cs" />
     <Compile Include="Graphics\VisualObject.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -763,6 +769,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SharpDX.Direct3D9" Version="4.2.0" />
+    <PackageReference Include="SharpDX.DirectSound" Version="4.2.0" />
     <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
   </ItemGroup>
 </Project>

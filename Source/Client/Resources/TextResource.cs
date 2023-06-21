@@ -13,35 +13,36 @@
 using System.Drawing;
 using System.Text;
 using CodeImp.Bloodmasters.Client.Graphics;
+using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
 {
 	public sealed class TextResource : Resource
 	{
 		#region ================== Constants
-		
+
 		// Number of color code values
 		private const int COLOR_CODE_VALS = 10;
-		
+
 		// Bright text color
 		public static TextColors color_brighttext =
 			new TextColors(General.RGB(255, 255, 255), General.RGB(255, 255, 255),
 						   General.RGB(255, 255, 255), General.RGB(160, 160, 160));
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		// The text is stored as a polygon in a vertex buffer
 		public VertexBuffer textbuffer = null;
 		public int numfaces = 0;
-		
+
 		// Texture resource to use for rendering
 		private Texture texture;
-		
+
 		// Viewport in which the text is clipped and aligned
 		private RectangleF viewport;
-		
+
 		// Information that makes up this text resource
 		// This is needed to recreate the VertexBuffer after reset.
 		private string text = "";
@@ -50,22 +51,22 @@ namespace CodeImp.Bloodmasters.Client
 		private float scale = 1;
 		private int alignx = 0;
 		private int aligny = 0;
-		
+
 		// Text size
 		private SizeF textsize;
-		
+
 		// This keeps track if changes were made
 		private bool updateneeded = true;
-		
+
 		// Color codes
 		public static TextColors[] color_code = new TextColors[COLOR_CODE_VALS];
 		public static byte[] color_code_vals = new byte[COLOR_CODE_VALS];
 		private int modcolor = -1;
-		
+
 		#endregion
-		
+
 		#region ================== Properties
-		
+
 		// Properties
 		public RectangleF Viewport { get { return viewport; } set { viewport = value; updateneeded = true; } }
 		public float Left { get { return viewport.X; } set { viewport.X = value; updateneeded = true; } }
@@ -85,26 +86,26 @@ namespace CodeImp.Bloodmasters.Client
 		public TextAlignX HorizontalAlign { get { return (TextAlignX)alignx; } set { alignx = (int)value; updateneeded = true; } }
 		public TextAlignY VerticalAlign { get { return (TextAlignY)aligny; } set { aligny = (int)value; updateneeded = true; } }
 		public int ModulateColor { get { return modcolor; } set { if(modcolor != value) { modcolor = value; updateneeded = true; } } }
-		
+
 		#endregion
-		
+
 		#region ================== Color Codes
-		
+
 		/*
 		// This strips color codes from a string
 		public static string StripColorCodes(string str, CharSet charset)
 		{
 			bool colorcode = false;
 			int nb = 0;
-			
+
 			// If the charset does not use color codes
 			// the result will stay unchanged anyway
 			if(!charset.UsesColorCode) return str;
-			
+
 			// Get original bytes
 			byte[] ostr = Encoding.ASCII.GetBytes(str);
 			byte[] nstr = new byte[ostr.Length];
-			
+
 			// Go for all bytes
 			for(int b = 0; b < ostr.Length; b++)
 			{
@@ -126,12 +127,12 @@ namespace CodeImp.Bloodmasters.Client
 					nstr[nb++] = ostr[b];
 				}
 			}
-			
+
 			// Make final string
 			return Encoding.ASCII.GetString(nstr, 0, nb);
 		}
 		*/
-		
+
 		// This initializes the color codes
 		public static void Initialize()
 		{
@@ -140,84 +141,84 @@ namespace CodeImp.Bloodmasters.Client
 			color_code[0] = new TextColors(
 				General.RGB(180, 180, 180), General.RGB(180, 180, 180),
 				General.RGB(180, 180, 180), General.RGB(130, 130, 130));
-			
+
 			// Blue
 			color_code_vals[1] = Encoding.ASCII.GetBytes("1")[0];
 			color_code[1] = new TextColors(
 				General.RGB(180, 180, 255), General.RGB(150, 150, 255),
 				General.RGB(150, 150, 255), General.RGB(120, 120, 200));
-			
+
 			// Green
 			color_code_vals[2] = Encoding.ASCII.GetBytes("2")[0];
 			color_code[2] = new TextColors(
 				General.RGB(180, 255, 180), General.RGB(150, 255, 150),
 				General.RGB(150, 255, 150), General.RGB(120, 200, 120));
-			
+
 			// Cyan
 			color_code_vals[3] = Encoding.ASCII.GetBytes("3")[0];
 			color_code[3] = new TextColors(
 				General.RGB(180, 255, 255), General.RGB(150, 255, 255),
 				General.RGB(150, 255, 255), General.RGB(120, 200, 200));
-			
+
 			// Red
 			color_code_vals[4] = Encoding.ASCII.GetBytes("4")[0];
 			color_code[4] = new TextColors(
 				General.RGB(255, 180, 150), General.RGB(255, 150, 130),
 				General.RGB(255, 150, 130), General.RGB(200, 120, 120));
-			
+
 			// Magenta
 			color_code_vals[5] = Encoding.ASCII.GetBytes("5")[0];
 			color_code[5] = new TextColors(
 				General.RGB(255, 180, 255), General.RGB(255, 150, 255),
 				General.RGB(255, 150, 255), General.RGB(200, 120, 200));
-			
+
 			// Yellow
 			color_code_vals[6] = Encoding.ASCII.GetBytes("6")[0];
 			color_code[6] = new TextColors(
 				General.RGB(255, 255, 180), General.RGB(255, 255, 150),
 				General.RGB(255, 255, 150), General.RGB(200, 200, 120));
-			
+
 			// White
 			color_code_vals[7] = Encoding.ASCII.GetBytes("7")[0];
 			color_code[7] = new TextColors(
 				General.RGB(255, 255, 255), General.RGB(255, 255, 255),
 				General.RGB(255, 255, 255), General.RGB(160, 160, 160));
-			
+
 			// Orange
 			color_code_vals[8] = Encoding.ASCII.GetBytes("8")[0];
 			color_code[8] = new TextColors(
 				General.RGB(255, 230, 120), General.RGB(255, 200, 110),
 				General.RGB(255, 200, 110), General.RGB(200, 160, 60));
-			
+
 			// Pink
 			color_code_vals[9] = Encoding.ASCII.GetBytes("9")[0];
 			color_code[9] = new TextColors(
 				General.RGB(255, 220, 220), General.RGB(255, 200, 200),
 				General.RGB(255, 200, 200), General.RGB(200, 160, 160));
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public TextResource(CharSet textcharset, string referencename) : base(referencename)
 		{
 			// Set the charset
 			charset = textcharset;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Methods
-		
+
 		// This reloads the text if changed were made
 		public void Prepare()
 		{
 			// Load if update needed
 			if(updateneeded) this.Load();
 		}
-		
+
 		// This renders the text manually
 		public void Render()
 		{
@@ -226,23 +227,23 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Prepare text for rendering
 				this.Prepare();
-				
+
 				// Something to render?
 				if(numfaces > 0)
 				{
 					// Set the texture
 					Direct3D.d3dd.SetTexture(0, texture);
-					
+
 					// Render the text
 					Direct3D.d3dd.SetStreamSource(0, textbuffer, 0, TLVertex.Stride);
 					Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, numfaces);
 				}
 			}
 		}
-		
+
 		// This formats and loads the text in the VertexBuffer
 		// Call this after making changes to the text object to update the text
-		public override void Load()
+		public override unsafe void Load()
 		{
 			CharInfo charinfo;
 			byte[] btext;
@@ -253,7 +254,7 @@ namespace CodeImp.Bloodmasters.Client
 			TextColors curcol = textcolors;
 			bool colorcode = false;
 			int charsmade = 0;
-			
+
 			// Check if a VertexBuffer is already created
 			if(textbuffer != null)
 			{
@@ -261,35 +262,34 @@ namespace CodeImp.Bloodmasters.Client
 				textbuffer.Dispose();
 				textbuffer = null;
 			}
-			
+
 			// Cannot make this when theres no text to render
 			if(text.Length == 0) return;
-			
+
 			// Calculate the number of vertices
 			int numvertices = General.StripColorCodes(text).Length * 4;
-			
+
 			// Cannot make this when theres no vertices
 			numfaces = 0;
 			if(numvertices == 0) return;
-			
+
 			// Create VertexBuffer
-			textbuffer = new VertexBuffer(typeof(TLVertex), numvertices, Direct3D.d3dd,
+			textbuffer = new VertexBuffer(Direct3D.d3dd, sizeof(TLVertex) * numvertices,
 										  Usage.WriteOnly | Usage.DoNotClip,
 										  TLVertex.Format, Pool.Default);
-			
+
 			// Lock the buffer
-			TLVertex[] vertices = (TLVertex[])textbuffer.Lock(0, typeof(TLVertex),
-												LockFlags.None, numvertices);
-			
+			var vertices = textbuffer.Lock<TLVertex>(0, numvertices);
+
 			// Calculate the absolute viewport
 			view = new RectangleF(viewport.X * Direct3D.DisplayWidth, viewport.Y * Direct3D.DisplayHeight,
 								  viewport.Width * Direct3D.DisplayWidth, viewport.Height * Direct3D.DisplayHeight);
-			
+
 			// Calculate the text size
 			textsize = charset.GetTextSize(text, scale);
 			sizex = textsize.Width;
 			sizey = textsize.Height;
-			
+
 			// Align the text horizontally
 			switch(alignx)
 			{
@@ -297,7 +297,7 @@ namespace CodeImp.Bloodmasters.Client
 				case 1: beginx = view.X + (view.Width - sizex) / 2; break;
 				case 2: beginx = view.X + view.Width - sizex; break;
 			}
-			
+
 			// Align the text vertically
 			switch(aligny)
 			{
@@ -305,16 +305,16 @@ namespace CodeImp.Bloodmasters.Client
 				case 1: beginy = view.Y + (view.Height - sizey) / 2; break;
 				case 2: beginy = view.Y + view.Height - sizey; break;
 			}
-			
+
 			// Modulate color
 			curcol.lt = ColorOperator.Modulate(curcol.lt, modcolor);
 			curcol.lb = ColorOperator.Modulate(curcol.lb, modcolor);
 			curcol.rt = ColorOperator.Modulate(curcol.rt, modcolor);
 			curcol.rb = ColorOperator.Modulate(curcol.rb, modcolor);
-			
+
 			// Get the ASCII bytes for the text
 			btext = Encoding.ASCII.GetBytes(text);
-			
+
 			// Go for all chars in text to create the polygon
 			foreach(byte b in btext)
 			{
@@ -335,7 +335,7 @@ namespace CodeImp.Bloodmasters.Client
 						{
 							// Select this color now
 							curcol = color_code[c];
-							
+
 							// Modulate color
 							curcol.lt = ColorOperator.Modulate(curcol.lt, modcolor);
 							curcol.lb = ColorOperator.Modulate(curcol.lb, modcolor);
@@ -344,7 +344,7 @@ namespace CodeImp.Bloodmasters.Client
 							break;
 						}
 					}
-					
+
 					// Done
 					colorcode = false;
 				}
@@ -353,7 +353,7 @@ namespace CodeImp.Bloodmasters.Client
 					// Get the character information
 					charinfo = charset.Chars[b];
 					nwidth = charinfo.width * scale;
-					
+
 					// Create lefttop vertex
 					vertices[v].color = curcol.lt;
 					vertices[v].tu = charinfo.u1;
@@ -362,7 +362,7 @@ namespace CodeImp.Bloodmasters.Client
 					vertices[v].y = beginy;
 					vertices[v].rhw = 1f;
 					v++;
-					
+
 					// Create leftbottom vertex
 					vertices[v].color = curcol.lb;
 					vertices[v].tu = charinfo.u1;
@@ -371,10 +371,10 @@ namespace CodeImp.Bloodmasters.Client
 					vertices[v].y = beginy + sizey;
 					vertices[v].rhw = 1f;
 					v++;
-					
+
 					// Moving on
 					beginx += nwidth;
-					
+
 					// Create righttop vertex
 					vertices[v].color = curcol.rt;
 					vertices[v].tu = charinfo.u2;
@@ -383,7 +383,7 @@ namespace CodeImp.Bloodmasters.Client
 					vertices[v].y = beginy;
 					vertices[v].rhw = 1f;
 					v++;
-					
+
 					// Create rightbottom vertex
 					vertices[v].color = curcol.rb;
 					vertices[v].tu = charinfo.u2;
@@ -392,25 +392,25 @@ namespace CodeImp.Bloodmasters.Client
 					vertices[v].y = beginy + sizey;
 					vertices[v].rhw = 1f;
 					v++;
-					
+
 					// Count character
 					charsmade++;
 				}
 			}
-			
+
 			// Calculate number of triangles
 			numfaces = charsmade * 4 - 2;
-			
+
 			// Done filling the vertex buffer
 			textbuffer.Unlock();
-			
+
 			// Text updated
 			updateneeded = false;
-			
+
 			// Inform the base class about this load
 			base.Load();
 		}
-		
+
 		// This unloads the resource
 		public override void Unload()
 		{
@@ -418,14 +418,14 @@ namespace CodeImp.Bloodmasters.Client
 			if(textbuffer != null) textbuffer.Dispose();
 			textbuffer = null;
 			updateneeded = true;
-			
+
 			// Inform the base class about this unload
 			base.Unload();
 		}
-		
+
 		#endregion
 	}
-	
+
 	// This struct is used to define the colors of a character
 	public struct TextColors
 	{
@@ -434,14 +434,14 @@ namespace CodeImp.Bloodmasters.Client
 		public int rt;
 		public int lb;
 		public int rb;
-		
+
 		public bool Equals(TextColors obj)
 		{
 			return (obj.lt == this.lt) && (obj.rt == this.rt) &&
 			       (obj.lb == this.lb) && (obj.rb == this.rb);
 		}
 	}
-	
+
 	// This enumeration defines horizontal alignment
 	public enum TextAlignX : int
 	{
@@ -449,7 +449,7 @@ namespace CodeImp.Bloodmasters.Client
 		Center = 1,
 		Right = 2
 	}
-	
+
 	// This enumeration defines vertical alignment
 	public enum TextAlignY : int
 	{

@@ -6,9 +6,8 @@
 \********************************************************************/
 
 using System;
-using System.Numerics;
-using CodeImp.Bloodmasters.Client.Graphics;
-using Vortice.Direct3D9;
+using SharpDX;
+using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -118,8 +117,8 @@ namespace CodeImp.Bloodmasters.Client
 			Direct3D.d3dd.SetTexture(1, null);
 
 			// Set matrices
-			Direct3D.d3dd.SetWorldTransform(Matrix4x4.Identity);
-			Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix4x4.Identity);
+			Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
+			Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
 
 			// Render the laser
 			Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, v);

@@ -5,13 +5,8 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using CodeImp.Bloodmasters.Client.Graphics;
+using SharpDX;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -42,15 +37,14 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Geometry
 
 		// Create the geometry
-		public static void CreateGeometry()
+		public static unsafe void CreateGeometry()
 		{
 			// Create vertex buffer
-			vertices = new VertexBuffer(typeof(MVertex), 4, Direct3D.d3dd,
+			vertices = new VertexBuffer(Direct3D.d3dd, sizeof(MVertex) * 4,
 				Usage.WriteOnly, MVertex.Format, Pool.Default);
 
 			// Lock vertex buffer
-			MVertex[] verts = (MVertex[])vertices.Lock(0, typeof(MVertex),
-													LockFlags.None, 4);
+			var verts = vertices.Lock<MVertex>(0, 4);
 
 			// Lefttop
 			verts[0].x = -0.5f;
@@ -127,12 +121,12 @@ namespace CodeImp.Bloodmasters.Client
 		public static void RenderAt(float x, float y, float z, float size, float alpha)
 		{
 			// Drawing settings
-			Direct3D.d3dd.RenderState.TextureFactor = General.ARGB(alpha, 1f, 1f, 1f);
+			Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(alpha, 1f, 1f, 1f));
 
 			// World matrix
 			Matrix scale = Matrix.Scaling(size, size, 1f);
 			Matrix position = Matrix.Translation(x, y, z + Z_BIAS);
-			Direct3D.d3dd.Transform.World = Matrix.Multiply(scale, position);
+			Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Multiply(scale, position));
 
 			// Render shadow
 			Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);

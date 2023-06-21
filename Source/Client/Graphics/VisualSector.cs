@@ -7,16 +7,17 @@
 
 using System;
 using System.Collections;
-using System.Drawing;
 using System.IO;
 using CodeImp.Bloodmasters.Client.Graphics;
+using SharpDX;
+using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
 {
 	public class VisualSector
 	{
 		#region ================== Constants
-		
+
 		public const int LIGHTMAP_HIGH_SIZE = 256;
 		public const int LIGHTMAP_LOW_SIZE = 128;
 		public const int WALL_LIGHTMAP_X = 128;
@@ -27,42 +28,42 @@ namespace CodeImp.Bloodmasters.Client
 		public const float LIGHTMAP_OFFSET_Y = 0.1f;
 		public const bool LIGHTMAP_DEBUG_COLOR = false;
 		public const float TEXTURE_SCALE = 2f;
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		// Reference to sector data
 		private ArrayList sectors;
 		private int index;
-		
+
 		// This is set to true when sector is in screen
 		private bool inscreen = false;
-		
+
 		// Bounds
 		private RectangleF lmbounds;
 		private RectangleF secbounds;
 		private float lmscalex, lmscaley;
 		private float secscalex, secscaley;
-		
+
 		// Vertex buffers
 		private VertexBuffer mapvertices = null;
 		private VertexBuffer shadowvertices = null;
-		
+
 		// SectorShadows on this sector
 		private ArrayList sectorshadows;
-		
+
 		// Sidedefs in this sector
 		private ArrayList sidedefs;
-		
+
 		// Floor and ceiling textures
 		private ArrayList tfloors;
 		private ArrayList tceils;
-		
+
 		// Heights
 		private float lowestfloor;
 		private float highestfloor;
-		
+
 		// Lightmaps
 		private Texture lightmap = null;
 		private Texture wallslightmap = null;
@@ -77,17 +78,17 @@ namespace CodeImp.Bloodmasters.Client
 		private int ambientlight;
 		private bool fixedlight;
 		private float lightmapaspect;
-		
+
 		// Color for debugging
 		private int debugcolor = 0;
-		
+
 		// Lists of nearby lights
 		private ArrayList lights = new ArrayList();
-		
+
 		#endregion
-		
+
 		#region ================== Properties
-		
+
 		public RectangleF SectorBounds { get { return secbounds; } }
 		public RectangleF LightmapBounds { get { return lmbounds; } }
 		public float SectorScaleX { get { return secscalex; } }
@@ -109,11 +110,11 @@ namespace CodeImp.Bloodmasters.Client
 		public int AmbientLight { get { return ambientlight; } }
 		public bool FixedLight { get { return fixedlight; } }
 		public int Index { get { return index; } }
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public VisualSector(Sector sector)
 		{
@@ -122,36 +123,36 @@ namespace CodeImp.Bloodmasters.Client
 			tfloors = new ArrayList();
 			tceils = new ArrayList();
 			sectorshadows = new ArrayList();
-			
+
 			// Make references
 			sectors.Add(sector);
 			sector.VisualSector = this;
-			
+
 			// Color for ambient light
 			ambientlight = sector.Color;
-			
+
 			// Color for debugging
 			debugcolor = General.RandomColor();
 			debugcolor = ColorOperator.Scale(debugcolor, 1.4f);
 			debugcolor = ColorOperator.AdjustSaturation(debugcolor, 2);
-			
+
 			// Keep floor heights
 			lowestfloor = sector.HeightFloor;
 			highestfloor = sector.HeightFloor;
-			
+
 			// Copy sector bounds
 			secbounds = sector.Bounds;
-			
+
 			// Make lightmap bounds with overhead
-			lmbounds = RectangleF.Inflate(secbounds, LIGHTMAP_OVERHEAD, LIGHTMAP_OVERHEAD);
-			
+			lmbounds = RectangleEx.Inflate(secbounds, LIGHTMAP_OVERHEAD, LIGHTMAP_OVERHEAD);
+
 			// Calculate scalars
 			lmscalex = (1f / lmbounds.Width);
 			lmscaley = (1f / lmbounds.Height);
 			secscalex = (1f / secbounds.Width);
 			secscaley = (1f / secbounds.Height);
 			lightmapaspect = lmscaley / lmscalex;
-			
+
 			// Check if sector has fixed light
 			if(sector.Effect == SECTOREFFECT.FIXEDLIGHT)
 			{
@@ -167,10 +168,10 @@ namespace CodeImp.Bloodmasters.Client
 				if(Direct3D.hightextures) lightmapsize = LIGHTMAP_HIGH_SIZE;
 				else lightmapsize = LIGHTMAP_LOW_SIZE;
 				lightmapunit = 1f / (float)lightmapsize;
-				
+
 				// This sector dynamic?
 				if(sector.Dynamic) dynamiclightmap = true;
-				
+
 				// Check all adjacent sectors to see if lightmap should be dynamic
 				foreach(Sector s in sector.AdjacentSectors)
 				{
@@ -178,7 +179,7 @@ namespace CodeImp.Bloodmasters.Client
 					if(s.Dynamic) dynamiclightmap = true;
 				}
 			}
-			
+
 			// Make list of sidedefs
 			sidedefs = new ArrayList();
 			foreach(SubSector ss in sector.Subsectors)
@@ -202,26 +203,26 @@ namespace CodeImp.Bloodmasters.Client
 					}
 				}
 			}
-			
+
 			// Find the floor texture
 			tfloors.Add(FindTexture(sector.TextureFloor));
-			
+
 			// Find the ceiling texture
 			tceils.Add(FindTexture(sector.TextureCeil));
 		}
-		
+
 		// Destructor
 		public void Dispose()
 		{
 			// Go for all sidedefs
 			foreach(VisualSidedef sd in sidedefs) sd.Dispose();
-			
+
 			// Destroy geometry
 			DestroyGeometry();
-			
+
 			// Destroy lightmap
 			lightmap.Dispose();
-			
+
 			// Clean up
 			sectorshadows = null;
 			tfloors = null;
@@ -231,11 +232,11 @@ namespace CodeImp.Bloodmasters.Client
 			lightmap = null;
 			GC.SuppressFinalize(this);
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Debug
-		
+
 		// This outputs map information
 		public void WriteSectorDebugInfo(StreamWriter writer)
 		{
@@ -245,7 +246,7 @@ namespace CodeImp.Bloodmasters.Client
 				// Output information
 				writer.WriteLine("   Sector " + ss.Index);
 			}
-			
+
 			// Go for all lines
 			foreach(VisualSidedef sd in sidedefs)
 			{
@@ -256,29 +257,29 @@ namespace CodeImp.Bloodmasters.Client
 					writer.WriteLine("   Sidedef " + sd.Sidedef.Index + " on linedef " + sd.Sidedef.Linedef.Index + " (back)");
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Merging
-		
+
 		// This merges another VisualSector into this one
 		public void Merge(VisualSector vs)
 		{
 			// Destroy geometry
 			DestroyGeometry();
-			
+
 			// Copy sectors to list and make references
 			foreach(Sector s in vs.sectors)
 			{
 				// Copy and make references
 				sectors.Add(s);
 				s.VisualSector = this;
-				
+
 				// Keep floor heights
 				lowestfloor = Math.Min(lowestfloor, s.HeightFloor);
 				highestfloor = Math.Max(highestfloor, s.HeightFloor);
 			}
-			
+
 			// Copy sides to list and make references
 			foreach(VisualSidedef s in vs.sidedefs)
 			{
@@ -286,18 +287,18 @@ namespace CodeImp.Bloodmasters.Client
 				sidedefs.Add(s);
 				s.VisualSector = this;
 			}
-			
+
 			// Copy textures
 			tfloors.AddRange(vs.tfloors);
 			tceils.AddRange(vs.tceils);
-			
+
 			// Union bounds
 			secbounds = RectangleF.Union(secbounds, vs.secbounds);
-			
+
 			// Let the other VisualSector know it was merged
 			vs.Merged();
 		}
-		
+
 		// This is called when merged with another VisualSector
 		private void Merged()
 		{
@@ -308,24 +309,24 @@ namespace CodeImp.Bloodmasters.Client
 			sectors = null;
 			lightmap = null;
 		}
-		
+
 		// This sets the index number for this visual sector
 		public void SetIndex(int i)
 		{
 			// Set index
 			index = i;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Lightmap
-		
+
 		// This tests if there is a light nearby
 		// with its height in a given range
 		public bool LightBetweenHeights(float z1, float z2)
 		{
 			float zt;
-			
+
 			// Make sure z1 is the higher height
 			if(z2 > z1)
 			{
@@ -334,18 +335,18 @@ namespace CodeImp.Bloodmasters.Client
 				z1 = z2;
 				z2 = zt;
 			}
-			
+
 			// Go for all nearby lights
 			foreach(StaticLight l in lights)
 			{
 				// Light between these heights?
 				if((l.Z < z1) && (l.Z >= z2)) return true;
 			}
-			
+
 			// No light in this range
 			return false;
 		}
-		
+
 		// Visibility check against reject
 		public bool CanBeVisible(int fromsector)
 		{
@@ -356,53 +357,53 @@ namespace CodeImp.Bloodmasters.Client
 				if(General.map.RejectMap.CanBeVisible(fromsector, s.Index))
 					return true;
 			}
-			
+
 			// Nothing visible
 			return false;
 		}
-		
+
 		// This adds a light reference
 		public void AddNearbyLight(StaticLight l)
 		{
 			// Add light to list
 			if(lights.Contains(l) == false) lights.Add(l);
-			
+
 			// Update lightmap next time
 			updatelightmap = true;
 		}
-		
+
 		// This removes a light reference
 		public void RemoveNearbyLight(StaticLight l)
 		{
 			// Remove light from list
 			lights.Remove(l);
-			
+
 			// Update lightmap next time
 			updatelightmap = true;
 		}
-		
+
 		// This makes a new lightmap
 		public void CreateLightmap()
 		{
 			// Make sure it is disposed first
 			DestroyLightmap();
-			
+
 			// Determine size for walls lightmap
 			wallslightmapsize = General.NextPowerOf2(sidedefs.Count * WALL_LIGHTMAP_Y);
 			wallslightmapunit = 1f / (float)wallslightmapsize;
-			
+
 			// Make a rendertarget for lightmap
 			lightmap = new Texture(Direct3D.d3dd, lightmapsize, lightmapsize, 1,
 					Usage.RenderTarget, Direct3D.LightmapFormat, Pool.Default);
-			
+
 			// Make a rendertarget for walls lightmap
 			wallslightmap = new Texture(Direct3D.d3dd, WALL_LIGHTMAP_X, wallslightmapsize, 1,
 					Usage.RenderTarget, Direct3D.LightmapFormat, Pool.Default);
-			
+
 			// Need to redraw the lightmap
 			updatelightmap = true;
 		}
-		
+
 		// This destroys the lightmap
 		private void DestroyLightmap()
 		{
@@ -412,38 +413,38 @@ namespace CodeImp.Bloodmasters.Client
 			if(wallslightmap != null) wallslightmap.Dispose();
 			wallslightmap = null;
 		}
-		
+
 		// This redraws the lightmap if needed
 		public void PrepareLightmap()
 		{
 			Surface lightmapsurface, wlightmapsurface;
 			Texture oldlightmap;
-			
+
 			// Update needed?
 			if(updatelightmap)
 			{
 				// Non-dynamic lightmaps must be recreated from scratch
 				if(dynamiclightmap) CreateLightmap();
-				
+
 				// Set rendering target
 				lightmapsurface = lightmap.GetSurfaceLevel(0);
 				Direct3D.d3dd.DepthStencilSurface = null;
 				Direct3D.d3dd.SetRenderTarget(0, lightmapsurface);
-				
+
 				// Begin of rendering routine
 				Direct3D.d3dd.BeginScene();
-				
+
 				// Check if debugging lightmaps
 				if(LIGHTMAP_DEBUG_COLOR)
 				{
 					// Give sector its random color
-					Direct3D.d3dd.Clear(ClearFlags.Target, debugcolor, 1f, 0);
+					Direct3D.d3dd.Clear(ClearFlags.Target, ColorOperator.FromArgb(debugcolor), 1f, 0);
 				}
 				else
 				{
 					// Give sector the ambient color
-					Direct3D.d3dd.Clear(ClearFlags.Target, ambientlight, 1f, 0);
-					
+					Direct3D.d3dd.Clear(ClearFlags.Target, ColorOperator.FromArgb(ambientlight), 1f, 0);
+
 					// Check if sector uses lighting
 					if(fixedlight == false)
 					{
@@ -451,7 +452,7 @@ namespace CodeImp.Bloodmasters.Client
 						Direct3D.SetDrawMode(DRAWMODE.TLLIGHTDRAW);
 						Direct3D.d3dd.SetTexture(0, sectorshadowstexture.texture);
 						Direct3D.d3dd.SetStreamSource(0, shadowvertices, 0, TLVertex.Stride);
-						
+
 						// Go for all the sector shadows
 						foreach(SectorShadow s in sectorshadows)
 						{
@@ -463,10 +464,10 @@ namespace CodeImp.Bloodmasters.Client
 								s.Render();
 							}
 						}
-						
+
 						// Set drawing mode
 						Direct3D.SetDrawMode(DRAWMODE.TLLIGHTBLEND);
-						
+
 						// Go for all nearby lights
 						foreach(StaticLight l in lights)
 						{
@@ -475,32 +476,32 @@ namespace CodeImp.Bloodmasters.Client
 						}
 					}
 				}
-				
+
 				// Done rendering
 				Direct3D.d3dd.EndScene();
-				
+
 				// Set rendering target
 				wlightmapsurface = wallslightmap.GetSurfaceLevel(0);
 				Direct3D.d3dd.DepthStencilSurface = null;
 				Direct3D.d3dd.SetRenderTarget(0, wlightmapsurface);
-				
+
 				// Begin of rendering routine
 				Direct3D.d3dd.BeginScene();
-				
+
 				// Check if debugging lightmaps
 				if(VisualSector.LIGHTMAP_DEBUG_COLOR)
 				{
 					// Give sector its random color
-					Direct3D.d3dd.Clear(ClearFlags.Target, debugcolor, 1f, 0);
+					Direct3D.d3dd.Clear(ClearFlags.Target, ColorOperator.FromArgb(debugcolor), 1f, 0);
 				}
 				else
 				{
 					// Give sector the ambient color
-					Direct3D.d3dd.Clear(ClearFlags.Target, ambientlight, 1f, 0);
-					
+					Direct3D.d3dd.Clear(ClearFlags.Target, ColorOperator.FromArgb(ambientlight), 1f, 0);
+
 					// Set drawing mode
 					Direct3D.SetDrawMode(DRAWMODE.TLLIGHTBLEND);
-					
+
 					// Check if sector uses lighting
 					if(fixedlight == false)
 					{
@@ -508,10 +509,10 @@ namespace CodeImp.Bloodmasters.Client
 						foreach(VisualSidedef vs in sidedefs) vs.UpdateLightmap();
 					}
 				}
-				
+
 				// Done rendering
 				Direct3D.d3dd.EndScene();
-				
+
 				// Clean up
 				//Direct3D.d3dd.SetRenderTarget(0, null);
 				//Direct3D.d3dd.DepthStencilSurface = null;
@@ -519,7 +520,7 @@ namespace CodeImp.Bloodmasters.Client
 				lightmapsurface = null;
 				wlightmapsurface.Dispose();
 				wlightmapsurface = null;
-				
+
 				// Make the lightmap managed?
 				if(!dynamiclightmap)
 				{
@@ -530,44 +531,44 @@ namespace CodeImp.Bloodmasters.Client
 					wallslightmap = Direct3D.CreateManagedTexture(wallslightmap);
 					oldlightmap.Dispose();
 				}
-				
+
 				// Lightmap updated
 				updatelightmap = false;
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Resource Management
-		
+
 		// This unloads all unstable resources
 		public void UnloadResources()
 		{
 			// Destroy lightmap
 			if(dynamiclightmap) DestroyLightmap();
-			
+
 			// Destroy geometry
 			//DestroyGeometry();
-			
+
 			// Go for all sidedefs
 			foreach(VisualSidedef vs in sidedefs)
 				vs.UnloadResources();
 		}
-		
+
 		// This rebuilds unstable resources
 		public void ReloadResources()
 		{
 			// Create lightmap
 			if(dynamiclightmap) CreateLightmap();
-			
+
 			// Build geometry
 			//BuildGeometry();
-			
+
 			// Go for all sidedefs
 			foreach(VisualSidedef vs in sidedefs)
 				vs.ReloadResources();
 		}
-		
+
 		// This finds and loads the texture by name
 		private ITextureResource FindTexture(string tex)
 		{
@@ -576,24 +577,24 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Nothing?
 				case Sector.NO_FLAT:
-					
+
 					// Return nothing
 					return null;
-					
+
 				// Water?
 				case Arena.LIQUID_TEX_WATER:
-					
+
 					// Reference liquid
 					return General.arena.liquidwater;
-					
+
 				// Lava?
 				case Arena.LIQUID_TEX_LAVA:
-					
+
 					// Reference liquid
 					return General.arena.liquidlava;
-				
+
 				default:
-					
+
 					// Find and load normal texture
 					string texname = tex + ".bmp";
 					string texarch = ArchiveManager.FindFileArchive(texname);
@@ -610,26 +611,26 @@ namespace CodeImp.Bloodmasters.Client
 					}
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Geometry
-		
+
 		// This builds the entire geometry for the sectors
-		public void BuildGeometry()
+		public unsafe void BuildGeometry()
 		{
 			ITextureResource tc, tf;
 			Sector sc;
 			int i;
 			float lmtop = 0f;
 			ArrayList newverts;
-			
+
 			// Make shadows geometry
 			MakeSectorShadows();
-			
+
 			// This will temporarely hold the vertices
 			ArrayList verts = new ArrayList();
-			
+
 			// Go for all sectors
 			for(i = 0; i < sectors.Count; i++)
 			{
@@ -637,13 +638,13 @@ namespace CodeImp.Bloodmasters.Client
 				sc = (Sector)sectors[i];
 				tc = (ITextureResource)tceils[i];
 				tf = (ITextureResource)tfloors[i];
-				
+
 				// Floor?
 				if(tf != null)
 				{
 					// Keep start vertex index
 					sc.FirstFloorVertex = verts.Count;
-					
+
 					// Go for all subsectors
 					foreach(SubSector s in sc.Subsectors)
 					{
@@ -652,17 +653,17 @@ namespace CodeImp.Bloodmasters.Client
 						verts.AddRange(newverts);
 						sc.NumFaces += newverts.Count;
 					}
-					
+
 					// Calculate actual number of faces
 					sc.NumFaces /= 3;
 				}
-				
+
 				// Ceiling?
 				if(tc != null)
 				{
 					// Keep start vertex index
 					sc.FirstCeilVertex = verts.Count;
-					
+
 					// Go for all subsectors
 					foreach(SubSector s in sc.Subsectors)
 					{
@@ -671,7 +672,7 @@ namespace CodeImp.Bloodmasters.Client
 					}
 				}
 			}
-			
+
 			// Go for all sidedefs
 			foreach(VisualSidedef sd in sidedefs)
 			{
@@ -680,32 +681,31 @@ namespace CodeImp.Bloodmasters.Client
 				sd.LightmapCoordsMiddle = (lmtop + ((float)WALL_LIGHTMAP_Y * 0.5f)) * wallslightmapunit;
 				lmtop += (float)WALL_LIGHTMAP_Y;
 				sd.LightmapCoordsBottom = lmtop;
-				
+
 				// Build wall pieces
 				verts.AddRange(sd.MakeMiddleWall(verts.Count));
 				verts.AddRange(sd.MakeLowerWall(verts.Count));
 				verts.AddRange(sd.MakeUpperWall(verts.Count));
 			}
-			
+
 			// Any vertices?
 			if(verts.Count > 0)
 			{
 				// Create vertex buffer
-				mapvertices = new VertexBuffer(typeof(MVertex), verts.Count, Direct3D.d3dd,
+				mapvertices = new VertexBuffer(Direct3D.d3dd, sizeof(MVertex) * verts.Count,
 							Usage.WriteOnly, MVertex.Format, Pool.Managed);
-				
+
 				// Lock vertex buffer
-				MVertex[] vertsa = (MVertex[])mapvertices.Lock(0, typeof(MVertex),
-												LockFlags.None, verts.Count);
-				
+				var vertsa = mapvertices.Lock<MVertex>(0, verts.Count);
+
 				// Fill vertex buffer
 				for(i = 0; i < verts.Count; i++) vertsa[i] = (MVertex)verts[i];
-				
+
 				// Done filling the vertex buffer
 				mapvertices.Unlock();
 			}
 		}
-		
+
 		// This destroys the geometry
 		public void DestroyGeometry()
 		{
@@ -714,7 +714,7 @@ namespace CodeImp.Bloodmasters.Client
 				mapvertices.Dispose();
 				mapvertices = null;
 			}
-			
+
 			if(shadowvertices != null)
 			{
 				shadowvertices.Dispose();
@@ -722,51 +722,51 @@ namespace CodeImp.Bloodmasters.Client
 				sectorshadows.Clear();
 			}
 		}
-		
+
 		// This builds floor vertices for subsectors
 		private ArrayList MakeSubSectorPolygon(SubSector s, bool floor, ITextureResource tex)
 		{
 			MVertex v1, v2, v3;
-			
+
 			// This will temporarely hold the vertices
 			ArrayList verts = new ArrayList();
-			
+
 			// First vertex is always begin of first segment
 			v1 = MakeSectorVertex(s.Segments[0].v1, s, floor, tex);
-			
+
 			// First triangle's second vertex
 			v2 = MakeSectorVertex(s.Segments[0].v2, s, floor, tex);
-			
+
 			// Go for all segments to create vertices
 			// but ignore the first and last segments
 			for(int i = 1; i < s.Segments.Length - 1; i++)
 			{
 				// Make last vertex for triangle
 				v3 = MakeSectorVertex(s.Segments[i].v2, s, floor, tex);
-				
+
 				// Add vertices to list
 				verts.Add(v1);
 				verts.Add(v2);
 				verts.Add(v3);
-				
+
 				// Move v3 to v2 for next triangle
 				v2 = v3;
 			}
-			
+
 			// Return list of vertices
 			return verts;
 		}
-		
+
 		// This formats a vertex for a sector
 		private MVertex MakeSectorVertex(int mapvertex, SubSector s, bool floor, ITextureResource tex)
 		{
 			// Make the vertex
 			MVertex v = new MVertex();
-			
+
 			// Coordinates
 			v.x = General.map.Vertices[mapvertex].x;
 			v.y = General.map.Vertices[mapvertex].y;
-			
+
 			// Floor or ceiling?
 			if(floor)
 			{
@@ -780,34 +780,34 @@ namespace CodeImp.Bloodmasters.Client
 				v.z = s.Sector.FakeHeightCeil;
 				v.color = General.map.CeilingLight;
 			}
-			
+
 			// Texture coordinates
 			v.t1u = General.map.Vertices[mapvertex].x / (tex.Info.Width * Map.MAP_SCALE_XY) * TEXTURE_SCALE;
 			v.t1v = -General.map.Vertices[mapvertex].y / (tex.Info.Height * Map.MAP_SCALE_XY) * TEXTURE_SCALE;
-			
+
 			// Lightmap coordinates
 			v.t2u = LightmapScaledX(v.x + LIGHTMAP_OFFSET_X);
 			v.t2v = LightmapScaledY(v.y + LIGHTMAP_OFFSET_Y);
-			
+
 			// Lightmap coordinates
 			v.t3u = v.x;
 			v.t3v = v.y;
-			
+
 			// Return vertex
 			return v;
 		}
-		
+
 		// This makes the geometry for the sector shadows
-		public void MakeSectorShadows()
+		public unsafe void MakeSectorShadows()
 		{
 			SectorShadow ss;
-			
+
 			// This will temporarely hold the vertices
 			ArrayList verts = new ArrayList();
-			
+
 			// Determine in which area linedefs should be used
-			RectangleF shadowarea = RectangleF.Inflate(secbounds, 10f, 10f);
-			
+			RectangleF shadowarea = RectangleEx.Inflate(secbounds, 10f, 10f);
+
 			// Go for all nearby linedefs
 			ArrayList lines = General.map.BlockMap.GetCollisionLines(shadowarea);
 			foreach(Linedef l in lines)
@@ -820,83 +820,81 @@ namespace CodeImp.Bloodmasters.Client
 					sectorshadows.Add(ss);
 				}
 			}
-			
+
 			// Any vertices?
 			if(verts.Count > 0)
 			{
 				// Create vertex buffer
-				shadowvertices = new VertexBuffer(typeof(TLVertex), verts.Count, Direct3D.d3dd,
-								Usage.WriteOnly, TLVertex.Format, Pool.Default);
-				
+				shadowvertices = new VertexBuffer(Direct3D.d3dd, sizeof(TLVertex) * verts.Count, Usage.WriteOnly, TLVertex.Format, Pool.Default);
+
 				// Lock vertex buffer
-				TLVertex[] vertsa = (TLVertex[])shadowvertices.Lock(0, typeof(TLVertex),
-												LockFlags.None, verts.Count);
-				
+				var vertsa = shadowvertices.Lock<TLVertex>(0, verts.Count);
+
 				// Fill vertex buffer
 				for(int i = 0; i < verts.Count; i++) vertsa[i] = (TLVertex)verts[i];
-				
+
 				// Done filling the vertex buffer
 				shadowvertices.Unlock();
 			}
 		}
-		
+
 		// This returns a scaled X coordinate for the boundaries
 		// of this sector with a map coordinate as input
 		public float BoundsScaledX(float mapx)
 		{
 			return (mapx - secbounds.Left) * secscalex;
 		}
-		
+
 		// This returns a scaled Y coordinate for the boundaries
 		// of this sector with a map coordinate as input
 		public float BoundsScaledY(float mapy)
 		{
 			return (mapy - secbounds.Top) * secscaley;
 		}
-		
+
 		// This returns a scaled X coordinate for the boundaries
 		// of this lightmap with a map coordinate as input
 		public float LightmapScaledX(float mapx)
 		{
 			return (mapx - lmbounds.Left) * lmscalex;
 		}
-		
+
 		// This returns a scaled Y coordinate for the boundaries
 		// of this lightmap with a map coordinate as input
 		public float LightmapScaledY(float mapy)
 		{
 			return (mapy - lmbounds.Top) * lmscaley;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Processing
-		
+
 		// Processing
 		public void Process()
 		{
 			// Test if the sector is visible
-			inscreen = secbounds.IntersectsWith(General.arena.ScreenArea);
+			inscreen = secbounds.Intersects(General.arena.ScreenArea);
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Rendering
-		
+
 		// This will render the sector floor geometry
 		public void RenderFlat()
 		{
 			Sector sc;
-			
+
 			// Set the vertex stream
 			Direct3D.d3dd.SetStreamSource(0, mapvertices, 0, MVertex.Stride);
-			
+
 			// Go for all sectors
 			for(int i = 0; i < sectors.Count; i++)
 			{
 				// Get the sector
 				sc = (Sector)sectors[i];
-				
+
 				// Does it have a floor?
 				if(tfloors[i] != null)
 				{
@@ -906,7 +904,7 @@ namespace CodeImp.Bloodmasters.Client
 				}
 			}
 		}
-		
+
 		// This will render the sector geometry
 		public void RenderGeometry()
 		{
@@ -914,51 +912,51 @@ namespace CodeImp.Bloodmasters.Client
 			Sector sc;
 			Matrix m;
 			int i;
-			
+
 			// Is there anything to render and is sector visible?
 			if((mapvertices != null) && inscreen)
 			{
 				// Change render mode
 				Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAP);
-				
+
 				// Reset world matrix
-				Direct3D.d3dd.Transform.World = Matrix.Identity;
-				
+				Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
+
 				// Set the vertex stream
 				Direct3D.d3dd.SetStreamSource(0, mapvertices, 0, MVertex.Stride);
-				
+
 				// Set the lightmap texture
 				Direct3D.d3dd.SetTexture(1, VisualSector.ceillightmap.texture);
-				
+
 				// Go for all sectors
 				for(i = 0; i < sectors.Count; i++)
 				{
 					// Get the sector and texture
 					sc = (Sector)sectors[i];
 					t = (ITextureResource)tceils[i];
-					
+
 					// Ceiling?
 					if(t != null)
 					{
 						// Set the sector ceiling texture
 						Direct3D.d3dd.SetTexture(0, t.Texture);
-						
+
 						// Render the sector ceiling
 						Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleList,
 												sc.FirstCeilVertex, sc.NumFaces);
 					}
 				}
-				
+
 				// Set the lightmap texture
 				Direct3D.d3dd.SetTexture(1, lightmap);
-				
+
 				// Go for all sectors
 				for(i = 0; i < sectors.Count; i++)
 				{
 					// Get the sector and texture
 					sc = (Sector)sectors[i];
 					t = (ITextureResource)tfloors[i];
-					
+
 					// Floor?
 					if(t != null)
 					{
@@ -967,56 +965,56 @@ namespace CodeImp.Bloodmasters.Client
 						{
 							// Make world matrix
 							m = Matrix.Translation(0f, 0f, sc.CurrentFloor - sc.HeightFloor);
-							Direct3D.d3dd.Transform.World = m;
+							Direct3D.d3dd.SetTransform(TransformState.World, m);
 						}
 						else
 						{
 							// Reset world matrix
-							Direct3D.d3dd.Transform.World = Matrix.Identity;
+							Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
 						}
-						
+
 						// Set the sector floor texture
 						Direct3D.d3dd.SetTexture(0, t.Texture);
-						
+
 						// Render the subsector floor
 						Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleList,
 												sc.FirstFloorVertex, sc.NumFaces);
 					}
 				}
-				
+
 				// Set the lightmap texture
 				Direct3D.d3dd.SetTexture(1, wallslightmap);
-				
+
 				// Go for all sidedefs
 				foreach(VisualSidedef sd in sidedefs)
 				{
 					// Get back sector
 					if(sd.Sidedef.OtherSide != null) sc = sd.Sidedef.OtherSide.Sector; else sc = null;
-					
+
 					// Back sector dynamic?
 					if((sc != null) && sc.Dynamic)
 					{
 						// Make world matrix
 						m = Matrix.Translation(0f, 0f, sc.CurrentFloor - sc.HeightFloor);
-						Direct3D.d3dd.Transform.World = m;
+						Direct3D.d3dd.SetTransform(TransformState.World, m);
 					}
 					else
 					{
 						// Reset world matrix
-						Direct3D.d3dd.Transform.World = Matrix.Identity;
+						Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
 					}
-					
+
 					// Render the sidedef
 					sd.Render();
 				}
-				
+
 				// Unset textures and stream
 				//Direct3D.d3dd.SetStreamSource(0, null, 0);
 				//Direct3D.d3dd.SetTexture(0, null);
 				//Direct3D.d3dd.SetTexture(1, null);
 			}
 		}
-		
+
 		#endregion
 	}
 }

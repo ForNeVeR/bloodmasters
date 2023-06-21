@@ -5,14 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
-
 namespace CodeImp.Bloodmasters.Client
 {
 	[ClientItem(2003, Sprite="health3.tga",
@@ -21,20 +13,20 @@ namespace CodeImp.Bloodmasters.Client
 	public class HealthMega : Item
 	{
 		#region ================== Constants
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public HealthMega(Thing t) : base(t)
 		{
 		}
-		
+
 		#endregion
 	}
 }

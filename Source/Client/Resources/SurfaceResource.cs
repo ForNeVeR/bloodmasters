@@ -78,10 +78,10 @@ namespace CodeImp.Bloodmasters.Client
 				GC.Collect();
 
 				// Create the surface
-				surface = Direct3D.d3dd.CreateOffscreenPlainSurface(width, height, (Format)Direct3D.DisplayFormat, memorypool);
+				surface = Surface.CreateOffscreenPlain(Direct3D.d3dd, width, height, (Format)Direct3D.DisplayFormat, memorypool);
 
 				// Load the file into the surface
-				SurfaceLoader.FromFile(surface, resourcefilename, Filter.None, 0);
+				Surface.FromFile(surface, resourcefilename, Filter.None, 0);
 
 				// Inform the base class about this load
 				base.Load();
@@ -97,9 +97,9 @@ namespace CodeImp.Bloodmasters.Client
 		public override void Unload()
 		{
 			// Unload the surface
-			if((surface != null) && (surface.Disposed == false))
-			{
-				surface.ReleaseGraphics();
+			if((surface != null) && (surface.IsDisposed == false))
+            {
+                surface.ReleaseDC(surface.GetDC());
 				surface.Dispose();
 			}
 			surface = null;

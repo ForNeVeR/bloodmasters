@@ -6,12 +6,6 @@
 \********************************************************************/
 
 using System;
-using System.Drawing;
-using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using CodeImp.Bloodmasters;
-using CodeImp;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -25,7 +19,7 @@ namespace CodeImp.Bloodmasters.Client
 		private string description = "";
 		private int useammo;
 		private AMMO ammotype;
-		
+
 		// Properties
 		public WEAPON WeaponID { get { return weaponid; } }
 		public int RefireDelay { get { return refiredelay; } set { refiredelay = value; } }
@@ -33,7 +27,7 @@ namespace CodeImp.Bloodmasters.Client
 		public string Sound { get { return sound; } set { sound = value; } }
 		public int UseAmmo { get { return useammo; } set { useammo = value; } }
 		public AMMO AmmoType { get { return ammotype; } set { ammotype = value; } }
-		
+
 		// Constructor
 		public WeaponInfo(WEAPON weaponid)
 		{

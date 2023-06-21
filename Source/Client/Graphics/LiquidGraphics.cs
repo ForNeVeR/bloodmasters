@@ -6,7 +6,8 @@
 \********************************************************************/
 
 using System;
-using Vortice.Direct3D9;
+using SharpDX;
+using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -29,7 +30,7 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Variables
 
 		private TextureResource basetexture;
-		private IDirect3DTexture9 texture;
+		private Texture texture;
 		private TLVertex[] vertices1;
 		private TLVertex[] vertices2;
 		private short[] indices;
@@ -70,7 +71,7 @@ namespace CodeImp.Bloodmasters.Client
 			info.Height = TEXTURE_SIZE;
 			info.MipLevels = 1;
 			info.ImageFileFormat = ImageFileFormat.Bmp;
-			info.ResourceType = ResourceType.Textures;
+			info.ResourceType = ResourceType.Texture;
 
 			// Make up viewport
 			viewport = new Viewport();
@@ -78,8 +79,8 @@ namespace CodeImp.Bloodmasters.Client
 			viewport.Y = 0;
 			viewport.Width = TEXTURE_SIZE;
 			viewport.Height = TEXTURE_SIZE;
-			viewport.MinZ = 0f;
-			viewport.MaxZ = 10f;
+			viewport.MinDepth = 0f;
+			viewport.MaxDepth = 10f;
 
 			// Make rendertarget
 			CreateRendertarget();
@@ -298,18 +299,18 @@ namespace CodeImp.Bloodmasters.Client
 			// Set drawing mode
 			Direct3D.SetDrawMode(DRAWMODE.TLMODALPHA);
 			Direct3D.d3dd.SetTexture(0, basetexture.texture);
-			Direct3D.d3dd.RenderState.TextureFactor = -1;
+			Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
 
 			// Render the liquid
 			Direct3D.d3dd.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0,
-						vertices1.Length, NUM_CELLS * 2, indices, true, vertices1);
+						vertices1.Length, NUM_CELLS * 2, indices, Format.Index16, vertices1);
 
 			// Blend with second set
-			Direct3D.d3dd.RenderState.TextureFactor = General.ARGB(0.5f, 1f, 1f, 1f);
+			Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(0.5f, 1f, 1f, 1f));
 
 			// Render the liquid
 			Direct3D.d3dd.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0,
-						vertices2.Length, NUM_CELLS * 2, indices, true, vertices2);
+						vertices2.Length, NUM_CELLS * 2, indices, Format.Index16, vertices2);
 
 			// Done rendering
 			Direct3D.d3dd.EndScene();

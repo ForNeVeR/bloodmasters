@@ -627,7 +627,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(!General.localclient.IsSpectator)
 			{
 				// Render the bar
-				//Direct3D.d3dd.RenderState.TextureFactor = -1;
+				//Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
 				//Direct3D.d3dd.SetTexture(0, null);
 				//Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, barverts);
 
