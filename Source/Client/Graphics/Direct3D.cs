@@ -81,11 +81,13 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Display mode settings
 		public static int DisplayAdapter { get { return adapter.Adapter; } }
-		public static int DisplayWidth { get { return displaymode.Width; } set { displaymode.Width = value; } }
-		public static int DisplayHeight { get { return displaymode.Height; } set { displaymode.Height = value; } }
+		// TODO: Fix resolution
+        public static int DisplayWidth { get { return 1024; } set { displaymode.Width = 1024; } }
+		public static int DisplayHeight { get { return 768; } set { displaymode.Height = 768; } }
 		public static int DisplayFormat { get { return (int)displaymode.Format; } set { displaymode.Format = (Format)value; } }
 		public static int DisplayRefreshRate { get { return displaymode.RefreshRate; } set { displaymode.RefreshRate = value; } }
-		public static bool DisplayWindowed { get { return displaywindowed; } set { displaywindowed = value; } }
+		// TODO: Fix fullscreen mode
+        public static bool DisplayWindowed { get { return true; } set { displaywindowed = true; } }
 		public static bool DisplaySyncRefresh { get { return displaysyncrefresh; } set { displaysyncrefresh = value; } }
 		public static int DisplayFSAA { get { return displayfsaa; } set { displayfsaa = value; } }
 		public static int DisplayGamma { get { return displaygamma; } set { displaygamma = value; } }
@@ -107,7 +109,7 @@ namespace CodeImp.Bloodmasters.Client
 			string result = null;
 
             // Check if the NVPerfHud adapter exists
-            foreach(AdapterInformation a in d3dd.Direct3D.Adapters)
+            foreach(AdapterInformation a in _direct3D.Adapters)
             {
                 // Is this the NVPerfHud adapter?
                 if(string.Compare(a.Details.Description, NVPERFHUD_ADAPTER, StringComparison.OrdinalIgnoreCase) == 0)
@@ -122,7 +124,7 @@ namespace CodeImp.Bloodmasters.Client
             if(ValidateDevice(adapter.Adapter) != null)
             {
                 // Go for all adapters to find a valid adapter
-                foreach(AdapterInformation a in d3dd.Direct3D.Adapters)
+                foreach(AdapterInformation a in _direct3D.Adapters)
                 {
                     // Select adapter if valid
                     error = ValidateDevice(a.Adapter);
@@ -188,15 +190,15 @@ namespace CodeImp.Bloodmasters.Client
         public static void SelectAdapter(int index)
         {
             // Check if there is such an adapter
-            if(index < d3dd.Direct3D.AdapterCount)
+            if(index < _direct3D.AdapterCount)
             {
                 // Select this adapter
-                adapter = d3dd.Direct3D.Adapters[index];
+                adapter = _direct3D.Adapters[index];
             }
             else
             {
                 // Select the default adapter
-                adapter = d3dd.Direct3D.Adapters[0];
+                adapter = _direct3D.Adapters[0];
             }
 
             // Write setting to configuration
@@ -319,7 +321,7 @@ namespace CodeImp.Bloodmasters.Client
             // The resolution must be at least 640x480
             if((mode.Width < 640) || (mode.Height < 480)) return false;
 
-            var direct3d = d3dd.Direct3D;
+            var direct3d = _direct3D;
             // Test if the display format is supported by the device
             var result = direct3d.CheckDeviceType(adapter.Adapter, DeviceType.Hardware,
                 mode.Format, mode.Format, windowed);
@@ -352,7 +354,7 @@ namespace CodeImp.Bloodmasters.Client
 				try
 				{
 					// Get device caps
-                    var dc = d3dd.Direct3D.GetDeviceCaps(ad, DeviceType.Hardware);
+                    var dc = _direct3D.GetDeviceCaps(ad, DeviceType.Hardware);
 
 					// Here we go, the whole list of device requirements
 					if(!dc.DestinationBlendCaps.HasFlag(BlendCaps.InverseSourceAlpha)) result = prefix + "Desination InverseSourceAlpha blending.";
@@ -392,7 +394,7 @@ namespace CodeImp.Bloodmasters.Client
 		private static void ChooseLightmapFormat()
 		{
 			// Rendertarget textures of X8R8G8B8 format?
-            var result = d3dd.Direct3D.CheckDeviceFormat(adapter.Adapter, DeviceType.Hardware, displaymode.Format,
+            var result = _direct3D.CheckDeviceFormat(adapter.Adapter, DeviceType.Hardware, displaymode.Format,
 						Usage.RenderTarget, ResourceType.Texture, Format.X8R8G8B8);
 			if(result)
 			{
@@ -1726,7 +1728,7 @@ namespace CodeImp.Bloodmasters.Client
 
         private static List<DisplayMode> GetAdapterDisplayModes(AdapterInformation a)
         {
-            var direct3d = d3dd.Direct3D;
+            var direct3d = _direct3D;
             var displayModes = new List<DisplayMode>();
             foreach (var format in Enum.GetValues<Format>())
             {
