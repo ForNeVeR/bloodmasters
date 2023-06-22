@@ -2165,6 +2165,9 @@ namespace CodeImp.Bloodmasters.Client
 			// This will keep a thrown exception
 			Exception ex = null;
 
+            // TODO: Get rid of this
+            Debugger.Launch();
+
 			// Debugger attached?
 			if(Debugger.IsAttached)
 			{
