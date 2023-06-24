@@ -20,7 +20,7 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Variables
 
 		// Variables
-        // TODO: Restore this functionality
+        // TODO[#16]: Restore this functionality
 		// private Audio snd;
 		private bool repeat = false;
 		private bool paused = false;
@@ -44,7 +44,7 @@ namespace CodeImp.Bloodmasters.Client
 		public float Pan { get { return pan; } set { pan = value; ApplySettings(); } }
 		// public double Duration { get { return snd.Duration; } }
 		// public double Position { get { return snd.CurrentPosition; } }
-        // TODO: Restore this functionality
+        // TODO[#16]: Restore this functionality
         public bool Ended => false;
 		// public bool Ended { get { return (snd.State == StateFlags.Stopped) || (snd.CurrentPosition == snd.Duration); } }
 
@@ -64,14 +64,14 @@ namespace CodeImp.Bloodmasters.Client
 			// Keep the filename
 			this.filename = filename;
 
-			// TODO: Load the sound
+			// TODO[#16]: Load the sound
 			// snd = new Audio(fullfilename, false);
 		}
 
 		// Dispose
 		public void Dispose()
 		{
-			// TODO: Dispose the sound
+			// TODO[#16]: Dispose the sound
 			// snd.Stop();
 			// snd.Dispose();
 			// snd = null;
@@ -91,12 +91,12 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Calculate dB
 				db = 20f * (float)Math.Log10(volume);
-				// TODO: snd.Volume = (int)(100f * db);
+				// TODO[#16]: snd.Volume = (int)(100f * db);
 			}
 			else
 			{
 				// Silent
-				// TODO: snd.Volume = -10000;
+				// TODO[#16]: snd.Volume = -10000;
 			}
 
 			// Completely left or right?
@@ -110,7 +110,7 @@ namespace CodeImp.Bloodmasters.Client
 				// Calculate dB
 				db = 20f * (float)Math.Log10(1f - Math.Abs(pan));
 			}
-			// TODO: if(pan > 0f) snd.Balance = -(int)(db * 100f); else snd.Balance = (int)(db * 100f);
+			// TODO[#16]: if(pan > 0f) snd.Balance = -(int)(db * 100f); else snd.Balance = (int)(db * 100f);
 		}
 
 		#endregion
@@ -124,7 +124,7 @@ namespace CodeImp.Bloodmasters.Client
 			// it is only for the source control!
 
 			// Pauze the track
-			// TODO: snd.Pause();
+			// TODO[#16]: snd.Pause();
 			this.playafterpauze = playafterpauze;
 		}
 
@@ -149,7 +149,7 @@ namespace CodeImp.Bloodmasters.Client
 		public void Play() { Play(1f, 0f, false); }
 		public void Play(float volume, float pan, bool repeat)
 		{
-			// TODO: snd.Stop();
+			// TODO[#16]: snd.Stop();
 			this.targetvolume = volume;
 			this.volume = volume;
 			this.pan = pan;
@@ -157,7 +157,7 @@ namespace CodeImp.Bloodmasters.Client
 			this.paused = false;
 			this.playing = true;
 			ApplySettings();
-			// TODO: snd.Play();
+			// TODO[#16]: snd.Play();
 		}
 
 		// Stops
@@ -167,7 +167,7 @@ namespace CodeImp.Bloodmasters.Client
 			this.repeat = false;
 			this.paused = false;
 			this.playing = false;
-			// TODO: snd.Stop();
+			// TODO[#16]: snd.Stop();
 		}
 
 		#endregion

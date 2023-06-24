@@ -2168,7 +2168,7 @@ namespace CodeImp.Bloodmasters.Client
 			// Debugger attached?
 			if(Debugger.IsAttached)
 			{
-                // TODO: More convenient debug configuration
+                // TODO[#13]: More convenient debug configuration
 				// Run without exception handling
 				_Main(args);
 			}

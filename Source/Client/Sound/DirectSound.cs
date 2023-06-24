@@ -43,7 +43,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Devices
 		public static SharpDX.DirectSound.DirectSound dsd;
-		// TODO: private static Microsoft.DirectX.DirectSound.Buffer dspb;
+		// TODO[#16]: private static Microsoft.DirectX.DirectSound.Buffer dspb;
 
 		// Resources
 		private static Hashtable sounds = new Hashtable();
@@ -67,16 +67,16 @@ namespace CodeImp.Bloodmasters.Client
 			DestroyAllResources();
 
 			// Kill it
-			// TODO: try { dspb.Dispose(); } catch(Exception) { }
-			// TODO: try { dsd.Dispose(); } catch(Exception) { }
-			// TODO: dspb = null;
-			// TODO: dsd = null;
+			// TODO[#16]: try { dspb.Dispose(); } catch(Exception) { }
+			// TODO[#16]: try { dsd.Dispose(); } catch(Exception) { }
+			// TODO[#16]: dspb = null;
+			// TODO[#16]: dsd = null;
 		}
 
 		// Initializes DirectSound
 		public static bool Initialize(Form target)
 		{
-            /* TODO:
+            /* TODO[#16]:
 			Microsoft.DirectX.DirectSound.Buffer dspb;
 			BufferDescription bufferdesc;
 			WaveFormat bufferformat;

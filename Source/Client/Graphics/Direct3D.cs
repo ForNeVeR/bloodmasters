@@ -81,12 +81,12 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Display mode settings
 		public static int DisplayAdapter { get { return adapter.Adapter; } }
-		// TODO: Fix resolution
+		// TODO[#14]: Fix resolution
         public static int DisplayWidth { get { return 1024; } set { displaymode.Width = 1024; } }
 		public static int DisplayHeight { get { return 768; } set { displaymode.Height = 768; } }
 		public static int DisplayFormat { get { return (int)displaymode.Format; } set { displaymode.Format = (Format)value; } }
 		public static int DisplayRefreshRate { get { return displaymode.RefreshRate; } set { displaymode.RefreshRate = value; } }
-		// TODO: Fix fullscreen mode
+		// TODO[#14]: Fix fullscreen mode
         public static bool DisplayWindowed { get { return true; } set { displaywindowed = true; } }
 		public static bool DisplaySyncRefresh { get { return displaysyncrefresh; } set { displaysyncrefresh = value; } }
 		public static int DisplayFSAA { get { return displayfsaa; } set { displayfsaa = value; } }

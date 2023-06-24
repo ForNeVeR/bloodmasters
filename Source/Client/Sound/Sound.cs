@@ -57,7 +57,7 @@ namespace CodeImp.Bloodmasters.Client
 
 			// Load the sound
 			snd = new(DirectSound.dsd, bufferdesc);
-            // TODO: Load the actual sound from fullfilename
+            // TODO[#16]: Load the actual sound from fullfilename
 
 			// Done
 		}
@@ -68,7 +68,7 @@ namespace CodeImp.Bloodmasters.Client
 			// Keep the filename
 			this.filename = clonesnd.filename;
 
-			// TODO: Clone the sound
+			// TODO[#16]: Clone the sound
 			// snd = clonesnd.snd.Clone(DirectSound.dsd);
 
 			// Add to sounds collection
