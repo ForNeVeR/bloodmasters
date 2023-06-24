@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters", "Client\Bloo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "Launcher\Launcher.csproj", "{0232A66E-1D9B-483C-88A3-432F4EE78D12}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Tests", "Bloodmasters.Tests\Bloodmasters.Tests.csproj", "{45784815-6BB5-47B0-A4EA-78E3B1A4E098}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -20,6 +22,10 @@ Global
 		{0232A66E-1D9B-483C-88A3-432F4EE78D12}.Debug|x86.Build.0 = Debug|Any CPU
 		{0232A66E-1D9B-483C-88A3-432F4EE78D12}.Release|x86.ActiveCfg = Release|Any CPU
 		{0232A66E-1D9B-483C-88A3-432F4EE78D12}.Release|x86.Build.0 = Release|Any CPU
+		{45784815-6BB5-47B0-A4EA-78E3B1A4E098}.Debug|x86.ActiveCfg = Debug|x86
+		{45784815-6BB5-47B0-A4EA-78E3B1A4E098}.Debug|x86.Build.0 = Debug|x86
+		{45784815-6BB5-47B0-A4EA-78E3B1A4E098}.Release|x86.ActiveCfg = Release|x86
+		{45784815-6BB5-47B0-A4EA-78E3B1A4E098}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

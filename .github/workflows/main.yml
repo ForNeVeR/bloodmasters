@@ -25,3 +25,6 @@ jobs:
 
       - name: Build client
         run: dotnet build Source\Bloodmasters.sln
+
+      - name: Test
+        run: dotnet test Source\Bloodmasters.sln

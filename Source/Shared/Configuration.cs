@@ -120,11 +120,11 @@
 
 
 using System;
-using System.IO;
-using System.Text;
-using System.Globalization;
 using System.Collections;
 using System.Collections.Specialized;
+using System.Globalization;
+using System.IO;
+using System.Text;
 
 namespace CodeImp
 {
@@ -133,11 +133,11 @@ namespace CodeImp
 	{
 		// This clears the last error
 		void ClearError();
-		
+
 		// This creates a new configuration
 		void NewConfiguration();
 		void NewConfiguration(bool sorted);
-		
+
 		// This can give a value of a key specified in a path form
 		// also, this does not error when the setting does not exist,
 		// but instead returns the given default value.
@@ -157,55 +157,55 @@ namespace CodeImp
 		byte ReadSetting(string setting, byte defaultsetting, string pathseperator);
 		IDictionary ReadSetting(string setting, IDictionary defaultsetting);
 		IDictionary ReadSetting(string setting, IDictionary defaultsetting, string pathseperator);
-		
+
 		// This writes a given setting to the configuration.
 		// Wont change existing structs, but will add them as needed.
 		// Returns true when written, false when failed.
 		bool WriteSetting(string setting, object settingvalue);
 		bool WriteSetting(string setting, object settingvalue, string pathseperator);
-		
+
 		// This removes a given setting from the configuration.
 		bool DeleteSetting(string setting);
 		bool DeleteSetting(string setting, string pathseperator);
-		
+
 		// This parses a structure in the given data starting
 		// from the given pos and line and updates pos and line.
 		bool SaveConfiguration(string filename);
 		bool SaveConfiguration(string filename, string newline);
 		bool SaveConfiguration(string filename, string newline, bool whitespace);
-		
+
 		// This will output the current configuration as a string
 		string OutputConfiguration();
 		string OutputConfiguration(string newline);
 		string OutputConfiguration(string newline, bool whitespace);
-		
+
 		// This will load a configuration from file
 		bool LoadConfiguration(string filename);
 		bool LoadConfiguration(string filename, bool sorted);
-		
+
 		// This will load a configuration from string
 		bool InputConfiguration(string data);
 		bool InputConfiguration(string data, bool sorted);
-		
+
 		// Operator + combines two collections and overrides any from cfg2 over cfg1
 		//public static Configuration operator+(Configuration cfg1, Configuration cfg2);
 	}
-	
+
 	// Configuration reads, writes and manages a configuration
 	public sealed class Configuration : IConfiguration
 	{
 		#region ================== Constants
-		
+
 		// Path seperator
 		public const string DEFAULT_SEPERATOR = "/";
-		
+
 		// Parse mode constants
 		private const int PM_NOTHING = 0;
 		private const int PM_ASSIGNMENT = 1;
 		private const int PM_NUMBER = 2;
 		private const int PM_STRING = 3;
 		private const int PM_KEYWORD = 4;
-		
+
 		// Error strings
 		private const string ERROR_KEYMISSING = "Missing key name in assignment or scope.";
 		private const string ERROR_KEYSPACES = "Spaces not allowed in key names.";
@@ -214,77 +214,77 @@ namespace CodeImp
 		private const string ERROR_VALUETOOBIG = "Value too big.";
 		private const string ERROR_KEYNOTUNQIUE = "Key is not unique within scope.";
 		private const string ERROR_KEYWORDUNKNOWN = "Unknown keyword in assignment. Missing a previous terminator symbol?";
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		// Error result
 		private int cpErrorResult = 0;
 		private string cpErrorDescription = "";
 		private int cpErrorLine = 0;
-		
+
 		// Configuration root
 		private IDictionary root = null;
-		
+
 		#endregion
-		
+
 		#region ================== Properties
-		
+
 		// Properties
 		public int ErrorResult { get { return cpErrorResult; } }
 		public string ErrorDescription { get { return cpErrorDescription; } }
 		public int ErrorLine { get { return cpErrorLine; } }
 		public IDictionary Root { get { return root; } set { root = value; } }
 		public bool Sorted { get { return (root is ListDictionary); } }
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public Configuration()
 		{
 			// Standard new configuration
 			NewConfiguration();
 		}
-		
+
 		// Constructor
 		public Configuration(bool sorted)
 		{
 			// Standard new configuration
 			NewConfiguration(sorted);
 		}
-		
+
 		// Constructor to load a file immediately
 		public Configuration(string filename)
 		{
 			// Load configuration from file
 			LoadConfiguration(filename);
 		}
-		
+
 		// Constructor to load a file immediately
 		public Configuration(string filename, bool sorted)
 		{
 			// Load configuration from file
 			LoadConfiguration(filename, sorted);
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Private Methods
-		
+
 		// This is called by all the ReadSetting overloads to perform the read
 		private object ReadAnySetting(string setting, object defaultsetting, string pathseperator)
 		{
 			IDictionary cs = null;
-			
+
 			// Split the path in an array
 			string[] keys = setting.Split(pathseperator.ToCharArray());
-			
+
 			// Get the root item
 			object item = root;
-			
+
 			// Go for each item
 			for(int i = 0; i < keys.Length; i++)
 			{
@@ -296,7 +296,7 @@ namespace CodeImp
 					{
 						// Cast to ConfigStruct
 						cs = (IDictionary)item;
-						
+
 						// Check if the requested item exists
 						if(cs.Contains(keys[i]) == true)
 						{
@@ -324,22 +324,22 @@ namespace CodeImp
 					return defaultsetting;
 				}
 			}
-			
+
 			// Return the item
 			return item;
 		}
-		
+
 		// This helps operator + to combine configurations inherited
 		private static IDictionary Combined(IDictionary d1, IDictionary d2, bool sorted)
 		{
 			// Create new dictionary
 			IDictionary result;
 			if(sorted) result = new ListDictionary(); else result = new Hashtable();
-			
+
 			// Copy all items from d1 to result
 			IDictionaryEnumerator d1e = d1.GetEnumerator();
 			while(d1e.MoveNext()) result.Add(d1e.Key, d1e.Value);
-			
+
 			// Go for all items in d2
 			IDictionaryEnumerator d2e = d2.GetEnumerator();
 			while(d2e.MoveNext())
@@ -383,12 +383,12 @@ namespace CodeImp
 					}
 				}
 			}
-			
+
 			// Return result
 			return result;
 		}
-		
-		
+
+
 		// This returns a string added with escape characters
 		private string EscapedString(string str)
 		{
@@ -398,12 +398,12 @@ namespace CodeImp
 			str = str.Replace("\r", "\\r");
 			str = str.Replace("\t", "\\t");
 			str = str.Replace("\"", "\\\"");
-			
+
 			// Return result
 			return str;
 		}
-		
-		
+
+
 		// This raises an error
 		private void RaiseError(int line, string description)
 		{
@@ -412,14 +412,14 @@ namespace CodeImp
 			cpErrorDescription = description;
 			cpErrorLine = line;
 		}
-		
-		
+
+
 		// This validates a given key and sets
 		// error properties if key is invalid and errorline > -1
 		private bool ValidateKey(IDictionary container, string key, int errorline)
 		{
 			bool validateresult;
-			
+
 			// Check if key is an empty string
 			if(key == "")
 			{
@@ -461,18 +461,18 @@ namespace CodeImp
 					}
 				}
 			}
-			
+
 			// Return result
 			return validateresult;
 		}
-		
-		
+
+
 		// This validates a given keyword and sets
 		// error properties if keyword is invalid and errorline > -1
 		private bool ValidateKeyword(string keyword, int errorline)
 		{
 			bool validateresult;
-			
+
 			// Check if key is an empty string
 			if(keyword == "")
 			{
@@ -495,12 +495,12 @@ namespace CodeImp
 					validateresult = true;
 				}
 			}
-			
+
 			// Return result
 			return validateresult;
 		}
-		
-		
+
+
 		// This parses a structure in the given data starting
 		// from the given pos and line and updates pos and line.
 		private IDictionary InputStructure(ref string data, ref int pos, ref int line, bool sorted)
@@ -511,10 +511,10 @@ namespace CodeImp
 			bool escape = false;			// escape sequence?
 			bool endofstruct = false;		// true as soon as this level struct ends
 			IDictionary cs;
-			
+
 			// Create new struct to hold variables
 			if(sorted) cs = new ListDictionary(); else cs = new Hashtable();
-			
+
 			// Go through all of the data until
 			// the end or until the struct closes
 			// or when an arror occurred
@@ -522,7 +522,7 @@ namespace CodeImp
 			{
 				// Get current character
 				c = data[pos];
-				
+
 				// ================ What parse mode are we at?
 				if(pm == PM_NOTHING)
 				{
@@ -530,90 +530,90 @@ namespace CodeImp
 					switch(c)
 					{
 						case '{': // Begin of new struct
-							
+
 							// Validate key
 							if(ValidateKey(cs, key.Trim(), line))
 							{
 								// Next character
 								pos++;
-								
+
 								// Parse this struct and add it
 								cs.Add(key.Trim(), InputStructure(ref data, ref pos, ref line, sorted));
-								
+
 								// Check the last character
 								pos--;
-								
+
 								// Reset the key
 								key = "";
 							}
-							
+
 							// Leave switch
 							break;
-							
+
 						case '}': // End of this struct
-							
+
 							// Stop parsing in this struct
 							endofstruct = true;
-							
+
 							// Leave the loop
 							break;
-							
+
 						case '=': // Assignment
-							
+
 							// Validate key
 							if(ValidateKey(cs, key.Trim(), line))
 							{
 								// Now parsing assignment
 								pm = PM_ASSIGNMENT;
 							}
-							
+
 							// Leave switch
 							break;
-							
+
 						case ';': // Terminator
-							
+
 							// Validate key
 							if(ValidateKey(cs, key.Trim(), line))
 							{
 								// Add the key with null as value
 								cs.Add(key.Trim(), null);
-							
+
 								// Reset key and value
 								key = "";
 								val = "";
 							}
-							
+
 							// Leave switch
 							break;
-							
+
 						case '\n': // New line
-							
+
 							// Count the line
 							line++;
-							
+
 							// Add this to the key as a space.
 							// Spaces are not allowed, but it will be trimmed
 							// when its the first or last character.
 							key += " ";
-							
+
 							// Leave switch
 							break;
-							
+
 						case '\\': // Possible comment
 						case '/':
-							
+
 							// Check for the line comment //
 							if(data.Substring(pos, 2) == "//")
 							{
 								// Find the next line
 								int np = data.IndexOf("\n", pos);
-								
+
 								// Next line found?
 								if(np > -1)
 								{
 									// Count the line
 									line++;
-									
+
 									// Skip everything on this line
 									pos = np;
 								}
@@ -629,14 +629,14 @@ namespace CodeImp
 							{
 								// Find the next closing block comment
 								int np = data.IndexOf("*/", pos);
-								
+
 								// Closing block comment found?
 								if(np > -1)
 								{
 									// Count the lines in the block comment
 									string blockdata = data.Substring(pos, np - pos + 2);
 									line += (blockdata.Split("\n".ToCharArray()).Length - 1);
-									
+
 									// Skip everything in this block
 									pos = np + 1;
 								}
@@ -647,15 +647,15 @@ namespace CodeImp
 									pos = data.Length;
 								}
 							}
-							
+
 							// Leave switch
 							break;
-							
+
 						default: // Everything else
-							
+
 							// Add character to key
 							key += c.ToString(CultureInfo.InvariantCulture);
-							
+
 							// Leave switch
 							break;
 					}
@@ -674,7 +674,7 @@ namespace CodeImp
 					{
 						// Now parsing number
 						pm = PM_NUMBER;
-						
+
 						// Go one byte back, because this
 						// byte is part of the number!
 						pos--;
@@ -690,7 +690,7 @@ namespace CodeImp
 					{
 						// End of assignment
 						pm = PM_NOTHING;
-						
+
 						// Remove this if it causes problems
 						key = "";
 						val = "";
@@ -700,7 +700,7 @@ namespace CodeImp
 					{
 						// Now parsing a keyword
 						pm = PM_KEYWORD;
-						
+
 						// Go one byte back, because this
 						// byte is part of the keyword!
 						pos--;
@@ -716,15 +716,15 @@ namespace CodeImp
 						if(val.IndexOf("f") > -1)
 						{
 							float fval = 0;
-							
+
 							// Convert to float (remove the f first)
 							try { fval = System.Convert.ToSingle(val.Trim().Replace("f", ""), CultureInfo.InvariantCulture); }
 							catch(System.FormatException)
-							{ 
+							{
 								// ERROR: Invalid value in assignment
 								RaiseError(line, ERROR_VALUEINVALID);
 							}
-							
+
 							// Add it to struct
 							cs.Add(key.Trim(), fval);
 						}
@@ -732,13 +732,13 @@ namespace CodeImp
 						{
 							int ival = 0;
 							long lval = 0;
-							
+
 							// Convert to int
 							try
 							{
 								// Convert to value
 								ival = System.Convert.ToInt32(val.Trim(), CultureInfo.InvariantCulture);
-								
+
 								// Add it to struct
 								cs.Add(key.Trim(), ival);
 							}
@@ -749,7 +749,7 @@ namespace CodeImp
 								{
 									// Convert to value
 									lval = System.Convert.ToInt64(val.Trim(), CultureInfo.InvariantCulture);
-									
+
 									// Add it to struct
 									cs.Add(key.Trim(), lval);
 								}
@@ -759,22 +759,22 @@ namespace CodeImp
 									RaiseError(line, ERROR_VALUETOOBIG);
 								}
 								catch(System.FormatException)
-								{ 
+								{
 									// ERROR: Invalid value in assignment
 									RaiseError(line, ERROR_VALUEINVALID);
 								}
 							}
 							catch(System.FormatException)
-							{ 
+							{
 								// ERROR: Invalid value in assignment
 								RaiseError(line, ERROR_VALUEINVALID);
 							}
 						}
-						
+
 						// Reset key and value
 						key = "";
 						val = "";
-						
+
 						// End of assignment
 						pm = PM_NOTHING;
 					}
@@ -805,30 +805,30 @@ namespace CodeImp
 							case 'r': val += "\r"; break;
 							case 't': val += "\t"; break;
 							default:
-								
+
 								// Is it a number?
 								if("0123456789".IndexOf(c.ToString(CultureInfo.InvariantCulture)) > -1)
 								{
 									int vv = 0;
 									char vc = '0';
-									
+
 									// Convert the next 3 characters to a number
 									string v = data.Substring(pos, 3);
 									try { vv = System.Convert.ToInt32(v.Trim(), CultureInfo.InvariantCulture); }
 									catch(System.FormatException)
-									{ 
+									{
 										// ERROR: Invalid value in assignment
 										RaiseError(line, ERROR_VALUEINVALID);
 									}
-									
+
 									// Convert the number to a char
 									try { vc = System.Convert.ToChar(vv, CultureInfo.InvariantCulture); }
 									catch(System.FormatException)
-									{ 
+									{
 										// ERROR: Invalid value in assignment
 										RaiseError(line, ERROR_VALUEINVALID);
 									}
-									
+
 									// Add the char
 									val += vc.ToString(CultureInfo.InvariantCulture);
 								}
@@ -837,11 +837,11 @@ namespace CodeImp
 									// Add the character as it is
 									val += c.ToString(CultureInfo.InvariantCulture);
 								}
-								
+
 								// Leave switch
 								break;
 						}
-						
+
 						// End of escape sequence
 						escape = false;
 					}
@@ -858,10 +858,10 @@ namespace CodeImp
 						{
 							// Add string to struct
 							cs.Add(key.Trim(), val);
-							
+
 							// End of assignment
 							pm = PM_ASSIGNMENT;
-							
+
 							// Reset key and value
 							key = "";
 							val = "";
@@ -893,33 +893,33 @@ namespace CodeImp
 							switch(val.Trim().ToLower())
 							{
 								case "true":
-									
+
 									// Add boolean true
 									cs.Add(key.Trim(), true);
 									break;
-									
+
 								case "false":
-									
+
 									// Add boolean false
 									cs.Add(key.Trim(), false);
 									break;
-									
+
 								case "null":
-									
+
 									// Add null
 									cs.Add(key.Trim(), null);
 									break;
-									
+
 								default:
-									
+
 									// Unknown keyword
 									RaiseError(line, ERROR_KEYWORDUNKNOWN);
 									break;
 							}
-							
+
 							// End of assignment
 							pm = PM_NOTHING;
-							
+
 							// Reset key and value
 							key = "";
 							val = "";
@@ -938,23 +938,23 @@ namespace CodeImp
 						val += c.ToString(CultureInfo.InvariantCulture);
 					}
 				}
-				
+
 				// Next character
 				pos++;
 			}
-			
+
 			// Return the parsed result
 			return cs;
 		}
-		
-		
+
+
 		// This will create a data structure from the given object
 		private string OutputStructure(IDictionary cs, int level, string newline, bool whitespace)
 		{
 			string leveltabs = "";
 			string spacing = "";
 			StringBuilder db = new StringBuilder("");
-			
+
 			// Check if this ConfigStruct is not empty
 			if(cs.Count > 0)
 			{
@@ -964,23 +964,23 @@ namespace CodeImp
 					for(int i = 0; i < level; i++) leveltabs += "\t";
 					spacing = " ";
 				}
-				
+
 				// Get enumerator
 				IDictionaryEnumerator de = cs.GetEnumerator();
-				
+
 				// Go for each item
 				for(int i = 0; i < cs.Count; i++)
 				{
 					// Go to next item
 					de.MoveNext();
-					
+
 					// Check if the value is null
 					if(de.Value == null)
 					{
 						// Output the keyword "null"
 						//db.Append(leveltabs); db.Append(de.Key.ToString()); db.Append(spacing);
 						//db.Append("="); db.Append(spacing); db.Append("null;"); db.Append(newline);
-						
+
 						// Output key only
 						db.Append(leveltabs); db.Append(de.Key.ToString()); db.Append(";"); db.Append(newline);
 					}
@@ -1034,29 +1034,29 @@ namespace CodeImp
 					}
 				}
 			}
-			
+
 			// Return the structure
 			return db.ToString();
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Public Methods
-		
+
 		// Operator + combines two collections and overrides any from cfg2 over cfg1
 		public static Configuration operator+(Configuration cfg1, Configuration cfg2)
 		{
 			// Create new configuration
 			Configuration result = new Configuration(cfg1.Sorted | cfg2.Sorted);
-			
+
 			// Combine both roots
 			result.root = Combined(cfg1.root, cfg2.root, cfg1.Sorted | cfg2.Sorted);
-			
+
 			// Return result
 			return result;
 		}
-		
-		
+
+
 		// This clears the last error
 		public void ClearError()
 		{
@@ -1065,8 +1065,8 @@ namespace CodeImp
 			cpErrorDescription = "";
 			cpErrorLine = 0;
 		}
-		
-		
+
+
 		// This creates a new configuration
 		public void NewConfiguration() { NewConfiguration(false); }
 		public void NewConfiguration(bool sorted)
@@ -1074,8 +1074,8 @@ namespace CodeImp
 			// Create new configuration
 			if(sorted) root = new ListDictionary(); else root = new Hashtable();
 		}
-		
-		
+
+
 		// This can give a value of a key specified in a path form
 		// also, this does not error when the setting does not exist,
 		// but instead returns the given default value.
@@ -1095,8 +1095,8 @@ namespace CodeImp
 		public byte ReadSetting(string setting, byte defaultsetting, string pathseperator) { return Convert.ToByte(ReadAnySetting(setting, defaultsetting, pathseperator), CultureInfo.InvariantCulture); }
 		public IDictionary ReadSetting(string setting, IDictionary defaultsetting) { return (IDictionary)ReadAnySetting(setting, defaultsetting, DEFAULT_SEPERATOR); }
 		public IDictionary ReadSetting(string setting, IDictionary defaultsetting, string pathseperator) { return (IDictionary)ReadAnySetting(setting, defaultsetting, pathseperator); }
-		
-		
+
+
 		// This writes a given setting to the configuration.
 		// Wont change existing structs, but will add them as needed.
 		// Returns true when written, false when failed.
@@ -1104,14 +1104,14 @@ namespace CodeImp
 		public bool WriteSetting(string setting, object settingvalue, string pathseperator)
 		{
 			IDictionary cs = null;
-			
+
 			// Split the path in an array
 			string[] keys = setting.Split(pathseperator.ToCharArray());
 			string finalkey = keys[keys.Length - 1];
-			
+
 			// Get the root item
 			object item = root;
-			
+
 			// Go for each path item
 			for(int i = 0; i < (keys.Length - 1); i++)
 			{
@@ -1120,7 +1120,7 @@ namespace CodeImp
 				{
 					// Cast to ConfigStruct
 					cs = (IDictionary)item;
-					
+
 					// Check if the requested item exists
 					if(cs.Contains(keys[i]) == true)
 					{
@@ -1143,7 +1143,7 @@ namespace CodeImp
 						IDictionary ncs;
 						if(root is ListDictionary) ncs = new ListDictionary(); else ncs = new Hashtable();
 						cs.Add(keys[i], ncs);
-						
+
 						// Set the item to the next item
 						item = cs[keys[i]];
 					}
@@ -1154,10 +1154,10 @@ namespace CodeImp
 					return false;
 				}
 			}
-			
+
 			// Cast to ConfigStruct
 			cs = (IDictionary)item;
-			
+
 			// Check if the key already exists
 			if(cs.Contains(finalkey) == true)
 			{
@@ -1169,25 +1169,25 @@ namespace CodeImp
 				// Create the key/value pair
 				cs.Add(finalkey, settingvalue);
 			}
-			
+
 			// Return success
 			return true;
 		}
-		
-		
+
+
 		// This removes a given setting from the configuration.
 		public bool DeleteSetting(string setting) { return DeleteSetting(setting, DEFAULT_SEPERATOR); }
 		public bool DeleteSetting(string setting, string pathseperator)
 		{
 			IDictionary cs = null;
-			
+
 			// Split the path in an array
 			string[] keys = setting.Split(pathseperator.ToCharArray());
 			string finalkey = keys[keys.Length - 1];
-			
+
 			// Get the root item
 			object item = root;
-			
+
 			// Go for each path item
 			for(int i = 0; i < (keys.Length - 1); i++)
 			{
@@ -1196,7 +1196,7 @@ namespace CodeImp
 				{
 					// Cast to ConfigStruct
 					cs = (IDictionary)item;
-					
+
 					// Check if the requested item exists
 					if(cs.Contains(keys[i]) == true)
 					{
@@ -1219,7 +1219,7 @@ namespace CodeImp
 						IDictionary ncs;
 						if(root is ListDictionary) ncs = new ListDictionary(); else ncs = new Hashtable();
 						cs.Add(keys[i], ncs);
-						
+
 						// Set the item to the next item
 						item = cs[keys[i]];
 					}
@@ -1230,17 +1230,17 @@ namespace CodeImp
 					return false;
 				}
 			}
-			
+
 			// Cast to ConfigStruct
 			cs = (IDictionary)item;
-			
+
 			// Arrived at our destination
 			// Delete the key if the key exists
 			if(cs.Contains(finalkey) == true)
 			{
 				// Key exists, delete it
 				cs.Remove(finalkey);
-				
+
 				// Return success
 				return true;
 			}
@@ -1250,8 +1250,8 @@ namespace CodeImp
 				return false;
 			}
 		}
-		
-		
+
+
 		// This will save the current configuration to the specified file
 		public bool SaveConfiguration(string filename) { return SaveConfiguration(filename, "\r\n", true); }
 		public bool SaveConfiguration(string filename, string newline) { return SaveConfiguration(filename, newline, true); }
@@ -1259,21 +1259,21 @@ namespace CodeImp
 		{
 			// Kill the file if it exists
 			if(File.Exists(filename) == true) File.Delete(filename);
-			
+
 			// Open file stream for writing
 			FileStream fstream = File.OpenWrite(filename);
-			
+
 			// Create output structure and write to file
 			string data = OutputConfiguration(newline, whitespace);
 			byte[] baData= Encoding.ASCII.GetBytes(data);
 			fstream.Write(baData, 0, baData.Length);
 			fstream.Close();
-			
+
 			// Return true when done, false when errors occurred
 			if(cpErrorResult == 0) return true; else return false;
 		}
-		
-		
+
+
 		// This will output the current configuration as a string
 		public string OutputConfiguration() { return OutputConfiguration("\r\n", true); }
 		public string OutputConfiguration(string newline) { return OutputConfiguration(newline, true); }
@@ -1282,8 +1282,8 @@ namespace CodeImp
 			// Simply return the configuration structure as string
 			return OutputStructure(root, 0, newline, whitespace);
 		}
-		
-		
+
+
 		// This will load a configuration from file
 		public bool LoadConfiguration(string filename) { return LoadConfiguration(filename, false); }
 		public bool LoadConfiguration(string filename, bool sorted)
@@ -1295,21 +1295,14 @@ namespace CodeImp
 			}
 			else
 			{
-				// Load the file contents
-				FileStream fstream = File.OpenRead(filename);
-				byte[] fbuffer = new byte[fstream.Length];
-				fstream.Read(fbuffer, 0, fbuffer.Length);
-				fstream.Close();
-				
-				// Convert byte array to string
-				string data = Encoding.ASCII.GetString(fbuffer);
-				
+                var data = File.ReadAllText(filename);
+
 				// Load the configuration from this data
 				return InputConfiguration(data, sorted);
 			}
 		}
-		
-		
+
+
 		// This will load a configuration from string
 		public bool InputConfiguration(string data) { return InputConfiguration(data, false); }
 		public bool InputConfiguration(string data, bool sorted)
@@ -1318,19 +1311,19 @@ namespace CodeImp
 			// parser only uses newline for new lines.
 			data = data.Replace("\r", "");
 			data = data.Replace("\t", "");
-			
+
 			// Clear errors
 			ClearError();
-			
+
 			// Parse the data to the root structure
 			int pos = 0;
 			int line = 1;
 			root = InputStructure(ref data, ref pos, ref line, sorted);
-			
+
 			// Return true when done, false when errors occurred
 			if(cpErrorResult == 0) return true; else return false;
 		}
-		
+
 		#endregion
 	}
 }
