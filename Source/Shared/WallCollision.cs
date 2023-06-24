@@ -6,9 +6,9 @@
 \********************************************************************/
 
 using System;
+#if CLIENT
 using CodeImp.Bloodmasters.Client.Graphics;
 using Direct3D = CodeImp.Bloodmasters.Client.Direct3D;
-#if CLIENT
 using SharpDX;
 using CodeImp.Bloodmasters.Client;
 using SharpDX.Direct3D9;

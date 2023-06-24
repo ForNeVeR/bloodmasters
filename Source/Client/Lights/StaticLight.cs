@@ -205,7 +205,7 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Go for all nearby lines
-			lines = General.map.BlockMap.GetCollisionLines(rangerect);
+			lines = General.map.BlockMap.GetCollisionLines(rangerect.ToSystemDrawing());
 			for(int l = lines.Count - 1; l >= 0; l--)
 			{
 				// Get the line

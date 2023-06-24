@@ -141,7 +141,7 @@ namespace CodeImp.Bloodmasters.Client
 			highestfloor = sector.HeightFloor;
 
 			// Copy sector bounds
-			secbounds = sector.Bounds;
+			secbounds = sector.Bounds.ToSharpDx();
 
 			// Make lightmap bounds with overhead
 			lmbounds = RectangleEx.Inflate(secbounds, LIGHTMAP_OVERHEAD, LIGHTMAP_OVERHEAD);
@@ -809,7 +809,7 @@ namespace CodeImp.Bloodmasters.Client
 			RectangleF shadowarea = RectangleEx.Inflate(secbounds, 10f, 10f);
 
 			// Go for all nearby linedefs
-			ArrayList lines = General.map.BlockMap.GetCollisionLines(shadowarea);
+			ArrayList lines = General.map.BlockMap.GetCollisionLines(shadowarea.ToSystemDrawing());
 			foreach(Linedef l in lines)
 			{
 				// Make sector shadow

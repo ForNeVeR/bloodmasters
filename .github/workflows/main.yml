@@ -20,11 +20,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup VS Dev Environment
-        uses: seanmiddleditch/gha-setup-vsdevenv@v4
-
       - name: Build server
-        run: devenv.exe Source\DedicatedServer.sln /Build
+        run: dotnet build Source\DedicatedServer.sln
 
       - name: Build client
-        run: devenv.exe Source\Bloodmasters.sln /Build
+        run: dotnet build Source\Bloodmasters.sln

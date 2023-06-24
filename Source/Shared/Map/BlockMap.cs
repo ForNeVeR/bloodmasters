@@ -7,8 +7,8 @@
 
 using System;
 using System.Collections;
+using System.Drawing;
 using System.IO;
-using SharpDX;
 
 namespace CodeImp.Bloodmasters
 {

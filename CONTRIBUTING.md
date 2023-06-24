@@ -4,13 +4,14 @@ Bloodmasters Contributing
 Build
 -----
 ### Prerequisites
-- [Visual Studio 2022][visual-studio]
+- Windows OS (for now)
+- [.NET 7 SDK][dotnet-sdk] or a later compatible version
 
 ### Commands
-Build the solution using Visual Studio (in the **Developer Command Prompt**):
+Build the solutions using the following shell commands:
 ```
-$ devenv.exe Source\DedicatedServer.sln /Build
-$ devenv.exe Source\Bloodmasters.sln /Build
+$ dotnet build Source/DedicatedServer.sln
+$ dotnet build Source/Bloodmasters.sln
 ```
 
-[visual-studio]: https://visualstudio.microsoft.com/vs/
+[dotnet-sdk]: https://dot.net

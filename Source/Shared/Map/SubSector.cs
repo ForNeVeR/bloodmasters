@@ -6,8 +6,8 @@
 \********************************************************************/
 
 using System;
+using System.Drawing;
 using System.IO;
-using SharpDX;
 #if CLIENT
 #endif
 

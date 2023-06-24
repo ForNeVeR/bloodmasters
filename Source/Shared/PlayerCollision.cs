@@ -6,11 +6,11 @@
 \********************************************************************/
 
 using System;
+using System.Drawing;
+#if CLIENT
 using CodeImp.Bloodmasters.Client.Graphics;
 using SharpDX.Direct3D9;
 using Direct3D = CodeImp.Bloodmasters.Client.Direct3D;
-#if CLIENT
-using SharpDX;
 using CodeImp.Bloodmasters.Client;
 #endif
 
@@ -58,7 +58,7 @@ namespace CodeImp.Bloodmasters
 											  objradius * 2f, objradius * 2f);
 
 			// Likely intersection?
-			if(prect.Intersects(orect))
+			if(prect.IntersectsWith(orect))
 			{
 				// Check if within Z ranges
 				if(((pl.State.pos.z + Consts.PLAYER_HEIGHT) < objpos.z) ||
@@ -183,7 +183,7 @@ namespace CodeImp.Bloodmasters
 		}
 
 		// This makes vertices for a line
-		public void RenderLine(Vector2D s, Vector2D e, Color c, bool arrow)
+		public void RenderLine(Vector2D s, Vector2D e, SharpDX.Color c, bool arrow)
 		{
 			const float arrowlen = 1.5f;
 			const float arrowwidth = 0.15f;
