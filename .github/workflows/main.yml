@@ -16,9 +16,20 @@ jobs:
     name: 'main.windows'
     runs-on: 'windows-2022'
 
+    env:
+      DOTNET_NOLOGO: 1
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      NUGET_PACKAGES: ${{ github.workspace }}/.github/nuget-packages
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: NuGet cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.NUGET_PACKAGES }}
+          key: ${{ runner.os }}.nuget.${{ hashFiles('**/*.csproj') }}
 
       - name: Build server
         run: dotnet build Source\DedicatedServer.sln
