@@ -772,4 +772,8 @@
     <PackageReference Include="SharpDX.DirectSound" Version="4.2.0" />
     <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="client-standalone.debug.cfg" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="server.debug.cfg" CopyToOutputDirectory="PreserveNewest"/>
+  </ItemGroup>
 </Project>

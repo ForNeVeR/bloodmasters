@@ -2162,13 +2162,9 @@ namespace CodeImp.Bloodmasters.Client
 		// This is where the fun begins
 		[STAThread] private static void Main(string[] args)
 		{
-			// This will keep a thrown exception
-			Exception ex = null;
-
-			// Debugger attached?
+            // Handle exceptions more nicely in production, but let the debugger to break by default if it's attached.
 			if(Debugger.IsAttached)
 			{
-                // TODO[#13]: More convenient debug configuration
 				// Run without exception handling
 				_Main(args);
 			}
@@ -2187,7 +2183,7 @@ namespace CodeImp.Bloodmasters.Client
 					if(e is SharpDXException { ResultCode: var rc } && rc == ResultCode.OutOfVideoMemory)
 					{
 						// Make a more descriptive error
-						ex = new Exception("Out of video memory while loading the game. Please choose a lower screen resolution or lower graphics options.", e);
+						var ex = new Exception("Out of video memory while loading the game. Please choose a lower screen resolution or lower graphics options.", e);
 
 						// Log the error
 						WriteErrorLine(ex);

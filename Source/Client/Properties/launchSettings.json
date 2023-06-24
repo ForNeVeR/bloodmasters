@@ -1,0 +1,12 @@
+﻿{
+    "$schema": "http://json.schemastore.org/launchsettings.json",
+    "profiles": {
+        "Standalone": {
+            "commandName": "Project",
+            "commandLineArgs": "client-standalone.debug.cfg"
+        },
+        "Default": {
+            "commandName": "Project"
+        }
+    }
+}
