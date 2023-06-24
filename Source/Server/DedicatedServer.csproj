@@ -6,7 +6,7 @@
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <RootNamespace>CodeImp.Bloodmasters.Server</RootNamespace>
     <StartupObject>CodeImp.Bloodmasters.Server.General</StartupObject>
-        <TargetFramework>net48</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
@@ -318,8 +318,5 @@
     <Compile Include="Weapons\WRocketLauncher.cs">
       <SubType>Code</SubType>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
 </Project>
