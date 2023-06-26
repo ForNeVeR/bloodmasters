@@ -6,7 +6,7 @@
 \********************************************************************/
 
 using System;
-using Vortice.Direct3D9;
+using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Launcher
 {

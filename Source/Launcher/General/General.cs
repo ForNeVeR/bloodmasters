@@ -16,7 +16,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
-using Vortice.Direct3D9;
+using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Launcher
 {

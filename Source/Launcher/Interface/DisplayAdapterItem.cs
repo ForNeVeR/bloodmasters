@@ -5,7 +5,8 @@
 *                                                                   *
 \********************************************************************/
 
-using Vortice.Direct3D9;
+
+using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Launcher
 {
@@ -15,7 +16,7 @@ namespace CodeImp.Bloodmasters.Launcher
 		public string description;
 
 		// Constructor
-		public DisplayAdapterItem(int adapterIndex, AdapterIdentifier ai)
+		public DisplayAdapterItem(int adapterIndex, AdapterDetails ai)
 		{
 			ordinal = adapterIndex;
 			description = ai.Description;

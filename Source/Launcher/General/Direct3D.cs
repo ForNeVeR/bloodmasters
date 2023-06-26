@@ -9,7 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Vortice.Direct3D9;
+using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Launcher
 {
@@ -25,7 +25,7 @@ namespace CodeImp.Bloodmasters.Launcher
 
 		#region ================== Variables
 
-        private static IDirect3D9Ex _direct3D9Ex;
+        private static SharpDX.Direct3D9.Direct3D _direct3D9Ex;
 
 		// Devices
 		private static int adapterIndex;
@@ -42,8 +42,7 @@ namespace CodeImp.Bloodmasters.Launcher
 		#region ================== Properties
 
 		// Display mode settings
-		public static int DisplayAdapter { get { return adapterIndex; } }
-		public static int DisplayWidth { get { return displaymode.Width; } set { displaymode.Width = value; } }
+        public static int DisplayWidth { get { return displaymode.Width; } set { displaymode.Width = value; } }
 		public static int DisplayHeight { get { return displaymode.Height; } set { displaymode.Height = value; } }
 		public static int DisplayFormat { get { return (int)displaymode.Format; } set { displaymode.Format = (Format)value; } }
 		public static int DisplayRefreshRate { get { return displaymode.RefreshRate; } set { displaymode.RefreshRate = value; } }
@@ -181,12 +180,12 @@ namespace CodeImp.Bloodmasters.Launcher
 			list.Items.Add("Off");
 
 			// Check if supported
-			if(_direct3D9Ex.CheckDeviceMultiSampleType(ad, DeviceType.Hardware, f,
-				windowed, MultisampleType.NonMaskable, out levels).Success)
+			if(_direct3D9Ex.CheckDeviceMultisampleType(ad, DeviceType.Hardware, f,
+				windowed, MultisampleType.NonMaskable, out levels))
 			{
 				// Check if supported on depth stencil
-				if(_direct3D9Ex.CheckDeviceMultiSampleType(ad, DeviceType.Hardware, Format.D16,
-							windowed, MultisampleType.NonMaskable, out levels).Success)
+				if(_direct3D9Ex.CheckDeviceMultisampleType(ad, DeviceType.Hardware, Format.D16,
+							windowed, MultisampleType.NonMaskable, out levels))
 				{
 					// Add levels to the list
 					for(int i = 1; i <= levels; i++)
@@ -372,17 +371,17 @@ namespace CodeImp.Bloodmasters.Launcher
 			// Test if the display format is supported by the device
 			var result = _direct3D9Ex.CheckDeviceType(adapterIndex, DeviceType.Hardware,
 							mode.Format, mode.Format, windowed);
-			if(result != 0) return false;
+            if (!result) return false;
 
 			// Test if we can create surfaces of display format
 			result = _direct3D9Ex.CheckDeviceFormat(adapterIndex, DeviceType.Hardware, mode.Format,
 									 0, ResourceType.Surface, mode.Format);
-			if(result != 0) return false;
+            if (!result) return false;
 
 			// Test if we can create rendertarget textures of display format
 			result = _direct3D9Ex.CheckDeviceFormat(adapterIndex, DeviceType.Hardware, mode.Format,
-					(int)Usage.RenderTarget, ResourceType.Texture, mode.Format);
-			if(result != 0) return false;
+					Usage.RenderTarget, ResourceType.Texture, mode.Format);
+            if (!result) return false;
 
 			// Everything seems to be supported
 			return true;
@@ -446,7 +445,7 @@ namespace CodeImp.Bloodmasters.Launcher
 		public static void InitDX()
         {
 			// Initialize variables
-            _direct3D9Ex = D3D9.Direct3DCreate9Ex();
+            _direct3D9Ex = new SharpDX.Direct3D9.Direct3D();
 			adapterIndex = 0;
 			displaymode = new DisplayMode();
 		}
