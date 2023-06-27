@@ -37,9 +37,9 @@ internal static class ColorOperator
 
     public static int Modulate(int leftArgbColor, int rightArgbColor)
     {
-        var left = FromArgb(leftArgbColor);
-        var right= FromArgb(rightArgbColor);
-        var modulated = Color.Modulate(left, right);
+        Color4 left = FromArgb(leftArgbColor);
+        Color4 right= FromArgb(rightArgbColor);
+        var modulated = new Color(Color4.Modulate(left, right));
         return modulated.ToArgb();
     }
 }
