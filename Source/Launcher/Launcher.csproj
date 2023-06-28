@@ -4,9 +4,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net7.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-      <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-    
+
   <PropertyGroup>
     <ApplicationIcon>..\..\Resources\bm.ico</ApplicationIcon>
     <AssemblyName>BMLauncher</AssemblyName>
@@ -26,10 +25,6 @@
     </Compile>
     <Compile Include="..\Shared\ArchiveManager.cs">
       <Link>Shared\ArchiveManager.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\AssemblyInfo.cs">
-      <Link>Shared\AssemblyInfo.cs</Link>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\Shared\Configuration.cs">

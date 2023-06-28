@@ -4,7 +4,6 @@
         <OutputType>WinExe</OutputType>
         <TargetFramework>net7.0-windows</TargetFramework>
         <UseWindowsForms>true</UseWindowsForms>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
         <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     </PropertyGroup>
@@ -249,10 +248,6 @@
     </Compile>
     <Compile Include="..\Shared\ArchiveManager.cs">
       <Link>Shared\ArchiveManager.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\AssemblyInfo.cs">
-      <Link>Shared\AssemblyInfo.cs</Link>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\Shared\Collision.cs">

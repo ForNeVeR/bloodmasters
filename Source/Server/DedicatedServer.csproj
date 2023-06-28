@@ -8,7 +8,6 @@
     <StartupObject>CodeImp.Bloodmasters.Server.General</StartupObject>
         <TargetFramework>net7.0</TargetFramework>
         <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug - Linux' ">
     <OutputPath>..\..\Build\Linux\</OutputPath>
@@ -33,10 +32,6 @@
     </Compile>
     <Compile Include="..\Shared\ArchiveManager.cs">
       <Link>Shared\ArchiveManager.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\AssemblyInfo.cs">
-      <Link>Shared\AssemblyInfo.cs</Link>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\Shared\Collision.cs">
