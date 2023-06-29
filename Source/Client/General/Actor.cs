@@ -6,10 +6,8 @@
 \********************************************************************/
 
 using System;
-using System.Globalization;
 using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using System.Globalization;
 using SharpDX;
 using SharpDX.Direct3D9;
 using RectangleF = System.Drawing.RectangleF;
@@ -144,7 +142,7 @@ namespace CodeImp.Bloodmasters.Client
 		public bool IsWalking { get { return walking; } set { walking = value; } }
 		public bool IsOnFloor { get { return onfloor; } }
 		public float WalkAngle { get { return walkangle; } set { walkangle = value; } }
-		public Sector Sector { get { return sector; } }
+		public ClientSector Sector { get { return sector; } }
 		public Sector HighestSector { get { return highestsector; } }
 		public int TeamColor { get { return teamcolor; } set { teamcolor = value; } }
 		public string Name { get { if(name != null) return name.Text; else return ""; } set { if(name != null) name.Text = value; } }

@@ -28,13 +28,13 @@ using SharpDX.Direct3D9;
 
 #endregion
 
+// TODO: Fix namespaces
 namespace CodeImp.Bloodmasters.Client
 {
-	internal sealed class General
+	internal sealed class General : global::Bloodmasters.Shared.General
 	{
 		// API declarations
 		[DllImport("user32.dll")] public static extern int LockWindowUpdate(IntPtr hwnd);
-		[DllImport("kernel32.dll")] public static extern short QueryPerformanceCounter(ref long x);
 		[DllImport("kernel32.dll")] public static extern short QueryPerformanceFrequency(ref long x);
 
 		#region ================== Constants
@@ -122,13 +122,11 @@ namespace CodeImp.Bloodmasters.Client
 		public static Connection conn;
 		private static Thread networkproc;
 
-		// Clock
-		public static long timefrequency = -1;
-		public static double timescale;
-		public static int realtime;				// Real time of processing
-		public static int currenttime;			// Current time of this frame
-		public static int accumulator;			// Buffer for delta time
-		public static int previoustime;			// Previous frame time
+        public static int currenttime
+        {
+            get => global::Bloodmasters.Shared.General.currenttime;
+            set => global::Bloodmasters.Shared.General.currenttime = value;
+        }
 
 		// Auto-screenshot
 		public static int screenshottime;
@@ -2001,7 +1999,7 @@ namespace CodeImp.Bloodmasters.Client
 			clients[localclientid] = General.localclient;
 
 			// Load the map
-			try { map = new Map(mapname, false, temppath); }
+			try { map = new ClientMap(mapname, false, temppath); }
 			catch(FileNotFoundException) { return "You do not have the map \"" + mapname + "\"."; }
 
 			// Load the arena
@@ -2435,28 +2433,6 @@ namespace CodeImp.Bloodmasters.Client
 		#endregion
 
 		#region ================== Misc Functions
-
-		// This returns the time in milliseconds
-		public static int GetCurrentTime()
-		{
-			long timecount = 0;
-
-			// High resolution clock available?
-			if(timefrequency != -1)
-			{
-				// Get the high resolution count
-				QueryPerformanceCounter(ref timecount);
-
-				// Calculate high resolution time in milliseconds
-				//return (int)(((double)timecount / (double)timefrequency) * 1000d);
-				return (int)((double)timecount * timescale);
-			}
-			else
-			{
-				// Use standard clock
-				return Environment.TickCount;
-			}
-		}
 
 		// This gets a description for a game type
 		public static string GameTypeDescription(GAMETYPE g)

@@ -259,6 +259,7 @@
     <Compile Include="Items\WhiteScavengerItem.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Map\ServerSector.cs" />
     <Compile Include="Projectiles\Flames.cs">
       <SubType>Code</SubType>
     </Compile>

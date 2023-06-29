@@ -5,18 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-#if CLIENT
-using CodeImp.Bloodmasters.Client.Graphics;
-using Direct3D = CodeImp.Bloodmasters.Client.Direct3D;
-using SharpDX;
-using CodeImp.Bloodmasters.Client;
-using SharpDX.Direct3D9;
-
-#else
-using CodeImp.Bloodmasters.Server;
-#endif
-
 namespace CodeImp.Bloodmasters
 {
 	public class WallCollision : Collision

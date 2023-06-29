@@ -5,20 +5,12 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
 using System.Collections;
 using System.Drawing;
-using System.IO;
-
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#elif !LAUNCHER
-using CodeImp.Bloodmasters.Server;
-#endif
 
 namespace CodeImp.Bloodmasters
 {
-	public class Sector
+	public abstract class Sector
 	{
 		#region ================== Constants
 
@@ -59,7 +51,7 @@ namespace CodeImp.Bloodmasters
 		private float changepersec;		// Amount of change to apply per millisecond
 
 		// Boundaries
-		private RectangleF bounds;
+		protected RectangleF bounds;
 		private float boundscalex, boundscaley;
 
 		// Material
@@ -75,20 +67,6 @@ namespace CodeImp.Bloodmasters
 
 		// Items
 		private ArrayList items = new ArrayList();
-
-		// Client-only stuff
-		#if CLIENT
-
-		// Visual Sector
-		private VisualSector vissector = null;
-		private int updatetime = 0;
-		private int firstfloorvertex = -1;
-		private int firstceilvertex = -1;
-		private int numfaces = 0;
-		private ISound sound = null;
-		private bool playmovementsound = false;
-
-		#endif
 
 		#endregion
 
@@ -149,17 +127,6 @@ namespace CodeImp.Bloodmasters
 		// Items
 		public ArrayList Items { get { return items; } }
 
-		// Client-only properties
-		#if CLIENT
-
-		public VisualSector VisualSector { get { return vissector; } set { vissector = value; } }
-		public int FirstFloorVertex { get { return firstfloorvertex; } set { firstfloorvertex = value; } }
-		public int FirstCeilVertex { get { return firstceilvertex; } set { firstceilvertex = value; } }
-		public int NumFaces { get { return numfaces; } set { numfaces = value; } }
-		public bool PlayMovementSound { get { return playmovementsound; } set { playmovementsound = value; } }
-
-		#endif
-
 		#endregion
 
 		#region ================== Constructor / Destructor
@@ -201,13 +168,9 @@ namespace CodeImp.Bloodmasters
 		}
 
 		// Destructor
-		public void Dispose()
+		public virtual void Dispose()
 		{
 			// Release references
-			#if CLIENT
-				if(sound != null) sound.Dispose();
-				sound = null;
-			#endif
 			adjsectors = null;
 			subsectors = null;
 			map = null;
@@ -227,8 +190,6 @@ namespace CodeImp.Bloodmasters
 		// This makes the sector move
 		public void MoveTo(float height, float speed)
 		{
-			bool playsound = false;
-
 			// Set the movement settings
 			targetfloor = height;
 
@@ -242,35 +203,16 @@ namespace CodeImp.Bloodmasters
 				UpdateLightmaps();
 			}
 			else
-			{
-				#if CLIENT
-
-				// Set lightmap update timer
-				updatetime = General.currenttime;
-
-				// No sound playing?
-				if(sound == null) playsound = true;
-				else if((sound.Filename == SOUND_END) || !sound.Playing) playsound = true;
-
-				// Play start sound?
-				if(playsound && playmovementsound)
-				{
-					// Dispose old sound
-					if(sound != null) sound.Dispose();
-
-					// Play start sound
-					sound = DirectSound.GetSound(SOUND_START, true);
-					sound.Position = new Vector2D(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
-					sound.Play();
-				}
-
-				#endif
+            {
+                UpdateClientSounds();
 
 				// Move with given speed
 				if(height > curfloor) changepersec = Math.Abs(speed);
 				else changepersec = -Math.Abs(speed);
 			}
 		}
+
+        protected abstract void UpdateClientSounds();
 
 		// This tests if the given X/Y coordinate is within the sector
 		public bool IntersectXY(float x, float y)
@@ -434,19 +376,7 @@ namespace CodeImp.Bloodmasters
 		}
 
 		// This sets to update the lightmap and those of adjacent sectors
-		private void UpdateLightmaps()
-		{
-			#if CLIENT
-
-			if(vissector != null)
-			{
-				// Update sector lightmaps
-				vissector.UpdateLightmap = true;
-				foreach(Sector s in adjsectors) if(s.VisualSector != null) s.VisualSector.UpdateLightmap = true;
-			}
-
-			#endif
-		}
+        protected abstract void UpdateLightmaps();
 
 		#endregion
 
@@ -464,60 +394,8 @@ namespace CodeImp.Bloodmasters
 				float prevfloor = curfloor;
 				curfloor += changepersec;
 
-				// Update lighting when on client side
-				#if CLIENT
-
-				// Time to update?
-				if(updatetime <= General.currenttime)
-				{
-					// Update sector lightmaps
-					UpdateLightmaps();
-
-					// Set timer
-					updatetime = General.currenttime + UPDATE_LIGHTMAP_INTERVAL;
-				}
-
-				// Sound finished playing?
-				if((sound != null) && !sound.Playing && playmovementsound)
-				{
-					// Dispose old sound
-					sound.Dispose();
-
-					// Play moving sound
-					sound = DirectSound.GetSound(SOUND_RUN, true);
-					sound.Position = new Vector2D(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
-					sound.Play(true);
-				}
-
-				// Running in client mode?
-				if(General.map == this.map)
-				{
-					// Go for all actors
-					foreach(Actor a in General.arena.Actors)
-					{
-						// Actor in this sector and on the floor?
-						if((a.HighestSector == this) && (a.IsOnFloor))
-						{
-							// Drop on to highest sector
-							a.DropImmediately();
-						}
-					}
-				}
-
-				#elif !LAUNCHER
-
-				// Go for all clients
-				foreach(Client c in General.server.clients)
-				{
-					// Client in this sector and on the floor?
-					if((c != null) && c.IsAlive && (c.HighestSector == this) && c.IsOnFloor)
-					{
-						// Drop on to highest sector
-						c.DropImmediately();
-					}
-				}
-
-				#endif
+                UpdateClientLighting();
+                DropPlayers();
 
 				// Check the movement direction
 				if(changepersec > 0f)
@@ -545,24 +423,14 @@ namespace CodeImp.Bloodmasters
 					}
 				}
 
-				#if CLIENT
-
-				// Play stop sound?
-				if(playstopsound && playmovementsound)
-				{
-					// Dispose old sound
-					if(sound != null) sound.Dispose();
-
-					// Play stop sound
-					sound = DirectSound.GetSound(SOUND_END, true);
-					sound.Position = new Vector2D(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
-					sound.Play();
-				}
-
-				#endif
-			}
+                PlaySounds();
+            }
 		}
 
-		#endregion
-	}
+        protected abstract void UpdateClientLighting();
+        protected abstract void DropPlayers();
+        protected abstract void PlaySounds();
+
+        #endregion
+    }
 }

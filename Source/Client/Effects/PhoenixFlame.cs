@@ -6,10 +6,6 @@
 \********************************************************************/
 
 using System;
-using System.Drawing;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -34,7 +30,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		private Sprite sprite;
 		private Animation ani;
-		private Sector sector;
+		private ClientSector sector;
 		private bool disposed = false;
 		private float alpha = 0f;
 		private PhysicsState state;
@@ -63,7 +59,7 @@ namespace CodeImp.Bloodmasters.Client
 			this.pos = position;
 
 			// Determine sector
-			sector = General.map.GetSubSectorAt(this.pos.x, this.pos.y).Sector;
+			sector = (ClientSector)General.map.GetSubSectorAt(this.pos.x, this.pos.y).Sector;
 
 			// Make the sprite
 			sprite = new Sprite(this.pos, SIZE_START, false, true);
@@ -118,7 +114,7 @@ namespace CodeImp.Bloodmasters.Client
 				}
 
 				// Determine sector
-				sector = General.map.GetSubSectorAt(this.pos.x, this.pos.y).Sector;
+				sector = (ClientSector)General.map.GetSubSectorAt(this.pos.x, this.pos.y).Sector;
 
 				// Process animation
 				ani.Process();

@@ -242,122 +242,6 @@
       <Link>Server\Weapons\WRocketLauncher.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\Shared\Archive.cs">
-      <Link>Shared\Archive.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\ArchiveManager.cs">
-      <Link>Shared\ArchiveManager.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Collision.cs">
-      <Link>Shared\Collision.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Configuration.cs">
-      <Link>Shared\Configuration.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Enums.cs">
-      <Link>Shared\Enums.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\IPhysicsState.cs">
-      <Link>Shared\IPhysicsState.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Line2D.cs">
-      <Link>Shared\Line2D.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Map\BlockMap.cs">
-      <Link>Shared\Map\BlockMap.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Map\Linedef.cs">
-      <Link>Shared\Map\Linedef.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Map\Map.cs">
-      <Link>Shared\Map\Map.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Map\Node.cs">
-      <Link>Shared\Map\Node.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Map\RejectMap.cs">
-      <Link>Shared\Map\RejectMap.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Map\Sector.cs">
-      <Link>Shared\Map\Sector.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Map\Segment.cs">
-      <Link>Shared\Map\Segment.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Map\Sidedef.cs">
-      <Link>Shared\Map\Sidedef.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Map\SubSector.cs">
-      <Link>Shared\Map\SubSector.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Map\Thing.cs">
-      <Link>Shared\Map\Thing.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Net\Connection.cs">
-      <Link>Shared\Net\Connection.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Net\Gateway.cs">
-      <Link>Shared\Net\Gateway.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Net\MsgCmd.cs">
-      <Link>Shared\Net\MsgCmd.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Net\NetMessage.cs">
-      <Link>Shared\Net\NetMessage.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Net\NetMessageComparer.cs">
-      <Link>Shared\Net\NetMessageComparer.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Net\Packet.cs">
-      <Link>Shared\Net\Packet.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\PhysicsState.cs">
-      <Link>Shared\PhysicsState.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\PlayerCollision.cs">
-      <Link>Shared\PlayerCollision.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Vector2D.cs">
-      <Link>Shared\Vector2D.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Vector3D.cs">
-      <Link>Shared\Vector3D.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\Wad.cs">
-      <Link>Shared\Wad.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\Shared\WallCollision.cs">
-      <Link>Shared\WallCollision.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Effects\Debris.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -668,6 +552,8 @@
     <Compile Include="Lights\TeleportSmallLight.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Map\ClientMap.cs" />
+    <Compile Include="Map\ClientSector.cs" />
     <Compile Include="Projectiles\Flames.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -769,6 +655,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="client-standalone.debug.cfg" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="server.debug.cfg" CopyToOutputDirectory="PreserveNewest"/>
+    <None Update="server.debug.cfg" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Bloodmasters.Shared.csproj" />
   </ItemGroup>
 </Project>

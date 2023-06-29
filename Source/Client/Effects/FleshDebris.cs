@@ -6,11 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Drawing;
 using System.Globalization;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -45,7 +41,7 @@ namespace CodeImp.Bloodmasters.Client
 			SetTexture(textures[limpindex].texture);
 
 			// Next particle time
-			particletime = General.currenttime + General.random.Next(PARTICLE_RANDOM_TIME);
+			particletime = global::Bloodmasters.Shared.General.currenttime + General.random.Next(PARTICLE_RANDOM_TIME);
 		}
 
 		#endregion

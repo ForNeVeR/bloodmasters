@@ -23,7 +23,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		private Sprite sprite;
 		private Animation ani;
-		private Sector sector;
+		private ClientSector sector;
 		private bool disposed;
 		private int shockendtime;
 		private ArrayList lightnings = new ArrayList();

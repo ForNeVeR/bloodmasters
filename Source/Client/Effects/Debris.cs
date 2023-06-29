@@ -6,7 +6,6 @@
 \********************************************************************/
 
 using System;
-using System.Numerics;
 using SharpDX;
 using SharpDX.Direct3D9;
 using SharpDX.Mathematics.Interop;
@@ -36,7 +35,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Position/velocity
 		protected Vector3D vel;
-		protected Sector sector = null;
+		protected ClientSector sector = null;
 		private bool disposed = false;
 		private int findsectorinterleave;
 
@@ -84,7 +83,7 @@ namespace CodeImp.Bloodmasters.Client
 			size_floor = sector.CurrentFloor;
 
 			// Set maximum timeout
-			fadeouttime = General.currenttime + MAX_DELAY;
+			fadeouttime = SharedGeneral.currenttime + MAX_DELAY;
 
 			// Find sector interleave
 			findsectorinterleave = General.random.Next(FIND_SECTOR_INTERLEAVE);
