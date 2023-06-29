@@ -65,7 +65,7 @@ namespace CodeImp.Bloodmasters.Client
 			else
 			{
 				// Create random fade time
-				fadetime = General.currenttime + decaltimeout +
+				fadetime = SharedGeneral.currenttime + decaltimeout +
 							General.random.Next(RND_STAY_TIME);
 			}
 

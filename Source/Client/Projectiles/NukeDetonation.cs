@@ -51,8 +51,8 @@ namespace CodeImp.Bloodmasters.Client
 			light.Color = 0;
 
 			// Timing
-			lightfadeouttime = General.currenttime + LIGHT_FADEOUT_DELAY;
-			smoketime = General.currenttime + SMOKE_DELAY;
+			lightfadeouttime = SharedGeneral.currenttime + LIGHT_FADEOUT_DELAY;
+			smoketime = SharedGeneral.currenttime + SMOKE_DELAY;
 
 			// Make explosion sound
 			DirectSound.PlaySound("nukeexplode.wav", pos, 2f);
@@ -118,7 +118,7 @@ namespace CodeImp.Bloodmasters.Client
 			ani.Process();
 
 			// Time to spawn lots of smoke?
-			if((smoketime < General.currenttime) && (smoketime > 0))
+			if((smoketime < SharedGeneral.currenttime) && (smoketime > 0))
 			{
 				// Spawn smoke particles
 				for(int i = 0; i < SMOKE_PARTICLES; i++)

@@ -5,12 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
-
 #if CLIENT
 using CodeImp.Bloodmasters.Client;
 #endif
@@ -20,29 +14,29 @@ namespace CodeImp.Bloodmasters.Server
 	public class Platform : DynamicSector
 	{
 		#region ================== Constants
-		
+
 		// Timing and speed
 		private const int MOVE_BACK_DELAY = 1000;
 		private const float SPEED = 0.6f;
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		// Default height
 		private float idleheight;
-		
+
 		// Platrform status
 		private bool moving;
-		
+
 		// Time when to move the platform back
 		// This is 0 when platform is not to be moved back
 		private int movetime;
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public Platform(Sector s, bool lowplatform) : base(s)
 		{
@@ -52,27 +46,27 @@ namespace CodeImp.Bloodmasters.Server
 			else
 				this.idleheight = s.HeightFloor;
 		}
-		
+
 		// Disposer
 		public override void Dispose()
 		{
 			// Dispose base class
 			base.Dispose();
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Methods
-		
+
 		// This processes te platform
 		public override void Process()
 		{
 			bool lower = false;
 			float lowerpos = float.MaxValue;
-			
+
 			// Process the sector movement
 			sector.Process();
-			
+
 			// Go for all clients to check if anyone
 			// is in this sector or a proximity sector
 			foreach(Client c in General.server.clients)
@@ -96,7 +90,7 @@ namespace CodeImp.Bloodmasters.Server
 					}
 				}
 			}
-			
+
 			// If the platform is moving and the sector reached
 			// its target height then the platform is now stopped
 			if(moving && (sector.CurrentFloor == sector.TargetFloor))
@@ -105,7 +99,7 @@ namespace CodeImp.Bloodmasters.Server
 				moving = false;
 				SendSectorUpdate = true;
 			}
-			
+
 			// Anyone who wants to use the platform?
 			if(lower)
 			{
@@ -117,7 +111,7 @@ namespace CodeImp.Bloodmasters.Server
 					moving = true;
 					SendSectorUpdate = true;
 				}
-				
+
 				// Do not go back yet!
 				movetime = 0;
 			}
@@ -130,10 +124,10 @@ namespace CodeImp.Bloodmasters.Server
 					if(movetime == 0)
 					{
 						// Set timer to return to idle position
-						movetime = General.currenttime + MOVE_BACK_DELAY;
+						movetime = SharedGeneral.currenttime + MOVE_BACK_DELAY;
 					}
 					// Time to move?
-					else if(movetime < General.currenttime)
+					else if(movetime < SharedGeneral.currenttime)
 					{
 						// Move back to idle position
 						sector.MoveTo(idleheight, SPEED);
@@ -142,11 +136,11 @@ namespace CodeImp.Bloodmasters.Server
 					}
 				}
 			}
-			
+
 			// Process base class
 			base.Process();
 		}
-		
+
 		#endregion
 	}
 }

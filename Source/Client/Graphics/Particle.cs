@@ -101,15 +101,15 @@ namespace CodeImp.Bloodmasters.Client
 			//this.rotation = (float)General.random.NextDouble() * (float)Math.PI * 2f;
 
 			// Timing for particle to fade in and decay
-			this.decaytime = General.currenttime + decaytime;
+			this.decaytime = SharedGeneral.currenttime + decaytime;
 			if(!fadein) this.fade = 1f; else this.fade = 0f;
 
 			// Update particle settings
 			Update(true);
 
 			// Random test times
-			sectortesttime = General.currenttime + General.random.Next(SECTOR_TEST_INTERVAL);
-			playertesttime = General.currenttime + General.random.Next(PLAYER_TEST_INTERVAL);
+			sectortesttime = SharedGeneral.currenttime + General.random.Next(SECTOR_TEST_INTERVAL);
+			playertesttime = SharedGeneral.currenttime + General.random.Next(PLAYER_TEST_INTERVAL);
 
 			// Outside screen? Then dispose
 			//if((sector != null) && !sector.VisualSector.InScreen) this.Dispose();
@@ -152,7 +152,7 @@ namespace CodeImp.Bloodmasters.Client
 				Update(false);
 
 				// Time to decay?
-				if(decaytime < General.currenttime)
+				if(decaytime < SharedGeneral.currenttime)
 				{
 					// Fade out now
 					fade -= DECAY_SPEED;
@@ -188,7 +188,7 @@ namespace CodeImp.Bloodmasters.Client
 			Matrix spritescale, spriterotate;
 
 			// Time to test for sector?
-			if((sectortesttime < General.currenttime) || (updateall && lightmapped))
+			if((sectortesttime < SharedGeneral.currenttime) || (updateall && lightmapped))
 			{
 				// Find the new sector
 				Sector newsector = General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
@@ -243,7 +243,7 @@ namespace CodeImp.Bloodmasters.Client
 
 			/*
 			// Time to test for players?
-			if((playertesttime < General.currenttime) && !onfloor)
+			if((playertesttime < SharedGeneral.currenttime) && !onfloor)
 			{
 				// Go for all actors
 				foreach(Actor a in General.arena.Actors)

@@ -239,7 +239,7 @@ namespace CodeImp.Bloodmasters
 				if(simping > 0)
 				{
 					// Add to ping simulation buffer
-					msg.SimSendTime = General.GetCurrentTime() + simping / 2;
+					msg.SimSendTime = SharedGeneral.GetCurrentTime() + simping / 2;
 					sim_messages.Enqueue(msg);
 				}
 				else
@@ -398,7 +398,7 @@ namespace CodeImp.Bloodmasters
 
 			// Move messages from ping simulation
 			while((sim_messages.Count > 0) &&
-			(((NetMessage)sim_messages.Peek()).SimSendTime < General.GetCurrentTime()))
+			(((NetMessage)sim_messages.Peek()).SimSendTime < SharedGeneral.GetCurrentTime()))
 				in_messages.Enqueue(sim_messages.Dequeue());
 		}
 

@@ -91,18 +91,18 @@ namespace CodeImp.Bloodmasters.Client
 		public override void Trigger()
 		{
 			// Check if gun is idle
-			if((state == MINIGUNSTATE.IDLE) || ((state == MINIGUNSTATE.SPINDOWN) && (statechangetime < General.currenttime)))
+			if((state == MINIGUNSTATE.IDLE) || ((state == MINIGUNSTATE.SPINDOWN) && (statechangetime < SharedGeneral.currenttime)))
 			{
 				// Go to spin up state
 				state = MINIGUNSTATE.SPINUP;
-				statechangetime = General.currenttime + SPINUP_DELAY;
+				statechangetime = SharedGeneral.currenttime + SPINUP_DELAY;
 				ChangeRotorSound("s", false);
 				//client.Actor.PlayShootingAnimation(2, 1);
 				return;
 			}
 
 			// Check if gun is firing
-			if(((state == MINIGUNSTATE.SPINUP) && (statechangetime < General.currenttime)) ||
+			if(((state == MINIGUNSTATE.SPINUP) && (statechangetime < SharedGeneral.currenttime)) ||
 			    (state == MINIGUNSTATE.FIRING))
 			{
 				// Fire weapon
@@ -120,13 +120,13 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Spin down now
 				state = MINIGUNSTATE.SPINDOWN;
-				statechangetime = General.currenttime + SPINDOWN_DELAY;
+				statechangetime = SharedGeneral.currenttime + SPINDOWN_DELAY;
 				//client.Actor.PlayShootingAnimation(2, -1);
 				ChangeRotorSound("e", false);
 			}
 
 			// Check if spinned down
-			if((state == MINIGUNSTATE.SPINDOWN) && (statechangetime < General.currenttime))
+			if((state == MINIGUNSTATE.SPINDOWN) && (statechangetime < SharedGeneral.currenttime))
 			{
 				// Now idle
 				state = MINIGUNSTATE.IDLE;

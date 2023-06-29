@@ -32,7 +32,7 @@ namespace CodeImp.Bloodmasters.Client
 			t.Sector.LiquidHeight = this.Position.z;
 
 			// Set timer
-			ticktime = General.currenttime;
+			ticktime = SharedGeneral.currenttime;
 		}
 
 		#endregion
@@ -43,7 +43,7 @@ namespace CodeImp.Bloodmasters.Client
 		public override void Process()
 		{
 			// Time to check for players?
-			if(ticktime < General.currenttime)
+			if(ticktime < SharedGeneral.currenttime)
 			{
 				// Go for all clients
 				foreach(Client c in General.clients)

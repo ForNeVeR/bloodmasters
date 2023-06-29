@@ -41,7 +41,7 @@ namespace CodeImp.Bloodmasters.Client
 			SetTexture(textures[limpindex].texture);
 
 			// Next particle time
-			particletime = global::Bloodmasters.Shared.General.currenttime + General.random.Next(PARTICLE_RANDOM_TIME);
+			particletime = SharedGeneral.currenttime + General.random.Next(PARTICLE_RANDOM_TIME);
 		}
 
 		#endregion
@@ -99,7 +99,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(!Disposed)
 			{
 				// Time to spawn particle?
-				if((General.currenttime > particletime) && !Stopped && sector.VisualSector.InScreen)
+				if((SharedGeneral.currenttime > particletime) && !Stopped && sector.VisualSector.InScreen)
 				{
 					// Spawn particle
 					Vector3D particlevel = vel * 0.5f + Vector3D.Random(General.random, 0.02f, 0.02f, 0f);

@@ -611,7 +611,7 @@ namespace CodeImp.Bloodmasters.Client
 				if(ani_torsowalking) torso_ani.FrameTime = (int)(1000f / framerate);
 
 				// Time to make stepping sound?
-				if(stepsoundtime < General.currenttime)
+				if(stepsoundtime < SharedGeneral.currenttime)
 				{
 					// Play step sound when on the floor
 					if(onfloor) PlayStepSound(WALK_STEP_INTERVAL);
@@ -671,10 +671,10 @@ namespace CodeImp.Bloodmasters.Client
 											General.ARGB(1f, 1f, 0.0f, 0.0f));
 
 				// Spawn blood after time period
-				bloodspawntime = General.currenttime + BLOOD_SPAWN_DELAY;
+				bloodspawntime = SharedGeneral.currenttime + BLOOD_SPAWN_DELAY;
 
 				// Create dissolve time
-				dissolvetime = General.currenttime + Decal.decaltimeout;
+				dissolvetime = SharedGeneral.currenttime + Decal.decaltimeout;
 			}
 			// Gibbed death animation keeps the actor
 			else if(method == DEATHMETHOD.GIBBED)
@@ -876,7 +876,7 @@ namespace CodeImp.Bloodmasters.Client
 
 					// Teleport when on the floor and crossing from the front side
 					if(this.IsOnFloor && (crossline == crossline.Linedef.Front))
-						teleportlock = General.currenttime + Client.TELEPORT_DELAY;
+						teleportlock = SharedGeneral.currenttime + Client.TELEPORT_DELAY;
 					break;
 			}
 		}
@@ -893,7 +893,7 @@ namespace CodeImp.Bloodmasters.Client
 				DirectSound.PlaySound(sound, state.pos, 0.3f);
 
 				// Update step time
-				stepsoundtime = General.currenttime + nextsounddelay;
+				stepsoundtime = SharedGeneral.currenttime + nextsounddelay;
 			}
 		}
 
@@ -908,7 +908,7 @@ namespace CodeImp.Bloodmasters.Client
 				DirectSound.PlaySound(sound, state.pos, 0.5f);
 
 				// Update step time
-				stepsoundtime = General.currenttime + nextsounddelay;
+				stepsoundtime = SharedGeneral.currenttime + nextsounddelay;
 			}
 		}
 
@@ -1030,7 +1030,7 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Dead and time to spawn blood?
-			if(dead && (bloodspawntime > 0) && (bloodspawntime < General.currenttime))
+			if(dead && (bloodspawntime > 0) && (bloodspawntime < SharedGeneral.currenttime))
 			{
 				// Spawn floor blood here
 				FloorDecal.Spawn(highestsector, pos.x, pos.y, FloorDecal.blooddecals, false, true, false);

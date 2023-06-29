@@ -58,7 +58,7 @@ namespace CodeImp.Bloodmasters.Client
 			sector = General.map.GetSubSectorAt(pos.x, pos.y).Sector;
 
 			// Determine shock end time
-			shockendtime = General.currenttime + SHOCK_DURATION;
+			shockendtime = SharedGeneral.currenttime + SHOCK_DURATION;
 
 			// Spawn the light
 			if(DynamicLight.dynamiclights)

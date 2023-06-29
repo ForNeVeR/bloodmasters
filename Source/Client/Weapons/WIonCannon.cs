@@ -74,7 +74,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Go to loading state
 				state = CANNONSTATE.LOADING;
-				statechangetime = General.currenttime + LOAD_DELAY;
+				statechangetime = SharedGeneral.currenttime + LOAD_DELAY;
 
 				// Dispose loader sound, if any
 				if(loader != null) loader.Dispose();
@@ -208,7 +208,7 @@ namespace CodeImp.Bloodmasters.Client
 		public override bool IsIdle()
 		{
 			// Return if the weapon is idle
-			return (state == CANNONSTATE.IDLE) && (refiretime < General.currenttime);
+			return (state == CANNONSTATE.IDLE) && (refiretime < SharedGeneral.currenttime);
 		}
 
 		#endregion

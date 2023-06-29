@@ -276,7 +276,7 @@ namespace CodeImp.Bloodmasters.Client
 
 				// Take item and set new respawn time
 				taken = true;
-				respawntime = General.currenttime + respawndelay;
+				respawntime = SharedGeneral.currenttime + respawndelay;
 				willrespawn = (respawndelay != Consts.NEVER_RESPAWN_TIME);
 			}
 
@@ -317,7 +317,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(animation != null) animation.Process();
 
 			// Time to respawn?
-			if(taken && willrespawn && (respawntime < General.currenttime)) Respawn(true);
+			if(taken && willrespawn && (respawntime < SharedGeneral.currenttime)) Respawn(true);
 
 			// Drop to floor?
 			if(onfloor) pos.z = sector.CurrentFloor;

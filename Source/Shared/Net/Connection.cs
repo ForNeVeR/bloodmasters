@@ -136,8 +136,8 @@ namespace CodeImp.Bloodmasters
 			randomid = rnd.Next(int.MaxValue);
 
 			// Set timeouts
-			timeout = General.GetCurrentTime() + DEFAULT_TIMEOUT;
-			pingtime = General.GetCurrentTime() + PING_INTERVAL;
+			timeout = SharedGeneral.GetCurrentTime() + DEFAULT_TIMEOUT;
+			pingtime = SharedGeneral.GetCurrentTime() + PING_INTERVAL;
 		}
 
 		// Dispose
@@ -200,7 +200,7 @@ namespace CodeImp.Bloodmasters
 			{
 				// Timestamp the message
 				msg.ResendDelay = RESEND_INTERVAL;
-				msg.ResendTime = General.GetCurrentTime() + RESEND_INTERVAL;
+				msg.ResendTime = SharedGeneral.GetCurrentTime() + RESEND_INTERVAL;
 
 				// Store the message for retransmission
 				if(out_reliables.Count < MESSAGE_BUFFER_LIMIT)
@@ -220,7 +220,7 @@ namespace CodeImp.Bloodmasters
 			if(disposed) return;
 
 			// Set the send time
-			msg.SimSendTime = General.GetCurrentTime() + gateway.SimulatePing / 2;
+			msg.SimSendTime = SharedGeneral.GetCurrentTime() + gateway.SimulatePing / 2;
 
 			// Add to outgoing messages
 			out_messages.Add(msg);
@@ -230,7 +230,7 @@ namespace CodeImp.Bloodmasters
 		public void ReceiveMessage(NetMessage msg)
 		{
 			// Update timeout
-			int newtimeout = General.GetCurrentTime() + DEFAULT_TIMEOUT;
+			int newtimeout = SharedGeneral.GetCurrentTime() + DEFAULT_TIMEOUT;
 			if(newtimeout > timeout) timeout = newtimeout;
 
 			// Count the message
@@ -249,7 +249,7 @@ namespace CodeImp.Bloodmasters
 					if(msg.Command == MsgCmd.PingOrConfirm)
 					{
 						// Time when ping is received
-						lastpingtime = General.GetCurrentTime();
+						lastpingtime = SharedGeneral.GetCurrentTime();
 
 						// Check if we must reply
 						if(!measurepings)
@@ -275,7 +275,7 @@ namespace CodeImp.Bloodmasters
 							float clpacks_out = msg.GetInt();
 
 							// Calculate ping and packetloss
-							lastping = General.GetCurrentTime() - senttime;
+							lastping = SharedGeneral.GetCurrentTime() - senttime;
 							float arrived = (clpacks_in + lappacks_in) / (clpacks_out + lappacks_out);
 							lastloss = (int)((1f - arrived) * 100f);
 
@@ -386,7 +386,7 @@ namespace CodeImp.Bloodmasters
 		public void SetTimeout(int millisec)
 		{
 			// Set timeout
-			timeout = General.GetCurrentTime() + millisec;
+			timeout = SharedGeneral.GetCurrentTime() + millisec;
 		}
 
 		#endregion
@@ -415,7 +415,7 @@ namespace CodeImp.Bloodmasters
 				msg = (NetMessage)out_messages[i];
 
 				// Check if this message must be sent now
-				if(msg.SimSendTime <= General.GetCurrentTime())
+				if(msg.SimSendTime <= SharedGeneral.GetCurrentTime())
 				{
 					// Reset best find
 					waste = int.MaxValue;
@@ -530,7 +530,7 @@ namespace CodeImp.Bloodmasters
 			if(disposed) return;
 
 			// Timed out?
-			if(timeout < General.GetCurrentTime())
+			if(timeout < SharedGeneral.GetCurrentTime())
 			{
 				// Disconnect
 				Disconnect("Connection timed out");
@@ -538,7 +538,7 @@ namespace CodeImp.Bloodmasters
 			}
 
 			// Time to measure data throughput?
-			if(datameasuretime <= General.GetCurrentTime())
+			if(datameasuretime <= SharedGeneral.GetCurrentTime())
 			{
 				// Do we want to know?
 				if(showdatameasures)
@@ -558,15 +558,15 @@ namespace CodeImp.Bloodmasters
 				datapacks_out = 0;
 
 				// Set new measure time
-				datameasuretime = General.GetCurrentTime() + 1000;
+				datameasuretime = SharedGeneral.GetCurrentTime() + 1000;
 			}
 
 			// Time to send a ping?
-			if(measurepings && (pingtime < General.GetCurrentTime()))
+			if(measurepings && (pingtime < SharedGeneral.GetCurrentTime()))
 			{
 				// Send ping message
 				NetMessage ping = CreateMessage(MsgCmd.PingOrConfirm, true);
-				ping.AddData((int)General.GetCurrentTime());
+				ping.AddData((int)SharedGeneral.GetCurrentTime());
 				ping.Send();
 
 				// Reset counters
@@ -576,18 +576,18 @@ namespace CodeImp.Bloodmasters
 				packs_out = 0;
 
 				// Set new ping time
-				pingtime = General.GetCurrentTime() + PING_INTERVAL;
+				pingtime = SharedGeneral.GetCurrentTime() + PING_INTERVAL;
 			}
 
 			// Go for all stored reliables
 			foreach(NetMessage msg in out_reliables)
 			{
 				// Time to resend this message?
-				if(msg.ResendTime < General.GetCurrentTime())
+				if(msg.ResendTime < SharedGeneral.GetCurrentTime())
 				{
 					// Send the message now and adjust resend time
 					msg.ResendDelay *= RESEND_INTERVAL_MULTIPLIER;
-					msg.ResendTime = General.GetCurrentTime() + msg.ResendDelay;
+					msg.ResendTime = SharedGeneral.GetCurrentTime() + msg.ResendDelay;
 					SubmitMessage(msg);
 				}
 			}

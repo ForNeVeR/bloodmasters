@@ -5,12 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
-
 #if CLIENT
 using CodeImp.Bloodmasters.Client;
 #endif
@@ -20,55 +14,55 @@ namespace CodeImp.Bloodmasters.Server
 	public class Flag : Item
 	{
 		#region ================== Constants
-		
+
 		// Time when flag auto-returns
 		private const int AUTO_RETURN_DELAY = 20000;
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		// Original location
 		private Vector3D origpos;
-		
+
 		// Team info
 		protected TEAM thisteam;
 		protected TEAM otherteam;
-		
+
 		// Auto-return time
 		private int returntime;
-		
+
 		#endregion
-		
+
 		#region ================== Properties
-		
+
 		public TEAM ThisTeam { get { return thisteam; } }
 		public TEAM OtherTeam { get { return otherteam; } }
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public Flag(Thing t) : base(t)
 		{
 			// Keep original position
 			this.origpos = this.Position;
-			
+
 			// If this is not a CTF game, remove the flags
 			if(General.server.GameType != GAMETYPE.CTF) this.Temporary = true;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Control
-		
+
 		// This is called when the item is being touched by a player
 		public override void Pickup(Client c)
 		{
 			// Do what you have to do
 			base.Pickup(c);
-			
+
 			// Check if this client can steal the flag
 			if(c.Team == otherteam)
 			{
@@ -94,7 +88,7 @@ namespace CodeImp.Bloodmasters.Server
 					{
 						// Get the other flag
 						Flag carryflag = (Flag)c.Carrying;
-						
+
 						// SCORE!
 						General.server.BroadcastScoreFlag(c, carryflag);
 						carryflag.Return();
@@ -103,13 +97,13 @@ namespace CodeImp.Bloodmasters.Server
 				}
 			}
 		}
-		
+
 		// When processed
 		public override void Process()
 		{
 			// Process base
 			base.Process();
-			
+
 			// Check if attached
 			if(this.IsAttached)
 			{
@@ -133,7 +127,7 @@ namespace CodeImp.Bloodmasters.Server
 				if(dpos.LengthSq() > 0.01f)
 				{
 					// Time to return the flag?
-					if(returntime < General.currenttime)
+					if(returntime < SharedGeneral.currenttime)
 					{
 						// Auto-return the flag
 						General.server.BroadcastReturnFlag(null, this);
@@ -142,15 +136,15 @@ namespace CodeImp.Bloodmasters.Server
 				}
 			}
 		}
-		
+
 		// This detaches the flag
 		public override void Detach()
 		{
 			// Detach flag
 			base.Detach();
-			returntime = General.currenttime + AUTO_RETURN_DELAY;
+			returntime = SharedGeneral.currenttime + AUTO_RETURN_DELAY;
 		}
-		
+
 		// This returns the flag
 		private void Return()
 		{
@@ -158,14 +152,14 @@ namespace CodeImp.Bloodmasters.Server
 			base.Detach();
 			this.Move(origpos.x, origpos.y, origpos.z);
 		}
-		
+
 		// When respawn is called
 		public override void Respawn()
 		{
 			// Return the flags
 			this.Return();
 		}
-		
+
 		#endregion
 	}
 }

@@ -45,7 +45,7 @@ namespace CodeImp.Bloodmasters.Client
 			state.vel = vel;
 
 			// Set initial particle time
-			particletime = General.currenttime - 1;
+			particletime = SharedGeneral.currenttime - 1;
 
 			// Make the ball sprite
 			sprite = new Sprite(start, SPRITE_SIZE, false, true);
@@ -278,7 +278,7 @@ namespace CodeImp.Bloodmasters.Client
 			foreach(Lightning l in lightnings) l.Process();
 
 			// Time to spawn particles?
-			if((particletime < General.currenttime) && this.InScreen)
+			if((particletime < SharedGeneral.currenttime) && this.InScreen)
 			{
 				// Random color
 				switch(General.random.Next(3))

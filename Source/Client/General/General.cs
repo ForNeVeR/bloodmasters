@@ -122,12 +122,6 @@ namespace CodeImp.Bloodmasters.Client
 		public static Connection conn;
 		private static Thread networkproc;
 
-        public static int currenttime
-        {
-            get => global::Bloodmasters.Shared.General.currenttime;
-            set => global::Bloodmasters.Shared.General.currenttime = value;
-        }
-
 		// Auto-screenshot
 		public static int screenshottime;
 		public static bool autoscreenshot;
@@ -214,8 +208,8 @@ namespace CodeImp.Bloodmasters.Client
 		private static bool LoadStandardComponents()
 		{
 			// Setup clock
-			currenttime = General.GetCurrentTime();
-			previoustime = General.GetCurrentTime();
+			currenttime = SharedGeneral.GetCurrentTime();
+			previoustime = SharedGeneral.GetCurrentTime();
 			realtime = General.GetCurrentTime() + 1;
 			accumulator = 0;
 
@@ -927,7 +921,7 @@ namespace CodeImp.Bloodmasters.Client
 			int timeleft = msg.GetInt();
 
 			// Set the time left
-			General.callvotetimeout = General.currenttime + timeleft;
+			General.callvotetimeout = SharedGeneral.currenttime + timeleft;
 
 			// Set the number of votes
 			General.callvotes = votes;
@@ -1296,7 +1290,7 @@ namespace CodeImp.Bloodmasters.Client
 			int gamestatelen = msg.GetInt();
 
 			// Time until gamestate timeout
-			gamestateend = General.currenttime + gamestatelen;
+			gamestateend = SharedGeneral.currenttime + gamestatelen;
 
 			// When round or game is finished
 			if((newstate == GAMESTATE.ROUNDFINISH) ||

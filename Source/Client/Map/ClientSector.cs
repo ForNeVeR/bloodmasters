@@ -28,7 +28,7 @@ public class ClientSector : Sector
         var playsound = false;
 
         // Set lightmap update timer
-        updatetime = General.currenttime;
+        updatetime = SharedGeneral.currenttime;
 
         // No sound playing?
         if(sound == null) playsound = true;
@@ -60,13 +60,13 @@ public class ClientSector : Sector
     protected override void UpdateClientLighting()
     {
         // Time to update?
-        if(updatetime <= General.currenttime)
+        if(updatetime <= SharedGeneral.currenttime)
         {
             // Update sector lightmaps
             UpdateLightmaps();
 
             // Set timer
-            updatetime = General.currenttime + UPDATE_LIGHTMAP_INTERVAL;
+            updatetime = SharedGeneral.currenttime + UPDATE_LIGHTMAP_INTERVAL;
         }
 
         // Sound finished playing?

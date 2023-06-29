@@ -5,12 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
-
 #if CLIENT
 using CodeImp.Bloodmasters.Client;
 #endif
@@ -21,39 +15,39 @@ namespace CodeImp.Bloodmasters.Server
 	public class FloodedSector : Item
 	{
 		#region ================== Constants
-		
+
 		private const int TICK_INTERVAL = 100;
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		private int ticktime;
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public FloodedSector(Thing t) : base(t)
 		{
 			// Apply liquid settings to sector
 			t.Sector.LiquidType = (LIQUID)t.Arg[0];
 			t.Sector.LiquidHeight = this.Position.z;
-			
+
 			// Set timer
-			ticktime = General.currenttime;
+			ticktime = SharedGeneral.currenttime;
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Processing
-		
+
 		// Processing
 		public override void Process()
 		{
 			// Time to check for players?
-			if(ticktime < General.currenttime)
+			if(ticktime < SharedGeneral.currenttime)
 			{
 				// Go for all clients
 				foreach(Client c in General.server.clients)
@@ -69,14 +63,14 @@ namespace CodeImp.Bloodmasters.Server
 							{
 								// Water
 								case LIQUID.WATER:
-									
+
 									// Player on fire? Then kill the fire.
 									if(c.FireIntensity > 0) c.KillFire();
 									break;
-								
+
 								// Lava
 								case LIQUID.LAVA:
-									
+
 									// No fire yet?
 									if(c.FireIntensity < 1000)
 									{
@@ -93,15 +87,15 @@ namespace CodeImp.Bloodmasters.Server
 						}
 					}
 				}
-				
+
 				// Increase timer
 				ticktime += TICK_INTERVAL;
 			}
-			
+
 			// Pass control to base class
 			base.Process();
 		}
-		
+
 		#endregion
 	}
 }

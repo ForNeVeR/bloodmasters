@@ -212,7 +212,7 @@ namespace CodeImp.Bloodmasters.Client
 		public void Show()
 		{
 			alpha = 1f;
-			disappeartime = General.currenttime + STAY_TIME;
+			disappeartime = SharedGeneral.currenttime + STAY_TIME;
 		}
 
 		#endregion
@@ -226,7 +226,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(alpha > 0f)
 			{
 				// Fade out?
-				if(disappeartime < General.currenttime)
+				if(disappeartime < SharedGeneral.currenttime)
 				{
 					// Fade out
 					alpha -= FADE_OUT_SPEED;

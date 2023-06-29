@@ -367,7 +367,7 @@
     <Compile Include="Graphics\Sprite.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Graphics\Vector3Ex.cs" />
+    <Compile Include="Graphics\VectorEx.cs" />
     <Compile Include="Graphics\VertexBufferEx.cs" />
     <Compile Include="Graphics\VisualObject.cs">
       <SubType>Code</SubType>

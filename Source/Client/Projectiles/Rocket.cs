@@ -47,7 +47,7 @@ namespace CodeImp.Bloodmasters.Client
 			state.vel = vel;
 
 			// Set initial smoke time
-			smoketime = General.currenttime - 1;
+			smoketime = SharedGeneral.currenttime - 1;
 
 			// Make the rocket sprites
 			spritebody = new Sprite(start, SPRITE_BODY_SIZE, false, true);
@@ -231,7 +231,7 @@ namespace CodeImp.Bloodmasters.Client
 			light.Position = this.state.pos;
 
 			// Time to spawn smoke?
-			if((smoketime < General.currenttime) && this.InScreen)
+			if((smoketime < SharedGeneral.currenttime) && this.InScreen)
 			{
 				// Make smoke
 				Vector3D smokepos = state.pos + new Vector3D(0f, 0f, -5f);

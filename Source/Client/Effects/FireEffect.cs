@@ -124,7 +124,7 @@ namespace CodeImp.Bloodmasters.Client
 					General.arena.p_trail.Add(actor.Position + Vector3D.Random(General.random, 3f, 3f, 4f), Vector3D.Random(General.random, 0.01f, 0.01f, 0.15f), General.ARGB(1f, 0.3f, 0.3f, 0.3f));
 
 					// Next smoke time
-					smoketime = General.currenttime + SMOKE_INTERVAL;
+					smoketime = SharedGeneral.currenttime + SMOKE_INTERVAL;
 				}
 
 				// Only spawn flames when not fading out
@@ -138,7 +138,7 @@ namespace CodeImp.Bloodmasters.Client
 						spawnfront = !spawnfront;
 
 						// Next spawn time
-						spawntime = General.currenttime + FLAME_INTERVAL;
+						spawntime = SharedGeneral.currenttime + FLAME_INTERVAL;
 					}
 				}
 			}
