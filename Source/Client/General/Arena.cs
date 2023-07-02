@@ -260,7 +260,7 @@ namespace CodeImp.Bloodmasters.Client
 			for(int s = 0; s < General.map.Sectors.Length; s++)
 			{
 				// Setup visual sector
-				vs = new VisualSector(General.map.Sectors[s]);
+				vs = new VisualSector((ClientSector)General.map.Sectors[s]);
 				sectors.Add(vs);
 			}
 

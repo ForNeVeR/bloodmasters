@@ -541,7 +541,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(General.gamestate == GAMESTATE.COUNTDOWN)
 			{
 				// Determine countdown number in seconds
-				int thiscountdown = (int)Math.Ceiling(((float)General.gamestateend - (float)General.currenttime) / 1000f);
+				int thiscountdown = (int)Math.Ceiling(((float)General.gamestateend - (float)SharedGeneral.currenttime) / 1000f);
 				if((thiscountdown != lastcountdown) && (thiscountdown > 0))
 				{
 					// Change countdown number
@@ -555,7 +555,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(General.callvotetimeout > 0)
 			{
 				// Determine countdown number in seconds
-				int votecountdown = (int)Math.Ceiling(((float)General.callvotetimeout - (float)General.currenttime) / 1000f);
+				int votecountdown = (int)Math.Ceiling(((float)General.callvotetimeout - (float)SharedGeneral.currenttime) / 1000f);
 
 				// Remove callvote when countdown reaches 0
 				if(votecountdown <= 0) General.callvotetimeout = 0;
@@ -757,13 +757,13 @@ namespace CodeImp.Bloodmasters.Client
 				fps_count++;
 
 				// Time to measure the FPS?
-				if(General.currenttime >= fps_measuretime)
+				if(SharedGeneral.currenttime >= fps_measuretime)
 				{
 					// Update the FPS text object
 					fps_text.Text = fps_count + " FPS";
 
 					// Update the MSPF text object
-					float mspf = (float)(General.currenttime - fps_lasttime) / (float)fps_count;
+					float mspf = (float)(SharedGeneral.currenttime - fps_lasttime) / (float)fps_count;
 					mspf_text.Text = mspf.ToString("0.00") + " MSPF";
 
 					// Reset for next measure
@@ -772,7 +772,7 @@ namespace CodeImp.Bloodmasters.Client
 
 					// If the frame took too long, skip ahead to current time, otherwise,
 					// only add a second to the previous time for accurate measuring.
-					if(General.currenttime - fps_measuretime > 2000)
+					if(SharedGeneral.currenttime - fps_measuretime > 2000)
 						fps_measuretime = SharedGeneral.currenttime + 1000;
 					else
 						fps_measuretime += 1000;

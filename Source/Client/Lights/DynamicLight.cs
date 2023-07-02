@@ -130,7 +130,7 @@ namespace CodeImp.Bloodmasters.Client
 				if(sectors.Count == 0) sectors.Add(General.map.GetSubSectorAt(pos.x, pos.y).Sector);
 
 				// Go for all sectors
-				foreach(Sector s in sectors)
+				foreach(ClientSector s in sectors)
 				{
 					// Visual Sector not done yet?
 					if((s.VisualSector != null) && s.VisualSector.InScreen && !donevsectors[s.VisualSector.Index])

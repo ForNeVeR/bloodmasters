@@ -29,7 +29,7 @@ namespace CodeImp.Bloodmasters.Client
 		private Sprite spritebody;
 		private int smoketime;
 		private float rotation;
-		private Sector sector;
+		private ClientSector sector;
 
 		#endregion
 
@@ -93,7 +93,7 @@ namespace CodeImp.Bloodmasters.Client
 			Vector3D decalpos = atpos;
 
 			// Where are we now?
-			Sector sector = General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
+			ClientSector sector = (ClientSector)General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
 
 			// Not silent?
 			if((silent == false) && (sector != null))
@@ -177,7 +177,7 @@ namespace CodeImp.Bloodmasters.Client
 			base.Process();
 
 			// Where are we now?
-			sector = General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
+			sector = (ClientSector)General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
 
 			// Process physics
 			if(state.pos.z > (sector.CurrentFloor + 0.2f))

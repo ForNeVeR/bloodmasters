@@ -76,7 +76,7 @@ namespace CodeImp.Bloodmasters.Server
 			base.Process();
 
 			// Time to hurt the players?
-			if((General.currenttime > hurttime) && (hurttime > 0))
+			if((SharedGeneral.currenttime > hurttime) && (hurttime > 0))
 			{
 				// Go for all playing clients
 				foreach(Client c in General.server.clients)
@@ -144,7 +144,7 @@ namespace CodeImp.Bloodmasters.Server
 			}
 
 			// Time to spawn the fire?
-			if(General.currenttime > firespawntime)
+			if(SharedGeneral.currenttime > firespawntime)
 			{
 				// Spawn fire projectiles
 				for(int i = 0; i < FIRE_PROJECTILES; i++)

@@ -242,7 +242,7 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Fade out?
-			if(General.currenttime > fadeouttime) fade -= FADEOUT_SPEED;
+			if(SharedGeneral.currenttime > fadeouttime) fade -= FADEOUT_SPEED;
 			if(fade <= 0f) this.Dispose();
 
 			// Not disposed already?

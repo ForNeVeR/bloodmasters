@@ -32,7 +32,7 @@ namespace CodeImp.Bloodmasters
 		private string tfloor;
 		private string tceil;
 		private bool dynamic;
-		private Map map;
+		protected Map map;
 
 		// Heights as read from the WAD file
 		private float hfloor;
@@ -63,7 +63,7 @@ namespace CodeImp.Bloodmasters
 		private SubSector[] subsectors;
 
 		// Adjacent sectors
-		private Sector[] adjsectors;
+		protected Sector[] adjsectors;
 
 		// Items
 		private ArrayList items = new ArrayList();
@@ -423,13 +423,13 @@ namespace CodeImp.Bloodmasters
 					}
 				}
 
-                PlaySounds();
+                PlaySounds(playstopsound);
             }
 		}
 
         protected abstract void UpdateClientLighting();
         protected abstract void DropPlayers();
-        protected abstract void PlaySounds();
+        protected abstract void PlaySounds(bool playstopsound);
 
         #endregion
     }

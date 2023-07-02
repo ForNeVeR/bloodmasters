@@ -53,7 +53,7 @@ public class ClientSector : Sector
         {
             // Update sector lightmaps
             vissector.UpdateLightmap = true;
-            foreach(Sector s in adjsectors) if(s.VisualSector != null) s.VisualSector.UpdateLightmap = true;
+            foreach(ClientSector s in adjsectors) if(s.VisualSector != null) s.VisualSector.UpdateLightmap = true;
         }
     }
 
@@ -101,7 +101,7 @@ public class ClientSector : Sector
     {
     }
 
-    protected override void PlaySounds()
+    protected override void PlaySounds(bool playstopsound)
     {
         // Play stop sound?
         if(playstopsound && playmovementsound)

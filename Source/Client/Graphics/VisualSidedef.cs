@@ -25,7 +25,7 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Variables
 
 		// Reference to the map
-		private Sidedef sidedef;
+		private ClientSidedef sidedef;
 		private VisualSector sector;
 
 		// Vertices
@@ -61,7 +61,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		#region ================== Properties
 
-		public Sidedef Sidedef { get { return sidedef; } }
+		public ClientSidedef Sidedef { get { return sidedef; } }
 		public bool HasLower { get { return (tlower != null) && (sidedef.OtherSide != null) && (lowertop > lowerbottom); } }
 		public bool HasMiddle { get { return (tmiddle != null) && (middletop > middlebottom); } }
 		public bool HasUpper { get { return (tupper != null) && (sidedef.OtherSide != null) && (uppertop > upperbottom) && (sidedef.OtherSide.Sector.TextureCeil != Sector.NO_FLAT); } }
@@ -81,7 +81,7 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Constructor / Destructor
 
 		// Constructor
-		public VisualSidedef(Sidedef sidedef, VisualSector sector)
+		public VisualSidedef(ClientSidedef sidedef, VisualSector sector)
 		{
 			string texname, texarch;
 

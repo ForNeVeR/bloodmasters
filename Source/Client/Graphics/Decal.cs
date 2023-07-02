@@ -105,10 +105,10 @@ namespace CodeImp.Bloodmasters.Client
 			if(!permanent)
 			{
 				// Time over?
-				if(General.currenttime > fadetime)
+				if(SharedGeneral.currenttime > fadetime)
 				{
 					// Completely faded away?
-					if((General.currenttime - fadetime) > FADE_TIME)
+					if((SharedGeneral.currenttime - fadetime) > FADE_TIME)
 					{
 						// Destroy this decal
 						this.Dispose();
@@ -116,7 +116,7 @@ namespace CodeImp.Bloodmasters.Client
 					else
 					{
 						// Calculate fade
-						float fc = 1f - (float)(General.currenttime - fadetime) / (float)FADE_TIME;
+						float fc = 1f - (float)(SharedGeneral.currenttime - fadetime) / (float)FADE_TIME;
 						fadecolor = General.ARGB(fc, 1f, 1f, 1f);
 					}
 				}

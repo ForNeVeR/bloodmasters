@@ -412,7 +412,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(panelopen)
 			{
 				// Determine cursor
-				if(General.currenttime % 300 < 150) cursor = INPUT_CURSOR;
+				if(SharedGeneral.currenttime % 300 < 150) cursor = INPUT_CURSOR;
 
 				// Update the input resource
 				panelinput.Text = INPUT_PROMPT + General.TrimColorCodes(inputstr) + cursor;
@@ -731,7 +731,7 @@ namespace CodeImp.Bloodmasters.Client
 			NetMessage msg = General.conn.CreateMessage(MsgCmd.ChangeTeam, true);
 			if(msg != null)
 			{
-				msg.AddData((int)General.currenttime);
+				msg.AddData((int)SharedGeneral.currenttime);
 				msg.AddData((int)team);
 				msg.AddData((bool)spect);
 				msg.Send();

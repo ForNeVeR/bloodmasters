@@ -43,7 +43,7 @@ namespace CodeImp.Bloodmasters.Client
 		private float prevrotatex;
 		private float offsetz;
 		private float rotatex;
-		private Sector sector;
+		private ClientSector sector;
 
 		#endregion
 
@@ -164,7 +164,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(((position != prevposition) || (scale != prevscale)) && lightmapped)
 			{
 				// Find the sector
-				sector = General.map.GetSubSectorAt(position.x, position.y).Sector;
+				sector = (ClientSector)General.map.GetSubSectorAt(position.x, position.y).Sector;
 
 				// Get positions on lightmap
 				float lx = sector.VisualSector.LightmapScaledX(position.x);

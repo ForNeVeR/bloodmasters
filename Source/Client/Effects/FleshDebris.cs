@@ -115,7 +115,7 @@ namespace CodeImp.Bloodmasters.Client
 		public override void Collide(object hitobj)
 		{
 			Sidedef sd;
-			Sector s;
+			ClientSector s;
 			bool onfloor;
 
 			// Colliding with a wall?
@@ -154,7 +154,7 @@ namespace CodeImp.Bloodmasters.Client
 			else if(hitobj is Sector)
 			{
 				// Get the sector
-				s = (Sector)hitobj;
+				s = (ClientSector)hitobj;
 
 				// Hitting the floor?
 				if(s.CurrentFloor > (pos.z - 1f))

@@ -1030,7 +1030,7 @@ namespace CodeImp.Bloodmasters.Client
 				NetMessage msg = General.conn.CreateMessage(MsgCmd.ClientMove, false);
 				if(msg != null)
 				{
-					msg.AddData((int)General.currenttime);
+					msg.AddData((int)SharedGeneral.currenttime);
 					msg.AddData((float)moveangle);
 					msg.AddData((float)aimangle);
 					msg.AddData((float)aimanglez);
@@ -1130,7 +1130,7 @@ namespace CodeImp.Bloodmasters.Client
 					actor.AimAngleZ = aimanglez;
 
 					// Make a local move
-					lm = new LocalMove(General.currenttime, walkangle);
+					lm = new LocalMove(SharedGeneral.currenttime, walkangle);
 					localmoves.Add(lm);
 
 					// Apply move to actor

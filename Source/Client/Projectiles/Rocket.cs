@@ -133,7 +133,7 @@ namespace CodeImp.Bloodmasters.Client
 			Vector3D decalpos = atpos;
 
 			// Where are we now?
-			Sector sector = General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
+			ClientSector sector = (ClientSector)General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
 
 			// Not silent?
 			if((silent == false) && (sector != null))

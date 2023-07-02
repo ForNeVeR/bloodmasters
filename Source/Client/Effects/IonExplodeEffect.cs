@@ -55,7 +55,7 @@ namespace CodeImp.Bloodmasters.Client
 			this.team = sourceteam;
 
 			// Determine current sector
-			sector = General.map.GetSubSectorAt(pos.x, pos.y).Sector;
+			sector = (ClientSector)General.map.GetSubSectorAt(pos.x, pos.y).Sector;
 
 			// Determine shock end time
 			shockendtime = SharedGeneral.currenttime + SHOCK_DURATION;
@@ -143,7 +143,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(!disposed)
 			{
 				// Out of shocking time?
-				if((shockendtime > 0) && (General.currenttime > shockendtime))
+				if((shockendtime > 0) && (SharedGeneral.currenttime > shockendtime))
 				{
 					// Remove all lightnings
 					RemoveAllLightnings();

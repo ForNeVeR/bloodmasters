@@ -77,8 +77,8 @@ namespace CodeImp.Bloodmasters.Client
 		public static bool showgibbing;
 
 		// References
-		private Sector sector;
-		private Sector highestsector;
+		private ClientSector sector;
+		private ClientSector highestsector;
 
 		// States
 		private float aimangle = 0f;
@@ -143,7 +143,7 @@ namespace CodeImp.Bloodmasters.Client
 		public bool IsOnFloor { get { return onfloor; } }
 		public float WalkAngle { get { return walkangle; } set { walkangle = value; } }
 		public ClientSector Sector { get { return sector; } }
-		public Sector HighestSector { get { return highestsector; } }
+		public ClientSector HighestSector { get { return highestsector; } }
 		public int TeamColor { get { return teamcolor; } set { teamcolor = value; } }
 		public string Name { get { if(name != null) return name.Text; else return ""; } set { if(name != null) name.Text = value; } }
 		public PhysicsState State { get { return state; } }
@@ -554,7 +554,7 @@ namespace CodeImp.Bloodmasters.Client
 			float highestz = sector.CurrentFloor;
 
 			// Find the highest sector floor
-			foreach(Sector s in sectors)
+			foreach(ClientSector s in sectors)
 			{
 				// Check if higher but not blocking
 				if((s.CurrentFloor > highestz) &&
@@ -573,7 +573,7 @@ namespace CodeImp.Bloodmasters.Client
 			float framerate;
 
 			// Find the new sector
-			sector = General.map.GetSubSectorAt(v.x, v.y).Sector;
+			sector = (ClientSector)General.map.GetSubSectorAt(v.x, v.y).Sector;
 
 			// Get positions on lightmap
 			float lx = sector.VisualSector.LightmapScaledX(v.x);
@@ -1038,10 +1038,10 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Dead and dissolving?
-			if(dead && (General.currenttime > dissolvetime))
+			if(dead && (SharedGeneral.currenttime > dissolvetime))
 			{
 				// Completely faded away?
-				if((General.currenttime - dissolvetime) > DISSOLVE_SPEED)
+				if((SharedGeneral.currenttime - dissolvetime) > DISSOLVE_SPEED)
 				{
 					// Destroy this decal
 					this.Dispose();
@@ -1050,7 +1050,7 @@ namespace CodeImp.Bloodmasters.Client
 				else
 				{
 					// Calculate fade
-					alpha = 1f - (float)(General.currenttime - dissolvetime) / (float)DISSOLVE_SPEED;
+					alpha = 1f - (float)(SharedGeneral.currenttime - dissolvetime) / (float)DISSOLVE_SPEED;
 				}
 			}
 		}
@@ -1192,7 +1192,7 @@ namespace CodeImp.Bloodmasters.Client
 				Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
 
 				// Render collision info
-				if((state.showcol != null) && Client.showcollisions) state.showcol.Render();
+				if((state.showcol != null) && Client.showcollisions) ((ClientCollision)state.showcol).Render();
 			}
 		}
 

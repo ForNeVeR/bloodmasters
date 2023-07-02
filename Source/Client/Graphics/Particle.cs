@@ -44,7 +44,7 @@ namespace CodeImp.Bloodmasters.Client
 		private float previousz = 0f;
 		private float gravity;
 		private ParticleCollection collection;
-		private Sector sector = null;
+		private ClientSector sector = null;
 		private int sectortesttime = 0;
 		private int playertesttime = 0;
 
@@ -191,7 +191,7 @@ namespace CodeImp.Bloodmasters.Client
 			if((sectortesttime < SharedGeneral.currenttime) || (updateall && lightmapped))
 			{
 				// Find the new sector
-				Sector newsector = General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
+				ClientSector newsector = (ClientSector)General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
 
 				// Current sector known?
 				if(sector != null)

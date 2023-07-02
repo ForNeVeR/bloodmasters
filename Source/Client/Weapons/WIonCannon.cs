@@ -87,7 +87,7 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Time to fire?
-			if((state == CANNONSTATE.LOADING) && (General.currenttime > statechangetime))
+			if((state == CANNONSTATE.LOADING) && (SharedGeneral.currenttime > statechangetime))
 			{
 				// Dispose loader sound, if any
 				if(loader != null) loader.Dispose();

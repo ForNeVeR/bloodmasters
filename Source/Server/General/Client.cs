@@ -2826,7 +2826,7 @@ namespace CodeImp.Bloodmasters.Server
 			else
 			{
 				// Player dead and respawn time over
-				if((autorespawntime > 0) && (General.currenttime > autorespawntime))
+				if((autorespawntime > 0) && (SharedGeneral.currenttime > autorespawntime))
 				{
 					// Respawn if possible
 					this.Respawn();

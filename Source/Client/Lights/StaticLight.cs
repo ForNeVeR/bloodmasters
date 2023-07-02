@@ -154,7 +154,7 @@ namespace CodeImp.Bloodmasters.Client
 		private void SetupLight(float x, float y, float z, Sector sector,
 								float range, int basecolor, ArrayList vsectors, int template)
 		{
-			Sidedef s;
+			ClientSidedef s;
 			ArrayList lines;
 
 			// Properties for all lights
@@ -218,7 +218,7 @@ namespace CodeImp.Bloodmasters.Client
 				if(Math.Abs(side) > 0.0001f)
 				{
 					// Get the sidedef
-					if(side < 0) s = ld.Front; else s = ld.Back;
+					if(side < 0) s = (ClientSidedef)ld.Front; else s = (ClientSidedef)ld.Back;
 
 					// Sidedef here?
 					if(s != null)
@@ -494,7 +494,7 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Rendering
 
 		// This redraws the lightmap for a wall
-		private void RenderWallLightmap(Sidedef sd)
+		private void RenderWallLightmap(ClientSidedef sd)
 		{
 			float i, vob, vot;
 			Vector2D v1, v2, v3, t1, t2, o;
@@ -530,7 +530,7 @@ namespace CodeImp.Bloodmasters.Client
 		}
 
 		// This renders wall shadows on a wall
-		private void RenderWallShadows(Sidedef sd)
+		private void RenderWallShadows(ClientSidedef sd)
 		{
 			float i, vob, vot;
 			Vector2D v1, v2, v3, v4, v5, v6;

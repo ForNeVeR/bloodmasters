@@ -92,7 +92,7 @@ namespace CodeImp.Bloodmasters.Client
 			base.Process();
 
 			// Fading in or out?
-			if(General.currenttime < lightfadeouttime)
+			if(SharedGeneral.currenttime < lightfadeouttime)
 			{
 				// Increase light level
 				lightfade += LIGHT_FADEIN;

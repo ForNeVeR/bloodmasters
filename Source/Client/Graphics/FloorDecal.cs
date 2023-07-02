@@ -60,7 +60,7 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Constructor / Destructor
 
 		// Constructor
-		public FloorDecal(Sector sector, float nx, float ny, TextureResource texture,
+		public FloorDecal(ClientSector sector, float nx, float ny, TextureResource texture,
 						  bool permanent, bool resize, bool small) : base(permanent)
 		{
 			// Keep texture reference
@@ -118,7 +118,7 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Static Methods
 
 		// This makes a floor decal at the given coordinates
-		public static FloorDecal Spawn(Sector sector, float nx, float ny,
+		public static FloorDecal Spawn(ClientSector sector, float nx, float ny,
 							TextureResource[] textureset, bool permanent, bool resize, bool small)
 		{
 			// Dont make a decal when not using decals

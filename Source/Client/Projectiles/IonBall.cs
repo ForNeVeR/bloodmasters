@@ -124,7 +124,7 @@ namespace CodeImp.Bloodmasters.Client
 			Vector3D decalpos = atpos;
 
 			// Where are we now?
-			Sector sector = General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
+			ClientSector sector = (ClientSector)General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
 
 			// Not silent?
 			if((silent == false) && (sector != null))
@@ -297,7 +297,7 @@ namespace CodeImp.Bloodmasters.Client
 
 			// Position sprite
 			sprite.Position = this.state.pos;
-			sprite.Rotation = (float)General.currenttime * 0.01f;
+			sprite.Rotation = (float)SharedGeneral.currenttime * 0.01f;
 			sprite.Update();
 
 			// Position light

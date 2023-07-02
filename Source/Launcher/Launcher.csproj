@@ -70,6 +70,7 @@
     <Compile Include="Interface\ServerBrowser.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Map\LauncherMap.cs" />
     <EmbeddedResource Include="Interface\FormDownload.resx">
       <DependentUpon>FormDownload.cs</DependentUpon>
     </EmbeddedResource>

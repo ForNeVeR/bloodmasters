@@ -72,7 +72,7 @@ namespace CodeImp.Bloodmasters.Server
 		private int gamestateend;
 
 		// The basic map data
-		public Map map;
+		public Bloodmasters.Map map;
 
 		// Items
 		public Hashtable items;
@@ -604,7 +604,7 @@ namespace CodeImp.Bloodmasters.Server
 			Write("Server is loading map \"" + nextmapname + "\"...", true);
 
 			// Load the map title
-			Map mapcfg = new Map(nextmapname, true, General.temppath);
+			Bloodmasters.Map mapcfg = new ServerMap(nextmapname, true, General.temppath);
 			string maptitle = mapcfg.Title;
 			mapcfg.Dispose();
 
@@ -628,7 +628,7 @@ namespace CodeImp.Bloodmasters.Server
 			LoadLocalBans();
 
 			// Load the map
-			map = new Map(nextmapname, false, General.temppath);
+			map = new ServerMap(nextmapname, false, General.temppath);
 
 			// New items
 			items = new Hashtable();

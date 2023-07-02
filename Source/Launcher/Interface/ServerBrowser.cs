@@ -175,7 +175,7 @@ namespace CodeImp.Bloodmasters.Launcher
 
 			// Query the server
 			NetMessage query = gateway.CreateMessage(addr, MsgCmd.ServerInfo);
-			query.AddData(General.GetCurrentTime());
+			query.AddData(SharedGeneral.GetCurrentTime());
 			query.Send();
 			query = null;
 		}
@@ -350,7 +350,7 @@ namespace CodeImp.Bloodmasters.Launcher
 				try { Thread.Sleep(4); } catch(Exception) { return; }
 
 				// Time to send a query?
-				if((nexttime <= General.GetCurrentTime()) && (nextaddress < addresses.Count))
+				if((nexttime <= SharedGeneral.GetCurrentTime()) && (nextaddress < addresses.Count))
 				{
 					try
 					{

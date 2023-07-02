@@ -170,6 +170,12 @@
       <Link>Server\Items\WhiteScavengerItem.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\Server\Map\ServerMap.cs">
+      <Link>Server\Map\ServerMap.cs</Link>
+    </Compile>
+    <Compile Include="..\Server\Map\ServerSector.cs">
+      <Link>Server\Map\ServerSector.cs</Link>
+    </Compile>
     <Compile Include="..\Server\Projectiles\Flames.cs">
       <Link>Server\Projectiles\Flames.cs</Link>
       <SubType>Code</SubType>
@@ -299,6 +305,7 @@
     <Compile Include="General\Client.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="General\ClientCollision.cs" />
     <Compile Include="General\ClientComparer.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -554,6 +561,7 @@
     </Compile>
     <Compile Include="Map\ClientMap.cs" />
     <Compile Include="Map\ClientSector.cs" />
+    <Compile Include="Map\ClientSidedef.cs" />
     <Compile Include="Projectiles\Flames.cs">
       <SubType>Code</SubType>
     </Compile>

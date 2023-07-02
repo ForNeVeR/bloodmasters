@@ -198,7 +198,7 @@ namespace CodeImp.Bloodmasters.Client
 						    (sg.Sidedef.TextureMiddle.Trim() != "-")))
 						{
 							// Make the VisualSidedef and add it to the list
-							sidedefs.Add(new VisualSidedef(sg.Sidedef, this));
+							sidedefs.Add(new VisualSidedef((ClientSidedef)sg.Sidedef, this));
 						}
 					}
 				}

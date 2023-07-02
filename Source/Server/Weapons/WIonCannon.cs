@@ -6,7 +6,6 @@
 \********************************************************************/
 
 #if CLIENT
-using CodeImp.Bloodmasters.Client;
 #endif
 
 namespace CodeImp.Bloodmasters.Server
@@ -64,7 +63,7 @@ namespace CodeImp.Bloodmasters.Server
 			}
 
 			// Check if done loading
-			if((state == CANNONSTATE.LOADING) && (General.currenttime > statechangetime))
+			if((state == CANNONSTATE.LOADING) && (SharedGeneral.currenttime > statechangetime))
 			{
 				// Fire weapon and back to idle
 				state = CANNONSTATE.IDLE;

@@ -6,10 +6,8 @@
 \********************************************************************/
 
 using System;
-using System.Drawing;
 using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using CodeImp.Bloodmasters.Client.Graphics;
 using SharpDX;
 using SharpDX.Direct3D9;
 
@@ -92,8 +90,8 @@ namespace CodeImp.Bloodmasters.Client
 			segments = corners + 1;
 
 			// Project the trajectory coordinates
-			from2d = new Vector3D(General.arena.Projected(from));
-			to2d = new Vector3D(General.arena.Projected(to));
+			from2d = new Vector3D(General.arena.Projected(from.ToDx()).FromDx());
+			to2d = new Vector3D(General.arena.Projected(to.ToDx()).FromDx());
 			delta2d = to2d - from2d;
 
 			// Calculate segment length scalar in 2D
@@ -136,8 +134,8 @@ namespace CodeImp.Bloodmasters.Client
 					p4 = (ve + (trjnorm * soffset)) - (trjnorm * swidth);
 
 					// Unproject vertices to 3D space
-					v3 = new Vector3D(General.arena.Unprojected(p3));
-					v4 = new Vector3D(General.arena.Unprojected(p4));
+					v3 = new Vector3D(General.arena.Unprojected(p3.ToDx()).FromDx());
+					v4 = new Vector3D(General.arena.Unprojected(p4.ToDx()).FromDx());
 				}
 
 				// Make real vertices

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using CodeImp.Bloodmasters.Client;
 
 namespace CodeImp.Bloodmasters.Server.Map;
 
@@ -20,5 +21,21 @@ public class ServerSector : Sector
                 c.DropImmediately();
             }
         }
+    }
+
+    protected override void UpdateClientSounds()
+    {
+    }
+
+    protected override void UpdateLightmaps()
+    {
+    }
+
+    protected override void UpdateClientLighting()
+    {
+    }
+
+    protected override void PlaySounds(bool playstopsound)
+    {
     }
 }
