@@ -126,7 +126,6 @@ namespace CodeImp
 
 			[DllImport("libunrar.dll")]
 			static extern void RARSetPassword(IntPtr archivehandle, string password);
-		#endif
 
 		#endregion
 

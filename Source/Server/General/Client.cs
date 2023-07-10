@@ -731,7 +731,7 @@ namespace CodeImp.Bloodmasters.Server
 
 				// Spawn the player here
 				if(state != null) state.Dispose();
-				state = new PhysicsState(General.server.map);
+				state = new ServerPhysicsState(General.server.map);
 				state.Radius = Consts.PLAYER_RADIUS;
 				state.Height = Consts.PLAYER_BLOCK_HEIGHT;
 				state.Friction = Consts.PLAYER_FRICTION;

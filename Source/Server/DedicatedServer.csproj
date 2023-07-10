@@ -45,6 +45,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="General\ServerGeneral.cs" />
+    <Compile Include="General\ServerPhysicsState.cs" />
     <Compile Include="Items\AmmoBullets.cs">
       <SubType>Code</SubType>
     </Compile>

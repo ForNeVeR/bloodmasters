@@ -174,7 +174,7 @@ namespace CodeImp.Bloodmasters.Client
 			Matrix mrot1, mrot2, mrotate;
 
 			// Create physics state
-			state = new PhysicsState(General.map);
+			state = new ClientPhysicsState(General.map);
 			state.Radius = Consts.PLAYER_RADIUS;
 			state.Height = Consts.PLAYER_BLOCK_HEIGHT;
 			state.Friction = Consts.PLAYER_FRICTION;

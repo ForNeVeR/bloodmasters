@@ -18,6 +18,9 @@
         <LangVersion>11</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+      <Compile Include="..\Server\General\ServerPhysicsState.cs">
+        <Link>Server\General\ServerPhysicsState.cs</Link>
+      </Compile>
       <Compile Include="..\Server\Net\ServerGateway.cs">
           <Link>Server\Net\ServerGateway.cs</Link>
           <SubType>Code</SubType>
@@ -313,6 +316,7 @@
     <Compile Include="General\ClientComparer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="General\ClientPhysicsState.cs" />
     <Compile Include="General\GameMenu.cs">
       <SubType>Code</SubType>
     </Compile>

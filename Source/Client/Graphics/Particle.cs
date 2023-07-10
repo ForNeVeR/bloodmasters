@@ -81,7 +81,7 @@ namespace CodeImp.Bloodmasters.Client
 						bool mapped, bool fadein)
 		{
 			// Copy properties
-			state = new PhysicsState(General.map);
+			state = new ClientPhysicsState(General.map);
 			state.Bounce = true;
 			state.Radius = 0.01f;
 			state.Friction = 0.5f;

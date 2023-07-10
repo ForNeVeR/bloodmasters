@@ -46,7 +46,7 @@ namespace CodeImp.Bloodmasters.Client
 			this.renderbias = 2f;
 
 			// Move with actor
-			state = new PhysicsState(General.map);
+			state = new ClientPhysicsState(General.map);
 			state.Bounce = false;
 			state.Blocking = false;
 			state.Diameter = 1f;

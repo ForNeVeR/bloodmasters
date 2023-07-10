@@ -11,7 +11,7 @@ using System.Collections;
 
 namespace CodeImp.Bloodmasters
 {
-	public class PhysicsState
+	public abstract class PhysicsState
 	{
 		#region ================== Members
 
@@ -289,10 +289,11 @@ namespace CodeImp.Bloodmasters
 				}
 				else
 				{
-					#if CLIENT
-					// No more collisions
-					break;
-					#endif
+                    if (IsClientMode)
+                    {
+                        // No more collisions
+                        break;
+                    }
 				}
 			}
 
@@ -306,6 +307,8 @@ namespace CodeImp.Bloodmasters
 		}
 
 		#endregion
+
+        protected abstract bool IsClientMode { get; }
 	}
 }
 
