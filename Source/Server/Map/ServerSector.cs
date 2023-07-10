@@ -1,5 +1,7 @@
 ﻿using System.IO;
+#if CLIENT
 using CodeImp.Bloodmasters.Client;
+#endif
 
 namespace CodeImp.Bloodmasters.Server.Map;
 
