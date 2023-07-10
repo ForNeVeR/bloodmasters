@@ -144,10 +144,8 @@ namespace CodeImp.Bloodmasters
 					glbsp.StartInfo.CreateNoWindow = false;
 					glbsp.StartInfo.ErrorDialog = false;
 					glbsp.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-					#if LINUX
 					glbsp.StartInfo.RedirectStandardOutput = true;
 					glbsp.StartInfo.UseShellExecute = false;
-					#endif
 					if(glbsp.Start())
 					{
 						// Wait for the builder to finish

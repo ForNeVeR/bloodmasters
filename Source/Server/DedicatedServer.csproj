@@ -146,6 +146,7 @@
     </Compile>
     <Compile Include="Map\ServerMap.cs" />
     <Compile Include="Map\ServerSector.cs" />
+    <Compile Include="Net\ServerGateway.cs" />
     <Compile Include="Projectiles\Flames.cs">
       <SubType>Code</SubType>
     </Compile>

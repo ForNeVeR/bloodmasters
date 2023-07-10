@@ -18,6 +18,10 @@
         <LangVersion>11</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+      <Compile Include="..\Server\Net\ServerGateway.cs">
+          <Link>Server\Net\ServerGateway.cs</Link>
+          <SubType>Code</SubType>
+      </Compile>
     <Compile Include="..\Server\General\Client.cs">
       <Link>Server\General\Client.cs</Link>
       <SubType>Code</SubType>
@@ -562,6 +566,7 @@
     <Compile Include="Map\ClientMap.cs" />
     <Compile Include="Map\ClientSector.cs" />
     <Compile Include="Map\ClientSidedef.cs" />
+    <Compile Include="Net\ClientGateway.cs" />
     <Compile Include="Projectiles\Flames.cs">
       <SubType>Code</SubType>
     </Compile>

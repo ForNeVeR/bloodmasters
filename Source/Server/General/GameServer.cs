@@ -14,6 +14,7 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using CodeImp.Bloodmasters.Server.Net;
 #if CLIENT
 using CodeImp.Bloodmasters.Client;
 #endif
@@ -204,7 +205,7 @@ namespace CodeImp.Bloodmasters.Server
 			clientsaddrs = new Hashtable(maxclients);
 
 			// Start the gateway
-			gateway = new Gateway(port, 0, 0);
+			gateway = new ServerGateway(port, 0, 0);
 
 			// Make server public?
 			if(makepublic)

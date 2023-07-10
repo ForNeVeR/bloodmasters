@@ -71,6 +71,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Map\LauncherMap.cs" />
+    <Compile Include="Net\LauncherGateway.cs" />
     <EmbeddedResource Include="Interface\FormDownload.resx">
       <DependentUpon>FormDownload.cs</DependentUpon>
     </EmbeddedResource>

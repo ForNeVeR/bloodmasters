@@ -5,10 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
 namespace CodeImp.Bloodmasters
 {
 	public class Sidedef

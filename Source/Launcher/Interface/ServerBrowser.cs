@@ -12,6 +12,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
+using CodeImp.Bloodmasters.Launcher.Net;
 
 namespace CodeImp.Bloodmasters.Launcher
 {
@@ -268,7 +269,7 @@ namespace CodeImp.Bloodmasters.Launcher
 				port = General.config.ReadSetting("clientport", 0);
 
 			// Create a gateway
-			gateway = new Gateway(port, 0, 0);
+			gateway = new LauncherGateway(port, 0, 0);
 
 			// Start processing thread
 			processthread = new Thread(new ThreadStart(Process));

@@ -28,7 +28,7 @@ using System.Net.Sockets;
 
 namespace CodeImp.Bloodmasters
 {
-	public class Gateway
+	public abstract class Gateway
 	{
 		#region ================== Constants
 
@@ -413,40 +413,11 @@ namespace CodeImp.Bloodmasters
 		}
 
 		// This writes an output message
-		private void WriteLine(string text)
-		{
-			#if CLIENT
-
-				// For the client, output to server window
-				if(General.serverwindow != null) General.serverwindow.WriteLine(text);
-
-			#elif SERVER
-
-				// For the server, output to standard console
-				Console.WriteLine(text);
-
-				// Write to log file as well?
-				if(General.logtofile)
-				{
-					// Append text to the file
-					StreamWriter logf = File.AppendText(General.logfilename);
-					logf.WriteLine(General.StripColorCodes(text));
-					logf.Flush();
-					logf.Close();
-				}
-
-			#endif
-		}
+        protected abstract void WriteLine(string text);
 
 		// This outputs statistics
-		public void WriteStats(string statsmsg)
+		public virtual void WriteStats(string statsmsg)
 		{
-			#if CLIENT
-
-				// Output stats message
-				General.console.AddMessage(statsmsg, true);
-
-			#endif
 		}
 
 		#endregion

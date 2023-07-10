@@ -80,34 +80,34 @@ namespace CodeImp
 
 		#region ================== Library Links
 
-		#if LINUX
-
-			private static IntPtr RAROpenArchiveEx(ref RarArchiveOpen archiveinfo)
-			{
-				return (IntPtr)0;
-			}
-
-			private static int RARCloseArchive(IntPtr archivehandle)
-			{
-				return 0;
-			}
-
-			private static int RARReadHeader(IntPtr archivehandle, ref RarFileHeader headerinfo)
-			{
-				return 0;
-			}
-
-			private static int RARProcessFileW(IntPtr archivehandle, int operation,
-                                             string destpath,
-                                             string destname)
-			{
-				return 0;
-			}
-
-			private static void RARSetPassword(IntPtr archivehandle, string password)
-			{
-			}
-		#else
+		// #if LINUX // TODO: Just support unrar on Linux
+  //
+		// 	private static IntPtr RAROpenArchiveEx(ref RarArchiveOpen archiveinfo)
+		// 	{
+		// 		return (IntPtr)0;
+		// 	}
+  //
+		// 	private static int RARCloseArchive(IntPtr archivehandle)
+		// 	{
+		// 		return 0;
+		// 	}
+  //
+		// 	private static int RARReadHeader(IntPtr archivehandle, ref RarFileHeader headerinfo)
+		// 	{
+		// 		return 0;
+		// 	}
+  //
+		// 	private static int RARProcessFileW(IntPtr archivehandle, int operation,
+  //                                            string destpath,
+  //                                            string destname)
+		// 	{
+		// 		return 0;
+		// 	}
+  //
+		// 	private static void RARSetPassword(IntPtr archivehandle, string password)
+		// 	{
+		// 	}
+		// #else
 
 			[DllImport("libunrar.dll")]
 			static extern IntPtr RAROpenArchiveEx(ref RarArchiveOpen archiveinfo);

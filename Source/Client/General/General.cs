@@ -22,6 +22,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using CodeImp.Bloodmasters.Client.Net;
 using CodeImp.Bloodmasters.Server;
 using SharpDX;
 using SharpDX.Direct3D9;
@@ -32,7 +33,10 @@ using SharpDX.Direct3D9;
 namespace CodeImp.Bloodmasters.Client
 {
 	internal sealed class General : SharedGeneral
-	{
+    {
+        // TODO: Only used in server. Remove later.
+        internal static bool logtofile = false;
+
 		// API declarations
 		[DllImport("user32.dll")] public static extern int LockWindowUpdate(IntPtr hwnd);
 		[DllImport("kernel32.dll")] public static extern short QueryPerformanceFrequency(ref long x);
@@ -58,7 +62,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Filenames
 		private static string configfilename = "Bloodmasters.cfg";
-		private static string logfilename = "";
+		public static string logfilename = ""; // TODO: Only used in server code. Remove later.
 
 		// Configuration
 		public static Configuration config;
@@ -667,7 +671,7 @@ namespace CodeImp.Bloodmasters.Client
 			simloss = config.ReadSetting("simulateloss", 0);
 
 			// Make the gateway and connection
-			gateway = new Gateway(port, simping, simloss);
+			gateway = new ClientGateway(port, simping, simloss);
 			IPEndPoint target = new IPEndPoint(IPAddress.Parse(serveraddress), serverport);
 			conn = gateway.CreateConnection(target);
 			conn.SetTimeout(CONNECT_TIMEOUT);
