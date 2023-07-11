@@ -13,5 +13,8 @@ internal class ServerMap : Bloodmasters.Map
     {
         return new ServerSector(data, i, this);
     }
+
+    protected override Sidedef CreateSidedef(BinaryReader data, Sector[] sectors, int index) =>
+        new(data, sectors, index);
 }
 

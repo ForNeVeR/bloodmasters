@@ -485,6 +485,7 @@ namespace CodeImp.Bloodmasters
 		}
 
         protected abstract Sector CreateSector(BinaryReader data, int i);
+        protected abstract Sidedef CreateSidedef(BinaryReader data, Sector[] sectors, int index);
 
         // This loads all sidedefs from the wad file
 		private void LoadSidedefs(string wadfile)
@@ -503,7 +504,7 @@ namespace CodeImp.Bloodmasters
 			sidedefs = new Sidedef[numsides];
 
 			// Read all sidedefs
-			for(int i = 0; i < numsides; i++) sidedefs[i] = new Sidedef(data, sectors, i);
+			for(int i = 0; i < numsides; i++) sidedefs[i] = CreateSidedef(data, sectors, i);
 
 			// Clean up
 			data.Close();

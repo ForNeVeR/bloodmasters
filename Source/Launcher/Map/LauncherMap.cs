@@ -13,4 +13,9 @@ public class LauncherMap : Map
     {
         throw new NotSupportedException();
     }
+
+    protected override Sidedef CreateSidedef(BinaryReader data, Sector[] sectors, int index)
+    {
+        throw new NotImplementedException();
+    }
 }
