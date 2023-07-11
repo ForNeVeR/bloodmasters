@@ -22,7 +22,7 @@ namespace CodeImp.Bloodmasters
 		private bool bounce;			// Bounce at collisions?
 		private float friction;			// Power at which to bounce or slide
 		private bool blocking;			// Blocks other objects?
-		private float height;			// Height of this object
+		protected float height;			// Height of this object
 		protected bool isplayer;
 
 		// Position
@@ -200,7 +200,7 @@ namespace CodeImp.Bloodmasters
 					Linedef ld = (Linedef)lines[i];
 
 					// Make possible collision
-					WallCollision wc = new WallCollision(ld, pos, sv, radius, height, stepheight, isplayer);
+					WallCollision wc = CreateWallCollision(ld, sv, stepheight);
 					colls.Add(wc);
 
 					// Return the crossing sidedef, if crossing
@@ -303,6 +303,8 @@ namespace CodeImp.Bloodmasters
 			// Return collision result
 			return collision;
 		}
+
+        protected abstract WallCollision CreateWallCollision(Linedef? ld, Vector3D sv, float stepheight);
 
         protected abstract PlayerCollision CreatePlayerCollision(IPhysicsState plr, Vector3D sv);
 

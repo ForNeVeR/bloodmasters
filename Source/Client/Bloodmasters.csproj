@@ -24,6 +24,9 @@
       <Compile Include="..\Server\General\ServerPlayerCollision.cs">
         <Link>Server\General\ServerPlayerCollision.cs</Link>
       </Compile>
+      <Compile Include="..\Server\General\ServerWallCollision.cs">
+        <Link>Server\General\ServerWallCollision.cs</Link>
+      </Compile>
       <Compile Include="..\Server\Net\ServerGateway.cs">
           <Link>Server\Net\ServerGateway.cs</Link>
           <SubType>Code</SubType>
@@ -320,6 +323,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="General\ClientPhysicsState.cs" />
+    <Compile Include="General\ClientWallCollision.cs" />
     <Compile Include="General\GameMenu.cs">
       <SubType>Code</SubType>
     </Compile>
