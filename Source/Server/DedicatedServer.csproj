@@ -11,11 +11,9 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug - Linux' ">
     <OutputPath>..\..\Build\Linux\</OutputPath>
-    <DefineConstants>$(DefineConstants);LINUX;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release - Linux' ">
     <OutputPath>..\..\Build\Linux\</OutputPath>
-      <DefineConstants>$(DefineConstants);LINUX;</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System">
@@ -46,6 +44,8 @@
     </Compile>
     <Compile Include="General\ServerGeneral.cs" />
     <Compile Include="General\ServerPhysicsState.cs" />
+    <Compile Include="General\ServerPlayerCollision.cs" />
+    <Compile Include="General\ServerWallCollision.cs" />
     <Compile Include="Items\AmmoBullets.cs">
       <SubType>Code</SubType>
     </Compile>
