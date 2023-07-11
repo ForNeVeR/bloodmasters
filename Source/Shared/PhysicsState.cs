@@ -16,14 +16,14 @@ namespace CodeImp.Bloodmasters
 		#region ================== Members
 
 		// Settings
-		private float radius;			// Object radius
+		protected float radius;			// Object radius
 		private bool stepup;			// Step up small heights?
 		private bool redirect;			// Continue after collision?
 		private bool bounce;			// Bounce at collisions?
 		private float friction;			// Power at which to bounce or slide
 		private bool blocking;			// Blocks other objects?
 		private float height;			// Height of this object
-		private bool isplayer;
+		protected bool isplayer;
 
 		// Position
 		public Vector3D pos;
@@ -80,8 +80,6 @@ namespace CodeImp.Bloodmasters
 		}
 
 		#endregion
-
-		#region ================== Methods
 
 		// This moves the position with the total velocity.
 		// Returns true when collided with a wall
@@ -186,7 +184,7 @@ namespace CodeImp.Bloodmasters
 					if((plr != null) && (plr.State != null) && (plr != thisclient) && plr.State.blocking)
 					{
 						// Make object collision
-						colls.Add(new PlayerCollision(plr, pos, sv, radius, isplayer));
+						colls.Add(CreatePlayerCollision(plr, sv));
 					}
 				}
 			}
@@ -306,7 +304,7 @@ namespace CodeImp.Bloodmasters
 			return collision;
 		}
 
-		#endregion
+        protected abstract PlayerCollision CreatePlayerCollision(IPhysicsState plr, Vector3D sv);
 
         protected abstract bool IsClientMode { get; }
 	}

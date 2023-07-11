@@ -21,6 +21,9 @@
       <Compile Include="..\Server\General\ServerPhysicsState.cs">
         <Link>Server\General\ServerPhysicsState.cs</Link>
       </Compile>
+      <Compile Include="..\Server\General\ServerPlayerCollision.cs">
+        <Link>Server\General\ServerPlayerCollision.cs</Link>
+      </Compile>
       <Compile Include="..\Server\Net\ServerGateway.cs">
           <Link>Server\Net\ServerGateway.cs</Link>
           <SubType>Code</SubType>
@@ -347,6 +350,7 @@
     <Compile Include="Graphics\CharSet.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Graphics\ClientPlayerCollision.cs" />
     <Compile Include="Graphics\ColorOperator.cs" />
     <Compile Include="Graphics\Decal.cs">
       <SubType>Code</SubType>

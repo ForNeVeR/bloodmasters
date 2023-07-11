@@ -6,5 +6,10 @@ public class ServerPhysicsState : PhysicsState
     {
     }
 
+    protected override PlayerCollision CreatePlayerCollision(IPhysicsState plr, Vector3D sv)
+    {
+        return new ServerPlayerCollision(plr, pos, sv, radius, isplayer);
+    }
+
     protected override bool IsClientMode => false;
 }

@@ -1,4 +1,6 @@
-﻿namespace CodeImp.Bloodmasters.Client;
+﻿using CodeImp.Bloodmasters.Client.Graphics;
+
+namespace CodeImp.Bloodmasters.Client;
 
 public class ClientPhysicsState : PhysicsState
 {
@@ -7,4 +9,9 @@ public class ClientPhysicsState : PhysicsState
     }
 
     protected override bool IsClientMode => true;
+
+    protected override PlayerCollision CreatePlayerCollision(IPhysicsState plr, Vector3D sv)
+    {
+        return new ClientPlayerCollision(plr, pos, sv, radius, isplayer);
+    }
 }

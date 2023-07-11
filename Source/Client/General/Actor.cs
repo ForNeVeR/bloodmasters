@@ -1192,7 +1192,7 @@ namespace CodeImp.Bloodmasters.Client
 				Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
 
 				// Render collision info
-				if((state.showcol != null) && Client.showcollisions) ((ClientCollision)state.showcol).Render();
+				if((state.showcol != null) && Client.showcollisions) ((IClientCollision)state.showcol).Render();
 			}
 		}
 

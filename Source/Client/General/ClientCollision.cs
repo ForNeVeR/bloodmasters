@@ -1,7 +1,7 @@
 ﻿namespace CodeImp.Bloodmasters.Client;
 
-internal abstract class ClientCollision : Collision
+internal interface IClientCollision
 {
     // This renders the collision
-    public abstract void Render();
+    public void Render();
 }
