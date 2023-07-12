@@ -1,3 +1,4 @@
+using CodeImp.Bloodmasters.Client.Graphics;
 using SharpDX;
 
 namespace Bloodmasters.Tests.Graphics
