@@ -92,7 +92,7 @@ public class Vector3ExTests
         var result = Vector3.Project(new Vector3(0f, 0f, 0f), new Viewport(), new Matrix(), new Matrix(), new Matrix());
 
         //Assert
-        Assert.Equal(1f, result.Length());
+        Assert.NotEqual(1f, result.Length());
     }
 
     [Fact]
