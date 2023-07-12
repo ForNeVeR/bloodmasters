@@ -4,6 +4,8 @@ VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters", "Client\Bloodmasters.csproj", "{406F2DC0-ED64-4D82-A75C-12DFC3300A66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Tests", "Bloodmasters.Tests\Bloodmasters.Tests.csproj", "{27898FE1-6752-4F9C-B1C4-99E4324AED33}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -14,6 +16,10 @@ Global
 		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug|x86.Build.0 = Debug|x86
 		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release|x86.ActiveCfg = Release|x86
 		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release|x86.Build.0 = Release|x86
+		{27898FE1-6752-4F9C-B1C4-99E4324AED33}.Release|x86.ActiveCfg = Release|Any CPU
+		{27898FE1-6752-4F9C-B1C4-99E4324AED33}.Release|x86.Build.0 = Release|Any CPU
+		{27898FE1-6752-4F9C-B1C4-99E4324AED33}.Debug|x86.ActiveCfg = Debug|x86
+		{27898FE1-6752-4F9C-B1C4-99E4324AED33}.Debug|x86.Build.0 = Debug|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
