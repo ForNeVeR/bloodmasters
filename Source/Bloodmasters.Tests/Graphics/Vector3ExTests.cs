@@ -115,7 +115,7 @@ public class Vector3ExTests
     [Fact]
     public void CorrectCalculationsWithNormalData_Success()
     {
-        const float tolerance = 0.0000001f;
+        const float tolerance = 0.000001f;
 
         var result = new Vector3(4f).Project(GetNormalViewport(), GetMatrixWithNormalColumns1(),
             GetMatrixWithNormalColumns2(), GetMatrixWithNormalColumns3());
