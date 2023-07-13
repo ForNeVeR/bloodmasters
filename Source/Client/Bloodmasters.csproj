@@ -672,6 +672,7 @@
     <EmbeddedResource Include="Interface\FormServer.resx">
       <DependentUpon>FormServer.cs</DependentUpon>
     </EmbeddedResource>
+      <InternalsVisibleTo Include="Bloodmasters.Tests" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SharpDX.Direct3D9" Version="4.2.0" />
