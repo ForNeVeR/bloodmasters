@@ -16,6 +16,6 @@ public class LauncherMap : Map
 
     protected override Sidedef CreateSidedef(BinaryReader data, Sector[] sectors, int index)
     {
-        throw new NotImplementedException();
+        throw new NotSupportedException();
     }
 }
