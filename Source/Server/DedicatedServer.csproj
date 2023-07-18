@@ -42,7 +42,6 @@
     <Compile Include="General\ProxyDoor.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="General\ServerGeneral.cs" />
     <Compile Include="General\ServerPhysicsState.cs" />
     <Compile Include="General\ServerPlayerCollision.cs" />
     <Compile Include="General\ServerWallCollision.cs" />
