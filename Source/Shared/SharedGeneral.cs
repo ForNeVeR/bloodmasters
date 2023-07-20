@@ -17,7 +17,7 @@ public class SharedGeneral
     // This returns the time in milliseconds
     public static int GetCurrentTime()
     {
-        // TODO: Cross-platform implementation
+        // TODO[#43]: Cross-platform implementation
         long timecount = 0;
 
         // High resolution clock available?

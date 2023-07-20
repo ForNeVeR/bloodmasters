@@ -29,12 +29,11 @@ using SharpDX.Direct3D9;
 
 #endregion
 
-// TODO: Fix namespaces
 namespace CodeImp.Bloodmasters.Client
 {
 	internal sealed class General : SharedGeneral
     {
-        // TODO: Only used in server. Remove later.
+        // TODO[#45]: Only used in server. Remove later.
         internal static bool logtofile = false;
 
 		// API declarations
@@ -62,7 +61,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Filenames
 		private static string configfilename = "Bloodmasters.cfg";
-		public static string logfilename = ""; // TODO: Only used in server code. Remove later.
+		public static string logfilename = ""; // TODO[#45]: Only used in server code. Remove later.
 
 		// Configuration
 		public static Configuration config;
