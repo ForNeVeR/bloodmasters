@@ -45,7 +45,7 @@ namespace CodeImp.Bloodmasters.Client
 			state.vel = vel;
 
 			// Set initial particle time
-			particletime = SharedGeneral.currenttime - 1;
+			particletime = General.currenttime - 1;
 
 			// Make the ball sprite
 			sprite = new Sprite(start, SPRITE_SIZE, false, true);
@@ -124,7 +124,7 @@ namespace CodeImp.Bloodmasters.Client
 			Vector3D decalpos = atpos;
 
 			// Where are we now?
-			ClientSector sector = (ClientSector)General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
+			var sector = (ClientSector)General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
 
 			// Not silent?
 			if((silent == false) && (sector != null))
@@ -278,7 +278,7 @@ namespace CodeImp.Bloodmasters.Client
 			foreach(Lightning l in lightnings) l.Process();
 
 			// Time to spawn particles?
-			if((particletime < SharedGeneral.currenttime) && this.InScreen)
+			if((particletime < General.currenttime) && this.InScreen)
 			{
 				// Random color
 				switch(General.random.Next(3))
@@ -297,7 +297,7 @@ namespace CodeImp.Bloodmasters.Client
 
 			// Position sprite
 			sprite.Position = this.state.pos;
-			sprite.Rotation = (float)SharedGeneral.currenttime * 0.01f;
+			sprite.Rotation = (float)General.currenttime * 0.01f;
 			sprite.Update();
 
 			// Position light

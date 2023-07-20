@@ -7,7 +7,7 @@
 
 namespace CodeImp.Bloodmasters
 {
-	public abstract class Collision : IComparable
+	public abstract class Collision : IComparable<Collision>
 	{
 		protected bool collide;
 		protected float distance;
@@ -30,15 +30,14 @@ namespace CodeImp.Bloodmasters
 		}
 
 		// This compares one collision with another
-		public int CompareTo(object obj)
+		public int CompareTo(Collision other)
 		{
-			// Get the proper object reference
-			Collision c2 = (Collision)obj;
 
+            // If other is not a valid object reference, this instance is greater.
+            if (other is null) return 1;
 			// Return 1 if this collides earlier, otherwise return -1
-			if(this.distance > c2.distance) return 1; else return -1;
-		}
-
+            return distance.CompareTo(other.distance);
+        }
 		// This makes updates to the subject position
 		// and returns the new collision
 		public abstract Collision Update(Vector3D objpos, Vector2D objvec);
