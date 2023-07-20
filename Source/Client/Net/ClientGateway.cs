@@ -1,4 +1,4 @@
-﻿namespace CodeImp.Bloodmasters.Client.Net;
+namespace CodeImp.Bloodmasters.Client.Net;
 
 public class ClientGateway : Gateway
 {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 #if CLIENT
 using CodeImp.Bloodmasters.Client;

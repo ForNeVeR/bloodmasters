@@ -1,4 +1,4 @@
-﻿using CodeImp.Bloodmasters.Client.Graphics;
+using CodeImp.Bloodmasters.Client.Graphics;
 
 namespace CodeImp.Bloodmasters.Client;
 

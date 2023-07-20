@@ -1,4 +1,4 @@
-﻿namespace CodeImp.Bloodmasters.Launcher.Net;
+namespace CodeImp.Bloodmasters.Launcher.Net;
 
 public class LauncherGateway : Gateway
 {

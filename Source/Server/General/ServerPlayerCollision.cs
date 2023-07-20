@@ -1,4 +1,4 @@
-﻿namespace CodeImp.Bloodmasters.Server;
+namespace CodeImp.Bloodmasters.Server;
 
 public class ServerPlayerCollision : PlayerCollision
 {

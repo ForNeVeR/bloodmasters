@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using CodeImp.Bloodmasters.Client.Graphics;
 using SharpDX;
 using SharpDX.Direct3D9;
