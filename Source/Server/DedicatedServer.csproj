@@ -9,12 +9,6 @@
         <TargetFramework>net7.0</TargetFramework>
         <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug - Linux' ">
-    <OutputPath>..\..\Build\Linux\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release - Linux' ">
-    <OutputPath>..\..\Build\Linux\</OutputPath>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System">
       <Name>System</Name>
