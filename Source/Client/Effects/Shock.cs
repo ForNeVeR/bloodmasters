@@ -90,8 +90,8 @@ namespace CodeImp.Bloodmasters.Client
 			segments = corners + 1;
 
 			// Project the trajectory coordinates
-			from2d = new Vector3D(General.arena.Projected(from.ToDx()).FromDx());
-			to2d = new Vector3D(General.arena.Projected(to.ToDx()).FromDx());
+			from2d = General.arena.Projected(from.ToDx()).FromDx();
+			to2d = General.arena.Projected(to.ToDx()).FromDx();
 			delta2d = to2d - from2d;
 
 			// Calculate segment length scalar in 2D
@@ -134,8 +134,8 @@ namespace CodeImp.Bloodmasters.Client
 					p4 = (ve + (trjnorm * soffset)) - (trjnorm * swidth);
 
 					// Unproject vertices to 3D space
-					v3 = new Vector3D(General.arena.Unprojected(p3.ToDx()).FromDx());
-					v4 = new Vector3D(General.arena.Unprojected(p4.ToDx()).FromDx());
+					v3 = General.arena.Unprojected(p3.ToDx()).FromDx();
+					v4 = General.arena.Unprojected(p4.ToDx()).FromDx();
 				}
 
 				// Make real vertices

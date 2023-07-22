@@ -66,8 +66,8 @@ namespace CodeImp.Bloodmasters.Client
 			float width = WIDTH * ((float)Direct3D.DisplayWidth / 640f);
 
 			// Project the coordinates
-			from2d = new Vector3D(General.arena.Projected(from.ToDx()).FromDx());
-			to2d = new Vector3D(General.arena.Projected(to.ToDx()).FromDx());
+            from2d = General.arena.Projected(from.ToDx()).FromDx();
+			to2d = General.arena.Projected(to.ToDx()).FromDx();
 			delta2d = to2d - from2d;
 
 			// Determine trajectory normal
@@ -81,10 +81,10 @@ namespace CodeImp.Bloodmasters.Client
 			p4 = to2d + trjnorm * width;
 
 			// Unproject to 3D space
-			n[0] = new Vector3D(General.arena.Unprojected(p1.ToDx()).FromDx());
-			n[1] = new Vector3D(General.arena.Unprojected(p2.ToDx()).FromDx());
-			n[2] = new Vector3D(General.arena.Unprojected(p3.ToDx()).FromDx());
-			n[3] = new Vector3D(General.arena.Unprojected(p4.ToDx()).FromDx());
+			n[0] = General.arena.Unprojected(p1.ToDx()).FromDx();
+			n[1] = General.arena.Unprojected(p2.ToDx()).FromDx();
+			n[2] = General.arena.Unprojected(p3.ToDx()).FromDx();
+			n[3] = General.arena.Unprojected(p4.ToDx()).FromDx();
 
 			// Set vertex properties
 			for(int i = 0; i < 4; i++)
