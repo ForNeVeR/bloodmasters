@@ -618,6 +618,10 @@
         <Compile Include="Resources\TextureResource.cs">
             <SubType>Code</SubType>
         </Compile>
+        <Compile Include="Sound\AudioPlaybackEngine.cs" />
+        <Compile Include="Sound\AutoDisposeFileReader.cs" />
+        <Compile Include="Sound\CachedSound.cs" />
+        <Compile Include="Sound\CachedSoundSampleProvider.cs" />
         <Compile Include="Sound\DirectSound.cs">
             <SubType>Code</SubType>
         </Compile>
