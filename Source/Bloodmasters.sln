@@ -18,10 +18,16 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{1FA71E58-528D-4FF0-A00E-E535C0815317}"
 	ProjectSection(SolutionItems) = preProject
 		..\.github\workflows\main.yml = ..\.github\workflows\main.yml
-		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Shared", "Shared\Bloodmasters.Shared.csproj", "{392D7C6F-B977-4507-A10E-12AD6F02A617}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DedicatedServer", "Server\DedicatedServer.csproj", "{AC63F482-0715-48D4-8B14-EFF3F5BD4A61}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B3EDCFBA-0656-49DD-A70C-0EB061D46AF4}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +51,10 @@ Global
 		{392D7C6F-B977-4507-A10E-12AD6F02A617}.Debug|x86.Build.0 = Debug|Any CPU
 		{392D7C6F-B977-4507-A10E-12AD6F02A617}.Release|x86.ActiveCfg = Release|Any CPU
 		{392D7C6F-B977-4507-A10E-12AD6F02A617}.Release|x86.Build.0 = Release|Any CPU
+		{AC63F482-0715-48D4-8B14-EFF3F5BD4A61}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AC63F482-0715-48D4-8B14-EFF3F5BD4A61}.Debug|x86.Build.0 = Debug|Any CPU
+		{AC63F482-0715-48D4-8B14-EFF3F5BD4A61}.Release|x86.ActiveCfg = Release|Any CPU
+		{AC63F482-0715-48D4-8B14-EFF3F5BD4A61}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
