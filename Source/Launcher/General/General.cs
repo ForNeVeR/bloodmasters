@@ -65,6 +65,7 @@ namespace CodeImp.Bloodmasters.Launcher
 		{
 			// Enable OS visual styles
 			Application.EnableVisualStyles();
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
 			Application.DoEvents();		// This must be here to work around a .NET bug
 
 			// Setup application path
