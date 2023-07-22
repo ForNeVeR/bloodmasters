@@ -261,21 +261,21 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.label1 = new System.Windows.Forms.Label();
 			this.chkServerDedicated = new System.Windows.Forms.CheckBox();
 			this.btnHostGame = new System.Windows.Forms.Button();
-			this.mnuGame = new();
-			this.itmJoinGame1 = new();
-			this.itmGameDetails = new();
-			this.menuItem3 = new();
-			this.itmGameWebsite = new();
-			this.menuItem7 = new();
-			this.itmCopyGameTitle = new();
-			this.itmCopyGameDetails = new();
-			this.itmCopyGameIP = new();
+			this.mnuGame = new System.Windows.Forms.ContextMenuStrip();
+			this.itmJoinGame1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.itmGameDetails = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+			this.itmGameWebsite = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+			this.itmCopyGameTitle = new System.Windows.Forms.ToolStripMenuItem();
+			this.itmCopyGameDetails = new System.Windows.Forms.ToolStripMenuItem();
+			this.itmCopyGameIP = new System.Windows.Forms.ToolStripMenuItem();
 			this.btnExit = new System.Windows.Forms.Button();
 			this.btnOptions = new System.Windows.Forms.Button();
 			this.tltDescription = new System.Windows.Forms.ToolTip(this.components);
-			this.stbStatus = new();
-			this.stpPanel = new();
-			this.stpVersion = new();
+			this.stbStatus = new System.Windows.Forms.StatusStrip();
+			this.stpPanel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.stpVersion = new System.Windows.Forms.ToolStripStatusLabel();
 			this.dlgSaveConfig = new System.Windows.Forms.SaveFileDialog();
 			this.tmrUpdateList = new System.Windows.Forms.Timer(this.components);
 			this.tabsMode.SuspendLayout();
@@ -1073,7 +1073,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			//
 			// mnuGame
 			//
-			this.mnuGame.Items.AddRange(new[] {
+			this.mnuGame.Items.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
 																					this.itmJoinGame1,
 																					this.itmGameDetails,
 																					this.menuItem3,
@@ -1159,7 +1159,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			//
 			this.stbStatus.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.stbStatus.Name = "stbStatus";
-			this.stbStatus.Items.AddRange(new [] {
+			this.stbStatus.Items.AddRange(new System.Windows.Forms.ToolStripStatusLabel[] {
 																						 this.stpPanel,
 																						 this.stpVersion});
 			this.stbStatus.Size = new System.Drawing.Size(684, 20);
