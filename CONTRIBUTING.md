@@ -8,9 +8,8 @@ Build
 - [.NET 7 SDK][dotnet-sdk] or a later compatible version
 
 ### Commands
-Build the solutions using the following shell commands:
+Build the solutions using the following shell command:
 ```
-$ dotnet build Source/DedicatedServer.sln
 $ dotnet build Source/Bloodmasters.sln
 ```
 
