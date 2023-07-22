@@ -6,10 +6,8 @@
 \********************************************************************/
 
 using System;
-using System.Globalization;
 using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using System.Globalization;
 using SharpDX;
 using SharpDX.Direct3D9;
 using RectangleF = System.Drawing.RectangleF;
@@ -79,8 +77,8 @@ namespace CodeImp.Bloodmasters.Client
 		public static bool showgibbing;
 
 		// References
-		private Sector sector;
-		private Sector highestsector;
+		private ClientSector sector;
+		private ClientSector highestsector;
 
 		// States
 		private float aimangle = 0f;
@@ -144,8 +142,8 @@ namespace CodeImp.Bloodmasters.Client
 		public bool IsWalking { get { return walking; } set { walking = value; } }
 		public bool IsOnFloor { get { return onfloor; } }
 		public float WalkAngle { get { return walkangle; } set { walkangle = value; } }
-		public Sector Sector { get { return sector; } }
-		public Sector HighestSector { get { return highestsector; } }
+		public ClientSector Sector { get { return sector; } }
+		public ClientSector HighestSector { get { return highestsector; } }
 		public int TeamColor { get { return teamcolor; } set { teamcolor = value; } }
 		public string Name { get { if(name != null) return name.Text; else return ""; } set { if(name != null) name.Text = value; } }
 		public PhysicsState State { get { return state; } }
@@ -176,7 +174,7 @@ namespace CodeImp.Bloodmasters.Client
 			Matrix mrot1, mrot2, mrotate;
 
 			// Create physics state
-			state = new PhysicsState(General.map);
+			state = new ClientPhysicsState(General.map);
 			state.Radius = Consts.PLAYER_RADIUS;
 			state.Height = Consts.PLAYER_BLOCK_HEIGHT;
 			state.Friction = Consts.PLAYER_FRICTION;
@@ -556,7 +554,7 @@ namespace CodeImp.Bloodmasters.Client
 			float highestz = sector.CurrentFloor;
 
 			// Find the highest sector floor
-			foreach(Sector s in sectors)
+			foreach(ClientSector s in sectors)
 			{
 				// Check if higher but not blocking
 				if((s.CurrentFloor > highestz) &&
@@ -575,7 +573,7 @@ namespace CodeImp.Bloodmasters.Client
 			float framerate;
 
 			// Find the new sector
-			sector = General.map.GetSubSectorAt(v.x, v.y).Sector;
+			sector = (ClientSector)General.map.GetSubSectorAt(v.x, v.y).Sector;
 
 			// Get positions on lightmap
 			float lx = sector.VisualSector.LightmapScaledX(v.x);
@@ -613,7 +611,7 @@ namespace CodeImp.Bloodmasters.Client
 				if(ani_torsowalking) torso_ani.FrameTime = (int)(1000f / framerate);
 
 				// Time to make stepping sound?
-				if(stepsoundtime < General.currenttime)
+				if(stepsoundtime < SharedGeneral.currenttime)
 				{
 					// Play step sound when on the floor
 					if(onfloor) PlayStepSound(WALK_STEP_INTERVAL);
@@ -673,10 +671,10 @@ namespace CodeImp.Bloodmasters.Client
 											General.ARGB(1f, 1f, 0.0f, 0.0f));
 
 				// Spawn blood after time period
-				bloodspawntime = General.currenttime + BLOOD_SPAWN_DELAY;
+				bloodspawntime = SharedGeneral.currenttime + BLOOD_SPAWN_DELAY;
 
 				// Create dissolve time
-				dissolvetime = General.currenttime + Decal.decaltimeout;
+				dissolvetime = SharedGeneral.currenttime + Decal.decaltimeout;
 			}
 			// Gibbed death animation keeps the actor
 			else if(method == DEATHMETHOD.GIBBED)
@@ -878,7 +876,7 @@ namespace CodeImp.Bloodmasters.Client
 
 					// Teleport when on the floor and crossing from the front side
 					if(this.IsOnFloor && (crossline == crossline.Linedef.Front))
-						teleportlock = General.currenttime + Client.TELEPORT_DELAY;
+						teleportlock = SharedGeneral.currenttime + Client.TELEPORT_DELAY;
 					break;
 			}
 		}
@@ -895,7 +893,7 @@ namespace CodeImp.Bloodmasters.Client
 				DirectSound.PlaySound(sound, state.pos, 0.3f);
 
 				// Update step time
-				stepsoundtime = General.currenttime + nextsounddelay;
+				stepsoundtime = SharedGeneral.currenttime + nextsounddelay;
 			}
 		}
 
@@ -910,7 +908,7 @@ namespace CodeImp.Bloodmasters.Client
 				DirectSound.PlaySound(sound, state.pos, 0.5f);
 
 				// Update step time
-				stepsoundtime = General.currenttime + nextsounddelay;
+				stepsoundtime = SharedGeneral.currenttime + nextsounddelay;
 			}
 		}
 
@@ -1032,7 +1030,7 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Dead and time to spawn blood?
-			if(dead && (bloodspawntime > 0) && (bloodspawntime < General.currenttime))
+			if(dead && (bloodspawntime > 0) && (bloodspawntime < SharedGeneral.currenttime))
 			{
 				// Spawn floor blood here
 				FloorDecal.Spawn(highestsector, pos.x, pos.y, FloorDecal.blooddecals, false, true, false);
@@ -1040,10 +1038,10 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Dead and dissolving?
-			if(dead && (General.currenttime > dissolvetime))
+			if(dead && (SharedGeneral.currenttime > dissolvetime))
 			{
 				// Completely faded away?
-				if((General.currenttime - dissolvetime) > DISSOLVE_SPEED)
+				if((SharedGeneral.currenttime - dissolvetime) > DISSOLVE_SPEED)
 				{
 					// Destroy this decal
 					this.Dispose();
@@ -1052,7 +1050,7 @@ namespace CodeImp.Bloodmasters.Client
 				else
 				{
 					// Calculate fade
-					alpha = 1f - (float)(General.currenttime - dissolvetime) / (float)DISSOLVE_SPEED;
+					alpha = 1f - (float)(SharedGeneral.currenttime - dissolvetime) / (float)DISSOLVE_SPEED;
 				}
 			}
 		}
@@ -1194,7 +1192,7 @@ namespace CodeImp.Bloodmasters.Client
 				Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
 
 				// Render collision info
-				if((state.showcol != null) && Client.showcollisions) state.showcol.Render();
+				if((state.showcol != null) && Client.showcollisions) ((IClientCollision)state.showcol).Render();
 			}
 		}
 

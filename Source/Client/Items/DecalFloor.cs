@@ -24,7 +24,7 @@ namespace CodeImp.Bloodmasters.Client
 		public DecalFloor(Thing t) : base(t)
 		{
 			// Create the decal
-			FloorDecal.Spawn(t.Sector, t.X, t.Y, FloorDecal.blooddecals, true, false, false);
+			FloorDecal.Spawn((ClientSector)t.Sector, t.X, t.Y, FloorDecal.blooddecals, true, false, false);
 		}
 
 		#endregion

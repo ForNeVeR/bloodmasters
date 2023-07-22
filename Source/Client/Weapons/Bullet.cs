@@ -91,7 +91,7 @@ namespace CodeImp.Bloodmasters.Client
 						General.arena.p_dust.Add(spawnat, Vector3D.Random(General.random, 0.1f, 0.1f, 0.1f), General.ARGB(1f, 0.1f, 0.1f, 0.1f));
 
 					// Create a wall decals
-					WallDecal.Spawn((Sidedef)obj, uline, phit.z, WallDecal.bulletdecals, false);
+					WallDecal.Spawn((ClientSidedef)obj, uline, phit.z, WallDecal.bulletdecals, false);
 				}
 				// When hitting a floor
 				else if(obj is Sector)
@@ -114,7 +114,7 @@ namespace CodeImp.Bloodmasters.Client
 							General.arena.p_dust.Add(spawnat + new Vector3D(0f, 0f, 0.3f), Vector3D.Random(General.random, 0.1f, 0.1f, 0.1f), General.ARGB(1f, 0.1f, 0.1f, 0.1f));
 
 						// Create a floor decal
-						FloorDecal.Spawn((Sector)obj, spawnat.x, spawnat.y, FloorDecal.bulletdecals, false, false, false);
+						FloorDecal.Spawn((ClientSector)obj, spawnat.x, spawnat.y, FloorDecal.bulletdecals, false, false, false);
 					}
 				}
 				// When hitting a player

@@ -5,11 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-#if CLIENT
-using SharpDX;
-#endif
-
 namespace CodeImp.Bloodmasters
 {
 	public struct Vector3D
@@ -35,16 +30,6 @@ namespace CodeImp.Bloodmasters
 			this.z = 0f;
 		}
 
-		#if CLIENT
-		// Constructor
-		public Vector3D(Vector3 v)
-		{
-			this.x = v.X;
-			this.y = v.Y;
-			this.z = v.Z;
-		}
-		#endif
-
 		// This applies 2D coordinates and preserves the Z coordinate
 		public void Apply2D(Vector2D v)
 		{
@@ -58,14 +43,6 @@ namespace CodeImp.Bloodmasters
 		{
 			return new Vector2D(a);
 		}
-
-		#if CLIENT
-		// Conversion to Vector3
-		public static implicit operator Vector3(Vector3D a)
-		{
-			return new Vector3(a.x, a.y, a.z);
-		}
-		#endif
 
 		// This adds two vectors
 		public static Vector3D operator+(Vector3D a, Vector3D b)

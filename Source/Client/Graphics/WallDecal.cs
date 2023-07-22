@@ -82,7 +82,7 @@ namespace CodeImp.Bloodmasters.Client
 			sidedef = vside;
 
 			// Get reference to VisualSector
-			sector = sidedef.Sidedef.Sector.VisualSector;
+			sector = ((ClientSector)sidedef.Sidedef.Sector).VisualSector;
 
 			// Add decal to list
 			General.arena.AddDecal(this);
@@ -132,7 +132,7 @@ namespace CodeImp.Bloodmasters.Client
 		public static WallDecal Spawn(float nx, float ny, float nz, float size,
 										TextureResource[] textureset, bool permanent)
 		{
-			Sidedef sd = null;
+			ClientSidedef sd = null;
 
 			// Dont make a decal when not using decals
 			if(!Decal.showdecals) return null;
@@ -150,7 +150,7 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Determine side of line
 					float side = line.SideOfLine(nx, ny);
-					if(side < 0) sd = line.Front; else sd = line.Back;
+					if(side < 0) sd = (ClientSidedef)line.Front; else sd = (ClientSidedef)line.Back;
 					if((sd != null) && (sd.OtherSide != null) && (sd.VisualSidedef != null))
 					{
 						// Check if within wall section
@@ -184,7 +184,7 @@ namespace CodeImp.Bloodmasters.Client
 		}
 
 		// This makes a wall decal
-		public static WallDecal Spawn(Sidedef sd, float uline, float z, TextureResource[] textureset, bool permanent)
+		public static WallDecal Spawn(ClientSidedef sd, float uline, float z, TextureResource[] textureset, bool permanent)
 		{
 			// Dont make a decal when not using decals
 			if(!Decal.showdecals) return null;

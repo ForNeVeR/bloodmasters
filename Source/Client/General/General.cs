@@ -22,6 +22,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using CodeImp.Bloodmasters.Client.Net;
 using CodeImp.Bloodmasters.Server;
 using SharpDX;
 using SharpDX.Direct3D9;
@@ -30,11 +31,13 @@ using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
 {
-	internal sealed class General
-	{
+	internal sealed class General : SharedGeneral
+    {
+        // TODO[#45]: Only used in server. Remove later.
+        internal static bool logtofile = false;
+
 		// API declarations
 		[DllImport("user32.dll")] public static extern int LockWindowUpdate(IntPtr hwnd);
-		[DllImport("kernel32.dll")] public static extern short QueryPerformanceCounter(ref long x);
 		[DllImport("kernel32.dll")] public static extern short QueryPerformanceFrequency(ref long x);
 
 		#region ================== Constants
@@ -58,7 +61,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Filenames
 		private static string configfilename = "Bloodmasters.cfg";
-		private static string logfilename = "";
+		public static string logfilename = ""; // TODO[#45]: Only used in server code. Remove later.
 
 		// Configuration
 		public static Configuration config;
@@ -121,14 +124,6 @@ namespace CodeImp.Bloodmasters.Client
 		public static Gateway gateway;
 		public static Connection conn;
 		private static Thread networkproc;
-
-		// Clock
-		public static long timefrequency = -1;
-		public static double timescale;
-		public static int realtime;				// Real time of processing
-		public static int currenttime;			// Current time of this frame
-		public static int accumulator;			// Buffer for delta time
-		public static int previoustime;			// Previous frame time
 
 		// Auto-screenshot
 		public static int screenshottime;
@@ -216,9 +211,9 @@ namespace CodeImp.Bloodmasters.Client
 		private static bool LoadStandardComponents()
 		{
 			// Setup clock
-			currenttime = General.GetCurrentTime();
-			previoustime = General.GetCurrentTime();
-			realtime = General.GetCurrentTime() + 1;
+			currenttime = SharedGeneral.GetCurrentTime();
+			previoustime = SharedGeneral.GetCurrentTime();
+			realtime = SharedGeneral.GetCurrentTime() + 1;
 			accumulator = 0;
 
 			// Initialize for client?
@@ -541,7 +536,7 @@ namespace CodeImp.Bloodmasters.Client
 		// Returns the StartGameInfo message on success, null on failure
 		private static bool Login(int connectid, out string reason)
 		{
-			int timeout = General.GetCurrentTime() + CONNECT_TIMEOUT;
+			int timeout = SharedGeneral.GetCurrentTime() + CONNECT_TIMEOUT;
 			NetMessage msg, rconmsg, rep = null;
 
 			// Send a player login request
@@ -557,7 +552,7 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Wait for StartGameInfo answer
-			while(timeout > General.GetCurrentTime())
+			while(timeout > SharedGeneral.GetCurrentTime())
 			{
 				// Wait for a message
 				rep = WaitForMessage(timeout);
@@ -615,7 +610,7 @@ namespace CodeImp.Bloodmasters.Client
 			NetMessage msg = null;
 
 			// Wait for reply
-			while((gateway != null) && (timeouttime > General.GetCurrentTime()))
+			while((gateway != null) && (timeouttime > SharedGeneral.GetCurrentTime()))
 			{
 				// Process networking
 				if(serverrunning) server.Process();
@@ -639,7 +634,7 @@ namespace CodeImp.Bloodmasters.Client
 		private static void WaitForConfirms(int timeouttime)
 		{
 			// Wait for confirms
-			while((gateway != null) && (conn != null) && (timeouttime > General.GetCurrentTime()) && !conn.Disposed && (conn.QueueLength > 0))
+			while((gateway != null) && (conn != null) && (timeouttime > SharedGeneral.GetCurrentTime()) && !conn.Disposed && (conn.QueueLength > 0))
 			{
 				// Process networking
 				if(serverrunning) server.Process();
@@ -656,7 +651,7 @@ namespace CodeImp.Bloodmasters.Client
 		public static int Connect(out string reason)
 		{
 			NetMessage msg, rep;
-			int timeout = General.GetCurrentTime() + CONNECT_TIMEOUT;
+			int timeout = SharedGeneral.GetCurrentTime() + CONNECT_TIMEOUT;
 			int resend;
 			int connectid = 0;
 			int port = 0;
@@ -675,7 +670,7 @@ namespace CodeImp.Bloodmasters.Client
 			simloss = config.ReadSetting("simulateloss", 0);
 
 			// Make the gateway and connection
-			gateway = new Gateway(port, simping, simloss);
+			gateway = new ClientGateway(port, simping, simloss);
 			IPEndPoint target = new IPEndPoint(IPAddress.Parse(serveraddress), serverport);
 			conn = gateway.CreateConnection(target);
 			conn.SetTimeout(CONNECT_TIMEOUT);
@@ -690,10 +685,10 @@ namespace CodeImp.Bloodmasters.Client
 			reason = "Connection request timed out";
 
 			// Keep waiting until timeout
-			while((timeout > General.GetCurrentTime()) && (gateway != null))
+			while((timeout > SharedGeneral.GetCurrentTime()) && (gateway != null))
 			{
 				// Wait for an answer
-				resend = General.GetCurrentTime() + CONNECT_RESEND_INTERVAL;
+				resend = SharedGeneral.GetCurrentTime() + CONNECT_RESEND_INTERVAL;
 				rep = WaitForMessage(resend);
 
 				// Message received?
@@ -743,7 +738,7 @@ namespace CodeImp.Bloodmasters.Client
 				msg.Send();
 
 				// Process networking until timeout or confirmed
-				WaitForConfirms(General.GetCurrentTime() + DISCONNECT_TIMEOUT);
+				WaitForConfirms(SharedGeneral.GetCurrentTime() + DISCONNECT_TIMEOUT);
 			}
 
 			// Dispose networking
@@ -929,7 +924,7 @@ namespace CodeImp.Bloodmasters.Client
 			int timeleft = msg.GetInt();
 
 			// Set the time left
-			General.callvotetimeout = General.currenttime + timeleft;
+			General.callvotetimeout = SharedGeneral.currenttime + timeleft;
 
 			// Set the number of votes
 			General.callvotes = votes;
@@ -1099,7 +1094,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(General.localclient != null)
 			{
 				// Calculate and apply current countdown time
-				General.localclient.SetPowerupCountdown(countdown + (General.currenttime - attime), powerupfired);
+				General.localclient.SetPowerupCountdown(countdown + (SharedGeneral.currenttime - attime), powerupfired);
 			}
 		}
 
@@ -1298,7 +1293,7 @@ namespace CodeImp.Bloodmasters.Client
 			int gamestatelen = msg.GetInt();
 
 			// Time until gamestate timeout
-			gamestateend = General.currenttime + gamestatelen;
+			gamestateend = SharedGeneral.currenttime + gamestatelen;
 
 			// When round or game is finished
 			if((newstate == GAMESTATE.ROUNDFINISH) ||
@@ -2001,7 +1996,7 @@ namespace CodeImp.Bloodmasters.Client
 			clients[localclientid] = General.localclient;
 
 			// Load the map
-			try { map = new Map(mapname, false, temppath); }
+			try { map = new ClientMap(mapname, false, temppath); }
 			catch(FileNotFoundException) { return "You do not have the map \"" + mapname + "\"."; }
 
 			// Load the arena
@@ -2026,11 +2021,11 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Wait for a snapshot
-			waittimeout = General.GetCurrentTime() + 5000;
-			while((conn != null) && !conn.Disposed && (waittimeout > General.GetCurrentTime()))
+			waittimeout = SharedGeneral.GetCurrentTime() + 5000;
+			while((conn != null) && !conn.Disposed && (waittimeout > SharedGeneral.GetCurrentTime()))
 			{
 				// Wait for a message
-				rep = WaitForMessage(General.GetCurrentTime() + 1000);
+				rep = WaitForMessage(SharedGeneral.GetCurrentTime() + 1000);
 				if(rep != null)
 				{
 					// Check for GameSnapshot message
@@ -2435,28 +2430,6 @@ namespace CodeImp.Bloodmasters.Client
 		#endregion
 
 		#region ================== Misc Functions
-
-		// This returns the time in milliseconds
-		public static int GetCurrentTime()
-		{
-			long timecount = 0;
-
-			// High resolution clock available?
-			if(timefrequency != -1)
-			{
-				// Get the high resolution count
-				QueryPerformanceCounter(ref timecount);
-
-				// Calculate high resolution time in milliseconds
-				//return (int)(((double)timecount / (double)timefrequency) * 1000d);
-				return (int)((double)timecount * timescale);
-			}
-			else
-			{
-				// Use standard clock
-				return Environment.TickCount;
-			}
-		}
 
 		// This gets a description for a game type
 		public static string GameTypeDescription(GAMETYPE g)

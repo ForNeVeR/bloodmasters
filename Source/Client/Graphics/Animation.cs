@@ -55,7 +55,7 @@ namespace CodeImp.Bloodmasters.Client
 				curframe = value;
 				if(curframe < 0) curframe = 0;
 				else if(curframe > frames.Length - 1) curframe = frames.Length - 1;
-				nextframetime = General.currenttime + frametime;
+				nextframetime = SharedGeneral.currenttime + frametime;
 			}
 		}
 
@@ -165,7 +165,7 @@ namespace CodeImp.Bloodmasters.Client
 			newani.frames = ani.frames;
 			newani.repeat = ani.repeat;
 			newani.filename = ani.filename;
-			newani.nextframetime = General.currenttime + ani.frametime;
+			newani.nextframetime = SharedGeneral.currenttime + ani.frametime;
 
 			// Return result
 			return newani;
@@ -190,7 +190,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(frametime < int.MaxValue)
 			{
 				// Time for next frame?
-				while(nextframetime <= General.currenttime)
+				while(nextframetime <= SharedGeneral.currenttime)
 				{
 					// Next frame
 					curframe++;

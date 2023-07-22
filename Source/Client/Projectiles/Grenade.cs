@@ -29,7 +29,7 @@ namespace CodeImp.Bloodmasters.Client
 		private Sprite spritebody;
 		private int smoketime;
 		private float rotation;
-		private Sector sector;
+		private ClientSector sector;
 
 		#endregion
 
@@ -43,7 +43,7 @@ namespace CodeImp.Bloodmasters.Client
 			state.vel = vel;
 
 			// Set initial smoke time
-			smoketime = General.currenttime - 1;
+			smoketime = SharedGeneral.currenttime - 1;
 
 			// Make the rocket sprites
 			spritebody = new Sprite(start, SPRITE_BODY_SIZE, true, true);
@@ -93,7 +93,7 @@ namespace CodeImp.Bloodmasters.Client
 			Vector3D decalpos = atpos;
 
 			// Where are we now?
-			Sector sector = General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
+			ClientSector sector = (ClientSector)General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
 
 			// Not silent?
 			if((silent == false) && (sector != null))
@@ -177,7 +177,7 @@ namespace CodeImp.Bloodmasters.Client
 			base.Process();
 
 			// Where are we now?
-			sector = General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
+			sector = (ClientSector)General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
 
 			// Process physics
 			if(state.pos.z > (sector.CurrentFloor + 0.2f))
@@ -198,7 +198,7 @@ namespace CodeImp.Bloodmasters.Client
 			UpdateSprites();
 
 			// Time to spawn smoke?
-			if((smoketime < General.currenttime) && (state.vel.Length() > 0.5f) && sector.VisualSector.InScreen)
+			if((smoketime < SharedGeneral.currenttime) && (state.vel.Length() > 0.5f) && sector.VisualSector.InScreen)
 			{
 				// Make smoke
 				Vector3D smokepos = state.pos + new Vector3D(0f, 0f, 0.1f);

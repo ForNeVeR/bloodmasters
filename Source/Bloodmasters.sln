@@ -8,6 +8,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "Launcher\Launch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Tests", "Bloodmasters.Tests\Bloodmasters.Tests.csproj", "{45784815-6BB5-47B0-A4EA-78E3B1A4E098}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{EB72F3E9-ECD2-4653-AE18-5D10614ADBAA}"
+	ProjectSection(SolutionItems) = preProject
+		..\Scripts\verify-encoding.ps1 = ..\Scripts\verify-encoding.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{FAC85DF4-623C-4872-9A90-1AD8E883EC4C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{1FA71E58-528D-4FF0-A00E-E535C0815317}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\main.yml = ..\.github\workflows\main.yml
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Shared", "Shared\Bloodmasters.Shared.csproj", "{392D7C6F-B977-4507-A10E-12AD6F02A617}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -26,6 +41,10 @@ Global
 		{45784815-6BB5-47B0-A4EA-78E3B1A4E098}.Debug|x86.Build.0 = Debug|x86
 		{45784815-6BB5-47B0-A4EA-78E3B1A4E098}.Release|x86.ActiveCfg = Release|x86
 		{45784815-6BB5-47B0-A4EA-78E3B1A4E098}.Release|x86.Build.0 = Release|x86
+		{392D7C6F-B977-4507-A10E-12AD6F02A617}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{392D7C6F-B977-4507-A10E-12AD6F02A617}.Debug|x86.Build.0 = Debug|Any CPU
+		{392D7C6F-B977-4507-A10E-12AD6F02A617}.Release|x86.ActiveCfg = Release|Any CPU
+		{392D7C6F-B977-4507-A10E-12AD6F02A617}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -34,5 +53,6 @@ Global
 		SolutionGuid = {66039823-8100-4135-B36B-FBC13B4047E7}
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{1FA71E58-528D-4FF0-A00E-E535C0815317} = {FAC85DF4-623C-4872-9A90-1AD8E883EC4C}
 	EndGlobalSection
 EndGlobal

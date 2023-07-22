@@ -108,7 +108,7 @@ namespace CodeImp.Bloodmasters.Client
 				}
 
 				// Move light to match actor position and change intensity
-				lightalpha = startalpha + (float)Math.Sin((float)(General.currenttime + fluxoffset) / 50f) * LIGHT_FLUX;
+				lightalpha = startalpha + (float)Math.Sin((float)(SharedGeneral.currenttime + fluxoffset) / 50f) * LIGHT_FLUX;
 				if(lightalpha > 1f) lightalpha = 1f; else if(lightalpha < 0f) lightalpha = 0f;
 				light.Color = ColorOperator.Scale(lightcolor, lightalpha);
 				light.Position = actor.Position + lightoffset;
@@ -118,27 +118,27 @@ namespace CodeImp.Bloodmasters.Client
 				sound.Position = actor.Position;
 
 				// Time to spawn smoke?
-				if(General.currenttime >= smoketime)
+				if(SharedGeneral.currenttime >= smoketime)
 				{
 					// Spawn a smoke particle
 					General.arena.p_trail.Add(actor.Position + Vector3D.Random(General.random, 3f, 3f, 4f), Vector3D.Random(General.random, 0.01f, 0.01f, 0.15f), General.ARGB(1f, 0.3f, 0.3f, 0.3f));
 
 					// Next smoke time
-					smoketime = General.currenttime + SMOKE_INTERVAL;
+					smoketime = SharedGeneral.currenttime + SMOKE_INTERVAL;
 				}
 
 				// Only spawn flames when not fading out
 				if(intensity > 1000)
 				{
 					// Time to spawn a flame?
-					if(General.currenttime >= spawntime)
+					if(SharedGeneral.currenttime >= spawntime)
 					{
 						// Spawn a flame now
 						new FireFlame(actor, spawnfront);
 						spawnfront = !spawnfront;
 
 						// Next spawn time
-						spawntime = General.currenttime + FLAME_INTERVAL;
+						spawntime = SharedGeneral.currenttime + FLAME_INTERVAL;
 					}
 				}
 			}

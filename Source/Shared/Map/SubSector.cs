@@ -5,11 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
 using System.Drawing;
-using System.IO;
-#if CLIENT
-#endif
 
 namespace CodeImp.Bloodmasters
 {

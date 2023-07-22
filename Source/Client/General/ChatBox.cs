@@ -6,16 +6,8 @@
 \********************************************************************/
 
 using System;
-using System.Text;
-using System.IO;
 using System.Drawing;
-using System.Globalization;
-using System.Collections;
-using System.Collections.Specialized;
-using System.Reflection;
 using System.Windows.Forms;
-using CodeImp.Bloodmasters;
-using CodeImp;
 using CodeImp.Bloodmasters.Client.Graphics;
 using SharpDX.Direct3D9;
 
@@ -209,7 +201,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(panelopen)
 			{
 				// Determine cursor
-				if(General.currenttime % 300 < 150) cursor = INPUT_CURSOR;
+				if(SharedGeneral.currenttime % 300 < 150) cursor = INPUT_CURSOR;
 
 				// Update the input resource
 				panelinput.Text = General.TrimColorCodes(inputstr) + cursor;

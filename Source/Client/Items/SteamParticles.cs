@@ -38,7 +38,7 @@ namespace CodeImp.Bloodmasters.Client
 		public override void Process()
 		{
 			// Time to spawn a particle?
-			if(nextspawntime < General.currenttime)
+			if(nextspawntime < SharedGeneral.currenttime)
 			{
 				// In screen?
 				if(Sector.VisualSector.InScreen)
@@ -48,7 +48,7 @@ namespace CodeImp.Bloodmasters.Client
 						Vector3D.Random(General.random, 0.01f, 0.01f, 0.2f), General.ARGB(1f, 0.5f, 0.5f, 0.5f));
 
 					// Make new spawn time
-					nextspawntime = General.currenttime + SPAWN_MIN_INTERVAL + General.random.Next(SPAWN_RND_INTERVAL);
+					nextspawntime = SharedGeneral.currenttime + SPAWN_MIN_INTERVAL + General.random.Next(SPAWN_RND_INTERVAL);
 				}
 			}
 

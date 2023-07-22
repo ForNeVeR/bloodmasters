@@ -6,12 +6,6 @@
 \********************************************************************/
 
 using System;
-using System.Drawing;
-using System.Globalization;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
-
 #if CLIENT
 using CodeImp.Bloodmasters.Client;
 #endif
@@ -22,7 +16,7 @@ namespace CodeImp.Bloodmasters.Server
 	public class NukeDetonation : Projectile
 	{
 		#region ================== Constants
-		
+
 		private const float HARD_RANGE = 20f;
 		private const float SOFT_RANGE = 60f;
 		private const int HARD_DAMAGE = 600;
@@ -33,43 +27,43 @@ namespace CodeImp.Bloodmasters.Server
 		private const int FIRE_INTENSITY = 2000;
 		private const float PROJECTILE_Z = 7f;
 		private const int HURT_DELAY = 500;
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		// Timing
 		private int firespawntime;
 		private int hurttime;
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public NukeDetonation(Vector3D pos, Client source) : base(pos, new Vector3D(0f, 0f, 0f), source)
 		{
 			// Set timing
-			firespawntime = General.currenttime + FIRE_DELAY;
-			hurttime = General.currenttime + HURT_DELAY;
-			
+			firespawntime = SharedGeneral.currenttime + FIRE_DELAY;
+			hurttime = SharedGeneral.currenttime + HURT_DELAY;
+
 			// Kill the source player immediately
 			// I use the falling death method here so that the actor
 			// completely disappears without sound.
 			source.Hurt(source, Client.DEATH_SELFNUKE, 1000, DEATHMETHOD.QUIET, true);
 		}
-		
+
 		// Dispose
 		public override void Dispose()
 		{
 			// Dispose base
 			base.Dispose();
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Methods
-		
+
 		// When processed
 		public override void Process()
 		{
@@ -77,12 +71,12 @@ namespace CodeImp.Bloodmasters.Server
 			Vector3D firepos;
 			bool spawnfire;
 			float amp;
-			
+
 			// Process projectile
 			base.Process();
-			
+
 			// Time to hurt the players?
-			if((General.currenttime > hurttime) && (hurttime > 0))
+			if((SharedGeneral.currenttime > hurttime) && (hurttime > 0))
 			{
 				// Go for all playing clients
 				foreach(Client c in General.server.clients)
@@ -94,12 +88,12 @@ namespace CodeImp.Bloodmasters.Server
 						Vector3D delta = c.State.pos - state.pos;
 						delta.z *= SPLASH_Z_SCALE;
 						distance = delta.Length();
-						
+
 						// Make push vector
 						Vector3D pushvec = delta;
 						pushvec.MakeLength(SOFT_RANGE - delta.Length());
 						pushvec.Scale(0.03f);
-						
+
 						// Lighting on fire?
 						if(distance < FIRE_RANGE)
 						{
@@ -107,7 +101,7 @@ namespace CodeImp.Bloodmasters.Server
 							if(c.Powerup != POWERUP.SHIELDS)
 								c.AddFireIntensity(FIRE_INTENSITY, this.Source);
 						}
-						
+
 						// Within hard range?
 						if(distance < HARD_RANGE)
 						{
@@ -129,10 +123,10 @@ namespace CodeImp.Bloodmasters.Server
 								// Take full damage
 								amp = 1f;
 							}
-							
+
 							// Calculate damage
 							float damage = ((1f - (distance / SOFT_RANGE)) * HARD_DAMAGE) * amp;
-							
+
 							// Doing any damage?
 							if(damage >= 2f)
 							{
@@ -144,13 +138,13 @@ namespace CodeImp.Bloodmasters.Server
 						}
 					}
 				}
-				
+
 				// Done hurting players
 				hurttime = 0;
 			}
-			
+
 			// Time to spawn the fire?
-			if(General.currenttime > firespawntime)
+			if(SharedGeneral.currenttime > firespawntime)
 			{
 				// Spawn fire projectiles
 				for(int i = 0; i < FIRE_PROJECTILES; i++)
@@ -159,7 +153,7 @@ namespace CodeImp.Bloodmasters.Server
 					angle = (float)(General.random.NextDouble() * Math.PI * 2D);
 					mx = (float)Math.Sin(angle);
 					my = (float)Math.Cos(angle);
-					
+
 					// Make random distance
 					do
 					{
@@ -169,10 +163,10 @@ namespace CodeImp.Bloodmasters.Server
 					      (distance < (float)General.random.NextDouble()) &&
 					      (distance < (float)General.random.NextDouble()) &&
 					      (distance < (float)General.random.NextDouble()));
-					
+
 					// Make final position
 					firepos = new Vector3D(state.pos.x + (mx * distance * FIRE_RANGE), state.pos.y + (my * distance * FIRE_RANGE), state.pos.z + PROJECTILE_Z);
-					
+
 					// Within hard range?
 					if((distance * FIRE_RANGE) < HARD_RANGE)
 					{
@@ -184,16 +178,16 @@ namespace CodeImp.Bloodmasters.Server
 						// Check if explosion reaches here
 						spawnfire = !General.server.map.FindRayMapCollision(state.pos, firepos);
 					}
-					
+
 					// Spawn the fire
 					if(spawnfire) new Flames(firepos, new Vector3D(0f, 0f, 0f), this.Source);
 				}
-				
+
 				// This was the last action, destroy projectile
 				this.Destroy(false, null);
 			}
 		}
-		
+
 		#endregion
 	}
 }

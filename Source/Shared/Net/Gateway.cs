@@ -22,106 +22,95 @@ The Gateway
 
 */
 
-using System;
-using System.IO;
+using System.Collections;
 using System.Net;
 using System.Net.Sockets;
-using System.Collections;
-using CodeImp;
-
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#elif LAUNCHER
-using CodeImp.Bloodmasters.Launcher;
-#else
-using CodeImp.Bloodmasters.Server;
-#endif
 
 namespace CodeImp.Bloodmasters
 {
-	public class Gateway
+	public abstract class Gateway
 	{
 		#region ================== Constants
-		
+
 		// Increase this when significant version changes
 		// have been made to keep outdated clients from connecting
 		public const int PROTOCOL_VERSION = 29;
-		
+
 		// Set this to output networking information
 		public const bool SHOW_NETWORKING_INFO = false;
-		
+
 		// This is the number of packets per connection to create per frame
 		public const int CLIENT_PACKETS_PER_FRAME = 1;
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		// Input/output socket
 		private Socket socket;
-		
+
 		// All connections
 		private Hashtable connections;
-		
+
 		// Incoming messages
 		private Queue in_messages;
-		
+
 		// Simulation
 		private int simping = 0;
 		private int simloss = 0;
 		private Queue sim_messages;
-		
+
 		#endregion
-		
+
 		#region ================== Properties
-		
+
 		public int SimulatePing
 		{
 			get { return simping; }
-			
+
 			set
 			{
 				if(value < 0) throw(new ArgumentException("Invalid value specified for ping simulation."));
 				simping = value;
 			}
 		}
-		
+
 		public int SimulateLoss
 		{
 			get { return simloss; }
-			
+
 			set
 			{
 				if((value > 100) || (value < 0)) throw(new ArgumentException("Invalid value specified for packetloss simulation."));
 				simloss = value;
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public Gateway(int port, int simping, int simloss)
 		{
 			// Create input/output socket
 			socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 			socket.Blocking = false;
-			
+
 			// Create endpoint to bind to
 			socket.Bind(new IPEndPoint(IPAddress.Any, port));
 			ShowNetworkingInfo("Gateway bound to port " + port);
-			
+
 			// Create arrays
 			in_messages = new Queue();
 			connections = new Hashtable();
 			sim_messages = new Queue();
-			
+
 			// Set lag simulation
 			this.SimulatePing = simping;
 			this.SimulateLoss = simloss;
 		}
-		
+
 		// Dispose
 		public void Dispose()
 		{
@@ -129,7 +118,7 @@ namespace CodeImp.Bloodmasters
 			Connection[] cc = new Connection[connections.Count];
 			connections.Values.CopyTo(cc, 0);
 			foreach(Connection c in cc) c.Dispose();
-			
+
 			// Clean up
 			try { socket.Close(); } catch(Exception) { }
 			socket = null;
@@ -140,11 +129,11 @@ namespace CodeImp.Bloodmasters
 			GC.SuppressFinalize(this);
 			ShowNetworkingInfo("Gateway disposed");
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Connections
-		
+
 		// This makes a connection for a specific address
 		public Connection CreateConnection(IPEndPoint addr)
 		{
@@ -163,7 +152,7 @@ namespace CodeImp.Bloodmasters
 				return c;
 			}
 		}
-		
+
 		// This destroys a connection
 		public void DestroyConnection(IPEndPoint addr)
 		{
@@ -177,7 +166,7 @@ namespace CodeImp.Bloodmasters
 				c.Dispose();
 			}
 		}
-		
+
 		// This returns a connection for a specified address
 		// Returns null when no connection is open for the address
 		public Connection FindConnection(IPEndPoint addr)
@@ -194,17 +183,17 @@ namespace CodeImp.Bloodmasters
 				return null;
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Messages
-		
+
 		// This submits a message for sending
 		public void SendMessage(NetMessage msg)
 		{
 			// TODO: Implement packing algorythm
 			// to combine and sort messages into packets
-			
+
 			// DEBUG:
 			if(!msg.Reliable)
 			{
@@ -217,12 +206,12 @@ namespace CodeImp.Bloodmasters
 			{
 				ShowNetworkingInfo("Sending " + msg.Command + " message " + msg.ID + " to " + msg.Address + " (" + msg.Length + " bytes)");
 			}
-			
+
 			// Send immediately
 			try { socket.SendTo(msg.GetMessageData(), (EndPoint)msg.Address); }
 			catch(SocketException) { }
 		}
-		
+
 		// This gets a message
 		// Returns null when no more messages available
 		public NetMessage GetNextMessage()
@@ -239,7 +228,7 @@ namespace CodeImp.Bloodmasters
 				return null;
 			}
 		}
-		
+
 		// This adds a message to the receive buffer
 		internal void ReceivedMessage(NetMessage msg)
 		{
@@ -250,7 +239,7 @@ namespace CodeImp.Bloodmasters
 				if(simping > 0)
 				{
 					// Add to ping simulation buffer
-					msg.SimSendTime = General.GetCurrentTime() + simping / 2;
+					msg.SimSendTime = SharedGeneral.GetCurrentTime() + simping / 2;
 					sim_messages.Enqueue(msg);
 				}
 				else
@@ -260,18 +249,18 @@ namespace CodeImp.Bloodmasters
 				}
 			}
 		}
-		
+
 		// This creates a new message
 		public NetMessage CreateMessage(IPEndPoint addr, MsgCmd cmd)
 		{
 			// Make a new message
 			return new NetMessage(this, addr, cmd);
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Processing
-		
+
 		// This processes networking
 		public void Process()
 		{
@@ -281,7 +270,7 @@ namespace CodeImp.Bloodmasters
 			int received;
 			bool disconnected;
 			Connection conn = null;
-			
+
 			// Continue while data is available
 			while(socket.Available > 0)
 			{
@@ -293,7 +282,7 @@ namespace CodeImp.Bloodmasters
 					addr = (IPEndPoint)addrep;
 				}
 				catch(Exception) { }
-				
+
 				// Apply packetloss?
 				if(simloss > 0)
 				{
@@ -305,7 +294,7 @@ namespace CodeImp.Bloodmasters
 						received = 0;
 					}
 				}
-				
+
 				// Received anything?
 				if(received > 0)
 				{
@@ -314,36 +303,36 @@ namespace CodeImp.Bloodmasters
 						// Make stream from entire packet data
 						MemoryStream pstream = new MemoryStream(buffer, 0, received, false);
 						BinaryReader preader = new BinaryReader(pstream);
-						
+
 						// DEBUG:
 						ShowNetworkingInfo("Received packet from " + addr + " (" + received + " bytes)");
-						
+
 						// Find connection with this address
 						conn = FindConnection(addr);
 						if(conn != null) conn.ReceivedPacket(received);
-						
+
 						// Continue until end of packet reached
 						while(pstream.Position < pstream.Length)
 						{
 							// Read first 2 bytes (message length)
 							int msglen = unchecked((ushort)IPAddress.NetworkToHostOrder(unchecked((short)preader.ReadUInt16())));
-							
+
 							// Compatability with older version
 							msglen = ((msglen << 8) & 0x0000FF00) | ((msglen >> 8) & 0x000000FF);
-							
+
 							// Read the entire message
 							pstream.Seek(-2, SeekOrigin.Current);
 							byte[] msgdata = preader.ReadBytes(msglen);
-							
+
 							// Create the message from data
 							NetMessage msg = new NetMessage(this, addr, conn, msgdata);
-							
+
 							// Connectionless message?
 							if(conn == null)
 							{
 								// DEBUG:
 								ShowNetworkingInfo("Received " + msg.Command + " message from " + msg.Address + " (" + msg.Length + " bytes)");
-								
+
 								// Put message in receive buffer
 								ReceivedMessage(msg);
 							}
@@ -353,11 +342,11 @@ namespace CodeImp.Bloodmasters
 								msg.Connection.ReceiveMessage(msg);
 							}
 						}
-						
+
 						// Close streams
 						preader.Close();
 						pstream.Close();
-						
+
 					}
 					catch(Exception e)
 					{
@@ -367,7 +356,7 @@ namespace CodeImp.Bloodmasters
 					}
 				}
 			}
-			
+
 			do
 			{
 				// Go for all connections
@@ -376,10 +365,10 @@ namespace CodeImp.Bloodmasters
 				{
 					// Get the connection
 					Connection c = (Connection)de.Value;
-					
+
 					// Process connection
 					c.Process();
-					
+
 					// Disconnected?
 					if(c.Disposed)
 					{
@@ -396,7 +385,7 @@ namespace CodeImp.Bloodmasters
 						{
 							// DEBUG:
 							ShowNetworkingInfo("Sending packet to " + p.Address + " (" + p.Length + " bytes)");
-							
+
 							// Send packet
 							try { socket.SendTo(p.GetData(), (EndPoint)p.Address); }
 							catch(SocketException) { }
@@ -406,60 +395,31 @@ namespace CodeImp.Bloodmasters
 			}
 			// Continue until no more connections lost
 			while(disconnected);
-			
+
 			// Move messages from ping simulation
 			while((sim_messages.Count > 0) &&
-			(((NetMessage)sim_messages.Peek()).SimSendTime < General.GetCurrentTime()))
+			(((NetMessage)sim_messages.Peek()).SimSendTime < SharedGeneral.GetCurrentTime()))
 				in_messages.Enqueue(sim_messages.Dequeue());
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Debug Output
-		
+
 		// This shows networking info
 		public void ShowNetworkingInfo(string info)
 		{
 			if(SHOW_NETWORKING_INFO) WriteLine("NET: " + info);
 		}
-		
+
 		// This writes an output message
-		private void WriteLine(string text)
-		{
-			#if CLIENT
-				
-				// For the client, output to server window
-				if(General.serverwindow != null) General.serverwindow.WriteLine(text);
-				
-			#elif SERVER
-				
-				// For the server, output to standard console
-				Console.WriteLine(text);
-				
-				// Write to log file as well?
-				if(General.logtofile)
-				{
-					// Append text to the file
-					StreamWriter logf = File.AppendText(General.logfilename);
-					logf.WriteLine(General.StripColorCodes(text));
-					logf.Flush();
-					logf.Close();
-				}
-				
-			#endif
-		}
-		
+        protected abstract void WriteLine(string text);
+
 		// This outputs statistics
-		public void WriteStats(string statsmsg)
+		public virtual void WriteStats(string statsmsg)
 		{
-			#if CLIENT
-				
-				// Output stats message
-				General.console.AddMessage(statsmsg, true);
-				
-			#endif
 		}
-		
+
 		#endregion
 	}
 }

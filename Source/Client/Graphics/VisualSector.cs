@@ -116,7 +116,7 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Constructor / Destructor
 
 		// Constructor
-		public VisualSector(Sector sector)
+		public VisualSector(ClientSector sector)
 		{
 			// Make arrays
 			sectors = new ArrayList();
@@ -198,7 +198,7 @@ namespace CodeImp.Bloodmasters.Client
 						    (sg.Sidedef.TextureMiddle.Trim() != "-")))
 						{
 							// Make the VisualSidedef and add it to the list
-							sidedefs.Add(new VisualSidedef(sg.Sidedef, this));
+							sidedefs.Add(new VisualSidedef((ClientSidedef)sg.Sidedef, this));
 						}
 					}
 				}
@@ -269,7 +269,7 @@ namespace CodeImp.Bloodmasters.Client
 			DestroyGeometry();
 
 			// Copy sectors to list and make references
-			foreach(Sector s in vs.sectors)
+			foreach(ClientSector s in vs.sectors)
 			{
 				// Copy and make references
 				sectors.Add(s);
@@ -620,7 +620,7 @@ namespace CodeImp.Bloodmasters.Client
 		public unsafe void BuildGeometry()
 		{
 			ITextureResource tc, tf;
-			Sector sc;
+			ClientSector sc;
 			int i;
 			float lmtop = 0f;
 			ArrayList newverts;
@@ -635,7 +635,7 @@ namespace CodeImp.Bloodmasters.Client
 			for(i = 0; i < sectors.Count; i++)
 			{
 				// Get the sector and textures
-				sc = (Sector)sectors[i];
+				sc = (ClientSector)sectors[i];
 				tc = (ITextureResource)tceils[i];
 				tf = (ITextureResource)tfloors[i];
 
@@ -884,7 +884,7 @@ namespace CodeImp.Bloodmasters.Client
 		// This will render the sector floor geometry
 		public void RenderFlat()
 		{
-			Sector sc;
+            ClientSector sc;
 
 			// Set the vertex stream
 			Direct3D.d3dd.SetStreamSource(0, mapvertices, 0, MVertex.Stride);
@@ -893,7 +893,7 @@ namespace CodeImp.Bloodmasters.Client
 			for(int i = 0; i < sectors.Count; i++)
 			{
 				// Get the sector
-				sc = (Sector)sectors[i];
+				sc = (ClientSector)sectors[i];
 
 				// Does it have a floor?
 				if(tfloors[i] != null)
@@ -909,7 +909,7 @@ namespace CodeImp.Bloodmasters.Client
 		public void RenderGeometry()
 		{
 			ITextureResource t;
-			Sector sc;
+			ClientSector sc;
 			Matrix m;
 			int i;
 
@@ -932,7 +932,7 @@ namespace CodeImp.Bloodmasters.Client
 				for(i = 0; i < sectors.Count; i++)
 				{
 					// Get the sector and texture
-					sc = (Sector)sectors[i];
+					sc = (ClientSector)sectors[i];
 					t = (ITextureResource)tceils[i];
 
 					// Ceiling?
@@ -954,7 +954,7 @@ namespace CodeImp.Bloodmasters.Client
 				for(i = 0; i < sectors.Count; i++)
 				{
 					// Get the sector and texture
-					sc = (Sector)sectors[i];
+					sc = (ClientSector)sectors[i];
 					t = (ITextureResource)tfloors[i];
 
 					// Floor?
@@ -989,7 +989,7 @@ namespace CodeImp.Bloodmasters.Client
 				foreach(VisualSidedef sd in sidedefs)
 				{
 					// Get back sector
-					if(sd.Sidedef.OtherSide != null) sc = sd.Sidedef.OtherSide.Sector; else sc = null;
+					if(sd.Sidedef.OtherSide != null) sc = (ClientSector)sd.Sidedef.OtherSide.Sector; else sc = null;
 
 					// Back sector dynamic?
 					if((sc != null) && sc.Dynamic)

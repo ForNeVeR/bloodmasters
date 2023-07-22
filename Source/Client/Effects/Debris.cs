@@ -6,7 +6,6 @@
 \********************************************************************/
 
 using System;
-using System.Numerics;
 using SharpDX;
 using SharpDX.Direct3D9;
 using SharpDX.Mathematics.Interop;
@@ -36,7 +35,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Position/velocity
 		protected Vector3D vel;
-		protected Sector sector = null;
+		protected ClientSector sector = null;
 		private bool disposed = false;
 		private int findsectorinterleave;
 
@@ -80,11 +79,11 @@ namespace CodeImp.Bloodmasters.Client
 			sprite.RotateX = (float)Math.PI * 0.7f;
 
 			// Where are we now?
-			sector = General.map.GetSubSectorAt(pos.x, pos.y).Sector;
+			sector = (ClientSector)General.map.GetSubSectorAt(pos.x, pos.y).Sector;
 			size_floor = sector.CurrentFloor;
 
 			// Set maximum timeout
-			fadeouttime = General.currenttime + MAX_DELAY;
+			fadeouttime = SharedGeneral.currenttime + MAX_DELAY;
 
 			// Find sector interleave
 			findsectorinterleave = General.random.Next(FIND_SECTOR_INTERLEAVE);
@@ -93,7 +92,7 @@ namespace CodeImp.Bloodmasters.Client
 			rotatespeed = ROTATE_MIN_DELAY + General.random.Next(ROTATE_RANDOM_DELAY);
 			if(General.random.Next(100) < 50) changedir = -1; else changedir = 1;
 			direction = General.random.Next(16);
-			nextdirtime = General.currenttime + rotatespeed;
+			nextdirtime = SharedGeneral.currenttime + rotatespeed;
 			texdirmatrix = DirectionCellMatrix(direction);
 		}
 
@@ -116,7 +115,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(!foudeoutset)
 			{
 				// Set fade out time
-				fadeouttime = General.currenttime + FADEOUT_DELAY + General.random.Next(RANDOM_DELAY);
+				fadeouttime = SharedGeneral.currenttime + FADEOUT_DELAY + General.random.Next(RANDOM_DELAY);
 				foudeoutset = true;
 			}
 		}
@@ -147,7 +146,7 @@ namespace CodeImp.Bloodmasters.Client
 		public void FindCurrentSector()
 		{
 			// Sector where we are now
-			sector = General.map.GetSubSectorAt(pos.x, pos.y).Sector;
+			sector = (ClientSector)General.map.GetSubSectorAt(pos.x, pos.y).Sector;
 		}
 
 		// Processes the debris and disposes it when decayed
@@ -227,7 +226,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(!disposed)
 			{
 				// Time to rotate?
-				if((nextdirtime > 0) && (nextdirtime < General.currenttime))
+				if((nextdirtime > 0) && (nextdirtime < SharedGeneral.currenttime))
 				{
 					// Rotate now
 					direction += changedir;
@@ -243,7 +242,7 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Fade out?
-			if(General.currenttime > fadeouttime) fade -= FADEOUT_SPEED;
+			if(SharedGeneral.currenttime > fadeouttime) fade -= FADEOUT_SPEED;
 			if(fade <= 0f) this.Dispose();
 
 			// Not disposed already?
@@ -258,7 +257,7 @@ namespace CodeImp.Bloodmasters.Client
 				sprite.Size = size + resizeextra;
 				sprite.Position = pos + new Vector3D(0f, 0f, 0.4f);
 				sprite.Update();
-				sector = sprite.Sector;
+				sector = (ClientSector)sprite.Sector;
 			}
 		}
 

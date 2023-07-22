@@ -14,7 +14,7 @@ namespace CodeImp.Bloodmasters.Client
 		public MovementSound(Thing t) : base(t)
 		{
 			// Indicate that this sector must play movement sounds
-			t.Sector.PlayMovementSound = true;
+            ((ClientSector)t.Sector).PlayMovementSound = true;
 		}
 	}
 }

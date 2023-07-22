@@ -3,7 +3,7 @@ using SharpDX;
 
 namespace Bloodmasters.Tests.Graphics;
 
-public class Vector3ExTests
+public class VectorExTests
 {
     private static Matrix GetEmptyMatrix() => new Matrix();
     private static Matrix GetMatrixWithNormalColumns1()

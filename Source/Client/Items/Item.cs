@@ -36,7 +36,7 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Variables
 
 		// References
-		private Sector sector = null;
+		private ClientSector sector = null;
 
 		// Identification
 		private string key;
@@ -87,7 +87,7 @@ namespace CodeImp.Bloodmasters.Client
 		public int RespawnDelay { get { return respawndelay; } set { respawndelay = value; } }
 		public bool IsTaken { get { return taken; } }
 		public bool IsAttached { get { return attached; } }
-		public Sector Sector { get { return sector; } }
+		public ClientSector Sector { get { return sector; } }
 		public string Description { get { return description; } set { description = value; } }
 		public bool Temporary { get { return temporary; } set { temporary = value; } }
 		public Client Owner { get { return owner; } }
@@ -217,7 +217,7 @@ namespace CodeImp.Bloodmasters.Client
 		public void Move(float nx, float ny, float nz)
 		{
 			// Find the new sector
-			Sector newsec = General.map.GetSubSectorAt(nx, ny).Sector;
+			ClientSector newsec = (ClientSector)General.map.GetSubSectorAt(nx, ny).Sector;
 			if(newsec != sector)
 			{
 				// Sector changes!
@@ -276,7 +276,7 @@ namespace CodeImp.Bloodmasters.Client
 
 				// Take item and set new respawn time
 				taken = true;
-				respawntime = General.currenttime + respawndelay;
+				respawntime = SharedGeneral.currenttime + respawndelay;
 				willrespawn = (respawndelay != Consts.NEVER_RESPAWN_TIME);
 			}
 
@@ -317,7 +317,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(animation != null) animation.Process();
 
 			// Time to respawn?
-			if(taken && willrespawn && (respawntime < General.currenttime)) Respawn(true);
+			if(taken && willrespawn && (respawntime < SharedGeneral.currenttime)) Respawn(true);
 
 			// Drop to floor?
 			if(onfloor) pos.z = sector.CurrentFloor;
@@ -343,7 +343,7 @@ namespace CodeImp.Bloodmasters.Client
 					if(bob)
 					{
 						// Bob settings
-						bobalpha -= (float)(1f + Math.Sin(General.currenttime * 0.01f + boboffset)) * ITEM_BOB_ALPHA_AMOUNT;
+						bobalpha -= (float)(1f + Math.Sin(SharedGeneral.currenttime * 0.01f + boboffset)) * ITEM_BOB_ALPHA_AMOUNT;
 						sx = pos.x;
 						sy = pos.y;
 					}
@@ -379,7 +379,7 @@ namespace CodeImp.Bloodmasters.Client
 					Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
 
 					// Determine bob Z
-					if(bob) bobz += (float)(ITEM_BOB_FLOAT + Math.Sin(General.currenttime * 0.01f + boboffset)) * ITEM_BOB_AMOUNT;
+					if(bob) bobz += (float)(ITEM_BOB_FLOAT + Math.Sin(SharedGeneral.currenttime * 0.01f + boboffset)) * ITEM_BOB_AMOUNT;
 
 					// Position the item
 					Matrix apos = Matrix.Translation(pos.x - spriteoffset, pos.y + spriteoffset, bobz + spriteoffset);

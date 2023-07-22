@@ -6,10 +6,6 @@
 \********************************************************************/
 
 using System;
-using System.Drawing;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
 using SharpDX;
 using SharpDX.Direct3D9;
 
@@ -38,12 +34,12 @@ namespace CodeImp.Bloodmasters.Client
 		public static void RenderAt(float x, float y, float z)
 		{
 			// Determine size over time
-			float size = SIZE * (float)Math.Sin((float)General.currenttime * SPEED);
+			float size = SIZE * (float)Math.Sin((float)SharedGeneral.currenttime * SPEED);
 
 			// World matrix
 			Matrix scale = Matrix.Scaling(size, size, 1f);
 			Matrix position = Matrix.Translation(x, y, z + Z_BIAS);
-			Matrix rotate = Matrix.RotationZ((float)General.currenttime * 0.004f);
+			Matrix rotate = Matrix.RotationZ((float)SharedGeneral.currenttime * 0.004f);
 			Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Multiply(Matrix.Multiply(rotate, scale), position));
 
 			// Render shadow

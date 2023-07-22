@@ -1280,7 +1280,7 @@ namespace CodeImp.Bloodmasters.Launcher
 					string mname = wfparts[1].Substring(0, wfparts[1].Length - 4);
 
 					// Load the map information
-					Map wadmap = new Map(mname, true, General.temppath);
+					Map wadmap = new LauncherMap(mname, true, General.temppath);
 
 					// Check if game type is supported
 					if(((cmbServerType.SelectedIndex == 0) && wadmap.SupportsDM) ||
@@ -1668,7 +1668,7 @@ namespace CodeImp.Bloodmasters.Launcher
 				try
 				{
 					// Load the map information
-					Map wadmap = new Map(lstMaps.SelectedItem.ToString(), true, General.temppath);
+					Map wadmap = new LauncherMap(lstMaps.SelectedItem.ToString(), true, General.temppath);
 
 					// Display map information
 					lblMapTitle.Text = wadmap.Title;

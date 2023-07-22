@@ -6,11 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Drawing;
 using System.Globalization;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -45,7 +41,7 @@ namespace CodeImp.Bloodmasters.Client
 			SetTexture(textures[limpindex].texture);
 
 			// Next particle time
-			particletime = General.currenttime + General.random.Next(PARTICLE_RANDOM_TIME);
+			particletime = SharedGeneral.currenttime + General.random.Next(PARTICLE_RANDOM_TIME);
 		}
 
 		#endregion
@@ -103,7 +99,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(!Disposed)
 			{
 				// Time to spawn particle?
-				if((General.currenttime > particletime) && !Stopped && sector.VisualSector.InScreen)
+				if((SharedGeneral.currenttime > particletime) && !Stopped && sector.VisualSector.InScreen)
 				{
 					// Spawn particle
 					Vector3D particlevel = vel * 0.5f + Vector3D.Random(General.random, 0.02f, 0.02f, 0f);
@@ -119,7 +115,7 @@ namespace CodeImp.Bloodmasters.Client
 		public override void Collide(object hitobj)
 		{
 			Sidedef sd;
-			Sector s;
+			ClientSector s;
 			bool onfloor;
 
 			// Colliding with a wall?
@@ -158,7 +154,7 @@ namespace CodeImp.Bloodmasters.Client
 			else if(hitobj is Sector)
 			{
 				// Get the sector
-				s = (Sector)hitobj;
+				s = (ClientSector)hitobj;
 
 				// Hitting the floor?
 				if(s.CurrentFloor > (pos.z - 1f))

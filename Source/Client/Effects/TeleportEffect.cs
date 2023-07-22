@@ -7,9 +7,6 @@
 
 using System;
 using System.Drawing;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -24,7 +21,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		private Sprite sprite;
 		private Animation ani;
-		private Sector sector;
+		private ClientSector sector;
 		private bool disposed;
 		private int teamcolor;
 
@@ -64,7 +61,7 @@ namespace CodeImp.Bloodmasters.Client
 			this.renderpass = 2;
 
 			// Determine current sector
-			sector = General.map.GetSubSectorAt(pos.x, pos.y).Sector;
+			sector = (ClientSector)General.map.GetSubSectorAt(pos.x, pos.y).Sector;
 
 			// Spawn the light
 			if(small)

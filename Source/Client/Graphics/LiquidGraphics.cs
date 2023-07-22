@@ -241,8 +241,8 @@ namespace CodeImp.Bloodmasters.Client
 					ry = Math.Abs(y - (TEXTURE_SIZE * 0.5f)) * 0.002f * rotatespeed;
 
 					// Determine vertex coordinates
-					vertices1[vi].x = x + (float)Math.Sin((float)(General.currenttime + ox) * rx) * ROTATE_LENGTH;
-					vertices1[vi].y = y + (float)Math.Cos((float)(General.currenttime + oy) * ry) * ROTATE_LENGTH;
+					vertices1[vi].x = x + (float)Math.Sin((float)(SharedGeneral.currenttime + ox) * rx) * ROTATE_LENGTH;
+					vertices1[vi].y = y + (float)Math.Cos((float)(SharedGeneral.currenttime + oy) * ry) * ROTATE_LENGTH;
 
 					// Determine rotate offset by number of pixels from center
 					ox = (int)Math.Abs(x - (TEXTURE_SIZE * 0.5f)) * 150 + (int)Math.Abs(y - (TEXTURE_SIZE * 0.5f)) * 200;
@@ -253,8 +253,8 @@ namespace CodeImp.Bloodmasters.Client
 					ry = ((TEXTURE_SIZE * 0.5f) - Math.Abs(y - (TEXTURE_SIZE * 0.5f))) * 0.002f * rotatespeed;
 
 					// Determine vertex coordinates
-					vertices2[vi].x = x - (float)Math.Sin((float)(General.currenttime + ox) * rx) * ROTATE_LENGTH;
-					vertices2[vi].y = y - (float)Math.Cos((float)(General.currenttime + oy) * ry) * ROTATE_LENGTH;
+					vertices2[vi].x = x - (float)Math.Sin((float)(SharedGeneral.currenttime + ox) * rx) * ROTATE_LENGTH;
+					vertices2[vi].y = y - (float)Math.Cos((float)(SharedGeneral.currenttime + oy) * ry) * ROTATE_LENGTH;
 
 					// Move on
 					x += CELL_SIZE_PIXELS;

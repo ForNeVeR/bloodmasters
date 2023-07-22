@@ -6,11 +6,9 @@
 \********************************************************************/
 
 using System;
+using System.Collections;
 using System.Drawing;
 using System.Globalization;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -133,7 +131,7 @@ namespace CodeImp.Bloodmasters.Client
 			SetName(name);
 
 			// Initialize ClientMove timer
-			clientmovetime = General.currenttime;
+			clientmovetime = SharedGeneral.currenttime;
 
 			// Add to scoreboard
 			General.scoreboard.AddClient(this);
@@ -407,7 +405,7 @@ namespace CodeImp.Bloodmasters.Client
 			// Set the timeout
 			powerupfired = fired;
 			powercount = count;
-			powerinterval = General.currenttime;
+			powerinterval = SharedGeneral.currenttime;
 		}
 
 		// This processes powerups, if any
@@ -467,7 +465,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(powercount < 0) powercount = 0;
 
 			// Powerup process time?
-			if(powerinterval <= General.currenttime)
+			if(powerinterval <= SharedGeneral.currenttime)
 			{
 				// Determine what powerup we are carrying
 				switch(powerup)
@@ -484,7 +482,7 @@ namespace CodeImp.Bloodmasters.Client
 			bool haslightning;
 
 			// Advance interval time
-			powerinterval = General.currenttime + POWERUP_STATIC_RATE;
+			powerinterval = SharedGeneral.currenttime + POWERUP_STATIC_RATE;
 			if(powerintcount == 0) powerintcount = 1; else powerintcount = 0;
 
 			// Must have an actor to continue
@@ -1032,7 +1030,7 @@ namespace CodeImp.Bloodmasters.Client
 				NetMessage msg = General.conn.CreateMessage(MsgCmd.ClientMove, false);
 				if(msg != null)
 				{
-					msg.AddData((int)General.currenttime);
+					msg.AddData((int)SharedGeneral.currenttime);
 					msg.AddData((float)moveangle);
 					msg.AddData((float)aimangle);
 					msg.AddData((float)aimanglez);
@@ -1132,7 +1130,7 @@ namespace CodeImp.Bloodmasters.Client
 					actor.AimAngleZ = aimanglez;
 
 					// Make a local move
-					lm = new LocalMove(General.currenttime, walkangle);
+					lm = new LocalMove(SharedGeneral.currenttime, walkangle);
 					localmoves.Add(lm);
 
 					// Apply move to actor
@@ -1143,7 +1141,7 @@ namespace CodeImp.Bloodmasters.Client
 					// ClientMove at 'idle' interval.
 					if(((prevwalkangle != walkangle) ||
 						(prevshooting != shooting) ||
-						(clientmovetime < General.currenttime)) &&
+						(clientmovetime < SharedGeneral.currenttime)) &&
 						(General.conn != null))
 					{
 						// Send a ClientMove and update send time
@@ -1173,7 +1171,7 @@ namespace CodeImp.Bloodmasters.Client
 			float angle = -2f;
 
 			// Allowed to move?
-			if(actor.TeleportLock < General.currenttime)
+			if(actor.TeleportLock < SharedGeneral.currenttime)
 			{
 				// Get the control key states
 				cd = General.gamewindow.ControlPressed("walkdown");

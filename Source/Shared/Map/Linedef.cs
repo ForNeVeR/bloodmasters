@@ -5,11 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.IO;
-#if CLIENT
-#endif
-
 namespace CodeImp.Bloodmasters
 {
 	public class Linedef

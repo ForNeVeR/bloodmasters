@@ -48,7 +48,7 @@ namespace CodeImp.Bloodmasters.Client
 			state.vel = vel;
 
 			// Set fade out time
-			fadeouttime = General.currenttime + FADEOUT_DELAY;
+			fadeouttime = SharedGeneral.currenttime + FADEOUT_DELAY;
 
 			// Make the light
 			light = new DynamicLight(start, 12f, 0, 2);
@@ -58,8 +58,8 @@ namespace CodeImp.Bloodmasters.Client
 			new PhoenixFlame(state.pos + Vector3D.Random(General.random, 0f, 0f, -4f), state.vel);
 
 			// Next spawn time
-			spawntime = General.currenttime + (FLAME_INTERVAL / 2);
-			smoketime = General.currenttime + General.random.Next(SMOKE_INTERVAL);
+			spawntime = SharedGeneral.currenttime + (FLAME_INTERVAL / 2);
+			smoketime = SharedGeneral.currenttime + General.random.Next(SMOKE_INTERVAL);
 
 			// Random flux offset
 			fluxoffset = General.random.Next(1000);
@@ -105,7 +105,7 @@ namespace CodeImp.Bloodmasters.Client
 			//firesound.Position = state.pos;
 
 			// fadeout time?
-			if(fadeouttime < General.currenttime)
+			if(fadeouttime < SharedGeneral.currenttime)
 			{
 				// Decrease range
 				intensity -= FADEOUT_SPEED;
@@ -116,33 +116,33 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Update the light
-			lightalpha = (intensity * 0.8f) + (float)Math.Sin((float)(General.currenttime + fluxoffset) / 50f) * LIGHT_FLUX;
+			lightalpha = (intensity * 0.8f) + (float)Math.Sin((float)(SharedGeneral.currenttime + fluxoffset) / 50f) * LIGHT_FLUX;
 			if(lightalpha > 1f) lightalpha = 1f; else if(lightalpha < 0f) lightalpha = 0f;
 			light.Position = this.state.pos;
 			light.Color = General.ARGB(lightalpha, 0.6f, 0.5f, 0.3f);
 
 			// Only spawn stuff when not decreased
-			if(fadeouttime > General.currenttime)
+			if(fadeouttime > SharedGeneral.currenttime)
 			{
 				// Time to spawn a flame?
-				if(General.currenttime >= spawntime)
+				if(SharedGeneral.currenttime >= spawntime)
 				{
 					// Spawn a flame now
 					new PhoenixFlame(state.pos + Vector3D.Random(General.random, intensity * RANGE, intensity * RANGE, 6f),
 									state.vel);
 
 					// Next spawn time
-					spawntime = General.currenttime + FLAME_INTERVAL;
+					spawntime = SharedGeneral.currenttime + FLAME_INTERVAL;
 				}
 
 				// Time to spawn smoke?
-				if((General.currenttime >= smoketime) && this.InScreen)
+				if((SharedGeneral.currenttime >= smoketime) && this.InScreen)
 				{
 					// Spawn a smoke particle
 					General.arena.p_smoke.Add(this.Position + Vector3D.Random(General.random, intensity * RANGE, intensity * RANGE, 6f), Vector3D.Random(General.random, 0.01f, 0.01f, 0.15f), General.ARGB(1f, 0.6f, 0.6f, 0.6f));
 
 					// Next smoke time
-					smoketime = General.currenttime + SMOKE_INTERVAL;
+					smoketime = SharedGeneral.currenttime + SMOKE_INTERVAL;
 				}
 			}
 		}

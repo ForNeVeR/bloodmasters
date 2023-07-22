@@ -5,11 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
 using SharpDX;
 using SharpDX.Direct3D9;
 
@@ -39,7 +34,7 @@ namespace CodeImp.Bloodmasters.Client
 			// World matrix
 			Matrix scale = Matrix.Scaling(SIZE, SIZE, 1f);
 			Matrix position = Matrix.Translation(x, y, z + Z_BIAS);
-			Matrix rotate = Matrix.RotationZ((float)General.currenttime * 0.004f);
+			Matrix rotate = Matrix.RotationZ((float)SharedGeneral.currenttime * 0.004f);
 			Direct3D.d3dd.SetTransform(TransformState.World,  Matrix.Multiply(Matrix.Multiply(rotate, scale), position));
 
 			// Render shadow

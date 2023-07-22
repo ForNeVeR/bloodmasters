@@ -429,7 +429,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(General.gamestate == GAMESTATE.PLAYING)
 			{
 				// Make a nice string from remaining milliseconds
-				int msleft = General.gamestateend - General.currenttime;
+				int msleft = General.gamestateend - SharedGeneral.currenttime;
 				TimeSpan t = new TimeSpan((long)msleft * 10000L);
 				string timeleft = (int)Math.Floor(t.TotalMinutes) + ":" + t.Seconds.ToString("00");
 
@@ -561,7 +561,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(visible && updateneeded) UpdateBoard();
 
 			// Calculate number of seconds
-			int msleft = General.gamestateend - General.currenttime;
+			int msleft = General.gamestateend - SharedGeneral.currenttime;
 			TimeSpan t = new TimeSpan((long)msleft * 10000L);
 
 			// Time to update game line?

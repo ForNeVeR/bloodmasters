@@ -65,7 +65,7 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Copy properties
-			state = new PhysicsState(General.map);
+			state = new ClientPhysicsState(General.map);
 			state.Bounce = false;
 			state.IsPlayer = false;
 			state.Blocking = false;

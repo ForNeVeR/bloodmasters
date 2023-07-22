@@ -9,16 +9,11 @@
 // commands as well as processing the commands.
 
 using System;
-using System.Text;
-using System.IO;
-using System.Drawing;
-using System.Globalization;
-using System.Collections;
 using System.Collections.Specialized;
+using System.Drawing;
+using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using CodeImp.Bloodmasters;
-using CodeImp;
 using CodeImp.Bloodmasters.Client.Graphics;
 using SharpDX.Direct3D9;
 
@@ -389,7 +384,7 @@ namespace CodeImp.Bloodmasters.Client
 
 				// Add message to the list
 				screenlines[idx] = MakeMessage(msg, idx);
-				linetimeout[idx] = General.currenttime + GConsole.line_time;
+				linetimeout[idx] = SharedGeneral.currenttime + GConsole.line_time;
 			}
 		}
 
@@ -406,7 +401,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(screenlines[0] != null)
 			{
 				// Line timeout?
-				if(linetimeout[0] < General.currenttime)
+				if(linetimeout[0] < SharedGeneral.currenttime)
 				{
 					// Move all lines up
 					MoveScreenLinesUp();
@@ -417,7 +412,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(panelopen)
 			{
 				// Determine cursor
-				if(General.currenttime % 300 < 150) cursor = INPUT_CURSOR;
+				if(SharedGeneral.currenttime % 300 < 150) cursor = INPUT_CURSOR;
 
 				// Update the input resource
 				panelinput.Text = INPUT_PROMPT + General.TrimColorCodes(inputstr) + cursor;
@@ -736,7 +731,7 @@ namespace CodeImp.Bloodmasters.Client
 			NetMessage msg = General.conn.CreateMessage(MsgCmd.ChangeTeam, true);
 			if(msg != null)
 			{
-				msg.AddData((int)General.currenttime);
+				msg.AddData((int)SharedGeneral.currenttime);
 				msg.AddData((int)team);
 				msg.AddData((bool)spect);
 				msg.Send();

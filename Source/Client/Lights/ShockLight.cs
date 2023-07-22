@@ -25,7 +25,7 @@ namespace CodeImp.Bloodmasters.Client
 		public ShockLight(Vector3D pos, int duration) : base(pos, 10f, General.ARGB(0.2f, 0.2f, 0.6f, 1f), 2)
 		{
 			// Set the timeout
-			timeout = General.currenttime + duration;
+			timeout = SharedGeneral.currenttime + duration;
 		}
 
 		// Disposer
@@ -46,7 +46,7 @@ namespace CodeImp.Bloodmasters.Client
 			base.Process();
 
 			// Dispose when timed out
-			if(timeout < General.currenttime) this.Dispose();
+			if(timeout < SharedGeneral.currenttime) this.Dispose();
 		}
 
 		#endregion

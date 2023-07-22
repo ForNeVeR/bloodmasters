@@ -569,13 +569,6 @@ namespace CodeImp.Bloodmasters.Launcher
 			return null;
 		}
 
-		// This returns the time in milliseconds
-		public static int GetCurrentTime()
-		{
-			// Use standard clock
-			return Environment.TickCount;
-		}
-
 		// This gets a description for a game type
 		public static string GameTypeDescription(GAMETYPE g)
 		{

@@ -95,14 +95,14 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Fire now
 				firing = true;
-				firechangetime = General.currenttime + FIRE_SOUND_CHANGE_DELAY;
+				firechangetime = SharedGeneral.currenttime + FIRE_SOUND_CHANGE_DELAY;
 				ChangeFireSound("s", false);
 				return;
 			}
 			else
 			{
 				// Time to change fire sound?
-				if(firechangetime < General.currenttime)
+				if(firechangetime < SharedGeneral.currenttime)
 				{
 					// Change fire sound
 					ChangeFireSound("r", true);

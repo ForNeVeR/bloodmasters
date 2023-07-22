@@ -5,11 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-#if CLIENT
-using SharpDX;
-#endif
-
 namespace CodeImp.Bloodmasters
 {
 	public struct Vector2D
@@ -38,28 +33,11 @@ namespace CodeImp.Bloodmasters
 			return x + ", " + y;
 		}
 
-		#if CLIENT
-		// Constructor
-		public Vector2D(Vector2 v)
-		{
-			this.x = v.X;
-			this.y = v.Y;
-		}
-		#endif
-
 		// Conversion to Vector3D
 		public static implicit operator Vector3D(Vector2D a)
 		{
 			return new Vector3D(a);
 		}
-
-		#if CLIENT
-		// Conversion to Vector2
-		public static implicit operator Vector2(Vector2D a)
-		{
-			return new Vector2(a.x, a.y);
-		}
-		#endif
 
 		// This adds two vectors
 		public static Vector2D operator+(Vector2D a, Vector2D b)

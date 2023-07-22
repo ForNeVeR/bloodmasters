@@ -177,7 +177,7 @@ namespace CodeImp.Bloodmasters.Client
 		// Process track
 		public void Process()
 		{
-			// TODO: Did the track end?
+			// TODO[#16]: Did the track end?
 			//if((snd.State == StateFlags.Stopped) ||
 			//   (snd.CurrentPosition == snd.Duration))
 			//{
@@ -197,13 +197,13 @@ namespace CodeImp.Bloodmasters.Client
 				if(volume < targetvolume)
 				{
 					// Fade in to target
-					volume += fadespeed * General.currenttime;
+					volume += fadespeed * SharedGeneral.currenttime;
 					if(volume > targetvolume) volume = targetvolume;
 				}
 				else
 				{
 					// Fade out to target
-					volume -= fadespeed * General.currenttime;
+					volume -= fadespeed * SharedGeneral.currenttime;
 					if(volume < targetvolume) volume = targetvolume;
 				}
 

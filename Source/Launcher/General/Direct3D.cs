@@ -138,13 +138,13 @@ namespace CodeImp.Bloodmasters.Launcher
         {
             var displayModes = GetAdapterDisplayModes(ad);
 
-            ArrayList newitems = new ArrayList(displayModes.Count);
+            var newitems = new List<DisplayModeItem>(displayModes.Count);
 
 			// Clear the list
 			list.Items.Clear();
 
 			// Enumerate all display modes
-			foreach(DisplayMode d in displayModes)
+			foreach(var d in displayModes)
 			{
 				// Validate resolution
 				if(ValidateDisplayMode(d, true) || ValidateDisplayMode(d, false))
@@ -166,7 +166,11 @@ namespace CodeImp.Bloodmasters.Launcher
 				   ((int)d.mode.Format == depth) && (d.mode.RefreshRate == rate))
 						list.SelectedIndex = list.Items.Count - 1;
 			}
-		}
+
+            //If a suitable resolution was not found
+            if (list.SelectedItem is null)
+                list.SelectedIndex = list.Items.Count - 1;
+        }
 
 		// This fills a list with all supported antialiasing modes
 		public static void FillAntialiasingList(ComboBox list, int ad, Format f, bool windowed, int curlevel)

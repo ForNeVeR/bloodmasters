@@ -421,7 +421,7 @@ namespace CodeImp.Bloodmasters.Client
 			else
 			{
 				// Timeout
-				smallfadeout = General.currenttime + timeout;
+				smallfadeout = SharedGeneral.currenttime + timeout;
 			}
 		}
 
@@ -429,7 +429,7 @@ namespace CodeImp.Bloodmasters.Client
 		public void HideSmallMessage()
 		{
 			// Fade out now
-			smallfadeout = General.currenttime;
+			smallfadeout = SharedGeneral.currenttime;
 		}
 
 		// This shows a big message
@@ -449,7 +449,7 @@ namespace CodeImp.Bloodmasters.Client
 			else
 			{
 				// Timeout
-				bigfadeout = General.currenttime + timeout;
+				bigfadeout = SharedGeneral.currenttime + timeout;
 			}
 		}
 
@@ -457,7 +457,7 @@ namespace CodeImp.Bloodmasters.Client
 		public void HideBigMessage()
 		{
 			// Fade out now
-			bigfadeout = General.currenttime;
+			bigfadeout = SharedGeneral.currenttime;
 		}
 
 		// This shows an item message
@@ -466,14 +466,14 @@ namespace CodeImp.Bloodmasters.Client
 			// Set the message
 			itemmessage.Text = msg;
 			itemfade = 1f;
-			itemfadeout = General.currenttime + MSG_ITEM_TIMEOUT;
+			itemfadeout = SharedGeneral.currenttime + MSG_ITEM_TIMEOUT;
 		}
 
 		// This hides (fades out) the item message
 		public void HideItemMessage()
 		{
 			// Fade out now
-			itemfadeout = General.currenttime;
+			itemfadeout = SharedGeneral.currenttime;
 		}
 
 		#endregion
@@ -541,7 +541,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(General.gamestate == GAMESTATE.COUNTDOWN)
 			{
 				// Determine countdown number in seconds
-				int thiscountdown = (int)Math.Ceiling(((float)General.gamestateend - (float)General.currenttime) / 1000f);
+				int thiscountdown = (int)Math.Ceiling(((float)General.gamestateend - (float)SharedGeneral.currenttime) / 1000f);
 				if((thiscountdown != lastcountdown) && (thiscountdown > 0))
 				{
 					// Change countdown number
@@ -555,7 +555,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(General.callvotetimeout > 0)
 			{
 				// Determine countdown number in seconds
-				int votecountdown = (int)Math.Ceiling(((float)General.callvotetimeout - (float)General.currenttime) / 1000f);
+				int votecountdown = (int)Math.Ceiling(((float)General.callvotetimeout - (float)SharedGeneral.currenttime) / 1000f);
 
 				// Remove callvote when countdown reaches 0
 				if(votecountdown <= 0) General.callvotetimeout = 0;
@@ -565,13 +565,13 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Fade out small message?
-			if((smallfadeout < General.currenttime) && (smallfade > 0f)) smallfade -= SMALL_FADE_SPEED;
+			if((smallfadeout < SharedGeneral.currenttime) && (smallfade > 0f)) smallfade -= SMALL_FADE_SPEED;
 
 			// Fade out big message?
-			if((bigfadeout < General.currenttime) && (bigfade > 0f)) bigfade -= BIG_FADE_SPEED;
+			if((bigfadeout < SharedGeneral.currenttime) && (bigfade > 0f)) bigfade -= BIG_FADE_SPEED;
 
 			// Fade out item message?
-			if((itemfadeout < General.currenttime) && (itemfade > 0f)) itemfade -= ITEM_FADE_SPEED;
+			if((itemfadeout < SharedGeneral.currenttime) && (itemfade > 0f)) itemfade -= ITEM_FADE_SPEED;
 
 			// Decrease flash fade
 			if(flashalpha > FLASH_MAX) flashalpha = FLASH_MAX;
@@ -583,14 +583,14 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Flash health red
 				healthtext.Colors = TextResource.color_code[4];
-				healthflashtime = General.currenttime + FLASH_TIME;
+				healthflashtime = SharedGeneral.currenttime + FLASH_TIME;
 			}
 
 			// Keep prev health
 			prevhealth = General.localclient.Health;
 
 			// Reset health flash?
-			if((healthflashtime > 0) && (healthflashtime < General.currenttime))
+			if((healthflashtime > 0) && (healthflashtime < SharedGeneral.currenttime))
 			{
 				// Reset health flash color
 				healthtext.Colors = TextResource.color_brighttext;
@@ -757,23 +757,23 @@ namespace CodeImp.Bloodmasters.Client
 				fps_count++;
 
 				// Time to measure the FPS?
-				if(General.currenttime >= fps_measuretime)
+				if(SharedGeneral.currenttime >= fps_measuretime)
 				{
 					// Update the FPS text object
 					fps_text.Text = fps_count + " FPS";
 
 					// Update the MSPF text object
-					float mspf = (float)(General.currenttime - fps_lasttime) / (float)fps_count;
+					float mspf = (float)(SharedGeneral.currenttime - fps_lasttime) / (float)fps_count;
 					mspf_text.Text = mspf.ToString("0.00") + " MSPF";
 
 					// Reset for next measure
 					fps_count = 0;
-					fps_lasttime = General.currenttime;
+					fps_lasttime = SharedGeneral.currenttime;
 
 					// If the frame took too long, skip ahead to current time, otherwise,
 					// only add a second to the previous time for accurate measuring.
-					if(General.currenttime - fps_measuretime > 2000)
-						fps_measuretime = General.currenttime + 1000;
+					if(SharedGeneral.currenttime - fps_measuretime > 2000)
+						fps_measuretime = SharedGeneral.currenttime + 1000;
 					else
 						fps_measuretime += 1000;
 				}
