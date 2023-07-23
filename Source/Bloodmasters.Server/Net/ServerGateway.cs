@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 #if CLIENT
 using CodeImp.Bloodmasters.Client;
 #endif
@@ -17,11 +15,11 @@ public class ServerGateway : Gateway
         Console.WriteLine(text);
 
         // Write to log file as well?
-        if(General.logtofile)
+        if(Global.Instance.LogToFile)
         {
             // Append text to the file
-            StreamWriter logf = File.AppendText(General.logfilename);
-            logf.WriteLine(General.StripColorCodes(text));
+            StreamWriter logf = File.AppendText(Global.Instance.LogFileName);
+            logf.WriteLine(Markup.StripColorCodes(text));
             logf.Flush();
             logf.Close();
         }

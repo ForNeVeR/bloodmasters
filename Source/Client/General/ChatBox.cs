@@ -204,7 +204,7 @@ namespace CodeImp.Bloodmasters.Client
 				if(SharedGeneral.currenttime % 300 < 150) cursor = INPUT_CURSOR;
 
 				// Update the input resource
-				panelinput.Text = General.TrimColorCodes(inputstr) + cursor;
+				panelinput.Text = Markup.TrimColorCodes(inputstr) + cursor;
 			}
 		}
 

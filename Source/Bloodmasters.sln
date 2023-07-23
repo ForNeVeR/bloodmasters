@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\CONTRIBUTING.md = ..\CONTRIBUTING.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Server", "Bloodmasters.Server\Bloodmasters.Server.csproj", "{34A2FA5F-08A5-4464-82AD-BEC71C200352}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -56,6 +58,10 @@ Global
 		{AC63F482-0715-48D4-8B14-EFF3F5BD4A61}.Debug|x86.Build.0 = Debug|Any CPU
 		{AC63F482-0715-48D4-8B14-EFF3F5BD4A61}.Release|x86.ActiveCfg = Release|Any CPU
 		{AC63F482-0715-48D4-8B14-EFF3F5BD4A61}.Release|x86.Build.0 = Release|Any CPU
+		{34A2FA5F-08A5-4464-82AD-BEC71C200352}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{34A2FA5F-08A5-4464-82AD-BEC71C200352}.Debug|x86.Build.0 = Debug|Any CPU
+		{34A2FA5F-08A5-4464-82AD-BEC71C200352}.Release|x86.ActiveCfg = Release|Any CPU
+		{34A2FA5F-08A5-4464-82AD-BEC71C200352}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,59 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <RootNamespace>CodeImp.Bloodmasters.Server</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Update="General\Client.cs">
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="General\GameServer.cs">
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Items\Item.cs">
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Weapons\Weapon.cs">
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="General\DynamicSector.cs">
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Projectiles\Projectile.cs">
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Projectiles\NukeDetonation.cs">
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Projectiles\Flames.cs">
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Projectiles\ProjectileInfo.cs">
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Items\ServerItem.cs">
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Weapons\WeaponInfo.cs">
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="General\ProxyDoor.cs">
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="General\Platform.cs">
+        <Link>Server\General\Platform.cs</Link>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Shared\Bloodmasters.Shared.csproj" />
+    </ItemGroup>
+
+
+
+</Project>

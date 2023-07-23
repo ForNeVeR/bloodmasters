@@ -18,39 +18,6 @@
         <LangVersion>11</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="..\Server\General\ServerPhysicsState.cs">
-            <Link>Server\General\ServerPhysicsState.cs</Link>
-        </Compile>
-        <Compile Include="..\Server\General\ServerPlayerCollision.cs">
-            <Link>Server\General\ServerPlayerCollision.cs</Link>
-        </Compile>
-        <Compile Include="..\Server\General\ServerWallCollision.cs">
-            <Link>Server\General\ServerWallCollision.cs</Link>
-        </Compile>
-        <Compile Include="..\Server\Net\ServerGateway.cs">
-            <Link>Server\Net\ServerGateway.cs</Link>
-            <SubType>Code</SubType>
-        </Compile>
-        <Compile Include="..\Server\General\Client.cs">
-            <Link>Server\General\Client.cs</Link>
-            <SubType>Code</SubType>
-        </Compile>
-        <Compile Include="..\Server\General\DynamicSector.cs">
-            <Link>Server\General\DynamicSector.cs</Link>
-            <SubType>Code</SubType>
-        </Compile>
-        <Compile Include="..\Server\General\GameServer.cs">
-            <Link>Server\General\GameServer.cs</Link>
-            <SubType>Code</SubType>
-        </Compile>
-        <Compile Include="..\Server\General\Platform.cs">
-            <Link>Server\General\Platform.cs</Link>
-            <SubType>Code</SubType>
-        </Compile>
-        <Compile Include="..\Server\General\ProxyDoor.cs">
-            <Link>Server\General\ProxyDoor.cs</Link>
-            <SubType>Code</SubType>
-        </Compile>
         <Compile Include="..\Server\Items\AmmoBullets.cs">
             <Link>Server\Items\AmmoBullets.cs</Link>
             <SubType>Code</SubType>
@@ -123,10 +90,6 @@
             <Link>Server\Items\IonCannon.cs</Link>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Include="..\Server\Items\Item.cs">
-            <Link>Server\Items\Item.cs</Link>
-            <SubType>Code</SubType>
-        </Compile>
         <Compile Include="..\Server\Items\Killer.cs">
             <Link>Server\Items\Killer.cs</Link>
             <SubType>Code</SubType>
@@ -163,10 +126,6 @@
             <Link>Server\Items\ScavengerItem.cs</Link>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Include="..\Server\Items\ServerItem.cs">
-            <Link>Server\Items\ServerItem.cs</Link>
-            <SubType>Code</SubType>
-        </Compile>
         <Compile Include="..\Server\Items\Shields.cs">
             <Link>Server\Items\Shields.cs</Link>
             <SubType>Code</SubType>
@@ -183,16 +142,6 @@
             <Link>Server\Items\WhiteScavengerItem.cs</Link>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Include="..\Server\Map\ServerMap.cs">
-            <Link>Server\Map\ServerMap.cs</Link>
-        </Compile>
-        <Compile Include="..\Server\Map\ServerSector.cs">
-            <Link>Server\Map\ServerSector.cs</Link>
-        </Compile>
-        <Compile Include="..\Server\Projectiles\Flames.cs">
-            <Link>Server\Projectiles\Flames.cs</Link>
-            <SubType>Code</SubType>
-        </Compile>
         <Compile Include="..\Server\Projectiles\Grenade.cs">
             <Link>Server\Projectiles\Grenade.cs</Link>
             <SubType>Code</SubType>
@@ -201,20 +150,8 @@
             <Link>Server\Projectiles\IonBall.cs</Link>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Include="..\Server\Projectiles\NukeDetonation.cs">
-            <Link>Server\Projectiles\NukeDetonation.cs</Link>
-            <SubType>Code</SubType>
-        </Compile>
         <Compile Include="..\Server\Projectiles\PlasmaBall.cs">
             <Link>Server\Projectiles\PlasmaBall.cs</Link>
-            <SubType>Code</SubType>
-        </Compile>
-        <Compile Include="..\Server\Projectiles\Projectile.cs">
-            <Link>Server\Projectiles\Projectile.cs</Link>
-            <SubType>Code</SubType>
-        </Compile>
-        <Compile Include="..\Server\Projectiles\ProjectileInfo.cs">
-            <Link>Server\Projectiles\ProjectileInfo.cs</Link>
             <SubType>Code</SubType>
         </Compile>
         <Compile Include="..\Server\Projectiles\Rocket.cs">
@@ -223,14 +160,6 @@
         </Compile>
         <Compile Include="..\Server\Weapons\Bullet.cs">
             <Link>Server\Weapons\Bullet.cs</Link>
-            <SubType>Code</SubType>
-        </Compile>
-        <Compile Include="..\Server\Weapons\Weapon.cs">
-            <Link>Server\Weapons\Weapon.cs</Link>
-            <SubType>Code</SubType>
-        </Compile>
-        <Compile Include="..\Server\Weapons\WeaponInfo.cs">
-            <Link>Server\Weapons\WeaponInfo.cs</Link>
             <SubType>Code</SubType>
         </Compile>
         <Compile Include="..\Server\Weapons\WGrenadeLauncher.cs">
@@ -684,6 +613,7 @@
         <None Update="server.debug.cfg" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\Bloodmasters.Server\Bloodmasters.Server.csproj" />
         <ProjectReference Include="..\Shared\Bloodmasters.Shared.csproj" />
     </ItemGroup>
 </Project>

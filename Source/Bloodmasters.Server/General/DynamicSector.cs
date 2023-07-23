@@ -5,12 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
-
 #if CLIENT
 using CodeImp.Bloodmasters.Client;
 #endif

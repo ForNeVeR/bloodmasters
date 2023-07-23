@@ -1,4 +1,3 @@
-using System.IO;
 using CodeImp.Bloodmasters.Server.Map;
 
 namespace CodeImp.Bloodmasters.Server;
@@ -17,4 +16,3 @@ internal class ServerMap : Bloodmasters.Map
     protected override Sidedef CreateSidedef(BinaryReader data, Sector[] sectors, int index) =>
         new(data, sectors, index);
 }
-

@@ -5,7 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
 using System.Collections;
 #if CLIENT
 using CodeImp.Bloodmasters.Client;
@@ -185,7 +184,7 @@ namespace CodeImp.Bloodmasters.Server
 			// Keep references
 			this.id = id;
 			this.conn = conn;
-			this.name = General.TrimColorCodes(name);
+			this.name = Markup.TrimColorCodes(name);
 			this.address = conn.Address.ToString();
 			this.loading = true;
 			this.autoswitchweapon = autoswitch;
@@ -202,31 +201,31 @@ namespace CodeImp.Bloodmasters.Server
 			clientupdatetime = SharedGeneral.currenttime + CLIENT_UPDATE_INTERVAL;
 
 			// Trim the player name
-			while(General.StripColorCodes(this.name).Length > Consts.MAX_PLAYER_NAME_LEN)
+			while(Markup.StripColorCodes(this.name).Length > Consts.MAX_PLAYER_NAME_LEN)
 				this.name = this.name.Substring(0, this.name.Length - 1);
 
 			// Broadcast player update to all clients
-			General.server.BroadcastClientUpdate(this);
+			Global.Instance.Server.BroadcastClientUpdate(this);
 
 			// Show connected message to all clients
 			string message = name + "^7 connected";
-			foreach(Client c in General.server.clients) if(c != null) c.SendShowMessage(message, true);
+			foreach(Client c in Global.Instance.Server.clients) if(c != null) c.SendShowMessage(message, true);
 
 			// Show in console
 			#if CLIENT
 
 				// Write message to log
-				if(General.serverwindow != null) General.server.WriteLine(message + " (" + address + ")", false);
+				if(General.serverwindow != null) Global.Instance.Server.WriteLine(message + " (" + address + ")", false);
 
 			#else
 
 				// Write message to log
-				General.server.WriteLine(message + " (" + address + ")", false);
+				Global.Instance.Server.WriteLine(message + " (" + address + ")", false);
 
 			#endif
 
 			// Add to server array
-			General.server.AddClient(id, this);
+			Global.Instance.Server.AddClient(id, this);
 		}
 
 		// Dispose
@@ -242,7 +241,7 @@ namespace CodeImp.Bloodmasters.Server
 			}
 
 			// Send ClientDisposed to everyone
-			General.server.BroadcastClientDisposed(this);
+			Global.Instance.Server.BroadcastClientDisposed(this);
 
 			// Clean up
 			firesource = null;
@@ -252,14 +251,14 @@ namespace CodeImp.Bloodmasters.Server
 			disposed = true;
 
 			// Remove from server array
-			General.server.RemoveClient(id);
+			Global.Instance.Server.RemoveClient(id);
 
 			// Callvote in progress?
-			if(General.server.callvotetimeout > 0)
+			if(Global.Instance.Server.callvotetimeout > 0)
 			{
 				// Send callvote update if any is in progress
-				General.server.CheckCallvote();
-				if(General.server.callvotetimeout > 0) General.server.BroadcastCallvoteStatus();
+				Global.Instance.Server.CheckCallvote();
+				if(Global.Instance.Server.callvotetimeout > 0) Global.Instance.Server.BroadcastCallvoteStatus();
 			}
 		}
 
@@ -286,7 +285,7 @@ namespace CodeImp.Bloodmasters.Server
 				firesource = source;
 
 				// Broadcast changes
-				General.server.BroadcastFireIntensity(this);
+				Global.Instance.Server.BroadcastFireIntensity(this);
 			}
 		}
 
@@ -300,7 +299,7 @@ namespace CodeImp.Bloodmasters.Server
 				fireintensity = 0;
 
 				// Broadcast changes
-				General.server.BroadcastFireIntensity(this);
+				Global.Instance.Server.BroadcastFireIntensity(this);
 			}
 		}
 
@@ -341,12 +340,12 @@ namespace CodeImp.Bloodmasters.Server
 		public void Respawn()
 		{
 			// Ignore when gamestate does not allow it
-			if((General.server.GameState == GAMESTATE.GAMEFINISH) ||
-				(General.server.GameState == GAMESTATE.ROUNDFINISH)) return;
+			if((Global.Instance.Server.GameState == GAMESTATE.GAMEFINISH) ||
+				(Global.Instance.Server.GameState == GAMESTATE.ROUNDFINISH)) return;
 
 			// In the game?
-			if( ((team == TEAM.NONE) && (!General.server.IsTeamGame)) ||
-				((team != TEAM.NONE) && (General.server.IsTeamGame)) )
+			if( ((team == TEAM.NONE) && (!Global.Instance.Server.IsTeamGame)) ||
+				((team != TEAM.NONE) && (Global.Instance.Server.IsTeamGame)) )
 			{
 				// Not a spectator
 				if(!spectator)
@@ -411,7 +410,7 @@ namespace CodeImp.Bloodmasters.Server
 			if(noshield == false)
 			{
 				// Make random coordinate around player
-				hitpos = state.pos + Vector3D.Random(General.random, 10f, 10f, 0f);
+				hitpos = state.pos + Vector3D.Random(Global.Instance.Random, 10f, 10f, 0f);
 			}
 			else
 			{
@@ -467,7 +466,7 @@ namespace CodeImp.Bloodmasters.Server
 					if(fadeout < 0.001f) fadeout = 0.001f;
 
 					// Broadcast shield hit
-					General.server.BroadcastShieldHit(this, hitangle, fadeout);
+					Global.Instance.Server.BroadcastShieldHit(this, hitangle, fadeout);
 
 					// Save last hit settings
 					lastshieldhittime = SharedGeneral.currenttime;
@@ -477,7 +476,7 @@ namespace CodeImp.Bloodmasters.Server
 
 			// When this is NOT a teammate
 			if((source == null) || (source == this) ||
-			   (source.team != this.team) || !General.server.IsTeamGame)
+			   (source.team != this.team) || !Global.Instance.Server.IsTeamGame)
 			{
 				// Carrying avenger powerup and not shooting myself?
 				if((powerup == POWERUP.AVENGER) && (source != null) && (source != this) && source.IsAlive)
@@ -505,7 +504,7 @@ namespace CodeImp.Bloodmasters.Server
 
 					// Send messages
 					SendFullStatusUpdate();
-					if(health > 0) General.server.BroadcastTakeDamage(this, damage, health, method);
+					if(health > 0) Global.Instance.Server.BroadcastTakeDamage(this, damage, health, method);
 					if((source != null) && (source != this)) source.SendDamageGiven();
 
 					// Kill player when health is 0
@@ -525,8 +524,8 @@ namespace CodeImp.Bloodmasters.Server
 				else deathtext = deathtext.Replace("%1", this.name);
 
 				// Adjust score
-				if((General.server.GameType == GAMETYPE.DM) ||
-				   (General.server.GameType == GAMETYPE.TDM)) this.AddToScore(-1);
+				if((Global.Instance.Server.GameType == GAMETYPE.DM) ||
+				   (Global.Instance.Server.GameType == GAMETYPE.TDM)) this.AddToScore(-1);
 			}
 			else
 			{
@@ -535,14 +534,14 @@ namespace CodeImp.Bloodmasters.Server
 				if(source != null) deathtext = deathtext.Replace("%2", source.name);
 
 				// Not on the same team?
-				if((source != null) && ((source.team != team) || !General.server.IsTeamGame))
+				if((source != null) && ((source.team != team) || !Global.Instance.Server.IsTeamGame))
 				{
 					// Count frag
 					source.frags++;
 
 					// Adjust score
-					if((General.server.GameType == GAMETYPE.DM) ||
-					   (General.server.GameType == GAMETYPE.TDM)) source.AddToScore(1);
+					if((Global.Instance.Server.GameType == GAMETYPE.DM) ||
+					   (Global.Instance.Server.GameType == GAMETYPE.TDM)) source.AddToScore(1);
 				}
 			}
 
@@ -550,8 +549,8 @@ namespace CodeImp.Bloodmasters.Server
 			this.deaths++;
 
 			// Scavenger mode: lose 10 points!
-			if((General.server.GameType == GAMETYPE.SC) ||
-			   (General.server.GameType == GAMETYPE.TSC)) AddToScore(-10);
+			if((Global.Instance.Server.GameType == GAMETYPE.SC) ||
+			   (Global.Instance.Server.GameType == GAMETYPE.TSC)) AddToScore(-10);
 
 			// Delay the respawn time
 			respawnlock = SharedGeneral.currenttime + RESPAWN_DELAY;
@@ -560,10 +559,10 @@ namespace CodeImp.Bloodmasters.Server
 			autorespawntime = SharedGeneral.currenttime + AUTO_RESPAWN_DELAY;
 
 			// Show death message in console
-			General.server.WriteLine(deathtext, false);
+			Global.Instance.Server.WriteLine(deathtext, false);
 
 			// Broadcast the death
-			General.server.BroadcastClientDeath(source, this, deathtext, method, state, pushvector);
+			Global.Instance.Server.BroadcastClientDeath(source, this, deathtext, method, state, pushvector);
 
 			// Remove the actor from the game
 			RemoveActor();
@@ -576,8 +575,8 @@ namespace CodeImp.Bloodmasters.Server
 			score += amount;
 
 			// In team game this counts as team score as well
-			if(General.server.IsTeamGame)
-				General.server.teamscore[(int)team] += amount;
+			if(Global.Instance.Server.IsTeamGame)
+				Global.Instance.Server.teamscore[(int)team] += amount;
 		}
 
 		// This changes status
@@ -639,26 +638,26 @@ namespace CodeImp.Bloodmasters.Server
 			float tdist;
 
 			// Go for all things on the map
-			foreach(Thing t in General.server.map.Things)
+			foreach(Thing t in Global.Instance.Server.map.Things)
 			{
 				// Is this a spawn point for my team?
-				if(((General.server.GameType != GAMETYPE.CTF) && (t.Type == (int)THINGTYPE.PLAYER_DM)) ||
-				   ((General.server.GameType == GAMETYPE.CTF) && (team == TEAM.RED) && (t.Type == (int)THINGTYPE.PLAYER_RED)) ||
-				   ((General.server.GameType == GAMETYPE.CTF) && (team == TEAM.BLUE) && (t.Type == (int)THINGTYPE.PLAYER_BLUE)))
+				if(((Global.Instance.Server.GameType != GAMETYPE.CTF) && (t.Type == (int)THINGTYPE.PLAYER_DM)) ||
+				   ((Global.Instance.Server.GameType == GAMETYPE.CTF) && (team == TEAM.RED) && (t.Type == (int)THINGTYPE.PLAYER_RED)) ||
+				   ((Global.Instance.Server.GameType == GAMETYPE.CTF) && (team == TEAM.BLUE) && (t.Type == (int)THINGTYPE.PLAYER_BLUE)))
 				{
 					// Initialize distance calculation
 					// with a little random value to get a random
 					// spawn spot when no other clients are around
-					tdist = (float)General.random.NextDouble();
+					tdist = (float)Global.Instance.Random.NextDouble();
 
 					// Go for all other clients
-					foreach(Client c in General.server.clients)
+					foreach(Client c in Global.Instance.Server.clients)
 					{
 						// Client playing and not the spawning client?
 						if((c != null) && (c != this) && !c.Spectator && !c.Loading && c.IsAlive)
 						{
 							// Check if this is an opponent
-							//if(!General.server.IsTeamGame || (c.team != team))
+							//if(!Global.Instance.Server.IsTeamGame || (c.team != team))
 							{
 								// Calculate distance between client and spot
 								float dx = t.X - c.state.pos.x;
@@ -697,17 +696,17 @@ namespace CodeImp.Bloodmasters.Server
 				// Then try again, but this time just spawn on top of someone if needed
 
 				// Go for all things on the map
-				foreach(Thing t in General.server.map.Things)
+				foreach(Thing t in Global.Instance.Server.map.Things)
 				{
 					// Is this a spawn point for my team?
-					if(((General.server.GameType != GAMETYPE.CTF) && (t.Type == (int)THINGTYPE.PLAYER_DM)) ||
-						((General.server.GameType == GAMETYPE.CTF) && (team == TEAM.RED) && (t.Type == (int)THINGTYPE.PLAYER_RED)) ||
-						((General.server.GameType == GAMETYPE.CTF) && (team == TEAM.BLUE) && (t.Type == (int)THINGTYPE.PLAYER_BLUE)))
+					if(((Global.Instance.Server.GameType != GAMETYPE.CTF) && (t.Type == (int)THINGTYPE.PLAYER_DM)) ||
+						((Global.Instance.Server.GameType == GAMETYPE.CTF) && (team == TEAM.RED) && (t.Type == (int)THINGTYPE.PLAYER_RED)) ||
+						((Global.Instance.Server.GameType == GAMETYPE.CTF) && (team == TEAM.BLUE) && (t.Type == (int)THINGTYPE.PLAYER_BLUE)))
 					{
 						// Initialize distance calculation
 						// with a little random value to get a random
 						// spawn spot when no other clients are around
-						tdist = (float)General.random.NextDouble();
+						tdist = (float)Global.Instance.Random.NextDouble();
 
 						// Longer than previous find?
 						if(tdist > ftdist)
@@ -727,11 +726,11 @@ namespace CodeImp.Bloodmasters.Server
 				ResetPlayerStatus();
 
 				// Determine sector where player will be at
-				sector = General.server.map.GetSubSectorAt(ft.X, ft.Y).Sector;
+				sector = Global.Instance.Server.map.GetSubSectorAt(ft.X, ft.Y).Sector;
 
 				// Spawn the player here
 				if(state != null) state.Dispose();
-				state = new ServerPhysicsState(General.server.map);
+				state = new ServerPhysicsState(Global.Instance.Server.map);
 				state.Radius = Consts.PLAYER_RADIUS;
 				state.Height = Consts.PLAYER_BLOCK_HEIGHT;
 				state.Friction = Consts.PLAYER_FRICTION;
@@ -748,7 +747,7 @@ namespace CodeImp.Bloodmasters.Server
 				fireintensity = 0;
 
 				// Go for all other clients
-				foreach(Client c in General.server.clients)
+				foreach(Client c in Global.Instance.Server.clients)
 				{
 					// Client playing and not myself?
 					if((c != null) && (c != this) && !c.Spectator && !c.Loading && c.IsAlive)
@@ -765,7 +764,7 @@ namespace CodeImp.Bloodmasters.Server
 				}
 
 				// Broadcast the spawn
-				General.server.BroadcastSpawnActor(this, false);
+				Global.Instance.Server.BroadcastSpawnActor(this, false);
 
 				// Spawned
 				return true;
@@ -781,17 +780,17 @@ namespace CodeImp.Bloodmasters.Server
 		public void Say(string msg)
 		{
 			// Make the complete string
-			string fullmsg = name + "^7:  ^2" + General.StripColorCodes(msg);
+			string fullmsg = name + "^7:  ^2" + Markup.StripColorCodes(msg);
 
 			// Broadcast message
-			General.server.BroadcastSayMessage(this, fullmsg);
+			Global.Instance.Server.BroadcastSayMessage(this, fullmsg);
 		}
 
 		// This let the player say a message to his team
 		public void SayTeam(string msg)
 		{
 			// Not a team game? then normal say
-			if(!General.server.IsTeamGame)
+			if(!Global.Instance.Server.IsTeamGame)
 			{
 				// Normal say
 				Say(msg);
@@ -805,19 +804,19 @@ namespace CodeImp.Bloodmasters.Server
 				if(spectator)
 				{
 					// Broadcast message
-					General.server.BroadcastSayMessageSpectators(this, fullmsg);
+					Global.Instance.Server.BroadcastSayMessageSpectators(this, fullmsg);
 				}
 				// Red team?
 				else if(team == TEAM.RED)
 				{
 					// Broadcast message
-					General.server.BroadcastSayMessageTeam(this, fullmsg, TEAM.RED);
+					Global.Instance.Server.BroadcastSayMessageTeam(this, fullmsg, TEAM.RED);
 				}
 				// Blue team?
 				else if(team == TEAM.BLUE)
 				{
 					// Broadcast message
-					General.server.BroadcastSayMessageTeam(this, fullmsg, TEAM.BLUE);
+					Global.Instance.Server.BroadcastSayMessageTeam(this, fullmsg, TEAM.BLUE);
 				}
 			}
 		}
@@ -843,7 +842,7 @@ namespace CodeImp.Bloodmasters.Server
 			ArrayList dests = new ArrayList(10);
 
 			// Go for all things on the map
-			foreach(Thing t in General.server.map.Things)
+			foreach(Thing t in Global.Instance.Server.map.Things)
 			{
 				// Is this a spawn point with correct tag?
 				if((t.Type == (int)THINGTYPE.TELEPORT) && (t.Tag == tag))
@@ -862,10 +861,10 @@ namespace CodeImp.Bloodmasters.Server
 			else
 			{
 				// Choose a random destination
-				Thing ft = (Thing)dests[General.random.Next(dests.Count)];
+				Thing ft = (Thing)dests[Global.Instance.Random.Next(dests.Count)];
 
 				// Go for all other clients
-				foreach(Client c in General.server.clients)
+				foreach(Client c in Global.Instance.Server.clients)
 				{
 					// Client playing and not the teleporting client?
 					if((c != null) && (c != this) && !c.Spectator && !c.Loading && c.IsAlive)
@@ -882,7 +881,7 @@ namespace CodeImp.Bloodmasters.Server
 				}
 
 				// Determine sector where player will be at
-				sector = General.server.map.GetSubSectorAt(ft.X, ft.Y).Sector;
+				sector = Global.Instance.Server.map.GetSubSectorAt(ft.X, ft.Y).Sector;
 
 				// Move the player here
 				state.pos = new Vector3D(ft.X, ft.Y, sector.CurrentFloor);
@@ -894,7 +893,7 @@ namespace CodeImp.Bloodmasters.Server
 				teleportlock = SharedGeneral.currenttime + TELEPORT_DELAY;
 
 				// Broadcast the teleportation
-				General.server.BroadcastTeleportClient(this, oldpos, state.pos);
+				Global.Instance.Server.BroadcastTeleportClient(this, oldpos, state.pos);
 
 				// Spawned
 				return true;
@@ -920,8 +919,8 @@ namespace CodeImp.Bloodmasters.Server
 			rconpassword = args;
 
 			// Check password
-			if((rconpassword != General.server.RConPassword) ||
-				(General.server.RConPassword == ""))
+			if((rconpassword != Global.Instance.Server.RConPassword) ||
+				(Global.Instance.Server.RConPassword == ""))
 			{
 				// Incorrect password or rcon disabled
 				SendShowMessage("Not authorized for remote control", false);
@@ -941,18 +940,18 @@ namespace CodeImp.Bloodmasters.Server
 		public void hCallvoteSubmit(NetMessage msg)
 		{
 			// Callvote in progress?
-			if(General.server.callvotetimeout > 0)
+			if(Global.Instance.Server.callvotetimeout > 0)
 			{
 				// Not already voted?
 				if(callvotestate == 0)
 				{
 					// Set the vote status to 1
 					callvotestate = 1;
-					General.server.callvotes++;
-					General.server.BroadcastCallvoteStatus();
+					Global.Instance.Server.callvotes++;
+					Global.Instance.Server.BroadcastCallvoteStatus();
 
 					// Re-check the state of the call
-					General.server.CheckCallvote();
+					Global.Instance.Server.CheckCallvote();
 				}
 			}
 		}
@@ -964,7 +963,7 @@ namespace CodeImp.Bloodmasters.Server
 			string newname;
 
 			// Get the new name
-			newname = General.TrimColorCodes(msg.GetString());
+			newname = Markup.TrimColorCodes(msg.GetString());
 
 			// Check the player name
 			playernameerror = GameServer.ValidatePlayerName(newname);
@@ -974,11 +973,11 @@ namespace CodeImp.Bloodmasters.Server
 				this.name = newname;
 
 				// Trim the player name
-				while(General.StripColorCodes(this.name).Length > Consts.MAX_PLAYER_NAME_LEN)
+				while(Markup.StripColorCodes(this.name).Length > Consts.MAX_PLAYER_NAME_LEN)
 					this.name = this.name.Substring(0, this.name.Length - 1);
 
 				// Let everyone know
-				General.server.BroadcastPlayerNameChange(this);
+				Global.Instance.Server.BroadcastPlayerNameChange(this);
 			}
 			else
 			{
@@ -1048,8 +1047,8 @@ namespace CodeImp.Bloodmasters.Server
 			bool new_shooting = msg.GetBool();
 
 			// Not at game or round finish
-			if((General.server.GameState != GAMESTATE.ROUNDFINISH) &&
-			   (General.server.GameState != GAMESTATE.GAMEFINISH))
+			if((Global.Instance.Server.GameState != GAMESTATE.ROUNDFINISH) &&
+			   (Global.Instance.Server.GameState != GAMESTATE.GAMEFINISH))
 			{
 				// Allowed to aim
 				aimangle = new_aimangle;
@@ -1063,8 +1062,8 @@ namespace CodeImp.Bloodmasters.Server
 				}
 
 				// Not at countdown or spawning
-				if((General.server.GameState != GAMESTATE.COUNTDOWN) &&
-				   (General.server.GameState != GAMESTATE.SPAWNING))
+				if((Global.Instance.Server.GameState != GAMESTATE.COUNTDOWN) &&
+				   (Global.Instance.Server.GameState != GAMESTATE.SPAWNING))
 				{
 					// Check if enough ammo to fire
 					if(new_shooting && (currentweapon != null))
@@ -1095,26 +1094,26 @@ namespace CodeImp.Bloodmasters.Server
 			if(respawnlock > SharedGeneral.currenttime) return;
 
 			// Only allow blue or red when no automatic team is forced
-			if(General.server.JoinSmallest && ((t == TEAM.RED) || (t == TEAM.BLUE))) return;
+			if(Global.Instance.Server.JoinSmallest && ((t == TEAM.RED) || (t == TEAM.BLUE))) return;
 
 			// When no team given and this IS a team game...
-			if((t == TEAM.NONE) && General.server.IsTeamGame && this.spectator)
+			if((t == TEAM.NONE) && Global.Instance.Server.IsTeamGame && this.spectator)
 			{
 				// Find the smallest team
-				int redplayers = General.server.CountPlayingClients(TEAM.RED);
-				int blueplayers = General.server.CountPlayingClients(TEAM.BLUE);
+				int redplayers = Global.Instance.Server.CountPlayingClients(TEAM.RED);
+				int blueplayers = Global.Instance.Server.CountPlayingClients(TEAM.BLUE);
 
 				// When there is no smallest team...
 				if(redplayers == blueplayers)
 				{
 					// When score is even...
-					if(General.server.teamscore[1] == General.server.teamscore[2])
+					if(Global.Instance.Server.teamscore[1] == Global.Instance.Server.teamscore[2])
 					{
 						// Join random team
-						t = (TEAM)(General.random.Next(2) + 1);
+						t = (TEAM)(Global.Instance.Random.Next(2) + 1);
 					}
 					// Else join the team with lowest score
-					else if(General.server.teamscore[1] > General.server.teamscore[2])
+					else if(Global.Instance.Server.teamscore[1] > Global.Instance.Server.teamscore[2])
 					{
 						// Join blue
 						t = TEAM.BLUE;
@@ -1149,67 +1148,67 @@ namespace CodeImp.Bloodmasters.Server
 					// Join spectators
 					team = TEAM.NONE;
 					spectator = true;
-					General.server.BroadcastShowMessage(name + "^7 joins the spectators", true, true);
+					Global.Instance.Server.BroadcastShowMessage(name + "^7 joins the spectators", true, true);
 
 					// Broadcast player update to all clients and confirm team change
 					SendChangeTeam();
-					General.server.BroadcastClientUpdate(this);
+					Global.Instance.Server.BroadcastClientUpdate(this);
 					Spectate();
 				}
-				else if((t == TEAM.NONE) && (!General.server.IsTeamGame))
+				else if((t == TEAM.NONE) && (!Global.Instance.Server.IsTeamGame))
 				{
 					// Previously spectator?
 					if(spectator)
 					{
 						// Check for max players
-						if((General.server.MaxPlayers > 0) &&
-						   (General.server.MaxPlayers <= General.server.CountPlayingClients()))
+						if((Global.Instance.Server.MaxPlayers > 0) &&
+						   (Global.Instance.Server.MaxPlayers <= Global.Instance.Server.CountPlayingClients()))
 						{
 							// Max players hit, sorry
-							SendShowMessage("You cannot join the game, maximum number of players on this server is " + General.server.MaxPlayers, true);
+							SendShowMessage("You cannot join the game, maximum number of players on this server is " + Global.Instance.Server.MaxPlayers, true);
 							return;
 						}
 					}
 
 					// Join game
 					team = TEAM.NONE;
-					spectator = General.server.JoinTeamSpectating;
-					General.server.BroadcastShowMessage(name + "^7 joins the game", true, true);
+					spectator = Global.Instance.Server.JoinTeamSpectating;
+					Global.Instance.Server.BroadcastShowMessage(name + "^7 joins the game", true, true);
 
 					// Broadcast player update to all clients
 					if(carry != null) carry.Detach();
 					SendChangeTeam();
-					General.server.BroadcastClientUpdate(this);
+					Global.Instance.Server.BroadcastClientUpdate(this);
 					if(!spectator) if(!Spawn(true)) SendShowMessage("Problem: no spawn spot found!", true);
 					lastjointime = SharedGeneral.currenttime;
 				}
-				else if((t != TEAM.NONE) && (General.server.IsTeamGame))
+				else if((t != TEAM.NONE) && (Global.Instance.Server.IsTeamGame))
 				{
 					// Previously spectator?
 					if(spectator)
 					{
 						// Check for max players
-						if((General.server.MaxPlayers > 0) &&
-						   (General.server.MaxPlayers <= General.server.CountPlayingClients()))
+						if((Global.Instance.Server.MaxPlayers > 0) &&
+						   (Global.Instance.Server.MaxPlayers <= Global.Instance.Server.CountPlayingClients()))
 						{
 							// Max players hit, sorry
-							SendShowMessage("You cannot join the game, maximum number of players on this server is " + General.server.MaxPlayers, true);
+							SendShowMessage("You cannot join the game, maximum number of players on this server is " + Global.Instance.Server.MaxPlayers, true);
 							return;
 						}
 					}
 
 					// Join team
 					team = t;
-					spectator = General.server.JoinTeamSpectating;
+					spectator = Global.Instance.Server.JoinTeamSpectating;
 
 					// Determine description
 					if(team == TEAM.RED) desc = "red team"; else desc = "blue team";
-					General.server.BroadcastShowMessage(name + "^7 joins the " + desc, true, true);
+					Global.Instance.Server.BroadcastShowMessage(name + "^7 joins the " + desc, true, true);
 
 					// Broadcast player update to all clients
 					if(carry != null) carry.Detach();
 					SendChangeTeam();
-					General.server.BroadcastClientUpdate(this);
+					Global.Instance.Server.BroadcastClientUpdate(this);
 					if(!spectator) if(!Spawn(true)) SendShowMessage("Problem: no spawn spot found!", true);
 					lastjointime = SharedGeneral.currenttime;
 				}
@@ -1224,10 +1223,10 @@ namespace CodeImp.Bloodmasters.Server
 			int cid = msg.GetByte();
 
 			// id specified?
-			if((cid > 0) && (cid < General.server.clients.Length))
+			if((cid > 0) && (cid < Global.Instance.Server.clients.Length))
 			{
 				// Get the client reference
-				Client c = General.server.clients[cid];
+				Client c = Global.Instance.Server.clients[cid];
 
 				// Check if slot is used and playing
 				if((c != null) && !c.Loading && !c.Spectator && c.IsAlive)
@@ -1251,7 +1250,7 @@ namespace CodeImp.Bloodmasters.Server
 			SendAllCurrentClients();
 
 			// Send spawn actors for all players in the game
-			foreach(Client c in General.server.clients)
+			foreach(Client c in Global.Instance.Server.clients)
 			{
 				// Check if slot is used and playing
 				if((c != null) && !c.Loading && !c.Spectator && c.IsAlive)
@@ -1274,10 +1273,10 @@ namespace CodeImp.Bloodmasters.Server
 			SendGameSnapshot();
 
 			// Send callvote if any is in progress
-			if(General.server.callvotetimeout > 0) SendCallvoteStatus();
+			if(Global.Instance.Server.callvotetimeout > 0) SendCallvoteStatus();
 
 			// Broadcast player update to all clients
-			General.server.BroadcastClientUpdate(this);
+			Global.Instance.Server.BroadcastClientUpdate(this);
 		}
 
 		// Handle Disconnect
@@ -1311,7 +1310,7 @@ namespace CodeImp.Bloodmasters.Server
 			int firstspace = cmdline.IndexOf(" ");
 			if(firstspace == -1) firstspace = cmdline.Length;
 			cmd = cmdline.Substring(0, firstspace).ToLower();
-			cmd = General.StripColorCodes(cmd);
+			cmd = Markup.StripColorCodes(cmd);
 
 			// Arguments?
 			if(firstspace + 1 > cmdline.Length)
@@ -1326,8 +1325,8 @@ namespace CodeImp.Bloodmasters.Server
 			}
 
 			// Check if rcon password is correct
-			if((rconpassword != General.server.RConPassword) ||
-			   (General.server.RConPassword == ""))
+			if((rconpassword != Global.Instance.Server.RConPassword) ||
+			   (Global.Instance.Server.RConPassword == ""))
 			{
 				// Not authorized!
 				// Only allow login command
@@ -1342,7 +1341,7 @@ namespace CodeImp.Bloodmasters.Server
 			else
 			{
 				// Handle command
-				General.server.PerformCommand(this, cmd, args);
+				Global.Instance.Server.PerformCommand(this, cmd, args);
 			}
 		}
 
@@ -1353,13 +1352,13 @@ namespace CodeImp.Bloodmasters.Server
 			string cmdline = msg.GetString();
 
 			// No callvote in progress?
-			if(General.server.callvotetimeout == 0)
+			if(Global.Instance.Server.callvotetimeout == 0)
 			{
 				// Get the command
 				int firstspace = cmdline.IndexOf(" ");
 				if(firstspace == -1) firstspace = cmdline.Length;
 				cmd = cmdline.Substring(0, firstspace).ToLower();
-				cmd = General.StripColorCodes(cmd);
+				cmd = Markup.StripColorCodes(cmd);
 
 				// Arguments?
 				if(firstspace + 1 > cmdline.Length)
@@ -1382,7 +1381,7 @@ namespace CodeImp.Bloodmasters.Server
 						if(ArchiveManager.FindFileArchive(args.Trim() + ".wad") != "")
 						{
 							// Start callvote
-							General.server.StartCallvote(this, "map", args.Trim(), "map change to " + args.Trim());
+							Global.Instance.Server.StartCallvote(this, "map", args.Trim(), "map change to " + args.Trim());
 						}
 						else
 						{
@@ -1392,10 +1391,10 @@ namespace CodeImp.Bloodmasters.Server
 						break;
 
 					// Map restart
-					case "restartmap": General.server.StartCallvote(this, "restartmap", "", "map restart"); break;
+					case "restartmap": Global.Instance.Server.StartCallvote(this, "restartmap", "", "map restart"); break;
 
 					// Next map
-					case "nextmap": General.server.StartCallvote(this, "nextmap", "", "next map"); break;
+					case "nextmap": Global.Instance.Server.StartCallvote(this, "nextmap", "", "next map"); break;
 				}
 			}
 		}
@@ -1414,9 +1413,9 @@ namespace CodeImp.Bloodmasters.Server
 			NetMessage msg = conn.CreateMessage(MsgCmd.CallvoteStatus, true);
 			if(msg != null)
 			{
-				msg.AddData((string)General.server.callvotedesc);
-				msg.AddData((int)General.server.callvotes);
-				msg.AddData((int)(General.server.callvotetimeout - General.realtime));
+				msg.AddData((string)Global.Instance.Server.callvotedesc);
+				msg.AddData((int)Global.Instance.Server.callvotes);
+				msg.AddData((int)(Global.Instance.Server.callvotetimeout - Global.Instance.RealTime));
 				msg.Send();
 			}
 		}
@@ -1603,8 +1602,8 @@ namespace CodeImp.Bloodmasters.Server
 			NetMessage msg = conn.CreateMessage(MsgCmd.GameStateChange, true);
 			if(msg != null)
 			{
-				msg.AddData((byte)General.server.GameState);
-				msg.AddData(General.server.GameStateEndTime - SharedGeneral.currenttime);
+				msg.AddData((byte)Global.Instance.Server.GameState);
+				msg.AddData(Global.Instance.Server.GameStateEndTime - SharedGeneral.currenttime);
 				msg.Send();
 			}
 		}
@@ -1758,7 +1757,7 @@ namespace CodeImp.Bloodmasters.Server
 			if(msg != null)
 			{
 				// Go for all dynamic sectors
-				foreach(DynamicSector ds in General.server.dynamics)
+				foreach(DynamicSector ds in Global.Instance.Server.dynamics)
 				{
 					// Needs an update to the client?
 					if(ds.SendSectorUpdate)
@@ -1829,7 +1828,7 @@ namespace CodeImp.Bloodmasters.Server
 			if((conn == null) || conn.Disposed) return;
 
 			// Continue until all players done
-			while(curplayer < General.server.clients.Length)
+			while(curplayer < Global.Instance.Server.clients.Length)
 			{
 				// Snapshots message
 				NetMessage msg = conn.CreateMessage(MsgCmd.Snapshot, false);
@@ -1837,10 +1836,10 @@ namespace CodeImp.Bloodmasters.Server
 				{
 					// Go for all clients
 					while((numplayers < MAX_PLAYERS_PER_SNAPSHOT) &&
-					      (curplayer < General.server.clients.Length))
+					      (curplayer < Global.Instance.Server.clients.Length))
 					{
 						// Get current player
-						Client c = General.server.clients[curplayer];
+						Client c = Global.Instance.Server.clients[curplayer];
 
 						// Check if slot is used, playing
 						if((c != null) && !c.Loading && !c.Spectator)
@@ -1894,7 +1893,7 @@ namespace CodeImp.Bloodmasters.Server
 			if(msg != null)
 			{
 				// Go for all dynamic sectors
-				foreach(DynamicSector ds in General.server.dynamics)
+				foreach(DynamicSector ds in Global.Instance.Server.dynamics)
 				{
 					// Add movement information
 					ds.AddSectorMovement(msg);
@@ -1909,7 +1908,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void SendAllItemPickups()
 		{
 			// Go for all items
-			foreach(DictionaryEntry de in General.server.items)
+			foreach(DictionaryEntry de in Global.Instance.Server.items)
 			{
 				// Get the item
 				Item i = (Item)de.Value;
@@ -1927,7 +1926,7 @@ namespace CodeImp.Bloodmasters.Server
 			if((conn == null) || conn.Disposed) return;
 
 			// Go for all clients
-			foreach(Client c in General.server.clients)
+			foreach(Client c in Global.Instance.Server.clients)
 			{
 				// Check if slot is used
 				// and this is not ourself
@@ -1951,8 +1950,8 @@ namespace CodeImp.Bloodmasters.Server
 			if(msg != null)
 			{
 				// Add general information
-				msg.AddData((int)General.server.teamscore[1]);
-				msg.AddData((int)General.server.teamscore[2]);
+				msg.AddData((int)Global.Instance.Server.teamscore[1]);
+				msg.AddData((int)Global.Instance.Server.teamscore[2]);
 
 				// Send the message
 				msg.Send();
@@ -1993,17 +1992,17 @@ namespace CodeImp.Bloodmasters.Server
 			NetMessage msg = conn.CreateMessage(MsgCmd.StartGameInfo, true);
 			if(msg != null)
 			{
-				msg.AddData((string)General.server.Title);
-				msg.AddData((string)General.server.Website);
+				msg.AddData((string)Global.Instance.Server.Title);
+				msg.AddData((string)Global.Instance.Server.Website);
 				msg.AddData((string)name);
-				msg.AddData((string)General.server.map.Name);
-				msg.AddData((string)General.server.map.Title);
-				msg.AddData((byte)General.server.GameType);
-				msg.AddData((int)General.server.Scorelimit);
-				msg.AddData((short)General.server.MaxClients);
+				msg.AddData((string)Global.Instance.Server.map.Name);
+				msg.AddData((string)Global.Instance.Server.map.Title);
+				msg.AddData((byte)Global.Instance.Server.GameType);
+				msg.AddData((int)Global.Instance.Server.Scorelimit);
+				msg.AddData((short)Global.Instance.Server.MaxClients);
 				msg.AddData((byte)id);
-				msg.AddData((bool)General.server.IsTeamGame);
-				msg.AddData((bool)General.server.JoinSmallest);
+				msg.AddData((bool)Global.Instance.Server.IsTeamGame);
+				msg.AddData((bool)Global.Instance.Server.JoinSmallest);
 				msg.Send();
 
 				// Client is now loading this
@@ -2066,7 +2065,7 @@ namespace CodeImp.Bloodmasters.Server
 			this.Dispose();
 
 			// Show disconnected message to all clients
-			General.server.BroadcastShowMessage(name + "^7 disconnected", true, true);
+			Global.Instance.Server.BroadcastShowMessage(name + "^7 disconnected", true, true);
 		}
 
 		// This sends a correction to the client
@@ -2219,7 +2218,7 @@ namespace CodeImp.Bloodmasters.Server
 		{
 			// When this is NOT a teammate
 			if((source == null) || (source == this) ||
-			   (source.team != this.team) || !General.server.IsTeamGame)
+			   (source.team != this.team) || !Global.Instance.Server.IsTeamGame)
 			{
 				// Decrease powerup countdown
 				powercount -= amount;
@@ -2282,7 +2281,7 @@ namespace CodeImp.Bloodmasters.Server
 			dpos = state.pos + new Vector3D(0f, 0f, 6f);
 
 			// Go for all playing clients
-			foreach(Client c in General.server.clients)
+			foreach(Client c in Global.Instance.Server.clients)
 			{
 				// Client alive and not myself?
 				if((c != null) && (!c.Loading) && (c.IsAlive) && (c != this))
@@ -2299,7 +2298,7 @@ namespace CodeImp.Bloodmasters.Server
 					if(distance < Consts.POWERUP_STATIC_RANGE)
 					{
 						// Check if nothing blocks in between clients
-						if(!General.server.map.FindRayMapCollision(dpos, cpos))
+						if(!Global.Instance.Server.map.FindRayMapCollision(dpos, cpos))
 						{
 							// Hurt the other client slowly
 							c.Hurt(this, Client.DEATH_STATIC, Consts.POWERUP_STATIC_DAMAGE, DEATHMETHOD.NORMAL, dpos);
@@ -2515,7 +2514,7 @@ namespace CodeImp.Bloodmasters.Server
 			if(state != null)
 			{
 				// Go for all items
-				foreach(DictionaryEntry de in General.server.items)
+				foreach(DictionaryEntry de in Global.Instance.Server.items)
 				{
 					// Get the item
 					Item i = (Item)de.Value;
@@ -2556,7 +2555,7 @@ namespace CodeImp.Bloodmasters.Server
 			ArrayList sectors;
 
 			// Find touching sectors
-			sectors = General.server.map.FindTouchingSectors(state.pos.x, state.pos.y, Consts.PLAYER_RADIUS);
+			sectors = Global.Instance.Server.map.FindTouchingSectors(state.pos.x, state.pos.y, Consts.PLAYER_RADIUS);
 
 			// Find the highest sector floor
 			foreach(Sector s in sectors)
@@ -2710,7 +2709,7 @@ namespace CodeImp.Bloodmasters.Server
 				this.Dispose();
 
 				// Show timeout message to all clients
-				General.server.BroadcastShowMessage(name + "^7 disconnected (" + reason.ToLower() + ")", true, true);
+				Global.Instance.Server.BroadcastShowMessage(name + "^7 disconnected (" + reason.ToLower() + ")", true, true);
 			}
 
 			// State available?
@@ -2774,10 +2773,10 @@ namespace CodeImp.Bloodmasters.Server
 					pushvector /= 1f + Consts.PUSH_DECELERATION;
 
 					// Advance the position of this player
-					sendcorrection = state.ApplyVelocity(true, true, General.server.clients, this, out crossline);
+					sendcorrection = state.ApplyVelocity(true, true, Global.Instance.Server.clients, this, out crossline);
 
 					// Determine sector where player is in
-					sector = General.server.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
+					sector = Global.Instance.Server.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
 
 					// Pickup items
 					this.PickupItems();
@@ -2845,7 +2844,7 @@ namespace CodeImp.Bloodmasters.Server
 			if((clientupdatetime < SharedGeneral.currenttime) && !disposed)
 			{
 				// Broadcast update for me
-				General.server.BroadcastClientUpdate(this);
+				Global.Instance.Server.BroadcastClientUpdate(this);
 				clientupdatetime += CLIENT_UPDATE_INTERVAL;
 
 				// Also send a new gamesnapshot to me

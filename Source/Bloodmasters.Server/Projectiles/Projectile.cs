@@ -5,7 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
 using System.Collections;
 #if CLIENT
 using CodeImp.Bloodmasters.Client;
@@ -69,13 +68,13 @@ namespace CodeImp.Bloodmasters.Server
 			}
 
 			// Add projectile
-			projectileid = General.server.NewProjectile(this);
+			projectileid = Global.Instance.Server.NewProjectile(this);
 
 			// Keep the source
 			this.source = source;
 
 			// Copy properties
-			state = new ServerPhysicsState(General.server.map);
+			state = new ServerPhysicsState(Global.Instance.Server.map);
 			state.IsPlayer = false;
 			state.Blocking = false;
 			state.Bounce = true;
@@ -87,13 +86,13 @@ namespace CodeImp.Bloodmasters.Server
 			state.vel = vel;
 
 			// Where are we now?
-			sector = General.server.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
+			sector = Global.Instance.Server.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
 
 			// Determine velocity length
 			velocitylength = vel.Length();
 
 			// Broadcast projectile message
-			General.server.BroadcastSpawnProjectile(this);
+			Global.Instance.Server.BroadcastSpawnProjectile(this);
 		}
 
 		// Dispose
@@ -102,7 +101,7 @@ namespace CodeImp.Bloodmasters.Server
 			// Clean up
 			source = null;
 			state.Dispose();
-			General.server.disposeprojectiles.Add(this);
+			Global.Instance.Server.disposeprojectiles.Add(this);
 		}
 
 		#endregion
@@ -136,7 +135,7 @@ namespace CodeImp.Bloodmasters.Server
 			Vector3D oldpos = state.pos;
 
 			// Go for all things on the map
-			foreach(Thing t in General.server.map.Things)
+			foreach(Thing t in Global.Instance.Server.map.Things)
 			{
 				// Is this a spawn point with correct tag?
 				if((t.Type == (int)THINGTYPE.TELEPORT) && (t.Tag == tag))
@@ -150,20 +149,20 @@ namespace CodeImp.Bloodmasters.Server
 			if(dests.Count > 0)
 			{
 				// Choose a random destination
-				Thing ft = (Thing)dests[General.random.Next(dests.Count)];
+				Thing ft = (Thing)dests[Global.Instance.Random.Next(dests.Count)];
 
 				// Determine floor height difference
 				zdiff = state.pos.z - sector.CurrentFloor;
 
 				// Determine sector where projectile will be at
-				sector = General.server.map.GetSubSectorAt(ft.X, ft.Y).Sector;
+				sector = Global.Instance.Server.map.GetSubSectorAt(ft.X, ft.Y).Sector;
 
 				// Move the projectile here
 				state.pos = new Vector3D(ft.X, ft.Y, sector.CurrentFloor + zdiff);
 				state.vel = Vector3D.FromMapAngle(ft.Angle + (float)Math.PI * 0.5f, state.vel.Length());
 
 				// Broadcast projectile message
-				General.server.BroadcastTeleportProjectile(oldpos, this);
+				Global.Instance.Server.BroadcastTeleportProjectile(oldpos, this);
 			}
 		}
 
@@ -178,14 +177,14 @@ namespace CodeImp.Bloodmasters.Server
 			velocitylength = newvel.Length();
 
 			// Broadcast projectile message
-			General.server.BroadcastUpdateProjectile(this);
+			Global.Instance.Server.BroadcastUpdateProjectile(this);
 		}
 
 		// Call this to destroy the projectile
 		public virtual void Destroy(bool silent, Client hitplayer)
 		{
 			// Broadcast projectile message
-			General.server.BroadcastDestroyProjectile(this, silent, hitplayer);
+			Global.Instance.Server.BroadcastDestroyProjectile(this, silent, hitplayer);
 
 			// And dispose me
 			this.Dispose();
@@ -214,10 +213,10 @@ namespace CodeImp.Bloodmasters.Server
 			oldvel = state.vel;
 
 			// Apply velocity
-			collides = state.ApplyVelocity(true, true, General.server.clients, ignoreclient, out crossline, out hitobj);
+			collides = state.ApplyVelocity(true, true, Global.Instance.Server.clients, ignoreclient, out crossline, out hitobj);
 
 			// Outside the map?
-			if(!General.server.map.WithinBoundaries(state.pos.x, state.pos.y))
+			if(!Global.Instance.Server.map.WithinBoundaries(state.pos.x, state.pos.y))
 			{
 				// Destroy silently
 				this.Destroy(true, null);
@@ -225,7 +224,7 @@ namespace CodeImp.Bloodmasters.Server
 			}
 
 			// Where are we now?
-			sector = General.server.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
+			sector = Global.Instance.Server.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
 
 			// Collision?
 			if(collides)

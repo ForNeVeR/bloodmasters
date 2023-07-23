@@ -1,4 +1,3 @@
-using System.IO;
 #if CLIENT
 using CodeImp.Bloodmasters.Client;
 #endif
@@ -14,7 +13,7 @@ public class ServerSector : Sector
     protected override void DropPlayers()
     {
         // Go for all clients
-        foreach(Client c in General.server.clients)
+        foreach(Client c in Global.Instance.Server.clients)
         {
             // Client in this sector and on the floor?
             if((c != null) && c.IsAlive && (c.HighestSector == this) && c.IsOnFloor)

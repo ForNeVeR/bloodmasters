@@ -589,8 +589,8 @@ namespace CodeImp.Bloodmasters.Client
 				switch(team)
 				{
 					case TEAM.NONE: formattedname = name; break;
-					case TEAM.RED: formattedname = "^4" + General.StripColorCodes(name); break;
-					case TEAM.BLUE: formattedname = "^1" + General.StripColorCodes(name); break;
+					case TEAM.RED: formattedname = "^4" + Markup.StripColorCodes(name); break;
+					case TEAM.BLUE: formattedname = "^1" + Markup.StripColorCodes(name); break;
 				}
 			}
 			else

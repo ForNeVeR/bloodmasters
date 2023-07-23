@@ -18,27 +18,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="General\Client.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="General\DynamicSector.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="General\GameServer.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="General\General.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="General\Platform.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="General\ProxyDoor.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="General\ServerPhysicsState.cs" />
-    <Compile Include="General\ServerPlayerCollision.cs" />
-    <Compile Include="General\ServerWallCollision.cs" />
     <Compile Include="Items\AmmoBullets.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -93,9 +75,6 @@
     <Compile Include="Items\IonCannon.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\Item.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Killer.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -123,9 +102,6 @@
     <Compile Include="Items\ScavengerItem.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Items\ServerItem.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Items\Shields.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -138,40 +114,19 @@
     <Compile Include="Items\WhiteScavengerItem.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Map\ServerMap.cs" />
-    <Compile Include="Map\ServerSector.cs" />
-    <Compile Include="Net\ServerGateway.cs" />
-    <Compile Include="Projectiles\Flames.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Projectiles\Grenade.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Projectiles\IonBall.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Projectiles\NukeDetonation.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Projectiles\PlasmaBall.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Projectiles\Projectile.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Projectiles\ProjectileInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Projectiles\Rocket.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Weapons\Bullet.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Weapons\Weapon.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Weapons\WeaponInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Weapons\WGrenadeLauncher.cs">
@@ -197,6 +152,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bloodmasters.Server\Bloodmasters.Server.csproj" />
     <ProjectReference Include="..\Shared\Bloodmasters.Shared.csproj" />
   </ItemGroup>
 </Project>
