@@ -301,9 +301,9 @@ namespace CodeImp.Bloodmasters.Launcher
             pnlIcon.SuspendLayout();
             pnlTabs.SuspendLayout();
             SuspendLayout();
-            // 
+            //
             // picLogo
-            // 
+            //
             picLogo.BackColor = Color.Black;
             picLogo.BorderStyle = BorderStyle.Fixed3D;
             picLogo.Cursor = Cursors.Hand;
@@ -316,9 +316,9 @@ namespace CodeImp.Bloodmasters.Launcher
             picLogo.TabIndex = 0;
             picLogo.TabStop = false;
             picLogo.Click += picLogo_Click;
-            // 
+            //
             // tabsMode
-            // 
+            //
             tabsMode.Controls.Add(tabFind);
             tabsMode.Controls.Add(tabHost);
             tabsMode.Dock = DockStyle.Fill;
@@ -330,9 +330,9 @@ namespace CodeImp.Bloodmasters.Launcher
             tabsMode.Size = new Size(939, 563);
             tabsMode.TabIndex = 1;
             tabsMode.SelectedIndexChanged += tabsMode_SelectedIndexChanged;
-            // 
+            //
             // tabFind
-            // 
+            //
             tabFind.BackColor = SystemColors.Control;
             tabFind.Controls.Add(btnRefreshGames);
             tabFind.Controls.Add(btnGameDetails);
@@ -353,9 +353,9 @@ namespace CodeImp.Bloodmasters.Launcher
             tabFind.Size = new Size(931, 534);
             tabFind.TabIndex = 3;
             tabFind.Text = "Find Game";
-            // 
+            //
             // btnRefreshGames
-            // 
+            //
             btnRefreshGames.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnRefreshGames.FlatStyle = FlatStyle.System;
             btnRefreshGames.Font = new Font("Arial", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
@@ -366,9 +366,9 @@ namespace CodeImp.Bloodmasters.Launcher
             btnRefreshGames.Text = "Refresh";
             tltDescription.SetToolTip(btnRefreshGames, "Refresh entire servers list");
             btnRefreshGames.Click += btnRefreshGames_Click;
-            // 
+            //
             // btnGameDetails
-            // 
+            //
             btnGameDetails.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnGameDetails.Enabled = false;
             btnGameDetails.FlatStyle = FlatStyle.System;
@@ -380,9 +380,9 @@ namespace CodeImp.Bloodmasters.Launcher
             btnGameDetails.Text = " Game Details...";
             tltDescription.SetToolTip(btnGameDetails, "Shows detailed game information of the selected server");
             btnGameDetails.Click += btnGameDetails_Click;
-            // 
+            //
             // btnManualJoin
-            // 
+            //
             btnManualJoin.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnManualJoin.FlatStyle = FlatStyle.System;
             btnManualJoin.Font = new Font("Arial", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
@@ -393,9 +393,9 @@ namespace CodeImp.Bloodmasters.Launcher
             btnManualJoin.Text = " Specify...";
             tltDescription.SetToolTip(btnManualJoin, "Allows you to specify a server by IP address and port number");
             btnManualJoin.Click += btnManualJoin_Click;
-            // 
+            //
             // btnJoinGame1
-            // 
+            //
             btnJoinGame1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnJoinGame1.Enabled = false;
             btnJoinGame1.FlatStyle = FlatStyle.System;
@@ -407,9 +407,9 @@ namespace CodeImp.Bloodmasters.Launcher
             btnJoinGame1.Text = "Join";
             tltDescription.SetToolTip(btnJoinGame1, "Joins the selected game");
             btnJoinGame1.Click += btnJoinGame1_Click;
-            // 
+            //
             // cmbMap
-            // 
+            //
             cmbMap.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cmbMap.Location = new Point(730, 15);
             cmbMap.MaxDropDownItems = 10;
@@ -419,9 +419,9 @@ namespace CodeImp.Bloodmasters.Launcher
             cmbMap.TabIndex = 10;
             tltDescription.SetToolTip(cmbMap, "Whole or part of the short map name you are looking for");
             cmbMap.TextChanged += cmbMap_TextChanged;
-            // 
+            //
             // lblMap
-            // 
+            //
             lblMap.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblMap.BackColor = Color.Transparent;
             lblMap.Location = new Point(674, 15);
@@ -431,9 +431,9 @@ namespace CodeImp.Bloodmasters.Launcher
             lblMap.Text = "Map:";
             lblMap.TextAlign = ContentAlignment.MiddleRight;
             lblMap.UseMnemonic = false;
-            // 
+            //
             // cmbType
-            // 
+            //
             cmbType.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cmbType.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbType.Items.AddRange(new object[] { "Any", "DM", "TDM", "CTF", "SC", "TSC" });
@@ -444,9 +444,9 @@ namespace CodeImp.Bloodmasters.Launcher
             cmbType.TabIndex = 8;
             tltDescription.SetToolTip(cmbType, "Type of game you are looking for");
             cmbType.SelectedIndexChanged += cmbType_SelectedIndexChanged;
-            // 
+            //
             // lblType
-            // 
+            //
             lblType.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblType.Location = new Point(500, 15);
             lblType.Name = "lblType";
@@ -454,9 +454,9 @@ namespace CodeImp.Bloodmasters.Launcher
             lblType.TabIndex = 7;
             lblType.Text = "Type:";
             lblType.TextAlign = ContentAlignment.MiddleRight;
-            // 
+            //
             // chkShowEmpty
-            // 
+            //
             chkShowEmpty.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             chkShowEmpty.FlatStyle = FlatStyle.System;
             chkShowEmpty.Location = new Point(411, 15);
@@ -466,9 +466,9 @@ namespace CodeImp.Bloodmasters.Launcher
             chkShowEmpty.Text = "Empty";
             tltDescription.SetToolTip(chkShowEmpty, "Shows empty servers when checked");
             chkShowEmpty.CheckedChanged += chkShowEmpty_CheckedChanged;
-            // 
+            //
             // chkShowFull
-            // 
+            //
             chkShowFull.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             chkShowFull.FlatStyle = FlatStyle.System;
             chkShowFull.Location = new Point(327, 15);
@@ -478,9 +478,9 @@ namespace CodeImp.Bloodmasters.Launcher
             chkShowFull.Text = "Full";
             tltDescription.SetToolTip(chkShowFull, "Shows full servers when checked");
             chkShowFull.CheckedChanged += chkShowFull_CheckedChanged;
-            // 
+            //
             // txtFilterTitles
-            // 
+            //
             txtFilterTitles.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtFilterTitles.Location = new Point(95, 15);
             txtFilterTitles.Name = "txtFilterTitles";
@@ -488,9 +488,9 @@ namespace CodeImp.Bloodmasters.Launcher
             txtFilterTitles.TabIndex = 2;
             tltDescription.SetToolTip(txtFilterTitles, "Whole or part of the server title you are looking for");
             txtFilterTitles.TextChanged += txtFilterTitles_TextChanged;
-            // 
+            //
             // lblFilterTitles
-            // 
+            //
             lblFilterTitles.BackColor = Color.Transparent;
             lblFilterTitles.Location = new Point(6, 15);
             lblFilterTitles.Name = "lblFilterTitles";
@@ -499,9 +499,9 @@ namespace CodeImp.Bloodmasters.Launcher
             lblFilterTitles.Text = "Filter titles:";
             lblFilterTitles.TextAlign = ContentAlignment.MiddleRight;
             lblFilterTitles.UseMnemonic = false;
-            // 
+            //
             // lstGames
-            // 
+            //
             lstGames.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lstGames.Columns.AddRange(new ColumnHeader[] { clmTitle, clmPing, clmPlayers, clmClients, clmType, clmMap });
             lstGames.FullRowSelect = true;
@@ -519,57 +519,57 @@ namespace CodeImp.Bloodmasters.Launcher
             lstGames.SelectedIndexChanged += lstGames_SelectedIndexChanged;
             lstGames.DoubleClick += lstGames_DoubleClick;
             lstGames.MouseUp += lstGames_MouseUp;
-            // 
+            //
             // clmTitle
-            // 
+            //
             clmTitle.Text = "Server";
             clmTitle.Width = 259;
-            // 
+            //
             // clmPing
-            // 
+            //
             clmPing.Text = "Ping";
             clmPing.TextAlign = HorizontalAlignment.Right;
             clmPing.Width = 52;
-            // 
+            //
             // clmPlayers
-            // 
+            //
             clmPlayers.Text = "Players";
             clmPlayers.TextAlign = HorizontalAlignment.Right;
-            // 
+            //
             // clmClients
-            // 
+            //
             clmClients.Text = "Clients";
             clmClients.TextAlign = HorizontalAlignment.Right;
-            // 
+            //
             // clmType
-            // 
+            //
             clmType.Text = "Type";
             clmType.TextAlign = HorizontalAlignment.Right;
             clmType.Width = 50;
-            // 
+            //
             // clmMap
-            // 
+            //
             clmMap.Text = "Current Map";
             clmMap.TextAlign = HorizontalAlignment.Right;
             clmMap.Width = 128;
-            // 
+            //
             // imglstFlags
-            // 
+            //
             imglstFlags.ColorDepth = ColorDepth.Depth32Bit;
             imglstFlags.ImageStream = (ImageListStreamer)resources.GetObject("imglstFlags.ImageStream");
             imglstFlags.TransparentColor = Color.Transparent;
             imglstFlags.Images.SetKeyName(0, "");
-            // 
+            //
             // imglstGame
-            // 
+            //
             imglstGame.ColorDepth = ColorDepth.Depth32Bit;
             imglstGame.ImageStream = (ImageListStreamer)resources.GetObject("imglstGame.ImageStream");
             imglstGame.TransparentColor = Color.Transparent;
             imglstGame.Images.SetKeyName(0, "");
             imglstGame.Images.SetKeyName(1, "");
-            // 
+            //
             // tabHost
-            // 
+            //
             tabHost.Controls.Add(btnExportConfig);
             tabHost.Controls.Add(btnImportConfig);
             tabHost.Controls.Add(btnHostGame);
@@ -580,9 +580,9 @@ namespace CodeImp.Bloodmasters.Launcher
             tabHost.Size = new Size(943, 534);
             tabHost.TabIndex = 1;
             tabHost.Text = "Host Game";
-            // 
+            //
             // btnExportConfig
-            // 
+            //
             btnExportConfig.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnExportConfig.FlatStyle = FlatStyle.System;
             btnExportConfig.Font = new Font("Arial", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
@@ -593,9 +593,9 @@ namespace CodeImp.Bloodmasters.Launcher
             btnExportConfig.Text = "Export Config...";
             tltDescription.SetToolTip(btnExportConfig, "Saves the server configuration to a file");
             btnExportConfig.Click += btnExportConfig_Click;
-            // 
+            //
             // btnImportConfig
-            // 
+            //
             btnImportConfig.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnImportConfig.FlatStyle = FlatStyle.System;
             btnImportConfig.Font = new Font("Arial", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
@@ -605,9 +605,9 @@ namespace CodeImp.Bloodmasters.Launcher
             btnImportConfig.TabIndex = 14;
             btnImportConfig.Text = "Import Config...";
             tltDescription.SetToolTip(btnImportConfig, "Loads the server configuration from a file");
-            // 
+            //
             // btnHostGame
-            // 
+            //
             btnHostGame.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnHostGame.FlatStyle = FlatStyle.System;
             btnHostGame.Font = new Font("Arial", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
@@ -618,9 +618,9 @@ namespace CodeImp.Bloodmasters.Launcher
             btnHostGame.Text = "Launch";
             tltDescription.SetToolTip(btnHostGame, "Launches the server and joins the game if not dedicated");
             btnHostGame.Click += btnHostGame_Click;
-            // 
+            //
             // pnlHostGame
-            // 
+            //
             pnlHostGame.Anchor = AnchorStyles.None;
             pnlHostGame.Controls.Add(grpMaps);
             pnlHostGame.Controls.Add(grpSettings);
@@ -630,9 +630,9 @@ namespace CodeImp.Bloodmasters.Launcher
             pnlHostGame.Padding = new Padding(6);
             pnlHostGame.Size = new Size(943, 534);
             pnlHostGame.TabIndex = 4;
-            // 
+            //
             // grpMaps
-            // 
+            //
             grpMaps.Controls.Add(lblMapTitle);
             grpMaps.Controls.Add(label9);
             grpMaps.Controls.Add(lblMapPlayers);
@@ -647,9 +647,9 @@ namespace CodeImp.Bloodmasters.Launcher
             grpMaps.TabIndex = 16;
             grpMaps.TabStop = false;
             grpMaps.Text = " Maps ";
-            // 
+            //
             // lblMapTitle
-            // 
+            //
             lblMapTitle.BackColor = Color.Transparent;
             lblMapTitle.Location = new Point(336, 226);
             lblMapTitle.Name = "lblMapTitle";
@@ -657,9 +657,9 @@ namespace CodeImp.Bloodmasters.Launcher
             lblMapTitle.TabIndex = 28;
             lblMapTitle.TextAlign = ContentAlignment.MiddleLeft;
             lblMapTitle.UseMnemonic = false;
-            // 
+            //
             // label9
-            // 
+            //
             label9.BackColor = Color.Transparent;
             label9.Location = new Point(263, 226);
             label9.Name = "label9";
@@ -668,9 +668,9 @@ namespace CodeImp.Bloodmasters.Launcher
             label9.Text = "Title:";
             label9.TextAlign = ContentAlignment.MiddleRight;
             label9.UseMnemonic = false;
-            // 
+            //
             // lblMapPlayers
-            // 
+            //
             lblMapPlayers.BackColor = Color.Transparent;
             lblMapPlayers.Location = new Point(336, 276);
             lblMapPlayers.Name = "lblMapPlayers";
@@ -678,9 +678,9 @@ namespace CodeImp.Bloodmasters.Launcher
             lblMapPlayers.TabIndex = 26;
             lblMapPlayers.TextAlign = ContentAlignment.MiddleLeft;
             lblMapPlayers.UseMnemonic = false;
-            // 
+            //
             // lblMapAuthor
-            // 
+            //
             lblMapAuthor.BackColor = Color.Transparent;
             lblMapAuthor.Location = new Point(336, 251);
             lblMapAuthor.Name = "lblMapAuthor";
@@ -688,9 +688,9 @@ namespace CodeImp.Bloodmasters.Launcher
             lblMapAuthor.TabIndex = 25;
             lblMapAuthor.TextAlign = ContentAlignment.MiddleLeft;
             lblMapAuthor.UseMnemonic = false;
-            // 
+            //
             // picMapPreview
-            // 
+            //
             picMapPreview.BackColor = SystemColors.AppWorkspace;
             picMapPreview.BorderStyle = BorderStyle.Fixed3D;
             picMapPreview.Location = new Point(269, 30);
@@ -699,9 +699,9 @@ namespace CodeImp.Bloodmasters.Launcher
             picMapPreview.SizeMode = PictureBoxSizeMode.StretchImage;
             picMapPreview.TabIndex = 24;
             picMapPreview.TabStop = false;
-            // 
+            //
             // label6
-            // 
+            //
             label6.BackColor = Color.Transparent;
             label6.Location = new Point(263, 276);
             label6.Name = "label6";
@@ -710,9 +710,9 @@ namespace CodeImp.Bloodmasters.Launcher
             label6.Text = "Players:";
             label6.TextAlign = ContentAlignment.MiddleRight;
             label6.UseMnemonic = false;
-            // 
+            //
             // label5
-            // 
+            //
             label5.BackColor = Color.Transparent;
             label5.Location = new Point(263, 251);
             label5.Name = "label5";
@@ -721,9 +721,9 @@ namespace CodeImp.Bloodmasters.Launcher
             label5.Text = "Author:";
             label5.TextAlign = ContentAlignment.MiddleRight;
             label5.UseMnemonic = false;
-            // 
+            //
             // lstMaps
-            // 
+            //
             lstMaps.CheckOnClick = true;
             lstMaps.IntegralHeight = false;
             lstMaps.Location = new Point(17, 30);
@@ -735,9 +735,9 @@ namespace CodeImp.Bloodmasters.Launcher
             lstMaps.SelectedIndexChanged += lstMaps_SelectedIndexChanged;
             lstMaps.MouseLeave += lstMaps_MouseLeave;
             lstMaps.MouseMove += lstMaps_MouseMove;
-            // 
+            //
             // grpSettings
-            // 
+            //
             grpSettings.BackColor = Color.Transparent;
             grpSettings.Controls.Add(txtServerPort);
             grpSettings.Controls.Add(label7);
@@ -756,9 +756,9 @@ namespace CodeImp.Bloodmasters.Launcher
             grpSettings.TabIndex = 15;
             grpSettings.TabStop = false;
             grpSettings.Text = " Settings ";
-            // 
+            //
             // txtServerPort
-            // 
+            //
             txtServerPort.Location = new Point(134, 271);
             txtServerPort.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             txtServerPort.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
@@ -768,9 +768,9 @@ namespace CodeImp.Bloodmasters.Launcher
             txtServerPort.TextAlign = HorizontalAlignment.Center;
             tltDescription.SetToolTip(txtServerPort, "Maximum number of clients allowed on server");
             txtServerPort.Value = new decimal(new int[] { 6969, 0, 0, 0 });
-            // 
+            //
             // label7
-            // 
+            //
             label7.Location = new Point(17, 271);
             label7.Name = "label7";
             label7.Size = new Size(112, 19);
@@ -778,9 +778,9 @@ namespace CodeImp.Bloodmasters.Launcher
             label7.Text = "Server port:";
             label7.TextAlign = ContentAlignment.BottomRight;
             label7.UseMnemonic = false;
-            // 
+            //
             // chkServerJoinSmallest
-            // 
+            //
             chkServerJoinSmallest.BackColor = SystemColors.Control;
             chkServerJoinSmallest.FlatStyle = FlatStyle.System;
             chkServerJoinSmallest.Location = new Point(45, 172);
@@ -790,9 +790,9 @@ namespace CodeImp.Bloodmasters.Launcher
             chkServerJoinSmallest.Text = "Always join smallest team";
             tltDescription.SetToolTip(chkServerJoinSmallest, "Forces joining people on the smallest team when checked");
             chkServerJoinSmallest.UseVisualStyleBackColor = false;
-            // 
+            //
             // txtServerTimelimit
-            // 
+            //
             txtServerTimelimit.Location = new Point(134, 133);
             txtServerTimelimit.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             txtServerTimelimit.Name = "txtServerTimelimit";
@@ -801,9 +801,9 @@ namespace CodeImp.Bloodmasters.Launcher
             txtServerTimelimit.TextAlign = HorizontalAlignment.Center;
             tltDescription.SetToolTip(txtServerTimelimit, "Maximum duration of the game in minutes");
             txtServerTimelimit.Value = new decimal(new int[] { 15, 0, 0, 0 });
-            // 
+            //
             // txtServerFraglimit
-            // 
+            //
             txtServerFraglimit.Location = new Point(134, 98);
             txtServerFraglimit.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             txtServerFraglimit.Name = "txtServerFraglimit";
@@ -812,9 +812,9 @@ namespace CodeImp.Bloodmasters.Launcher
             txtServerFraglimit.TextAlign = HorizontalAlignment.Center;
             tltDescription.SetToolTip(txtServerFraglimit, "Frags or captures required to end the game");
             txtServerFraglimit.Value = new decimal(new int[] { 20, 0, 0, 0 });
-            // 
+            //
             // txtServerPlayers
-            // 
+            //
             txtServerPlayers.Location = new Point(134, 64);
             txtServerPlayers.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             txtServerPlayers.Minimum = new decimal(new int[] { 2, 0, 0, 0 });
@@ -824,9 +824,9 @@ namespace CodeImp.Bloodmasters.Launcher
             txtServerPlayers.TextAlign = HorizontalAlignment.Center;
             tltDescription.SetToolTip(txtServerPlayers, "Maximum number of players allowed");
             txtServerPlayers.Value = new decimal(new int[] { 10, 0, 0, 0 });
-            // 
+            //
             // txtServerClients
-            // 
+            //
             txtServerClients.Location = new Point(134, 30);
             txtServerClients.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             txtServerClients.Minimum = new decimal(new int[] { 2, 0, 0, 0 });
@@ -836,9 +836,9 @@ namespace CodeImp.Bloodmasters.Launcher
             txtServerClients.TextAlign = HorizontalAlignment.Center;
             tltDescription.SetToolTip(txtServerClients, "Maximum number of clients allowed on server");
             txtServerClients.Value = new decimal(new int[] { 10, 0, 0, 0 });
-            // 
+            //
             // lblTimelimit
-            // 
+            //
             lblTimelimit.BackColor = Color.Transparent;
             lblTimelimit.Location = new Point(17, 133);
             lblTimelimit.Name = "lblTimelimit";
@@ -847,9 +847,9 @@ namespace CodeImp.Bloodmasters.Launcher
             lblTimelimit.Text = "Time limit:";
             lblTimelimit.TextAlign = ContentAlignment.BottomRight;
             lblTimelimit.UseMnemonic = false;
-            // 
+            //
             // lblFraglimit
-            // 
+            //
             lblFraglimit.BackColor = Color.Transparent;
             lblFraglimit.Location = new Point(17, 98);
             lblFraglimit.Name = "lblFraglimit";
@@ -858,9 +858,9 @@ namespace CodeImp.Bloodmasters.Launcher
             lblFraglimit.Text = "Score limit:";
             lblFraglimit.TextAlign = ContentAlignment.BottomRight;
             lblFraglimit.UseMnemonic = false;
-            // 
+            //
             // lblPlayers
-            // 
+            //
             lblPlayers.BackColor = Color.Transparent;
             lblPlayers.Location = new Point(17, 64);
             lblPlayers.Name = "lblPlayers";
@@ -869,9 +869,9 @@ namespace CodeImp.Bloodmasters.Launcher
             lblPlayers.Text = "Max players:";
             lblPlayers.TextAlign = ContentAlignment.BottomRight;
             lblPlayers.UseMnemonic = false;
-            // 
+            //
             // lblClients
-            // 
+            //
             lblClients.BackColor = Color.Transparent;
             lblClients.Location = new Point(17, 30);
             lblClients.Name = "lblClients";
@@ -880,9 +880,9 @@ namespace CodeImp.Bloodmasters.Launcher
             lblClients.Text = "Max clients:";
             lblClients.TextAlign = ContentAlignment.BottomRight;
             lblClients.UseMnemonic = false;
-            // 
+            //
             // grpGeneral
-            // 
+            //
             grpGeneral.Controls.Add(chkServerAddToMaster);
             grpGeneral.Controls.Add(txtServerPassword);
             grpGeneral.Controls.Add(label4);
@@ -900,9 +900,9 @@ namespace CodeImp.Bloodmasters.Launcher
             grpGeneral.TabIndex = 13;
             grpGeneral.TabStop = false;
             grpGeneral.Text = " General ";
-            // 
+            //
             // chkServerAddToMaster
-            // 
+            //
             chkServerAddToMaster.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             chkServerAddToMaster.FlatStyle = FlatStyle.System;
             chkServerAddToMaster.Location = new Point(713, 69);
@@ -911,18 +911,18 @@ namespace CodeImp.Bloodmasters.Launcher
             chkServerAddToMaster.TabIndex = 20;
             chkServerAddToMaster.Text = "Show in public list";
             tltDescription.SetToolTip(chkServerAddToMaster, "Shows your server on the internet so that people can find it");
-            // 
+            //
             // txtServerPassword
-            // 
+            //
             txtServerPassword.Location = new Point(403, 69);
             txtServerPassword.MaxLength = 50;
             txtServerPassword.Name = "txtServerPassword";
             txtServerPassword.Size = new Size(202, 23);
             txtServerPassword.TabIndex = 18;
             tltDescription.SetToolTip(txtServerPassword, "Password to lock the server");
-            // 
+            //
             // label4
-            // 
+            //
             label4.BackColor = Color.Transparent;
             label4.Location = new Point(314, 69);
             label4.Name = "label4";
@@ -931,9 +931,9 @@ namespace CodeImp.Bloodmasters.Launcher
             label4.Text = "Password:";
             label4.TextAlign = ContentAlignment.MiddleRight;
             label4.UseMnemonic = false;
-            // 
+            //
             // cmbServerType
-            // 
+            //
             cmbServerType.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbServerType.Items.AddRange(new object[] { "Deathmatch (DM)", "Team Deathmatch (TDM)", "Capture The Flag (CTF)", "Scavenger (SC)", "Team Scavenger (TSC)" });
             cmbServerType.Location = new Point(101, 69);
@@ -943,9 +943,9 @@ namespace CodeImp.Bloodmasters.Launcher
             cmbServerType.TabIndex = 16;
             tltDescription.SetToolTip(cmbServerType, "Type of game to play");
             cmbServerType.SelectedIndexChanged += cmbServerType_SelectedIndexChanged;
-            // 
+            //
             // label3
-            // 
+            //
             label3.BackColor = Color.Transparent;
             label3.Location = new Point(6, 69);
             label3.Name = "label3";
@@ -954,18 +954,18 @@ namespace CodeImp.Bloodmasters.Launcher
             label3.Text = "Game type:";
             label3.TextAlign = ContentAlignment.MiddleRight;
             label3.UseMnemonic = false;
-            // 
+            //
             // txtServerWebsite
-            // 
+            //
             txtServerWebsite.Location = new Point(403, 30);
             txtServerWebsite.MaxLength = 300;
             txtServerWebsite.Name = "txtServerWebsite";
             txtServerWebsite.Size = new Size(202, 23);
             txtServerWebsite.TabIndex = 14;
             tltDescription.SetToolTip(txtServerWebsite, "Complete URL of the website related to this game server");
-            // 
+            //
             // label2
-            // 
+            //
             label2.BackColor = Color.Transparent;
             label2.Location = new Point(325, 30);
             label2.Name = "label2";
@@ -974,18 +974,18 @@ namespace CodeImp.Bloodmasters.Launcher
             label2.Text = "Website:";
             label2.TextAlign = ContentAlignment.MiddleRight;
             label2.UseMnemonic = false;
-            // 
+            //
             // txtServerTitle
-            // 
+            //
             txtServerTitle.Location = new Point(101, 30);
             txtServerTitle.MaxLength = 200;
             txtServerTitle.Name = "txtServerTitle";
             txtServerTitle.Size = new Size(196, 23);
             txtServerTitle.TabIndex = 12;
             tltDescription.SetToolTip(txtServerTitle, "Title of the game to display in the servers list");
-            // 
+            //
             // label1
-            // 
+            //
             label1.BackColor = Color.Transparent;
             label1.Location = new Point(6, 30);
             label1.Name = "label1";
@@ -994,9 +994,9 @@ namespace CodeImp.Bloodmasters.Launcher
             label1.Text = "Title:";
             label1.TextAlign = ContentAlignment.MiddleRight;
             label1.UseMnemonic = false;
-            // 
+            //
             // chkServerDedicated
-            // 
+            //
             chkServerDedicated.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             chkServerDedicated.FlatStyle = FlatStyle.System;
             chkServerDedicated.Location = new Point(713, 30);
@@ -1005,9 +1005,9 @@ namespace CodeImp.Bloodmasters.Launcher
             chkServerDedicated.TabIndex = 19;
             chkServerDedicated.Text = "Dedicated server";
             tltDescription.SetToolTip(chkServerDedicated, "Only a dedicated server will be started when checked");
-            // 
+            //
             // btnOptions
-            // 
+            //
             btnOptions.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnOptions.DialogResult = DialogResult.Cancel;
             btnOptions.FlatStyle = FlatStyle.System;
@@ -1019,9 +1019,9 @@ namespace CodeImp.Bloodmasters.Launcher
             btnOptions.Text = "Options...";
             tltDescription.SetToolTip(btnOptions, "Displays the options configuration dialog");
             btnOptions.Click += btnOptions_Click;
-            // 
+            //
             // btnExit
-            // 
+            //
             btnExit.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnExit.DialogResult = DialogResult.Cancel;
             btnExit.FlatStyle = FlatStyle.System;
@@ -1033,76 +1033,76 @@ namespace CodeImp.Bloodmasters.Launcher
             btnExit.Text = "Exit";
             tltDescription.SetToolTip(btnExit, "Click this and the devil will take your soul");
             btnExit.Click += btnExit_Click;
-            // 
+            //
             // mnuGame
-            // 
+            //
             mnuGame.ImageScalingSize = new Size(20, 20);
             mnuGame.Items.AddRange(new ToolStripItem[] { itmJoinGame1, itmGameDetails, menuItem3, itmGameWebsite, menuItem7, itmCopyGameTitle, itmCopyGameDetails, itmCopyGameIP });
             mnuGame.Name = "mnuGame";
             mnuGame.Size = new Size(238, 196);
-            // 
+            //
             // itmJoinGame1
-            // 
+            //
             itmJoinGame1.Name = "itmJoinGame1";
             itmJoinGame1.Size = new Size(237, 24);
             itmJoinGame1.Text = "Join Game";
             itmJoinGame1.Click += btnJoinGame1_Click;
-            // 
+            //
             // itmGameDetails
-            // 
+            //
             itmGameDetails.Name = "itmGameDetails";
             itmGameDetails.Size = new Size(237, 24);
             itmGameDetails.Text = "Show Game Details...";
             itmGameDetails.Click += btnGameDetails_Click;
-            // 
+            //
             // menuItem3
-            // 
+            //
             menuItem3.Name = "menuItem3";
             menuItem3.Size = new Size(237, 24);
             menuItem3.Text = "-";
-            // 
+            //
             // itmGameWebsite
-            // 
+            //
             itmGameWebsite.Name = "itmGameWebsite";
             itmGameWebsite.Size = new Size(237, 24);
             itmGameWebsite.Text = "Browse Website";
             itmGameWebsite.Click += itmGameWebsite_Click;
-            // 
+            //
             // menuItem7
-            // 
+            //
             menuItem7.Name = "menuItem7";
             menuItem7.Size = new Size(237, 24);
             menuItem7.Text = "-";
-            // 
+            //
             // itmCopyGameTitle
-            // 
+            //
             itmCopyGameTitle.Name = "itmCopyGameTitle";
             itmCopyGameTitle.Size = new Size(237, 24);
             itmCopyGameTitle.Text = "Copy Game Title";
             itmCopyGameTitle.Click += itmCopyGameTitle_Click;
-            // 
+            //
             // itmCopyGameDetails
-            // 
+            //
             itmCopyGameDetails.Name = "itmCopyGameDetails";
             itmCopyGameDetails.Size = new Size(237, 24);
             itmCopyGameDetails.Text = "Copy Game Information";
             itmCopyGameDetails.Click += itmCopyGameDetails_Click;
-            // 
+            //
             // itmCopyGameIP
-            // 
+            //
             itmCopyGameIP.Name = "itmCopyGameIP";
             itmCopyGameIP.Size = new Size(237, 24);
             itmCopyGameIP.Text = "Copy Game Address";
             itmCopyGameIP.Click += itmCopyGameIP_Click;
-            // 
+            //
             // tltDescription
-            // 
+            //
             tltDescription.AutoPopDelay = 6000;
             tltDescription.InitialDelay = 300;
             tltDescription.ReshowDelay = 50;
-            // 
+            //
             // stbStatus
-            // 
+            //
             stbStatus.Font = new Font("Arial", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
             stbStatus.ImageScalingSize = new Size(20, 20);
             stbStatus.Items.AddRange(new ToolStripItem[] { stpPanel, stpVersion });
@@ -1110,32 +1110,32 @@ namespace CodeImp.Bloodmasters.Launcher
             stbStatus.Name = "stbStatus";
             stbStatus.Size = new Size(951, 22);
             stbStatus.TabIndex = 4;
-            // 
+            //
             // stpPanel
-            // 
+            //
             stpPanel.Name = "stpPanel";
             stpPanel.Size = new Size(57, 16);
             stpPanel.Text = " Ready.";
-            // 
+            //
             // stpVersion
-            // 
+            //
             stpVersion.Name = "stpVersion";
             stpVersion.Size = new Size(125, 16);
             stpVersion.Text = " version 0.0.0000";
-            // 
+            //
             // dlgSaveConfig
-            // 
+            //
             dlgSaveConfig.DefaultExt = "cfg";
             dlgSaveConfig.Filter = "Configurations   *.cfg|*.cfg|All files|*.*";
             dlgSaveConfig.Title = "Export Configuration";
-            // 
+            //
             // tmrUpdateList
-            // 
+            //
             tmrUpdateList.Interval = 200;
             tmrUpdateList.Tick += tmrUpdateList_Tick;
-            // 
+            //
             // pnlIcon
-            // 
+            //
             pnlIcon.Controls.Add(picLogo);
             pnlIcon.Dock = DockStyle.Top;
             pnlIcon.Location = new Point(0, 0);
@@ -1143,9 +1143,9 @@ namespace CodeImp.Bloodmasters.Launcher
             pnlIcon.Padding = new Padding(6);
             pnlIcon.Size = new Size(951, 106);
             pnlIcon.TabIndex = 5;
-            // 
+            //
             // pnlTabs
-            // 
+            //
             pnlTabs.Controls.Add(btnExit);
             pnlTabs.Controls.Add(btnOptions);
             pnlTabs.Controls.Add(tabsMode);
@@ -1155,10 +1155,11 @@ namespace CodeImp.Bloodmasters.Launcher
             pnlTabs.Padding = new Padding(6, 0, 6, 0);
             pnlTabs.Size = new Size(951, 563);
             pnlTabs.TabIndex = 6;
-            // 
+            //
             // FormMain
-            // 
-            AutoScaleBaseSize = new Size(7, 16);
+            //
+            AutoScaleDimensions = new SizeF(7F, 16F);
+            AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnExit;
             ClientSize = new Size(951, 691);
             Controls.Add(pnlTabs);
@@ -1704,6 +1705,8 @@ namespace CodeImp.Bloodmasters.Launcher
         // Window is resized
         private void FormMain_Resize(object sender, System.EventArgs e)
         {
+            if (!Created) return;
+
             // When in normal state
             if (this.WindowState == FormWindowState.Normal)
             {
