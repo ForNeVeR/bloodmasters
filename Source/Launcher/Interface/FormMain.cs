@@ -626,6 +626,7 @@ namespace CodeImp.Bloodmasters.Launcher
             btnHostGame.Text = "Launch";
             tltDescription.SetToolTip(btnHostGame, "Launches the server and joins the game if not dedicated");
             btnHostGame.Click += btnHostGame_Click;
+            btnHostGame.Enabled = false;
             //
             // pnlHostGame
             //
@@ -740,6 +741,7 @@ namespace CodeImp.Bloodmasters.Launcher
             lstMaps.Size = new Size(235, 265);
             lstMaps.Sorted = true;
             lstMaps.TabIndex = 0;
+            lstMaps.ItemCheck += lstMaps_ItemCheck;
             lstMaps.SelectedIndexChanged += lstMaps_SelectedIndexChanged;
             lstMaps.MouseLeave += lstMaps_MouseLeave;
             lstMaps.MouseMove += lstMaps_MouseMove;
@@ -1701,6 +1703,16 @@ namespace CodeImp.Bloodmasters.Launcher
                 lblMapAuthor.Text = "";
                 lblMapPlayers.Text = "";
             }
+        }
+
+        private void lstMaps_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            btnHostGame.Enabled = lstMaps.CheckedItems.Count switch
+            {
+                // Only 1 map selected, and it is going to be unchecked
+                1 when e.NewValue == CheckState.Unchecked => false,
+                _ => true
+            };
         }
 
         // Window closes
