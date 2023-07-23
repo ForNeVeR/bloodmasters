@@ -1,11 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
+        <AssemblyName>BMDedicatedServer</AssemblyName>
         <OutputType>WinExe</OutputType>
-    <AssemblyName>bmserver</AssemblyName>
         <OutputPath>..\..\Build\</OutputPath>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <RootNamespace>CodeImp.Bloodmasters.Server</RootNamespace>
-    <StartupObject>CodeImp.Bloodmasters.Server.General</StartupObject>
         <TargetFramework>net7.0</TargetFramework>
         <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
@@ -18,13 +16,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="General\General.cs">
+    <Compile Include="General.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="General\ServerGlobal.cs" />
+    <Compile Include="ServerGlobal.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bloodmasters.Server\Bloodmasters.Server.csproj" />
+    <ProjectReference Include="..\Server\Bloodmasters.Server.csproj" />
     <ProjectReference Include="..\Shared\Bloodmasters.Shared.csproj" />
   </ItemGroup>
 </Project>

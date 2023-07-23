@@ -25,7 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Client\Bloodmasters.csproj" />
+      <ProjectReference Include="..\Client\Bloodmasters.Client.csproj" />
     </ItemGroup>
 
 </Project>

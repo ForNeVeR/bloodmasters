@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <AssemblyName>Bloodmasters</AssemblyName>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net7.0-windows</TargetFramework>
         <UseWindowsForms>true</UseWindowsForms>
@@ -442,7 +443,7 @@
         <None Update="server.debug.cfg" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Bloodmasters.Server\Bloodmasters.Server.csproj" />
+        <ProjectReference Include="..\Server\Bloodmasters.Server.csproj" />
         <ProjectReference Include="..\Shared\Bloodmasters.Shared.csproj" />
     </ItemGroup>
 </Project>
