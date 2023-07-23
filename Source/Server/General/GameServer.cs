@@ -1932,13 +1932,11 @@ namespace CodeImp.Bloodmasters.Server
 		// This sends SayMessage to all clients
 		public void BroadcastSayMessageSpectators(Client speaker, string message)
 		{
-			// Show in console
-			#if !CLIENT
-
-				// Always show in console
-				WriteLine(message, false);
-
-			#endif
+            if (Host.Instance.IsServer)
+            {
+                // Always show in console
+                WriteLine(message, false);
+            }
 
 			// Broadcast the message
 			foreach(Client c in Host.Instance.Server.clients)
@@ -1950,13 +1948,11 @@ namespace CodeImp.Bloodmasters.Server
 		// This sends SayMessage to all clients
 		public void BroadcastSayMessageTeam(Client speaker, string message, TEAM team)
 		{
-			// Show in console
-			#if !CLIENT
-
-				// Always show in console
-				WriteLine(message, false);
-
-			#endif
+            if (Host.Instance.IsServer)
+            {
+                // Always show in console
+                WriteLine(message, false);
+            }
 
 			// Broadcast the message
 			foreach(Client c in Host.Instance.Server.clients)

@@ -4,6 +4,7 @@ public interface IHost
 {
     /// <summary>Client or server host.</summary>
     public string HostKindName { get; }
+    public bool IsServer { get; }
 
     public Random Random { get; }
 

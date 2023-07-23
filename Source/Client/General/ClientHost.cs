@@ -6,6 +6,7 @@ namespace CodeImp.Bloodmasters.Client;
 public class ClientHost : IHost
 {
     public string HostKindName => "Client";
+    public bool IsServer => false;
 
     public Random Random => General.random;
 

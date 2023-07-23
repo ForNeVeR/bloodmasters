@@ -8,6 +8,7 @@ namespace Bloodmasters.DedicatedServer;
 public class ServerHost : IHost
 {
     public string HostKindName => "Dedicated Server";
+    public bool IsServer => true;
 
     public Random Random => General.random;
 
