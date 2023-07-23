@@ -26,9 +26,11 @@ namespace CodeImp.Bloodmasters.Launcher
         private System.Windows.Forms.TabControl tabsMode;
         private System.Windows.Forms.TabPage tabHost;
         private System.Windows.Forms.TabPage tabFind;
-        private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Button btnExitJoinGame;
         private System.Windows.Forms.Button btnHostGame;
-        private System.Windows.Forms.Button btnOptions;
+        private System.Windows.Forms.Button btnOptionsJoinGame;
+        private System.Windows.Forms.Button btnExitHostGame;
+        private System.Windows.Forms.Button btnOptionsHostGame;
         private System.Windows.Forms.ListView lstGames;
         private System.Windows.Forms.Label lblFilterTitles;
         private System.Windows.Forms.TextBox txtFilterTitles;
@@ -263,8 +265,10 @@ namespace CodeImp.Bloodmasters.Launcher
             txtServerTitle = new TextBox();
             label1 = new Label();
             chkServerDedicated = new CheckBox();
-            btnOptions = new Button();
-            btnExit = new Button();
+            btnOptionsJoinGame = new Button();
+            btnExitJoinGame = new Button();
+            btnOptionsHostGame = new Button();
+            btnExitHostGame = new Button();
             mnuGame = new ContextMenuStrip(components);
             itmJoinGame1 = new ToolStripMenuItem();
             itmGameDetails = new ToolStripMenuItem();
@@ -338,6 +342,8 @@ namespace CodeImp.Bloodmasters.Launcher
             tabFind.Controls.Add(btnGameDetails);
             tabFind.Controls.Add(btnManualJoin);
             tabFind.Controls.Add(btnJoinGame1);
+            tabFind.Controls.Add(btnOptionsJoinGame);
+            tabFind.Controls.Add(btnExitJoinGame);
             tabFind.Controls.Add(cmbMap);
             tabFind.Controls.Add(lblMap);
             tabFind.Controls.Add(cmbType);
@@ -573,6 +579,8 @@ namespace CodeImp.Bloodmasters.Launcher
             tabHost.Controls.Add(btnExportConfig);
             tabHost.Controls.Add(btnImportConfig);
             tabHost.Controls.Add(btnHostGame);
+            tabHost.Controls.Add(btnOptionsHostGame);
+            tabHost.Controls.Add(btnExitHostGame);
             tabHost.Controls.Add(pnlHostGame);
             tabHost.Font = new Font("Arial", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
             tabHost.Location = new Point(4, 25);
@@ -1006,33 +1014,61 @@ namespace CodeImp.Bloodmasters.Launcher
             chkServerDedicated.Text = "Dedicated server";
             tltDescription.SetToolTip(chkServerDedicated, "Only a dedicated server will be started when checked");
             //
-            // btnOptions
+            // btnOptionsJoinGame
             //
-            btnOptions.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnOptions.DialogResult = DialogResult.Cancel;
-            btnOptions.FlatStyle = FlatStyle.System;
-            btnOptions.Font = new Font("Arial", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
-            btnOptions.Location = new Point(626, 504);
-            btnOptions.Name = "btnOptions";
-            btnOptions.Size = new Size(145, 34);
-            btnOptions.TabIndex = 3;
-            btnOptions.Text = "Options...";
-            tltDescription.SetToolTip(btnOptions, "Displays the options configuration dialog");
-            btnOptions.Click += btnOptions_Click;
+            btnOptionsJoinGame.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnOptionsJoinGame.DialogResult = DialogResult.Cancel;
+            btnOptionsJoinGame.FlatStyle = FlatStyle.System;
+            btnOptionsJoinGame.Font = new Font("Arial", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnOptionsJoinGame.Location = new Point(618, 479);
+            btnOptionsJoinGame.Name = "btnOptionsJoinGame";
+            btnOptionsJoinGame.Size = new Size(145, 34);
+            btnOptionsJoinGame.TabIndex = 3;
+            btnOptionsJoinGame.Text = "Options...";
+            tltDescription.SetToolTip(btnOptionsJoinGame, "Displays the options configuration dialog");
+            btnOptionsJoinGame.Click += btnOptions_Click;
             //
-            // btnExit
+            // btnExitJoinGame
             //
-            btnExit.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnExit.DialogResult = DialogResult.Cancel;
-            btnExit.FlatStyle = FlatStyle.System;
-            btnExit.Font = new Font("Arial", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
-            btnExit.Location = new Point(776, 504);
-            btnExit.Name = "btnExit";
-            btnExit.Size = new Size(146, 34);
-            btnExit.TabIndex = 2;
-            btnExit.Text = "Exit";
-            tltDescription.SetToolTip(btnExit, "Click this and the devil will take your soul");
-            btnExit.Click += btnExit_Click;
+            btnExitJoinGame.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnExitJoinGame.DialogResult = DialogResult.Cancel;
+            btnExitJoinGame.FlatStyle = FlatStyle.System;
+            btnExitJoinGame.Font = new Font("Arial", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnExitJoinGame.Location = new Point(769, 479);
+            btnExitJoinGame.Name = "btnExitJoinGame";
+            btnExitJoinGame.Size = new Size(146, 34);
+            btnExitJoinGame.TabIndex = 2;
+            btnExitJoinGame.Text = "Exit";
+            tltDescription.SetToolTip(btnExitJoinGame, "Click this and the devil will take your soul");
+            btnExitJoinGame.Click += btnExit_Click;
+            //
+            // btnOptionsHostGame
+            //
+            btnOptionsHostGame.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnOptionsHostGame.DialogResult = DialogResult.Cancel;
+            btnOptionsHostGame.FlatStyle = FlatStyle.System;
+            btnOptionsHostGame.Font = new Font("Arial", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnOptionsHostGame.Location = new Point(630, 479);
+            btnOptionsHostGame.Name = "btnOptionsHostGame";
+            btnOptionsHostGame.Size = new Size(145, 34);
+            btnOptionsHostGame.TabIndex = 3;
+            btnOptionsHostGame.Text = "Options...";
+            tltDescription.SetToolTip(btnOptionsHostGame, "Displays the options configuration dialog");
+            btnOptionsHostGame.Click += btnOptions_Click;
+            //
+            // btnExitHostGame
+            //
+            btnExitHostGame.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnExitHostGame.DialogResult = DialogResult.Cancel;
+            btnExitHostGame.FlatStyle = FlatStyle.System;
+            btnExitHostGame.Font = new Font("Arial", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnExitHostGame.Location = new Point(781, 479);
+            btnExitHostGame.Name = "btnExitHostGame";
+            btnExitHostGame.Size = new Size(146, 34);
+            btnExitHostGame.TabIndex = 2;
+            btnExitHostGame.Text = "Exit";
+            tltDescription.SetToolTip(btnExitHostGame, "Click this and the devil will take your soul");
+            btnExitHostGame.Click += btnExit_Click;
             //
             // mnuGame
             //
@@ -1146,8 +1182,6 @@ namespace CodeImp.Bloodmasters.Launcher
             //
             // pnlTabs
             //
-            pnlTabs.Controls.Add(btnExit);
-            pnlTabs.Controls.Add(btnOptions);
             pnlTabs.Controls.Add(tabsMode);
             pnlTabs.Dock = DockStyle.Fill;
             pnlTabs.Location = new Point(0, 106);
@@ -1160,7 +1194,7 @@ namespace CodeImp.Bloodmasters.Launcher
             //
             AutoScaleDimensions = new SizeF(7F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
-            CancelButton = btnExit;
+            CancelButton = btnExitJoinGame;
             ClientSize = new Size(951, 691);
             Controls.Add(pnlTabs);
             Controls.Add(pnlIcon);
