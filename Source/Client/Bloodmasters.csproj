@@ -79,6 +79,7 @@
         <Compile Include="General\ClientComparer.cs">
             <SubType>Code</SubType>
         </Compile>
+        <Compile Include="General\ClientGlobal.cs" />
         <Compile Include="General\ClientPhysicsState.cs" />
         <Compile Include="General\ClientWallCollision.cs" />
         <Compile Include="General\GameMenu.cs">

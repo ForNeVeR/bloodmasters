@@ -2202,7 +2202,9 @@ namespace CodeImp.Bloodmasters.Client
 
 		// This load the application
 		private static void _Main(string[] args)
-		{
+        {
+            Global.Instance = new ClientGlobal();
+
 			string deviceerror = null;
 
 			// No arguments give nat all?

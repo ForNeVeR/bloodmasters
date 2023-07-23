@@ -21,6 +21,7 @@
     <Compile Include="General\General.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="General\ServerGlobal.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bloodmasters.Server\Bloodmasters.Server.csproj" />

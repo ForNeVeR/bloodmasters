@@ -290,7 +290,9 @@ namespace CodeImp.Bloodmasters.Server
 
 		// This does all the loading and starts up the server
 		private static void _Main(string[] args)
-		{
+        {
+            Global.Instance = new ServerGlobal();
+
 			string serverconfig;
 			string versionmsg;
 
