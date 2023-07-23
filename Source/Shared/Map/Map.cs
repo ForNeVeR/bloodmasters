@@ -137,15 +137,14 @@ namespace CodeImp.Bloodmasters
 					string glbspexe = ArchiveManager.ExtractFile("general.rar/glbsp.exe");
 
 					// Call glbsp.exe to make the GL nodes
-					Process glbsp = new Process();
+					using Process glbsp = new Process();
 					glbsp.StartInfo.WorkingDirectory = Path.GetDirectoryName(glbspexe);
 					glbsp.StartInfo.FileName = glbspexe;
 					glbsp.StartInfo.Arguments = "-noreject -noprog -v5 -factor 20 -q \"" + tempwadfile + "\" -o \"" + tempwadfile + "\"";
-					glbsp.StartInfo.CreateNoWindow = false;
+					glbsp.StartInfo.CreateNoWindow = true;
 					glbsp.StartInfo.ErrorDialog = false;
 					glbsp.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-					glbsp.StartInfo.RedirectStandardOutput = true;
-					glbsp.StartInfo.UseShellExecute = false;
+                    glbsp.StartInfo.UseShellExecute = true;
 					if(glbsp.Start())
 					{
 						// Wait for the builder to finish
