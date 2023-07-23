@@ -1287,6 +1287,7 @@ namespace CodeImp.Bloodmasters.Client
 			d3dpp.BackBufferHeight = mode.Height;
 			d3dpp.EnableAutoDepthStencil = true;
 			d3dpp.AutoDepthStencilFormat = Format.D16;
+            d3dpp.FullScreenRefreshRateInHz = windowed ? 0 : mode.RefreshRate;
 
 			// Check if using fullscreen antialiasing
 			if(fsaa > -1)
