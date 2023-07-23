@@ -5,21 +5,17 @@
 *                                                                   *
 \********************************************************************/
 
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
 namespace CodeImp.Bloodmasters.Server
 {
 	public abstract class DynamicSector
 	{
 		// Static stuff
 		public static bool sendsectormovements = false;
-		
+
 		// Members
 		private bool sendsectorupdate = false;
 		protected Sector sector;
-		
+
 		// Properties
 		public bool SendSectorUpdate
 		{
@@ -30,26 +26,26 @@ namespace CodeImp.Bloodmasters.Server
 				sendsectorupdate = value;
 			}
 		}
-		
+
 		// Constructor
 		public DynamicSector(Sector sector)
 		{
 			// Get references
 			this.sector = sector;
 		}
-		
+
 		// Disposer
 		public virtual void Dispose()
 		{
 			// Clean up
 			sector = null;
 		}
-		
+
 		// Processer
 		public virtual void Process()
 		{
 		}
-		
+
 		// This adds information for a sector update
 		public void AddSectorMovement(NetMessage msg)
 		{

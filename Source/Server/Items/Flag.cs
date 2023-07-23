@@ -5,10 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
 namespace CodeImp.Bloodmasters.Server
 {
 	public class Flag : Item
@@ -50,7 +46,7 @@ namespace CodeImp.Bloodmasters.Server
 			this.origpos = this.Position;
 
 			// If this is not a CTF game, remove the flags
-			if(Global.Instance.Server.GameType != GAMETYPE.CTF) this.Temporary = true;
+			if(Host.Instance.Server.GameType != GAMETYPE.CTF) this.Temporary = true;
 		}
 
 		#endregion
@@ -76,7 +72,7 @@ namespace CodeImp.Bloodmasters.Server
 				if(dpos.LengthSq() > 0.01f)
 				{
 					// Return the flag
-					Global.Instance.Server.BroadcastReturnFlag(c, this);
+					Host.Instance.Server.BroadcastReturnFlag(c, this);
 					this.Return();
 				}
 				else
@@ -90,7 +86,7 @@ namespace CodeImp.Bloodmasters.Server
 						Flag carryflag = (Flag)c.Carrying;
 
 						// SCORE!
-						Global.Instance.Server.BroadcastScoreFlag(c, carryflag);
+						Host.Instance.Server.BroadcastScoreFlag(c, carryflag);
 						carryflag.Return();
 						c.AddToScore(1);
 					}
@@ -130,7 +126,7 @@ namespace CodeImp.Bloodmasters.Server
 					if(returntime < SharedGeneral.currenttime)
 					{
 						// Auto-return the flag
-						Global.Instance.Server.BroadcastReturnFlag(null, this);
+						Host.Instance.Server.BroadcastReturnFlag(null, this);
 						this.Return();
 					}
 				}

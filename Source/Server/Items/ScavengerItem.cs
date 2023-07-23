@@ -6,9 +6,6 @@
 \********************************************************************/
 
 using System.Collections;
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
 
 namespace CodeImp.Bloodmasters.Server
 {
@@ -50,7 +47,7 @@ namespace CodeImp.Bloodmasters.Server
 			int result = 0;
 
 			// Go for all items in the map
-			foreach(DictionaryEntry de in Global.Instance.Server.items)
+			foreach(DictionaryEntry de in Host.Instance.Server.items)
 			{
 				// Is this a scavenger item?
 				if(de.Value is ScavengerItem)
@@ -75,7 +72,7 @@ namespace CodeImp.Bloodmasters.Server
 		public static void RespawnItems(TEAM team)
 		{
 			// Go for all items in the map
-			foreach(DictionaryEntry de in Global.Instance.Server.items)
+			foreach(DictionaryEntry de in Host.Instance.Server.items)
 			{
 				// Is this a scavenger item?
 				if(de.Value is ScavengerItem)
@@ -101,7 +98,7 @@ namespace CodeImp.Bloodmasters.Server
 		public override void Pickup(Client c)
 		{
 			// Only when playing!
-			if(Global.Instance.Server.GameState == GAMESTATE.PLAYING)
+			if(Host.Instance.Server.GameState == GAMESTATE.PLAYING)
 			{
 				// Do what you have to do
 				base.Pickup(c);

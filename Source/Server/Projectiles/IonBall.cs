@@ -5,10 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
 namespace CodeImp.Bloodmasters.Server
 {
 	[ProjectileInfo(PROJECTILE.IONBALL)]
@@ -112,13 +108,13 @@ namespace CodeImp.Bloodmasters.Server
 			Vector3D cpos;
 
 			// Go for all playing clients
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				// Client alive?
 				if((c != null) && (!c.Loading) && (c.IsAlive) && (c != this.Source))
 				{
 					// No team game or on other team?
-					if(!Global.Instance.Server.IsTeamGame || (c.Team != this.Source.Team))
+					if(!Host.Instance.Server.IsTeamGame || (c.Team != this.Source.Team))
 					{
 						// Determine client position
 						cpos = c.State.pos + new Vector3D(0f, 0f, 7f);
@@ -132,7 +128,7 @@ namespace CodeImp.Bloodmasters.Server
 						if(distance < Consts.ION_EXPLODE_RANGE)
 						{
 							// Check if nothing is blocking in between
-							if(!Global.Instance.Server.map.FindRayMapCollision(state.pos, cpos))
+							if(!Host.Instance.Server.map.FindRayMapCollision(state.pos, cpos))
 							{
 								// Hurt the player
 								c.Hurt(this.Source, Client.DEATH_STATIC, EXPLODE_DAMAGE, DEATHMETHOD.NORMAL_NOGIB, state.pos);
@@ -161,13 +157,13 @@ namespace CodeImp.Bloodmasters.Server
 			if((damagetime <= SharedGeneral.currenttime) && (this.Source != null))
 			{
 				// Go for all playing clients
-				foreach(Client c in Global.Instance.Server.clients)
+				foreach(Client c in Host.Instance.Server.clients)
 				{
 					// Client alive?
 					if((c != null) && (!c.Loading) && (c.IsAlive) && (c != this.Source))
 					{
 						// No team game or on other team?
-						if(!Global.Instance.Server.IsTeamGame || (c.Team != this.Source.Team))
+						if(!Host.Instance.Server.IsTeamGame || (c.Team != this.Source.Team))
 						{
 							// Determine client position
 							cpos = c.State.pos + new Vector3D(0f, 0f, 7f);
@@ -181,7 +177,7 @@ namespace CodeImp.Bloodmasters.Server
 							if(distance < Consts.ION_FLYBY_RANGE)
 							{
 								// Check if nothing is blocking in between
-								if(!Global.Instance.Server.map.FindRayMapCollision(state.pos, cpos))
+								if(!Host.Instance.Server.map.FindRayMapCollision(state.pos, cpos))
 								{
 									// Hurt the player
 									c.Hurt(this.Source, Client.DEATH_STATIC, FLYBY_DAMAGE, DEATHMETHOD.NORMAL_NOGIB, state.pos);

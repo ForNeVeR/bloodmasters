@@ -5,9 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-#if CLIENT
-#endif
-
 namespace CodeImp.Bloodmasters.Server
 {
 	[WeaponInfo(WEAPON.IONCANNON, RefireDelay=500, Description="Ion Cannon",

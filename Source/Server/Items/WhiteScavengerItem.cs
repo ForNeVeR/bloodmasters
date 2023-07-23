@@ -5,10 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
 namespace CodeImp.Bloodmasters.Server
 {
 	[ServerItem(4003, RespawnTime=0)]
@@ -32,7 +28,7 @@ namespace CodeImp.Bloodmasters.Server
 			this.otherteam = TEAM.NONE;
 
 			// If this is not a Scavenger game, remove the item
-			if(Global.Instance.Server.GameType != GAMETYPE.SC) this.Temporary = true;
+			if(Host.Instance.Server.GameType != GAMETYPE.SC) this.Temporary = true;
 		}
 
 		#endregion

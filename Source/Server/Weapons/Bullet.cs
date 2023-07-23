@@ -5,10 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
 namespace CodeImp.Bloodmasters.Server
 {
 	public class Bullet
@@ -34,9 +30,9 @@ namespace CodeImp.Bloodmasters.Server
 			pend = start + Vector3D.FromActorAngle(source.AimAngle, source.AimAngleZ, BULLET_RANGE);
 
 			// Add spread circle
-			pend += new Vector3D(((float)Global.Instance.Random.NextDouble() - 0.5f) * spread * 2f,
-								  ((float)Global.Instance.Random.NextDouble() - 0.5f) * spread * 2f,
-								  ((float)Global.Instance.Random.NextDouble() - 0.5f) * spread * 2f);
+			pend += new Vector3D(((float)Host.Instance.Random.NextDouble() - 0.5f) * spread * 2f,
+								  ((float)Host.Instance.Random.NextDouble() - 0.5f) * spread * 2f,
+								  ((float)Host.Instance.Random.NextDouble() - 0.5f) * spread * 2f);
 
 			// No collision yet
 			phit = pend;
@@ -45,10 +41,10 @@ namespace CodeImp.Bloodmasters.Server
 			obj = null;
 
 			// Find ray collision with the map
-			Global.Instance.Server.map.FindRayMapCollision(start, pend, ref phit, ref obj, ref u, ref uline);
+			Host.Instance.Server.map.FindRayMapCollision(start, pend, ref phit, ref obj, ref u, ref uline);
 
 			// Find ray collision with players
-			Global.Instance.Server.FindRayPlayerCollision(start, pend, source, ref phit, ref obj, ref u);
+			Host.Instance.Server.FindRayPlayerCollision(start, pend, source, ref phit, ref obj, ref u);
 
 			// Collision found?
 			if(u < 1f)

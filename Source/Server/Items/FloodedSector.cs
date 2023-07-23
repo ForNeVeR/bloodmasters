@@ -5,10 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
 namespace CodeImp.Bloodmasters.Server
 {
 	[ServerItem(9003, OnFloor=false)]
@@ -50,7 +46,7 @@ namespace CodeImp.Bloodmasters.Server
 			if(ticktime < SharedGeneral.currenttime)
 			{
 				// Go for all clients
-				foreach(Client c in Global.Instance.Server.clients)
+				foreach(Client c in Host.Instance.Server.clients)
 				{
 					// Client playing, alive, in this sector and below this height?
 					if((c != null) && c.IsAlive)

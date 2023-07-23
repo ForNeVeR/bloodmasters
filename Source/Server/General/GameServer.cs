@@ -12,9 +12,6 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using CodeImp.Bloodmasters.Server.Net;
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
 
 namespace CodeImp.Bloodmasters.Server
 {
@@ -140,13 +137,7 @@ namespace CodeImp.Bloodmasters.Server
 			Version v = Assembly.GetExecutingAssembly().GetName().Version;
 
 			// Build description
-			#if CLIENT
-				builddesc = "Windows Game Client version " + v.ToString(4);
-			#elif LINUX
-				builddesc = "Linux Dedicated Server version " + v.ToString(4);
-			#else
-				builddesc = "Windows Dedicated Server version " + v.ToString(4);
-			#endif
+            builddesc = $"${Environment.OSVersion.Platform} {Host.Instance.HostKindName} version {v.ToString(4)}";
 		}
 
 		// This initializes the server
@@ -595,14 +586,14 @@ namespace CodeImp.Bloodmasters.Server
 		// This loads the map with the current settings
 		public void StartCurrentMap(string nextmapname)
 		{
-			int thinggametype = (int)Math.Pow(2, (int)Global.Instance.Server.GameType);
+			int thinggametype = (int)Math.Pow(2, (int)Host.Instance.Server.GameType);
 
 			// Name of the next map
 			//string nextmapname = mapnames[currentmap].ToString();
 			Write("Server is loading map \"" + nextmapname + "\"...", true);
 
 			// Load the map title
-			Bloodmasters.Map mapcfg = new ServerMap(nextmapname, true, Global.Instance.TempPath);
+			Bloodmasters.Map mapcfg = new ServerMap(nextmapname, true, Host.Instance.TempPath);
 			string maptitle = mapcfg.Title;
 			mapcfg.Dispose();
 
@@ -626,7 +617,7 @@ namespace CodeImp.Bloodmasters.Server
 			LoadLocalBans();
 
 			// Load the map
-			map = new ServerMap(nextmapname, false, Global.Instance.TempPath);
+			map = new ServerMap(nextmapname, false, Host.Instance.TempPath);
 
 			// New items
 			items = new Hashtable();
@@ -710,7 +701,7 @@ namespace CodeImp.Bloodmasters.Server
 			gamestate = GAMESTATE.WAITING;
 
 			// Start with zero game time
-			Global.Instance.CatchLag();
+			Host.Instance.CatchLag();
 
 			// Set the timelimit timeout
 			if(timelimit > 0)
@@ -1357,7 +1348,7 @@ namespace CodeImp.Bloodmasters.Server
 			delta2dlensq = delta2d.LengthSq();
 
 			// Go for all players
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				// This client in the game and not the excluded client
 				if((c != null) && (c != exclude) && (c.State != null) && !c.Loading && !c.Disposed)
@@ -1471,8 +1462,8 @@ namespace CodeImp.Bloodmasters.Server
 				{
 					// Output error
 					WriteLine(e.GetType().Name + " in " + e.TargetSite.DeclaringType.Name + "." + e.TargetSite.Name + " on " + msg.Command +  " message from " + msg.Address + ": " + e.Message, false);
-					Global.Instance.OutputError(e);
-					Global.Instance.WriteErrorLine(e);
+					Host.Instance.OutputError(e);
+					Host.Instance.WriteErrorLine(e);
 				}
 			}
 		}
@@ -1701,7 +1692,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastCallvoteStatus()
 		{
 			// Broadcast to all clients
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (!c.Loading)) c.SendCallvoteStatus();
 			}
@@ -1711,7 +1702,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastCallvoteEnd()
 		{
 			// Broadcast to all clients
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (!c.Loading)) c.SendCallvoteEnd();
 			}
@@ -1721,7 +1712,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastPlayerNameChange(Client cc)
 		{
 			// Broadcast to all clients
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (!c.Loading)) c.SendPlayerNameChange(cc);
 			}
@@ -1731,7 +1722,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastScoreFlag(Client scorer, Item opponentflag)
 		{
 			// Broadcast to all clients
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (!c.Loading)) c.SendScoreFlag(scorer, opponentflag);
 			}
@@ -1741,7 +1732,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastReturnFlag(Client returner, Item flag)
 		{
 			// Broadcast to all clients
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (!c.Loading)) c.SendReturnFlag(returner, flag);
 			}
@@ -1751,7 +1742,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastFireIntensity(Client clnt)
 		{
 			// Broadcast to all clients
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (!c.Loading)) c.SendFireIntensity(clnt);
 			}
@@ -1761,7 +1752,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastShieldHit(Client clnt, float angle, float fadeout)
 		{
 			// Broadcast to all clients
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (!c.Loading)) c.SendShieldHit(clnt, angle, fadeout);
 			}
@@ -1771,7 +1762,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastSpawnProjectile(Projectile p)
 		{
 			// Broadcast to all clients
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (!c.Loading)) c.SendSpawnProjectile(p);
 			}
@@ -1781,7 +1772,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastUpdateProjectile(Projectile p)
 		{
 			// Broadcast to all clients
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (!c.Loading)) c.SendUpdateProjectile(p);
 			}
@@ -1791,7 +1782,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastTeleportProjectile(Vector3D oldpos, Projectile p)
 		{
 			// Broadcast to all clients
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (!c.Loading)) c.SendTeleportProjectile(oldpos, p);
 			}
@@ -1801,7 +1792,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastDestroyProjectile(Projectile p, bool silent, Client hitplayer)
 		{
 			// Broadcast to all clients
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (!c.Loading)) c.SendDestroyProjectile(p, silent, hitplayer);
 			}
@@ -1811,7 +1802,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastTeleportClient(Client clnt, Vector3D oldpos, Vector3D newpos)
 		{
 			// Broadcast the teleport event
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (!c.Loading)) c.SendTeleportClient(clnt, oldpos, newpos);
 			}
@@ -1824,7 +1815,7 @@ namespace CodeImp.Bloodmasters.Server
 			if(DynamicSector.sendsectormovements)
 			{
 				// Broadcast the actor spawn
-				foreach(Client c in Global.Instance.Server.clients)
+				foreach(Client c in Host.Instance.Server.clients)
 				{
 					if((c != null) && (!c.Loading)) c.SendSectorMovements();
 				}
@@ -1845,7 +1836,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastGameStateChange()
 		{
 			// Broadcast the gamestate
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (!c.Loading)) c.SendGameStateChange();
 			}
@@ -1855,7 +1846,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastItemPickup(Client clnt, Item item, bool attach)
 		{
 			// Broadcast the pickup
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (!c.Loading)) c.SendItemPickup(clnt, item, attach, false);
 			}
@@ -1865,7 +1856,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastTakeDamage(Client target, int damage, int health, DEATHMETHOD method)
 		{
 			// Broadcast the death
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (!c.Loading)) c.SendTakeDamage(target, damage, health, method);
 			}
@@ -1875,7 +1866,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastClientDeath(Client source, Client target, string message, DEATHMETHOD method, PhysicsState targetstate, Vector2D targetpush)
 		{
 			// Broadcast the death
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (!c.Loading)) c.SendClientDeath(source, target, message, method, targetstate, targetpush);
 			}
@@ -1885,7 +1876,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastSpawnActor(Client clnt, bool start)
 		{
 			// Broadcast the actor spawn
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (!c.Loading)) c.SendSpawnActor(clnt, start);
 			}
@@ -1896,7 +1887,7 @@ namespace CodeImp.Bloodmasters.Server
 		{
 			// Broadcast the disposed
 			// But dont send it to the client involved
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (c != clnt)) c.SendClientDisposed(clnt);
 			}
@@ -1906,7 +1897,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastClientUpdate(Client clnt)
 		{
 			// Broadcast the update
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if(c != null) c.SendClientUpdate(clnt);
 			}
@@ -1916,20 +1907,10 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastShowMessage(string message, bool onscreen, bool onconsolescreen)
 		{
 			// Show in console
-			#if CLIENT
-
-				// Write message to console
-				if(onconsolescreen && (General.serverwindow != null)) WriteLine(message, false);
-
-			#else
-
-				// Write message to console
-				if(onconsolescreen) WriteLine(message, false);
-
-			#endif
+            if (onconsolescreen && Host.Instance.IsConsoleVisible) WriteLine(message, false);
 
 			// Broadcast the message
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if(c != null) c.SendShowMessage(message, onscreen);
 			}
@@ -1939,20 +1920,10 @@ namespace CodeImp.Bloodmasters.Server
 		public void BroadcastSayMessage(Client speaker, string message)
 		{
 			// Show in console
-			#if CLIENT
-
-				// Only when dedicated server
-				if(General.serverwindow != null) WriteLine(message, false);
-
-			#else
-
-				// Always show in console
-				WriteLine(message, false);
-
-			#endif
+            if (Host.Instance.IsConsoleVisible) WriteLine(message, false);
 
 			// Broadcast the message
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if(c != null) c.SendSayMessage(speaker, message);
 			}
@@ -1970,7 +1941,7 @@ namespace CodeImp.Bloodmasters.Server
 			#endif
 
 			// Broadcast the message
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && c.Spectator) c.SendSayMessage(speaker, message);
 			}
@@ -1988,7 +1959,7 @@ namespace CodeImp.Bloodmasters.Server
 			#endif
 
 			// Broadcast the message
-			foreach(Client c in Global.Instance.Server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				if((c != null) && (c.Team == team) && !c.Spectator) c.SendSayMessage(speaker, message);
 			}
@@ -2006,35 +1977,8 @@ namespace CodeImp.Bloodmasters.Server
 
 		// This writes an output message
 		public void Write(string text, bool showwhenclient)
-		{
-			#if CLIENT
-
-				// For the client, output to server window
-				if(General.serverwindow != null)
-					General.serverwindow.Write(Markup.StripColorCodes(text));
-				else if(General.console != null)
-					if(showwhenclient) General.console.AddMessage(Markup.StripColorCodes(text.Trim()), true);
-
-			#else
-
-				// One message at a time!
-				lock(Console.Out)
-				{
-					// For the server, output to standard console
-					Console.Write(Markup.StripColorCodes(text));
-
-					// Write to log file as well?
-					if(Global.Instance.LogToFile)
-					{
-						// Append text to the file
-						StreamWriter logf = File.AppendText(Global.Instance.LogFileName);
-						logf.Write(Markup.StripColorCodes(text));
-						logf.Flush();
-						logf.Close();
-					}
-				}
-
-			#endif
+        {
+            Host.Instance.WriteMessage(text, showwhenclient);
 		}
 
 		#endregion
@@ -2048,7 +1992,7 @@ namespace CodeImp.Bloodmasters.Server
 			callvotedesc = description;
 			callvotecmd = cmd;
 			callvoteargs = args;
-			callvotetimeout = Global.Instance.RealTime + CALLVOTE_TIME;
+			callvotetimeout = Host.Instance.RealTime + CALLVOTE_TIME;
 			callvotes = 0;
 
 			// Go for all clients to reset callvote status
@@ -2115,7 +2059,7 @@ namespace CodeImp.Bloodmasters.Server
 			if(callvotetimeout > 0)
 			{
 				// Check if time to end the callvote
-				if(callvotetimeout < Global.Instance.RealTime)
+				if(callvotetimeout < Host.Instance.RealTime)
 				{
 					// End the callvote
 					EndCallvote();
@@ -2179,10 +2123,10 @@ namespace CodeImp.Bloodmasters.Server
 				}
 
 				// Check if index within bounds
-				if((id > -1) && (id < Global.Instance.Server.MaxClients))
+				if((id > -1) && (id < Host.Instance.Server.MaxClients))
 				{
 					// Get client by index
-					c = Global.Instance.Server.clients[id];
+					c = Host.Instance.Server.clients[id];
 					if(c == null)
 					{
 						// No client on this index
@@ -2198,18 +2142,18 @@ namespace CodeImp.Bloodmasters.Server
 			else
 			{
 				// Find the player by name
-				for(int i = 0; i < Global.Instance.Server.MaxClients; i++)
+				for(int i = 0; i < Host.Instance.Server.MaxClients; i++)
 				{
 					// Client here?
-					if(Global.Instance.Server.clients[i] != null)
+					if(Host.Instance.Server.clients[i] != null)
 					{
 						// Name matches?
-						string n = Global.Instance.Server.clients[i].Name;
+						string n = Host.Instance.Server.clients[i].Name;
 						n = Markup.StripColorCodes(n);
 						if(string.Compare(n.Trim(), args.Trim(), true) == 0)
 						{
 							// Get the client
-							c = Global.Instance.Server.clients[i];
+							c = Host.Instance.Server.clients[i];
 						}
 					}
 				}
@@ -2246,7 +2190,7 @@ namespace CodeImp.Bloodmasters.Server
 			if(ArchiveManager.FindFileArchive(args + ".wad") != "")
 			{
 				// Start the map
-				Global.Instance.Server.StartCurrentMap(args);
+				Host.Instance.Server.StartCurrentMap(args);
 			}
 			else
 			{
@@ -2259,14 +2203,14 @@ namespace CodeImp.Bloodmasters.Server
 		private void cNextMap(Client c, string args)
 		{
 			// Next map
-			Global.Instance.Server.NextMap();
+			Host.Instance.Server.NextMap();
 		}
 
 		// Handles restartmap command
 		private void cRestartMap(Client c, string args)
 		{
 			// Reload same map
-			Global.Instance.Server.StartCurrentMap(Global.Instance.Server.map.Name);
+			Host.Instance.Server.StartCurrentMap(Host.Instance.Server.map.Name);
 		}
 
 		// Handle client kick
@@ -2304,10 +2248,10 @@ namespace CodeImp.Bloodmasters.Server
 				}
 
 				// Check if index within bounds
-				if((id > -1) && (id < Global.Instance.Server.MaxClients))
+				if((id > -1) && (id < Host.Instance.Server.MaxClients))
 				{
 					// Get client by index
-					c = Global.Instance.Server.clients[id];
+					c = Host.Instance.Server.clients[id];
 					if(c == null)
 					{
 						// No client on this index
@@ -2323,18 +2267,18 @@ namespace CodeImp.Bloodmasters.Server
 			else
 			{
 				// Find the player by name
-				for(int i = 0; i < Global.Instance.Server.MaxClients; i++)
+				for(int i = 0; i < Host.Instance.Server.MaxClients; i++)
 				{
 					// Client here?
-					if(Global.Instance.Server.clients[i] != null)
+					if(Host.Instance.Server.clients[i] != null)
 					{
 						// Name matches?
-						string n = Global.Instance.Server.clients[i].Name;
+						string n = Host.Instance.Server.clients[i].Name;
 						n = Markup.StripColorCodes(n);
 						if(string.Compare(n.Trim(), allargs[0].Trim(), true) == 0)
 						{
 							// Get the client
-							c = Global.Instance.Server.clients[i];
+							c = Host.Instance.Server.clients[i];
 						}
 					}
 				}
@@ -2360,9 +2304,9 @@ namespace CodeImp.Bloodmasters.Server
 
 				// Show message
 				if(allargs.Length > 1)
-					Global.Instance.Server.BroadcastShowMessage(c.Name + "^7 kicked (" + reason + ")", true, true);
+					Host.Instance.Server.BroadcastShowMessage(c.Name + "^7 kicked (" + reason + ")", true, true);
 				else
-					Global.Instance.Server.BroadcastShowMessage(c.Name + "^7 kicked", true, true);
+					Host.Instance.Server.BroadcastShowMessage(c.Name + "^7 kicked", true, true);
 			}
 		}
 
@@ -2403,10 +2347,10 @@ namespace CodeImp.Bloodmasters.Server
 				}
 
 				// Check if index within bounds
-				if((id > -1) && (id < Global.Instance.Server.MaxClients))
+				if((id > -1) && (id < Host.Instance.Server.MaxClients))
 				{
 					// Get client by index
-					c = Global.Instance.Server.clients[id];
+					c = Host.Instance.Server.clients[id];
 					if(c == null)
 					{
 						// No client on this index
@@ -2427,18 +2371,18 @@ namespace CodeImp.Bloodmasters.Server
 			else
 			{
 				// Find the player by name
-				for(int i = 0; i < Global.Instance.Server.MaxClients; i++)
+				for(int i = 0; i < Host.Instance.Server.MaxClients; i++)
 				{
 					// Client here?
-					if(Global.Instance.Server.clients[i] != null)
+					if(Host.Instance.Server.clients[i] != null)
 					{
 						// Name matches?
-						string n = Global.Instance.Server.clients[i].Name;
+						string n = Host.Instance.Server.clients[i].Name;
 						n = Markup.StripColorCodes(n);
 						if(string.Compare(n.Trim(), allargs[0].Trim(), true) == 0)
 						{
 							// Get the client
-							c = Global.Instance.Server.clients[i];
+							c = Host.Instance.Server.clients[i];
 						}
 					}
 				}
@@ -2490,7 +2434,7 @@ namespace CodeImp.Bloodmasters.Server
 				reason = Markup.StripColorCodes(reason);
 
 				// Add IP address to ban list and show the result
-				if(cc != null) cc.SendShowMessage(Global.Instance.Server.AddLocalBan(address, reason), true);
+				if(cc != null) cc.SendShowMessage(Host.Instance.Server.AddLocalBan(address, reason), true);
 			}
 		}
 

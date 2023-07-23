@@ -16,6 +16,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using Bloodmasters.DedicatedServer;
 
 namespace CodeImp.Bloodmasters.Server
 {
@@ -291,7 +292,7 @@ namespace CodeImp.Bloodmasters.Server
 		// This does all the loading and starts up the server
 		private static void _Main(string[] args)
         {
-            Global.Instance = new ServerGlobal();
+            Host.Instance = new ServerHost();
 
 			string serverconfig;
 			string versionmsg;

@@ -1,7 +1,3 @@
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
 namespace CodeImp.Bloodmasters.Server.Map;
 
 public class ServerSector : Sector
@@ -13,7 +9,7 @@ public class ServerSector : Sector
     protected override void DropPlayers()
     {
         // Go for all clients
-        foreach(Client c in Global.Instance.Server.clients)
+        foreach(Client c in Host.Instance.Server.clients)
         {
             // Client in this sector and on the floor?
             if((c != null) && c.IsAlive && (c.HighestSector == this) && c.IsOnFloor)

@@ -5,10 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
 namespace CodeImp.Bloodmasters.Server
 {
 	[ServerItem(4004, RespawnTime=0)]
@@ -32,15 +28,15 @@ namespace CodeImp.Bloodmasters.Server
 			this.otherteam = TEAM.BLUE;
 
 			// For normal Scavenger game, place a White item instead
-			if(Global.Instance.Server.GameType == GAMETYPE.SC)
+			if(Host.Instance.Server.GameType == GAMETYPE.SC)
 			{
 				// Make white item
 				Item white = new WhiteScavengerItem(t);
-				Global.Instance.Server.items.Add(white.Key, white);
+				Host.Instance.Server.items.Add(white.Key, white);
 			}
 
 			// If this is not a Team Scavenger game, remove the item
-			if(Global.Instance.Server.GameType != GAMETYPE.TSC) this.Temporary = true;
+			if(Host.Instance.Server.GameType != GAMETYPE.TSC) this.Temporary = true;
 		}
 
 		#endregion

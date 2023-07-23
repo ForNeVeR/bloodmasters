@@ -19,7 +19,7 @@
     <Compile Include="General.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ServerGlobal.cs" />
+    <Compile Include="ServerHost.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Server\Bloodmasters.Server.csproj" />

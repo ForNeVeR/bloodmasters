@@ -5,34 +5,30 @@
 *                                                                   *
 \********************************************************************/
 
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
 namespace CodeImp.Bloodmasters.Server
 {
 	[ServerItem(2001, RespawnTime=5000)]
 	public class Health5 : Item
 	{
 		#region ================== Constants
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public Health5(Thing t) : base(t)
 		{
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Control
-		
+
 		// This is calledwhen the item is being touched by a player
 		public override void Pickup(Client c)
 		{
@@ -41,16 +37,16 @@ namespace CodeImp.Bloodmasters.Server
 			{
 				// Do what you have to do
 				base.Pickup(c);
-				
+
 				// Take the item
 				this.Take(c);
-				
+
 				// Add 5% health to the client
 				c.AddToStatus(5, 100, 0, 100);
 			}
 		}
 
-		
+
 		#endregion
 	}
 }

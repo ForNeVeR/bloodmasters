@@ -5,10 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
 namespace CodeImp.Bloodmasters.Server
 {
 	[ProjectileInfo(PROJECTILE.GRENADE)]
@@ -67,7 +63,7 @@ namespace CodeImp.Bloodmasters.Server
 				dpos = state.pos - state.vel;
 
 				// Go for all playing clients
-				foreach(Client c in Global.Instance.Server.clients)
+				foreach(Client c in Host.Instance.Server.clients)
 				{
 					// Client alive?
 					if((c != null) && !c.Loading && c.IsAlive)
@@ -86,7 +82,7 @@ namespace CodeImp.Bloodmasters.Server
 							amp = 1f;
 
 							// Check if something is blocking in between client and explosion
-							if(Global.Instance.Server.map.FindRayMapCollision(dpos, cpos))
+							if(Host.Instance.Server.map.FindRayMapCollision(dpos, cpos))
 							{
 								// Inside strong range?
 								if(distance < SPLASH_STRONG_RANGE)
@@ -115,7 +111,7 @@ namespace CodeImp.Bloodmasters.Server
 									if(distance < SPLASH_FIRE_RANGE)
 									{
 										// Not a team game or on other team, but always myself
-										if((c.Team != this.Source.Team) || !Global.Instance.Server.IsTeamGame || (c == this.Source))
+										if((c.Team != this.Source.Team) || !Host.Instance.Server.IsTeamGame || (c == this.Source))
 										{
 											// Create fire if no shields
 											if(c.Powerup != POWERUP.SHIELDS) c.AddFireIntensity(FIRE_INTENSITY, this.Source);
