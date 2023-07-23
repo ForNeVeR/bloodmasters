@@ -38,9 +38,8 @@ namespace CodeImp.Bloodmasters.Client
 
 		// API declarations
 		[DllImport("user32.dll")] public static extern int LockWindowUpdate(IntPtr hwnd);
-		[DllImport("kernel32.dll")] public static extern short QueryPerformanceFrequency(ref long x);
 
-		#region ================== Constants
+        #region ================== Constants
 
 		// Networking
 		public const int CONNECT_TIMEOUT = 30000;
@@ -182,7 +181,8 @@ namespace CodeImp.Bloodmasters.Client
 			logfilename = Path.Combine(apppath, appname + ".log");
 
 			// Get the high resolution clock frequency
-			if(QueryPerformanceFrequency(ref timefrequency) == 0)
+            timefrequency = TimeProvider.System.TimestampFrequency;
+			if(timefrequency == 0)
 			{
 				// No high resolution clock available
 				timefrequency = -1;
