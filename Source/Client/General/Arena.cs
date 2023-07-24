@@ -1478,7 +1478,7 @@ namespace CodeImp.Bloodmasters.Client
 			// Shadow texture and vertices
 			Direct3D.d3dd.SetTexture(0, Shadow.texture.texture);
 			Direct3D.d3dd.SetTexture(1, null);
-			Direct3D.d3dd.SetStreamSource(0, Shadow.vertices, 0, Shadow.vertices.Description.SizeInBytes); // TODO[#12]: SizeInBytes is suspicious, was TypeSize originally, check/compare this
+			Direct3D.d3dd.SetStreamSource(0, Shadow.vertices, 0, MVertex.Stride);
 
 			// Go for all visual objects
 			foreach(VisualObject vo in objects)

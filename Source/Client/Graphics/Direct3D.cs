@@ -2006,7 +2006,7 @@ namespace CodeImp.Bloodmasters.Client
 	{
 		// Vertex format
 		public static readonly VertexFormat Format = VertexFormat.Position | VertexFormat.Texture3 | VertexFormat.Diffuse;
-		public static readonly int Stride = 10 * 4;
+		public const int Stride = 10 * 4;
 
 		// Members
 		public float x;
