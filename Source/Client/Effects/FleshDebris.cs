@@ -5,6 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
+using FireAndForgetAudioSample;
 using System;
 using System.Globalization;
 
@@ -73,9 +74,14 @@ namespace CodeImp.Bloodmasters.Client
 			if(sector.VisualSector.InScreen)
 			{
 				// Make sound
-				int var = General.random.Next(SOUND_VARIATIONS) + 1;
-				DirectSound.PlaySound("bloodsplat" + var.ToString(CultureInfo.InvariantCulture) + ".wav", pos);
-			}
+				int variant = General.random.Next(SOUND_VARIATIONS) + 1;
+				//DirectSound.PlaySound("bloodsplat" + var.ToString(CultureInfo.InvariantCulture) + ".wav", pos);
+                string bloodsplat_variant = "bloodsplat" + variant.ToString(CultureInfo.InvariantCulture) + ".wav";
+
+                string snd = DirectSound.GetSound(bloodsplat_variant, false);
+                var сachedSound = new CachedSound(snd);
+                AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+            }
 		}
 
 		// This spawns a bunch of particles

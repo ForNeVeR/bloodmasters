@@ -6,6 +6,7 @@
 \********************************************************************/
 
 using System;
+using FireAndForgetAudioSample;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -57,18 +58,22 @@ namespace CodeImp.Bloodmasters.Client
 			// Make the light
 			light = new DynamicLight(start, 15f, General.ARGB(0.2f, 1f, 0.9f, 0.6f), 3);
 
-			// Create flying sound
-			//flying = DirectSound.GetSound("rocketfly.wav", true);
-			flying = new NullSound();
-			flying.Position = start;
-			flying.Play(true);
-		}
+            // Create flying sound
+            //flying = DirectSound.GetSound("rocketfly.wav", true);
+            //flying = new NullSound();
+            //flying.Position = start;
+            //flying.Play(true);
+
+            string snd = DirectSound.GetSound("rocketfly.wav", false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+        }
 
 		// Dispose
 		public override void Dispose()
 		{
 			// Clean up
-			flying.Dispose();
+			//flying.Dispose();
 			spritebody = null;
 			spriteexhaust = null;
 			flying = null;
@@ -181,7 +186,7 @@ namespace CodeImp.Bloodmasters.Client
 				}
 
 				// Kill flying sound
-				flying.Stop();
+				//flying.Stop();
 
 				// Make hit sound
 				if(sector.VisualSector.InScreen)
@@ -241,7 +246,7 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Update sound coodinates
-			flying.Position = state.pos;
+			//flying.Position = state.pos;
 		}
 
 		// Render the projectile

@@ -5,10 +5,12 @@
 *                                                                   *
 \********************************************************************/
 
+using FireAndForgetAudioSample;
 using System;
 using System.Collections;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -398,8 +400,11 @@ namespace CodeImp.Bloodmasters.Client
 			if((powerup == POWERUP.NUKE) &&
 			   (powerupfired == false) && (fired == true))
 			{
-				// Play the nuke countdown sound
-				DirectSound.PlaySound("countdownnuke.wav");
+                // Play the nuke countdown sound
+                string snd = DirectSound.GetSound("countdownnuke.wav", false);
+                var сachedSound = new CachedSound(snd);
+                AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+                //DirectSound.PlaySound("countdownnuke.wav");
 			}
 
 			// Set the timeout
@@ -496,8 +501,13 @@ namespace CodeImp.Bloodmasters.Client
 				dpos = actor.Position + Vector3D.Random(General.random, 12f, 12f, 0f);
 
 				// Spawn shock around player
-				DirectSound.PlaySound("lightning_e.wav", actor.Position);
-				new Shock(cpos, dpos, -0.5f);
+				//DirectSound.PlaySound("lightning_e.wav", actor.Position);
+
+                string snd = DirectSound.GetSound("lightning_e.wav", false);
+                var сachedSound = new CachedSound(snd);
+                AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+
+                new Shock(cpos, dpos, -0.5f);
 				new ShockLight(cpos, 100);
 				new ShockLight(dpos, 100);
 			}
@@ -617,7 +627,13 @@ namespace CodeImp.Bloodmasters.Client
 					if(variations > 0)
 					{
 						int var = General.random.Next(variations);
-						DirectSound.PlaySound("death" + (int)method + "var" + var + ".wav", actor.Position);
+
+                        string death_variant = "death" + (int)method + "var" + var + ".wav";
+                        string snd = DirectSound.GetSound(death_variant, false);
+                        var сachedSound = new CachedSound(snd);
+                        AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+
+
 					}
 				}
 
@@ -655,11 +671,14 @@ namespace CodeImp.Bloodmasters.Client
 				// Make sound and effect?
 				if(!silent)
 				{
-					// Play leave sound here
-					DirectSound.PlaySound("playerleave.wav", actor.Position);
+                    // Play leave sound here
+                    //DirectSound.PlaySound("playerleave.wav", actor.Position);
+                    string snd = DirectSound.GetSound("playerleave.wav", false);
+                    var сachedSound = new CachedSound(snd);
+                    AudioPlaybackEngine.Instance.PlaySound(сachedSound);
 
-					// Determines team color
-					switch(team)
+                    // Determines team color
+                    switch (team)
 					{
 						case TEAM.NONE: teamcolor = General.ARGB(1f, 0f, 0.6f, 0f); break;
 						case TEAM.RED: teamcolor = General.ARGB(1f, 1f, 0f, 0f); break;
@@ -742,16 +761,19 @@ namespace CodeImp.Bloodmasters.Client
 			// the initial setup
 			if(!start)
 			{
-				// Play spawn sound here
-				// For local client, always play at full volume
-				// because the view screen may not be at this location yet
-				if(this.IsLocal)
-					DirectSound.PlaySound("playerspawn.wav");
-				else if(actor.Sector.VisualSector.InScreen)
-					DirectSound.PlaySound("playerspawn.wav", actor.Position);
+                // Play spawn sound here
+                // For local client, always play at full volume
+                // because the view screen may not be at this location yet
+                string snd = DirectSound.GetSound("playerspawn.wav", false);
+                var сachedSound = new CachedSound(snd);
 
-				// In screen or local?
-				if(this.IsLocal || actor.Sector.VisualSector.InScreen)
+                if (this.IsLocal)
+                    AudioPlaybackEngine.Instance.PlaySound(сachedSound); //DirectSound.PlaySound("playerspawn.wav");
+                else if(actor.Sector.VisualSector.InScreen)
+                    AudioPlaybackEngine.Instance.PlaySound(сachedSound);//DirectSound.PlaySound("playerspawn.wav", actor.Position);
+
+                // In screen or local?
+                if (this.IsLocal || actor.Sector.VisualSector.InScreen)
 				{
 					// Determines team color
 					switch(team)
@@ -807,11 +829,15 @@ namespace CodeImp.Bloodmasters.Client
 			new TeleportEffect(newpos, this.team, false);
 
 			// Play teleport sound at both locations
-			DirectSound.PlaySound("teleport.wav", oldpos);
-			DirectSound.PlaySound("teleport.wav", newpos);
+			//DirectSound.PlaySound("teleport.wav", oldpos);
+			//DirectSound.PlaySound("teleport.wav", newpos);
 
-			// Check if we have an actor
-			if(actor != null)
+            string snd = DirectSound.GetSound("teleport.wav", false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+
+            // Check if we have an actor
+            if (actor != null)
 			{
 				// Remove lightning
 				actor.RemoveAllLightnings();
@@ -855,11 +881,14 @@ namespace CodeImp.Bloodmasters.Client
 						// Dispose old sound
 						if(hurtsound != null) hurtsound.Dispose();
 
-						// Make hurt sound
-						hurtsound = DirectSound.GetSound("hurt" + hurtlevel.ToString(CultureInfo.InvariantCulture) + ".wav", true);
-						hurtsound.Position = this.actor.Position;
-						hurtsound.Play();
-					}
+                        // Make hurt sound
+                        //hurtsound = DirectSound.GetSound("hurt" + hurtlevel.ToString(CultureInfo.InvariantCulture) + ".wav", true);
+                        //hurtsound.Position = this.actor.Position;
+                        //hurtsound.Play();
+                        string snd = DirectSound.GetSound("hurt" + hurtlevel.ToString(CultureInfo.InvariantCulture)+ ".wav", false);
+                        var сachedSound = new CachedSound(snd);
+                        AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+                    }
 				}
 
 				// Flash when local player is hurt

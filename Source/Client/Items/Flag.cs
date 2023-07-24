@@ -5,6 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
+using FireAndForgetAudioSample;
 using System;
 using System.Globalization;
 
@@ -111,7 +112,11 @@ namespace CodeImp.Bloodmasters.Client
 				// Flag taken!
 				General.console.AddMessage(clnt.Name + "^7 has taken the " + thisteamname + " flag");
 				General.hud.ShowBigMessage(thisteamcolor + thisteamname.ToUpper() + " FLAG TAKEN!", 2000);
-				DirectSound.PlaySound("flagtaken.wav");
+
+                string snd = DirectSound.GetSound("flagtaken.wav", false);
+                var сachedSound = new CachedSound(snd);
+                AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+                //DirectSound.PlaySound("flagtaken.wav");
 
 				// Taken by me?
 				if(clnt == General.localclient)
@@ -154,7 +159,11 @@ namespace CodeImp.Bloodmasters.Client
 				// Flag scored
 				General.console.AddMessage(clnt.Name + "^7 scored for the " + otherteamname + " team");
 				General.hud.ShowBigMessage(otherteamcolor + otherteamname.ToUpper() + " TEAM SCORES", 2000);
-				DirectSound.PlaySound("flagcapture.wav");
+
+                string snd = DirectSound.GetSound("flagcapture.wav", false);
+                var сachedSound = new CachedSound(snd);
+                AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+                //DirectSound.PlaySound("flagcapture.wav");
 
 				// Count score
 				General.teamscore[(int)clnt.Team]++;
@@ -170,7 +179,11 @@ namespace CodeImp.Bloodmasters.Client
 
 				// Flag returned
 				General.hud.ShowBigMessage(thisteamcolor + thisteamname.ToUpper() + " FLAG RETURNED", 2000);
-				DirectSound.PlaySound("flagreturn.wav");
+
+                string snd = DirectSound.GetSound("flagreturn.wav", false);
+                var сachedSound = new CachedSound(snd);
+                AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+                //DirectSound.PlaySound("flagreturn.wav");
 			}
 
 			// Return to original position
@@ -225,7 +238,11 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Flag dropped
 				General.console.AddMessage(this.Owner.Name + "^7 dropped the " + thisteamname + " flag");
-				DirectSound.PlaySound("flagdropped.wav");
+
+                string snd = DirectSound.GetSound("flagdropped.wav", false);
+                var сachedSound = new CachedSound(snd);
+                AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+                //DirectSound.PlaySound("flagdropped.wav");
 
 				// Detach flag
 				this.renderbias = RENDER_BIAS_NORMAL;

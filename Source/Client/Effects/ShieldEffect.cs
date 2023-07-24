@@ -7,6 +7,7 @@
 
 using System;
 using CodeImp.Bloodmasters.Client.Graphics;
+using FireAndForgetAudioSample;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -52,12 +53,15 @@ namespace CodeImp.Bloodmasters.Client
 			this.fadeout = fadeout;
 			this.lightcolor = General.ARGB(1f, 0.2f, 0.5f, 0.1f);
 
-			// Play the shield hit sound when in screen
-			if(actor.Sector.VisualSector.InScreen)
-				DirectSound.PlaySound("shieldhit.wav", actor.Position);
+            string snd = DirectSound.GetSound("shieldhit.wav", false);
+            var сachedSound = new CachedSound(snd);
+           
+            // Play the shield hit sound when in screen
+            if (actor.Sector.VisualSector.InScreen)
+                AudioPlaybackEngine.Instance.PlaySound(сachedSound);//DirectSound.PlaySound("shieldhit.wav", actor.Position);
 
-			// Make dynamic light
-			light = new DynamicLight(this.pos, 16f, lightcolor, 3);
+            // Make dynamic light
+            light = new DynamicLight(this.pos, 16f, lightcolor, 3);
 
 			// Make the sprite
 			sprite = new Sprite(this.pos + offset, 6f, false, true);

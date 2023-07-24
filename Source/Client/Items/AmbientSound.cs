@@ -5,6 +5,8 @@
 *                                                                   *
 \********************************************************************/
 
+using FireAndForgetAudioSample;
+using NAudio.Wave;
 using System.IO;
 
 namespace CodeImp.Bloodmasters.Client
@@ -16,13 +18,12 @@ namespace CodeImp.Bloodmasters.Client
 
 		// The positional sound
 		private ISound sound;
+        #endregion
 
-		#endregion
+        #region ================== Constructor / Destructor
 
-		#region ================== Constructor / Destructor
-
-		// Constructor
-		public AmbientSound(Thing t) : base(t)
+        // Constructor
+        public AmbientSound(Thing t) : base(t)
 		{
 			// Get arguments
 			int index = t.Arg[0];
@@ -38,43 +39,47 @@ namespace CodeImp.Bloodmasters.Client
 				string archive = ArchiveManager.FindFileArchive(filename);
 				if(archive != "")
 				{
-					// Extract and load the file
-					DirectSound.CreateSound(filename, ArchiveManager.ExtractFile(archive + "/" + filename));
-				}
-				else
+                    // Extract and load the file
+                    //DirectSound.CreateSound(filename, ArchiveManager.ExtractFile(archive + "/" + filename));
+                    var сachedAmbientSound = new CachedSound(ArchiveManager.ExtractFile(archive + "/" + filename));
+                    AudioPlaybackEngine.Instance.PlaySound(сachedAmbientSound);
+
+                }
+                else
 				{
 					// Problem!
 					throw(new FileNotFoundException("Unable to load the sound file \"" + filename + "\".", filename));
 				}
 			}
 
-			// Make the sound
-			sound = DirectSound.GetSound(filename, true);
-			sound.Position = this.pos;
-			sound.Volume = (float)volume / 255f;
-			sound.Play(true);
+			//// Make the sound
+			//sound = DirectSound.GetSound(filename, true);
+			//sound.Position = this.pos;
+			//sound.Volume = (float)volume / 255f;
+			//sound.Play(true);
 
-			// Change to random offset
-			sound.SetRandomOffset();
+			//// Change to random offset
+			//sound.SetRandomOffset();
 		}
 
-		// When disposed
-		public override void Dispose()
-		{
-			// Clean up
-			sound.Dispose();
-			sound = null;
+        // When disposed
+        //public override void Dispose()
+        //{
+        //	// Clean up
+        //	sound.Dispose();
+        //	sound = null;
 
-			// Dispose base
-			base.Dispose();
-		}
+        //	// Dispose base
+        //	base.Dispose();
+        //}
 
-		#endregion
+        #endregion
 
-		#region ================== Methods
+        #region ================== Methods
 
-		// Invisible item
-		public override void Render()
+
+        // Invisible item
+        public override void Render()
 		{
 			// Do nothing
 		}

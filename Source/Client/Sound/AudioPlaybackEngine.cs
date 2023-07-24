@@ -8,6 +8,13 @@ namespace FireAndForgetAudioSample
     {
         private readonly IWavePlayer outputDevice;
         private readonly MixingSampleProvider mixer;
+        private int playCount = 0;
+        private int maxPlayCount = 1;
+
+        public int PlayCount
+        {
+            set { maxPlayCount = value; }
+        }
 
         public AudioPlaybackEngine(int sampleRate = 44100, int channelCount = 2)
         {
@@ -16,6 +23,22 @@ namespace FireAndForgetAudioSample
             mixer.ReadFully = true;
             outputDevice.Init(mixer);
             outputDevice.Play();
+
+            outputDevice.PlaybackStopped += OutputDevice_PlaybackStopped;
+        }
+
+        private void OutputDevice_PlaybackStopped(object sender, StoppedEventArgs e)
+        {
+            if (playCount < maxPlayCount)
+            {
+                var stoppedInput = e.Exception is null ? e as ISampleProvider : null;
+                if (stoppedInput != null)
+                {
+                    mixer.RemoveMixerInput(stoppedInput);
+                    AddMixerInput(stoppedInput);
+                }
+                playCount++;
+            }
         }
 
         public void PlaySound(string fileName)

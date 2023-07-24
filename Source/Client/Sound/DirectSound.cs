@@ -8,6 +8,7 @@
 // The DirectSound class contains functions for DirectSound related
 // functionality which are used throughout this engine. Bla.
 
+using FireAndForgetAudioSample;
 using System;
 using System.Collections;
 using System.IO;
@@ -56,12 +57,17 @@ namespace CodeImp.Bloodmasters.Client
 		private static Vector2D listenpos;
 		private static ArrayList playingsounds = new ArrayList();
 
-		#endregion
+        public static Hashtable AllSounds
+        {
+            get { return sounds; }
+        }
 
-		#region ================== Initialization, Reset and Termination
+        #endregion
 
-		// Terminates DirectSound
-		public static void Terminate()
+        #region ================== Initialization, Reset and Termination
+
+        // Terminates DirectSound
+        public static void Terminate()
 		{
 			// Trash all sounds
 			DestroyAllResources();
@@ -76,6 +82,7 @@ namespace CodeImp.Bloodmasters.Client
 		// Initializes DirectSound
 		public static bool Initialize(Form target)
 		{
+            playeffects = General.config.ReadSetting("sounds", true);
             /* TODO[#16]:
 			Microsoft.DirectX.DirectSound.Buffer dspb;
 			BufferDescription bufferdesc;
@@ -87,7 +94,7 @@ namespace CodeImp.Bloodmasters.Client
 			BuildLog10Table();
 
 			// Get settings from configuration
-			playeffects = General.config.ReadSetting("sounds", true);
+
 			effectsvolume = CalcVolumeScale((float)General.config.ReadSetting("soundsvolume", 100) / 100f);
 			soundfreq = General.config.ReadSetting("soundfrequency", 0);
 			soundbits = General.config.ReadSetting("soundbits", 0);
@@ -133,9 +140,15 @@ namespace CodeImp.Bloodmasters.Client
 					CreateSound(filename, ArchiveManager.ExtractFile("sounds.rar/" + filename));
 				}
 			}*/
+            Archive soundsrar = ArchiveManager.GetArchive("sounds.rar");
+            foreach (string filename in soundsrar.FileNames)
+            {
+                // Load this sound
+                CreateSound(filename, ArchiveManager.ExtractFile("sounds.rar/" + filename));
+            }
 
-			// No problems
-			return true;
+            // No problems
+            return true;
 		}
 
 		#endregion
@@ -220,52 +233,62 @@ namespace CodeImp.Bloodmasters.Client
 		}
 
 		// This returns a sound object by filename
-		public static ISound GetSound(string filename, bool positional)
-		{
+		public static string GetSound(string filename, bool positional) //ISound
+        {
 			// Not playing sounds?
-			if(!DirectSound.playeffects) return new NullSound();
+			//if(!DirectSound.playeffects) return new NullSound();
 
 			// Return sound object if it exists
 			if(!sounds.Contains(filename))
 			{
 				// Error, sound not loaded
 				if(General.console != null) General.console.AddMessage("Sound file \"" + filename + "\" is not loaded.", true);
-				return new NullSound();
-			}
+				return null;//new NullSound()
+            }
 
-			// Return sound
-			ISound newsnd = new Sound((Sound)sounds[filename], positional);
-			return newsnd;
+            // Return sound
+            string newsnd = (string)sounds[filename];// TODO[#16]: ISound newsnd = new Sound((Sound)sounds[filename], positional);
+            return newsnd;
 		}
 
 		// Plays a sound
 		public static void PlaySound(string filename)
 		{
-			// Get the sound object and play it
-			ISound snd = GetSound(filename, false);
-			snd.AutoDispose = true;
-			snd.Play();
-		}
+            // Get the sound object and play it
+            string snd = GetSound(filename, false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+
+            //ISound snd = GetSound(filename, false);
+            //snd.AutoDispose = true;
+            //snd.Play();
+        }
 
 		// Plays a sound at a fixed location
 		public static void PlaySound(string filename, Vector2D pos)
 		{
-			// Get the sound object and play it
-			ISound snd = GetSound(filename, true);
-			snd.AutoDispose = true;
-			snd.Position = pos;
-			snd.Play();
-		}
+            string snd = GetSound(filename, false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+            // Get the sound object and play it
+            //ISound snd = GetSound(filename, true);
+            //snd.AutoDispose = true;
+            //snd.Position = pos;
+            //snd.Play();
+        }
 
 		// Plays a sound at a fixed location with specified volume
 		public static void PlaySound(string filename, Vector2D pos, float volume)
 		{
-			// Get the sound object and play it
-			ISound snd = GetSound(filename, true);
-			snd.AutoDispose = true;
-			snd.Position = pos;
-			snd.Play(volume, false);
-		}
+            string snd = GetSound(filename, false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+            // Get the sound object and play it
+            //ISound snd = GetSound(filename, true);
+            //snd.AutoDispose = true;
+            //snd.Position = pos;
+            //snd.Play(volume, false);
+        }
 
 		#endregion
 
@@ -287,22 +310,22 @@ namespace CodeImp.Bloodmasters.Client
 		// This creates a new sound
 		public static void CreateSound(string filename, string fullfilename)
 		{
-			ISound s;
+            string s; // TODO[#16]: ISound s
 
-			// Check if not already exists
-			if(sounds.Contains(filename) == false)
+            // Check if not already exists
+            if (sounds.Contains(filename) == false)
 			{
 				// Not playing sounds?
 				if(!DirectSound.playeffects)
 				{
 					// No sound
-					s = new NullSound();
-				}
+					s = null;// TODO[#16]: new NullSound()
+                }
 				else
 				{
 					// Load the sound
-					s = new Sound(filename, fullfilename);
-				}
+					s =  fullfilename; //TODO[#16]: Old: new Sound(filename, fullfilename);
+                }
 
 				// Add to collection
 				sounds.Add(filename, s);
@@ -317,40 +340,40 @@ namespace CodeImp.Bloodmasters.Client
 		// This destroys a sound
 		public static void DestroySound(string filename)
 		{
-			// Check if sound exists
-			if(sounds.Contains(filename))
-			{
-				// Dispose it
-				ISound s = (ISound)sounds[filename];
-				s.Dispose();
+			//// Check if sound exists
+			//if(sounds.Contains(filename))
+			//{
+			//	// Dispose it
+			//	ISound s = (ISound)sounds[filename];
+			//	s.Dispose();
 
-				// Remove from collection
-				sounds.Remove(filename);
-			}
+			//	// Remove from collection
+			//	sounds.Remove(filename);
+			//}
 		}
 
 		// This destroys all resources
 		public static void DestroyAllResources()
 		{
-			// Go for all playing sounds
-			for(int i = playingsounds.Count - 1; i >= 0; i--)
-			{
-				// Get the sound
-				ISound s = (ISound)playingsounds[i];
+			//// Go for all playing sounds
+			//for(int i = playingsounds.Count - 1; i >= 0; i--)
+			//{
+			//	// Get the sound
+			//	ISound s = (ISound)playingsounds[i];
 
-				// Dispose it
-				s.Dispose();
-			}
-			playingsounds.Clear();
+			//	// Dispose it
+			//	s.Dispose();
+			//}
+			//playingsounds.Clear();
 
-			// Go for all sounds
-			foreach(DictionaryEntry de in sounds)
-			{
-				// Dispose it
-				ISound s = (ISound)de.Value;
-				s.Dispose();
-			}
-			sounds.Clear();
+			//// Go for all sounds
+			//foreach(DictionaryEntry de in sounds)
+			//{
+			//	// Dispose it
+			//	ISound s = (ISound)de.Value;
+			//	s.Dispose();
+			//}
+			//sounds.Clear();
 		}
 
 		#endregion

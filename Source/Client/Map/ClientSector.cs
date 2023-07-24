@@ -1,3 +1,5 @@
+using FireAndForgetAudioSample;
+using System.Globalization;
 using System.IO;
 
 namespace CodeImp.Bloodmasters.Client;
@@ -41,9 +43,12 @@ public class ClientSector : Sector
             if(sound != null) sound.Dispose();
 
             // Play start sound
-            sound = DirectSound.GetSound(SOUND_START, true);
-            sound.Position = new Vector2D(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
-            sound.Play();
+            //sound = DirectSound.GetSound(SOUND_START, true);
+            //sound.Position = new Vector2D(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
+            //sound.Play();
+            string snd = DirectSound.GetSound(SOUND_START, false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
         }
     }
 
@@ -73,12 +78,18 @@ public class ClientSector : Sector
         if((sound != null) && !sound.Playing && playmovementsound)
         {
             // Dispose old sound
-            sound.Dispose();
+            //sound.Dispose();
 
             // Play moving sound
-            sound = DirectSound.GetSound(SOUND_RUN, true);
-            sound.Position = new Vector2D(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
-            sound.Play(true);
+            //sound = DirectSound.GetSound(SOUND_RUN, true);
+            //sound.Position = new Vector2D(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
+            //sound.Play(true);
+            string snd = DirectSound.GetSound(SOUND_RUN, false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+
+            AudioPlaybackEngine.Instance.Dispose();
+
         }
 
         // Running in client mode?
@@ -107,12 +118,16 @@ public class ClientSector : Sector
         if(playstopsound && playmovementsound)
         {
             // Dispose old sound
-            if(sound != null) sound.Dispose();
-
+            //if(sound != null) sound.Dispose();
+            AudioPlaybackEngine.Instance.Dispose();
             // Play stop sound
-            sound = DirectSound.GetSound(SOUND_END, true);
-            sound.Position = new Vector2D(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
-            sound.Play();
+            //sound = DirectSound.GetSound(SOUND_END, true);
+            //sound.Position = new Vector2D(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
+            //sound.Play();
+
+            string snd = DirectSound.GetSound(SOUND_RUN, false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
         }
     }
 

@@ -24,6 +24,7 @@ using System.Threading;
 using System.Windows.Forms;
 using CodeImp.Bloodmasters.Client.Net;
 using CodeImp.Bloodmasters.Server;
+using FireAndForgetAudioSample;
 using SharpDX;
 using SharpDX.Direct3D9;
 
@@ -933,8 +934,12 @@ namespace CodeImp.Bloodmasters.Client
 			General.hud.CallVoteDescription = desc;
 
 			// Make bleep sound
-			DirectSound.PlaySound("messagebeep.wav");
-		}
+			//DirectSound.PlaySound("messagebeep.wav");
+
+            string snd = DirectSound.GetSound("messagebeep.wav", false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+        }
 
 		// Call vote ended
 		private static void hCallvoteEnd(NetMessage msg)
@@ -1101,8 +1106,11 @@ namespace CodeImp.Bloodmasters.Client
 		// Damage given to player
 		private static void hDamageGiven(NetMessage msg)
 		{
-			// Play hit sound
-			DirectSound.PlaySound("hitplayer.wav");
+            // Play hit sound
+            string snd = DirectSound.GetSound("hitplayer.wav", false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+            //DirectSound.PlaySound("hitplayer.wav");
 		}
 
 		// Shield Hit
@@ -1319,10 +1327,13 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Show FIGHT!
 				hud.ShowBigMessage("FIGHT!", 1000);
-				DirectSound.PlaySound("voc_fight.wav");
+                //DirectSound.PlaySound("voc_fight.wav");
+                string snd = DirectSound.GetSound("voc_fight.wav", false);
+                var сachedSound = new CachedSound(snd);
+                AudioPlaybackEngine.Instance.PlaySound(сachedSound);
 
-				// Remove all actors
-				arena.RespawnAllItems();
+                // Remove all actors
+                arena.RespawnAllItems();
 				RemovePlayingActors();
 
 				// Reset team scores

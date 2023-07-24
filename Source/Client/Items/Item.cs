@@ -6,6 +6,7 @@
 \********************************************************************/
 
 using System;
+using FireAndForgetAudioSample;
 using SharpDX;
 using SharpDX.Direct3D9;
 using Color = System.Drawing.Color;
@@ -287,11 +288,14 @@ namespace CodeImp.Bloodmasters.Client
 		// This respawns the item
 		public virtual void Respawn(bool playsound)
 		{
-			// Play item respawn sound
-			if(playsound && sector.VisualSector.InScreen) DirectSound.PlaySound("itemrespawn.wav", pos);
+            // Play item respawn sound
+            string snd = DirectSound.GetSound("itemrespawn.wav", false);
+            var сachedSound = new CachedSound(snd);
 
-			// Make respawn effect
-			if(attached || taken) RespawnEffect();
+            if (playsound && sector.VisualSector.InScreen) AudioPlaybackEngine.Instance.PlaySound(сachedSound);//DirectSound.PlaySound("itemrespawn.wav", pos);
+
+            // Make respawn effect
+            if (attached || taken) RespawnEffect();
 
 			// Show the item
 			taken = false;

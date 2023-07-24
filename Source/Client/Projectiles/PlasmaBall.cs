@@ -6,6 +6,7 @@
 \********************************************************************/
 
 using System;
+using FireAndForgetAudioSample;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -47,18 +48,22 @@ namespace CodeImp.Bloodmasters.Client
 			// Make the light
 			light = new DynamicLight(start, 10f, General.ARGB(0.3f, 0.4f, 0.8f, 1f), 3);
 
-			// Create flying sound
-			//flying = DirectSound.GetSound("plasmafly.wav", true);
-			flying = new NullSound();
-			flying.Position = start;
-			flying.Play(true);
-		}
+            // Create flying sound
+            //flying = DirectSound.GetSound("plasmafly.wav", true);
+            //flying = new NullSound();
+            //flying.Position = start;
+            //flying.Play(true);
+
+            string snd = DirectSound.GetSound("plasmafly.wav", false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+        }
 
 		// Dispose
 		public override void Dispose()
 		{
 			// Clean up
-			flying.Dispose();
+			//flying.Dispose();
 			sprite = null;
 			flying = null;
 			light.Dispose();
@@ -162,14 +167,17 @@ namespace CodeImp.Bloodmasters.Client
 				}
 
 				// Kill flying sound
-				flying.Stop();
+				//flying.Stop();
 
-				// Make hit sound
-				if(sector.VisualSector.InScreen)
-					DirectSound.PlaySound("plasmahit.wav", atpos);
+                string snd = DirectSound.GetSound("playerfire.wav", false);
+                var сachedSound = new CachedSound(snd);
+                AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+                // Make hit sound
+                if (sector.VisualSector.InScreen)
+                    AudioPlaybackEngine.Instance.PlaySound(сachedSound);//DirectSound.PlaySound("plasmahit.wav", atpos);
 
-				// Check if on screen
-				if(sector.VisualSector.InScreen)
+                // Check if on screen
+                if (sector.VisualSector.InScreen)
 				{
 					// Spawn particles
 					for(int i = 0; i < 3; i++)
@@ -218,7 +226,7 @@ namespace CodeImp.Bloodmasters.Client
 			light.Position = this.state.pos;
 
 			// Update sound coodinates
-			flying.Position = state.pos;
+			//flying.Position = state.pos;
 		}
 
 		// Render the projectile

@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections;
+using FireAndForgetAudioSample;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -54,12 +55,15 @@ namespace CodeImp.Bloodmasters.Client
 			// Make the light
 			light = new DynamicLight(start, 16f, General.ARGB(1f, 0.4f, 0.5f, 1f), 3);
 
-			// Create flying sound
-			//flying = DirectSound.GetSound("plasmafly.wav", true);
-			flying = new NullSound();
-			flying.Position = start;
-			flying.Play(true);
-		}
+            // Create flying sound
+            //flying = DirectSound.GetSound("plasmafly.wav", true);
+            //flying = new NullSound();
+            //flying.Position = start;
+            //flying.Play(true);
+            string snd = DirectSound.GetSound("plasmafly.wav", false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+        }
 
 		// Dispose
 		public override void Dispose()
@@ -171,12 +175,15 @@ namespace CodeImp.Bloodmasters.Client
 				// Kill flying sound
 				flying.Stop();
 
-				// Make hit sound
-				if(sector.VisualSector.InScreen)
-					DirectSound.PlaySound("ionexplode.wav", atpos);
+                string snd = DirectSound.GetSound("playerfire.wav", false);
+                var сachedSound = new CachedSound(snd);
 
-				// Spawn explosion effect
-				new IonExplodeEffect(decalpos, SourceID, Team);
+                // Make hit sound
+                if (sector.VisualSector.InScreen)
+                    AudioPlaybackEngine.Instance.PlaySound(сachedSound);//DirectSound.PlaySound("ionexplode.wav", atpos);
+
+                // Spawn explosion effect
+                new IonExplodeEffect(decalpos, SourceID, Team);
 			}
 			// Silent destroy
 			else if(sector != null)

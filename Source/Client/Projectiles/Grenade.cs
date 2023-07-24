@@ -6,6 +6,7 @@
 \********************************************************************/
 
 using System;
+using FireAndForgetAudioSample;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -82,10 +83,13 @@ namespace CodeImp.Bloodmasters.Client
 			// Update base class
 			base.Update(newpos, newvel);
 
-			// Make bounce sound
-			if((sector != null) && sector.VisualSector.InScreen)
-				DirectSound.PlaySound("grenadebounce.wav", newpos);
-		}
+            // Make bounce sound
+            string snd = DirectSound.GetSound("grenadebounce.wav", false);
+            var сachedSound = new CachedSound(snd);
+
+            if ((sector != null) && sector.VisualSector.InScreen)
+                AudioPlaybackEngine.Instance.PlaySound(сachedSound);//DirectSound.PlaySound("grenadebounce.wav", newpos);
+        }
 
 		// When destroyed
 		public override void Destroy(Vector3D atpos, bool silent, Client hitplayer)
@@ -136,12 +140,15 @@ namespace CodeImp.Bloodmasters.Client
 					}
 				}
 
-				// Make hit sound
-				if(sector.VisualSector.InScreen)
-					DirectSound.PlaySound("rockethit.wav", atpos);
+                string snd = DirectSound.GetSound("rockethit.wav", false);
+                var сachedSound = new CachedSound(snd);
+               
+                // Make hit sound
+                if (sector.VisualSector.InScreen)
+                    AudioPlaybackEngine.Instance.PlaySound(сachedSound);//DirectSound.PlaySound("rockethit.wav", atpos);
 
-				// Spawn explosion effect
-				new RocketExplodeEffect(decalpos);
+                // Spawn explosion effect
+                new RocketExplodeEffect(decalpos);
 			}
 			// Silent destroy
 			else if(sector != null)
@@ -149,9 +156,13 @@ namespace CodeImp.Bloodmasters.Client
 				// In a liquid sector?
 				if((SECTORMATERIAL)sector.Material == SECTORMATERIAL.LIQUID)
 				{
-					// Make splash sound
-					if(sector.VisualSector.InScreen)
-						DirectSound.PlaySound("dropwater.wav", atpos);
+                    // Make splash sound
+
+                    string snd = DirectSound.GetSound("dropwater.wav", false);
+                    var сachedSound = new CachedSound(snd);
+                    
+                    if (sector.VisualSector.InScreen)
+                        AudioPlaybackEngine.Instance.PlaySound(сachedSound); //DirectSound.PlaySound("dropwater.wav", atpos);
 
 					// Check if on screen
 					if(sector.VisualSector.InScreen)

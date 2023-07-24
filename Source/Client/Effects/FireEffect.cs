@@ -7,6 +7,7 @@
 
 using System;
 using CodeImp.Bloodmasters.Client.Graphics;
+using FireAndForgetAudioSample;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -56,13 +57,17 @@ namespace CodeImp.Bloodmasters.Client
 			lightcolor = General.ARGB(1f, 1f, 0.9f, 0.5f);
 			light = new DynamicLight(actor.Position, 15f, 0, 3);
 
-			// Create sound
-			sound = DirectSound.GetSound("playerfire.wav", true);
-			sound.Position = this.actor.Position;
-			sound.Play(0f, true);
+            // Create sound
+            //sound = DirectSound.GetSound("playerfire.wav", true);
+            //sound.Position = this.actor.Position;
+            //sound.Play(0f, true);
 
-			// Random flux offset
-			fluxoffset = General.random.Next(1000);
+            string snd = DirectSound.GetSound("playerfire.wav", false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+
+            // Random flux offset
+            fluxoffset = General.random.Next(1000);
 
 			// Process once
 			this.Process();
@@ -114,8 +119,8 @@ namespace CodeImp.Bloodmasters.Client
 				light.Position = actor.Position + lightoffset;
 
 				// Mouse sound to match actor position
-				sound.Volume = startalpha;
-				sound.Position = actor.Position;
+				//sound.Volume = startalpha;
+				//sound.Position = actor.Position;
 
 				// Time to spawn smoke?
 				if(SharedGeneral.currenttime >= smoketime)

@@ -19,7 +19,8 @@ namespace CodeImp.Bloodmasters.Client
 		private bool repeat = false;
 		private bool autodispose = false;
 		private string filename;
-		private float volume = 1f;
+        private string fullfilename;
+        private float volume = 1f;
 		private float newvolume = 1f;
 		private int absvolume = 0;
 		private bool positional;
@@ -50,9 +51,10 @@ namespace CodeImp.Bloodmasters.Client
 		{
 			// Keep the filename
 			this.filename = filename;
+            this.fullfilename = fullfilename;
 
-			// Set the sounds caps
-			SoundBufferDescription bufferdesc = new SoundBufferDescription();
+            // Set the sounds caps
+            SoundBufferDescription bufferdesc = new SoundBufferDescription();
 			bufferdesc.Flags = BufferFlags.ControlVolume | BufferFlags.ControlPan;
 
 			// Load the sound

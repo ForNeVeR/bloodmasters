@@ -5,6 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
+using FireAndForgetAudioSample;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -55,10 +56,14 @@ namespace CodeImp.Bloodmasters.Client
 			smoketime = SharedGeneral.currenttime + SMOKE_DELAY;
 
 			// Make explosion sound
-			DirectSound.PlaySound("nukeexplode.wav", pos, 2f);
+			//DirectSound.PlaySound("nukeexplode.wav", pos, 2f);
 
-			// Rendering options
-			this.renderpass = 2;
+            string snd = DirectSound.GetSound("nukeexplode.wav", false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+
+            // Rendering options
+            this.renderpass = 2;
 
 			// Make the explosion sprite and animation
 			sprite = new Sprite(pos, EXPLOSION_SIZE, false, true);

@@ -11,6 +11,7 @@ using System.Collections;
 using CodeImp.Bloodmasters;
 using CodeImp;
 using SharpDX.Direct3D9;
+using FireAndForgetAudioSample;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -52,13 +53,16 @@ namespace CodeImp.Bloodmasters.Client
 			// Move with actor
 			this.pos = actor.Position;
 
-			// Get the sound
-			sound = DirectSound.GetSound("rage.wav", true);
-			sound.Position = actor.Position;
-			sound.Play(true);
+            // Get the sound
+            //sound = DirectSound.GetSound("rage.wav", true);
+            //sound.Position = actor.Position;
+            //sound.Play(true);
+            string snd = DirectSound.GetSound("rage.wav", false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
 
-			// Make light
-			light = new DynamicLight(actor.Position, 12f, General.ARGB(1f, 1f, 0.2f, 0.1f), 2);
+            // Make light
+            light = new DynamicLight(actor.Position, 12f, General.ARGB(1f, 1f, 0.2f, 0.1f), 2);
 
 			// Make the sprite
 			sprite = new Sprite(this.pos, 12f, false, true);
@@ -98,7 +102,7 @@ namespace CodeImp.Bloodmasters.Client
 				this.pos = actor.Position + new Vector3D(0f, 0f, OFFSET_Z);
 				sprite.Position = this.Position;
 				light.Position = this.Position;
-				sound.Position = this.Position;
+				//sound.Position = this.Position;
 
 				// Process animation
 				ani.Process();

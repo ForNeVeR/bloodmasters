@@ -5,6 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
+using FireAndForgetAudioSample;
 using System;
 
 namespace CodeImp.Bloodmasters.Client
@@ -64,13 +65,16 @@ namespace CodeImp.Bloodmasters.Client
 			// Random flux offset
 			fluxoffset = General.random.Next(1000);
 
-			// Create sound
-			//firesound = DirectSound.GetSound("playerfire.wav", true);
-			//firesound.Position = start;
-			//firesound.Volume = 0f;
-			//firesound.SetRandomOffset();
-			//firesound.Play(true);
-		}
+            // Create sound
+            //firesound = DirectSound.GetSound("playerfire.wav", true);
+            //firesound.Position = start;
+            //firesound.Volume = 0f;
+            //firesound.SetRandomOffset();
+            //firesound.Play(true);
+            string snd = DirectSound.GetSound("playerfire.wav", false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+        }
 
 		// Dispose
 		public override void Dispose()

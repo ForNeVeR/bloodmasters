@@ -5,6 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
+using FireAndForgetAudioSample;
 using System;
 using System.Reflection;
 
@@ -147,12 +148,15 @@ namespace CodeImp.Bloodmasters.Client
 			new TeleportEffect(oldpos, TEAM.NONE, true);
 			new TeleportEffect(newpos, TEAM.NONE, true);
 
-			// Play teleport sound at both locations
-			DirectSound.PlaySound("teleportsmall.wav", oldpos);
-			DirectSound.PlaySound("teleportsmall.wav", newpos);
+            // Play teleport sound at both locations
+            //DirectSound.PlaySound("teleportsmall.wav", oldpos);
+            //DirectSound.PlaySound("teleportsmall.wav", newpos);
+            string snd = DirectSound.GetSound("teleportsmall.wav", false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
 
-			// Apply position and velocity
-			state.pos = newpos;
+            // Apply position and velocity
+            state.pos = newpos;
 			state.vel = newvel;
 			pos = state.pos;
 		}

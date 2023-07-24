@@ -5,6 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
+using FireAndForgetAudioSample;
 using System;
 
 namespace CodeImp.Bloodmasters.Client
@@ -69,9 +70,13 @@ namespace CodeImp.Bloodmasters.Client
 				// Set up heavy settings
 				fadechange = FADE_CHANGE_BIG;
 
-				// Play blast sound
-				if(blastsound) DirectSound.PlaySound(SND_FILE_START, MakeMiddlePosition());
-			}
+
+                string snd = DirectSound.GetSound("SND_FILE_START", false);
+                var сachedSound = new CachedSound(snd);
+
+                // Play blast sound
+                if (blastsound) AudioPlaybackEngine.Instance.PlaySound(сachedSound);//DirectSound.PlaySound(SND_FILE_START, MakeMiddlePosition());
+            }
 			else
 			{
 				// Set up weak settings
@@ -79,28 +84,32 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Make running sound
-			snd = DirectSound.GetSound(SND_FILE_RUN, true);
-			snd.Position = MakeMiddlePosition();
+			//snd = DirectSound.GetSound(SND_FILE_RUN, true);
+			//snd.Position = MakeMiddlePosition();
 
-			// Play it
-			snd.Play(true);
+			//// Play it
+			//snd.Play(true);
 		}
 
 		// Dispose
 		public void Dispose()
 		{
-			// Play the ending sound
-			DirectSound.PlaySound(SND_FILE_END, MakeMiddlePosition());
+            // Play the ending sound
+            //DirectSound.PlaySound(SND_FILE_END, MakeMiddlePosition());
 
-			// Remove from both objects
-			source.RemoveLightning(this);
+            string snd = DirectSound.GetSound(SND_FILE_END, false);
+            var сachedSound = new CachedSound(snd);
+            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+
+            // Remove from both objects
+            source.RemoveLightning(this);
 			target.RemoveLightning(this);
 
 			// Dispose lights
 			foreach(DynamicLight d in lights) if(d != null) d.Dispose();
 
 			// Dispose sound
-			snd.Dispose();
+			//snd.Dispose();
 			snd = null;
 			source = null;
 			target = null;
