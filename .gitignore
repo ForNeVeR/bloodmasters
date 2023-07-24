@@ -11,3 +11,7 @@ obj/
 /Build/*.debug.cfg
 
 *.user
+/Build/TestSound
+/Build/Bloodmasters.cfg
+/Build/Bloodmasters.log
+/Source/Client/Sound/Track.cs
