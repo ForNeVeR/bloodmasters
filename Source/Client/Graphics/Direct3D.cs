@@ -2002,11 +2002,11 @@ namespace CodeImp.Bloodmasters.Client
 	}
 
 	// MVertex
-	public struct MVertex
+    public struct MVertex
 	{
 		// Vertex format
 		public static readonly VertexFormat Format = VertexFormat.Position | VertexFormat.Texture3 | VertexFormat.Diffuse;
-		public const int Stride = 10 * 4;
+		public static readonly unsafe int Stride = sizeof(MVertex);
 
 		// Members
 		public float x;
@@ -2026,7 +2026,7 @@ namespace CodeImp.Bloodmasters.Client
 	{
 		// Vertex format
 		public static readonly VertexFormat Format = VertexFormat.Position | VertexFormat.Diffuse;
-		public static readonly int Stride = 4 * 4;
+		public static readonly unsafe int Stride = sizeof(LVertex);
 
 		// Members
 		public float x;
@@ -2040,7 +2040,7 @@ namespace CodeImp.Bloodmasters.Client
 	{
 		// Vertex format
 		public static readonly VertexFormat Format = VertexFormat.PositionRhw | VertexFormat.Texture1 | VertexFormat.Diffuse;
-		public static readonly int Stride = 7 * 4;
+		public static readonly unsafe int Stride = sizeof(TLVertex);
 
 		// Members
 		public float x;
@@ -2057,7 +2057,7 @@ namespace CodeImp.Bloodmasters.Client
 	{
 		// Vertex format
 		public static readonly VertexFormat Format = VertexFormat.Position | VertexFormat.PointSize | VertexFormat.Diffuse;
-		public static readonly int Stride = 5 * 4;
+		public static readonly unsafe int Stride = sizeof(PVertex);
 
 		// Members
 		public float x;
