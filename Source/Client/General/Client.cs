@@ -6,7 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 
@@ -51,7 +51,7 @@ namespace CodeImp.Bloodmasters.Client
 		private Item carry = null;
 
 		// Local client only
-		private ArrayList localmoves;
+		private List<LocalMove> localmoves;
 
 		// Player status (local only)
 		private int health;
@@ -140,7 +140,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(local)
 			{
 				// Set up variables for local client
-				localmoves = new ArrayList();
+				localmoves = new List<LocalMove>();
 			}
 		}
 
@@ -421,7 +421,7 @@ namespace CodeImp.Bloodmasters.Client
 					for(int i = actor.Lightnings.Count - 1; i >= 0; i--)
 					{
 						// Get the lightning object
-						Lightning l = (Lightning)actor.Lightnings[i];
+						Lightning l = actor.Lightnings[i];
 
 						// Remove lightning if coming from me
 						if(l.Source == this.Actor) l.Dispose();
@@ -896,7 +896,7 @@ namespace CodeImp.Bloodmasters.Client
 				while(i < localmoves.Count)
 				{
 					// Get the move object
-					lm = (LocalMove)localmoves[i];
+					lm = localmoves[i];
 
 					// Correct the move
 					if(lm.CorrectMove(basetime))

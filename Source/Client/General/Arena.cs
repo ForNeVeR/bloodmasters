@@ -10,7 +10,7 @@
 // the console, HUD or music.
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -63,27 +63,27 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Variables
 
 		// Map sectors for rendering
-		private ArrayList sectors;
+		private List<VisualSector> visualSectors;
 
 		// All game objects for rendering
 		// This array is sorted back-to-front every frame
-		private ArrayList objects;
+		private List<VisualObject> objects;
 
 		// Lights on the map
-		private ArrayList staticlights;
-		private ArrayList dynamiclights;
+		private List<StaticLight> staticlights;
+		private List<DynamicLight> dynamiclights;
 
 		// Items on the map
-		private Hashtable items;
+		private Dictionary<string, Item> items;
 
 		// Decals on the map
-		private ArrayList decals;
+		private List<Decal> decals;
 
 		// Actors on the map
-		private ArrayList actors;
+		private List<Actor> actors;
 
 		// Projectiles
-		private Hashtable projectiles;
+		private Dictionary<string, Projectile> projectiles;
 
 		// Particles
 		public ParticleCollection p_dust;
@@ -128,12 +128,12 @@ namespace CodeImp.Bloodmasters.Client
 
 		#region ================== Properties
 
-		public ArrayList VisualSectors { get { return sectors; } }
-		public ArrayList StaticLights { get { return staticlights; } }
-		public ArrayList DynamicLights { get { return dynamiclights; } }
-		public ArrayList Actors { get { return actors; } }
-		public ArrayList Objects { get { return objects; } }
-		public Hashtable Items { get { return items; } }
+		public List<VisualSector> VisualSectors { get { return visualSectors; } }
+		public List<StaticLight> StaticLights { get { return staticlights; } }
+		public List<DynamicLight> DynamicLights { get { return dynamiclights; } }
+		public List<Actor> Actors { get { return actors; } }
+		public List<VisualObject> Objects { get { return objects; } }
+		public Dictionary<string, Item> Items { get { return items; } }
 		public Vector3 CameraVector { get { return c_vec; } }
 		public RectangleF ScreenArea { get { return screenarea; } }
 		public Vector3 MouseAtMap { get { return mousemap; } }
@@ -244,14 +244,14 @@ namespace CodeImp.Bloodmasters.Client
 			spectateplayer = -1;
 
 			// Make arrays
-			sectors = new ArrayList();
-			staticlights = new ArrayList();
-			dynamiclights = new ArrayList();
-			items = new Hashtable();
-			objects = new ArrayList(INITIAL_OBJECTS_MEMORY);
-			decals = new ArrayList();
-			actors = new ArrayList();
-			projectiles = new Hashtable();
+			visualSectors = new List<VisualSector>();
+			staticlights = new List<StaticLight>();
+			dynamiclights = new List<DynamicLight>();
+			items = new Dictionary<string, Item>();
+			objects = new List<VisualObject>(INITIAL_OBJECTS_MEMORY);
+			decals = new List<Decal>();
+			actors = new List<Actor>();
+			projectiles = new Dictionary<string, Projectile>();
 
 			// Ensure unique item ids start at 0
 			Item.uniquekeyindex = 0;
@@ -261,7 +261,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Setup visual sector
 				vs = new VisualSector((ClientSector)General.map.Sectors[s]);
-				sectors.Add(vs);
+				visualSectors.Add(vs);
 			}
 
 			// Merge visual sectors
@@ -332,37 +332,29 @@ namespace CodeImp.Bloodmasters.Client
 		public void Dispose()
 		{
 			// Dispose all visual sectors
-			if(sectors != null) foreach(VisualSector s in sectors) s.Dispose();
+			if(visualSectors != null) foreach(VisualSector s in visualSectors) s.Dispose();
 
 			// Dispose all lights
-			if(staticlights != null) while(staticlights.Count > 0) ((StaticLight)staticlights[0]).Dispose();
-			if(dynamiclights != null) while(dynamiclights.Count > 0) ((DynamicLight)dynamiclights[0]).Dispose();
+			if(staticlights != null) while(staticlights.Count > 0) staticlights[0].Dispose();
+			if(dynamiclights != null) while(dynamiclights.Count > 0) dynamiclights[0].Dispose();
 
 			// Dispose all decals
-			if(decals != null) while(decals.Count > 0) ((Decal)decals[0]).Dispose();
+			if(decals != null) while(decals.Count > 0) decals[0].Dispose();
 
 			// Dispose all actors
-			if(actors != null) while(actors.Count > 0) ((Actor)actors[0]).Dispose();
+			if(actors != null) while(actors.Count > 0) actors[0].Dispose();
 
 			// Dispose all items
 			if(items != null)
 			{
-				ICollection itemscol = items.Values;
-				ArrayList itemsarray = new ArrayList(itemscol);
-				foreach(Item i in itemsarray) i.Dispose();
-				itemsarray = null;
-				itemscol = null;
-			}
+                foreach(Item i in items.Values) i.Dispose();
+            }
 
 			// Dispose all projectiles
 			if(projectiles != null)
 			{
-				ICollection prjcol = projectiles.Values;
-				ArrayList prjarray = new ArrayList(prjcol);
-				foreach(Projectile p in prjarray) p.Dispose();
-				prjarray = null;
-				prjcol = null;
-			}
+                foreach(Projectile p in projectiles.Values) p.Dispose();
+            }
 
 			// Dispose particles
 			p_dust.Dispose();
@@ -377,7 +369,7 @@ namespace CodeImp.Bloodmasters.Client
 			// Clean up
 			staticlights = null;
 			dynamiclights = null;
-			sectors = null;
+			visualSectors = null;
 			decals = null;
 			actors = null;
 			items = null;
@@ -403,16 +395,16 @@ namespace CodeImp.Bloodmasters.Client
 				merged = false;
 
 				// Go for all visual sectors to test for merging
-				foreach(VisualSector va in sectors)
+				foreach(VisualSector va in visualSectors)
 				{
 					// Go for all visual sectors to test for merging
-					foreach(VisualSector vb in sectors)
+					foreach(VisualSector vb in visualSectors)
 					{
 						// Not the same visual sector?
 						// and not marked NO MERGING?
 						if((va != vb) &&
-							(((Sector)va.Sectors[0]).Effect != SECTOREFFECT.NOMERGE) &&
-							(((Sector)vb.Sectors[0]).Effect != SECTOREFFECT.NOMERGE))
+							((va.Sectors[0]).Effect != SECTOREFFECT.NOMERGE) &&
+							((vb.Sectors[0]).Effect != SECTOREFFECT.NOMERGE))
 						{
 							// Determine floor height differences
 							float nh = Math.Max(va.HighestFloor, vb.HighestFloor);
@@ -423,8 +415,8 @@ namespace CodeImp.Bloodmasters.Client
 								(va.AmbientLight == vb.AmbientLight) &&
 								(va.DynamicLightmap == vb.DynamicLightmap) &&
 								(Math.Abs(nh - nl) < MAX_MERGE_HEIGHT_DIFF) &&
-								(((Sector)va.Sectors[0]).Dynamic == false) &&
-								(((Sector)vb.Sectors[0]).Dynamic == false))
+								((va.Sectors[0]).Dynamic == false) &&
+								((vb.Sectors[0]).Dynamic == false))
 							{
 								// Make union bounary
 								RectangleF u = RectangleF.Union(va.SectorBounds,
@@ -435,7 +427,7 @@ namespace CodeImp.Bloodmasters.Client
 								{
 									// Merge vb into va
 									va.Merge(vb);
-									sectors.Remove(vb);
+									visualSectors.Remove(vb);
 									merged = true;
 									break;
 								}
@@ -444,7 +436,7 @@ namespace CodeImp.Bloodmasters.Client
 								{
 									// Merge va into vb
 									vb.Merge(va);
-									sectors.Remove(va);
+									visualSectors.Remove(va);
 									merged = true;
 									break;
 								}
@@ -464,10 +456,10 @@ namespace CodeImp.Bloodmasters.Client
 		private void FinishVisualSectors()
 		{
 			// Go for all visual sectors
-			for(int i = 0; i < sectors.Count; i++)
+			for(int i = 0; i < visualSectors.Count; i++)
 			{
 				// Get the sector object
-				VisualSector s = ((VisualSector)sectors[i]);
+				VisualSector s = visualSectors[i];
 
 				// Set the index
 				s.SetIndex(i);
@@ -495,7 +487,7 @@ namespace CodeImp.Bloodmasters.Client
 			StreamWriter writer = new StreamWriter(outfile);
 
 			// Count number of dynamic visualsectors
-			foreach(VisualSector vs in sectors)
+			foreach(VisualSector vs in visualSectors)
 			{
 				// Count
 				if(vs.DynamicLightmap) dynvissecs++;
@@ -512,7 +504,7 @@ namespace CodeImp.Bloodmasters.Client
 			writer.WriteLine("Segments: " + General.map.Segments.Length);
 			writer.WriteLine("Nodes: " + General.map.Nodes.Length);
 			writer.WriteLine("Lights: " + staticlights.Count);
-			writer.WriteLine("VisualSectors: " + sectors.Count + " (" + dynvissecs + " dynamic)");
+			writer.WriteLine("VisualSectors: " + visualSectors.Count + " (" + dynvissecs + " dynamic)");
 
 			// Go for all lights
 			writer.WriteLine("");
@@ -520,7 +512,7 @@ namespace CodeImp.Bloodmasters.Client
 			writer.WriteLine("============================================");
 			for(int i = 0; i < staticlights.Count; i++)
 			{
-				StaticLight lg = (StaticLight)staticlights[i];
+				StaticLight lg = staticlights[i];
 				writer.WriteLine("");
 				writer.WriteLine("Light " + i + " (thing " + lg.ThingIndex + ", lightmapsize: " + lg.LightmapSize + ")");
 				writer.WriteLine("--------------------------------------------");
@@ -531,9 +523,9 @@ namespace CodeImp.Bloodmasters.Client
 			writer.WriteLine("");
 			writer.WriteLine("VisualSectors structure information");
 			writer.WriteLine("============================================");
-			for(int i = 0; i < sectors.Count; i++)
+			for(int i = 0; i < visualSectors.Count; i++)
 			{
-				VisualSector vs = (VisualSector)sectors[i];
+				VisualSector vs = visualSectors[i];
 				writer.WriteLine("");
 				writer.WriteLine("VisualSector " + i + " (sectors: " + vs.Sectors.Count + " sides: " + vs.VisualSidedefs.Count + ")");
 				writer.WriteLine("--------------------------------------------");
@@ -555,14 +547,14 @@ namespace CodeImp.Bloodmasters.Client
 		public void UnloadResources()
 		{
 			// Destroy all sector resources
-			foreach(VisualSector s in sectors) s.UnloadResources();
+			foreach(VisualSector s in visualSectors) s.UnloadResources();
 
 			// Destroy all light resources
 			foreach(StaticLight l in staticlights) l.UnloadResources();
 
 			// Destroy floor decals
 			foreach(Decal d in decals)
-				if(d.GetType() == typeof(FloorDecal)) (d as FloorDecal).DestroyGeometry();
+				if(d is FloorDecal floorDecal) floorDecal.DestroyGeometry();
 
 			// Destroy dynamic lightmap
 			DestroyLightmap();
@@ -582,14 +574,14 @@ namespace CodeImp.Bloodmasters.Client
 		public void ReloadResources()
 		{
 			// Reload sectors
-			foreach(VisualSector s in sectors) s.ReloadResources();
+			foreach(VisualSector s in visualSectors) s.ReloadResources();
 
 			// Reload all lights
 			foreach(StaticLight l in staticlights) l.ReloadResources();
 
 			// Reload floor decals
 			foreach(Decal d in decals)
-				if(d.GetType() == typeof(FloorDecal)) (d as FloorDecal).CreateGeometry();
+				if(d is FloorDecal floorDecal) floorDecal.CreateGeometry();
 
 			// Create dynamic lightmap
 			CreateLightmap();
@@ -637,12 +629,9 @@ namespace CodeImp.Bloodmasters.Client
 		public void RespawnAllItems()
 		{
 			// Go for all items
-			foreach(DictionaryEntry de in items)
+			foreach(Item i in items.Values)
 			{
-				// Get reference to the item
-				Item i = (Item)de.Value;
-
-				// Respawn item now
+                // Respawn item now
 				i.Respawn(false);
 			}
 		}
@@ -651,10 +640,10 @@ namespace CodeImp.Bloodmasters.Client
 		public Item GetItemByKey(string key)
 		{
 			// Check if the item exists
-			if(items.Contains(key))
+			if(items.TryGetValue(key, out Item item))
 			{
 				// Return the item
-				return (Item)items[key];
+				return item;
 			}
 			else
 			{
@@ -704,7 +693,7 @@ namespace CodeImp.Bloodmasters.Client
 					args[1] = start;
 					args[2] = vel;
 					Projectile p = (Projectile)asm.CreateInstance(tp.FullName, false, BindingFlags.Default,
-						null, args, CultureInfo.CurrentCulture, new object[0]);
+						null, args, CultureInfo.CurrentCulture, Array.Empty<object>());
 
 					// Add to array
 					if(!p.Disposed) projectiles.Add(id, p);
@@ -728,17 +717,17 @@ namespace CodeImp.Bloodmasters.Client
 		public void RemoveProjectile(Projectile p)
 		{
 			// Remove if exists
-			if(projectiles.Contains(p.ID)) projectiles.Remove(p.ID);
+            projectiles.Remove(p.ID);
 		}
 
 		// Get a projectile
 		public Projectile GetProjectile(string id)
 		{
 			// Check if exists
-			if(projectiles.Contains(id))
+			if(projectiles.TryGetValue(id, out Projectile projectile))
 			{
 				// Return projectile
-				return (Projectile)projectiles[id];
+				return projectile;
 			}
 			else
 			{
@@ -1090,7 +1079,7 @@ namespace CodeImp.Bloodmasters.Client
 			// Process visual objects
 			for(i = objects.Count - 1; i >= 0; i--)
 			{
-				VisualObject o = (VisualObject)objects[i];
+				VisualObject o = objects[i];
 				o.Process();
 			}
 
@@ -1118,22 +1107,22 @@ namespace CodeImp.Bloodmasters.Client
 			// Process all dynamic lights
 			for(i = dynamiclights.Count - 1; i >= 0; i--)
 			{
-				DynamicLight d  = (DynamicLight)dynamiclights[i];
+				DynamicLight d  = dynamiclights[i];
 				d.Process();
 			}
 
 			// Process all sectors
-			foreach(VisualSector vs in sectors) vs.Process();
+			foreach(VisualSector vs in visualSectors) vs.Process();
 
 			// Process all items
-			foreach(DictionaryEntry de in items) ((Item)de.Value).Process();
+			foreach(Item item in items.Values) item.Process();
 
 			// Determine where the mouse points
 			DetermineMouseMapLocation();
 
 			// Process all decals
 			for(i = decals.Count - 1; i >= 0; i--)
-				((Decal)decals[i]).Process();
+				decals[i].Process();
 
 			// Sort all objects back-to-front
 			objects.Sort();
@@ -1176,10 +1165,10 @@ namespace CodeImp.Bloodmasters.Client
 				mousemap = new Vector3(mouseonmap.x, mouseonmap.y, mouseonmap.z);
 
 				// Copy sector
-				if(obj is Sidedef)
-					mousemapsector = ((Sidedef)obj).Sector;
-				else if(obj is Sector)
-					mousemapsector = (Sector)obj;
+				if(obj is Sidedef sidedef)
+					mousemapsector = sidedef.Sector;
+				else if(obj is Sector sector)
+					mousemapsector = sector;
 
 				// Actor in game?
 				if(General.localclient.Actor != null)
@@ -1310,7 +1299,7 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Go for all sectors
-			foreach(VisualSector s in sectors)
+			foreach(VisualSector s in visualSectors)
 			{
 				// Prepare your lightmap
 				if(firstframe || s.InScreen) s.PrepareLightmap();
@@ -1368,7 +1357,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(DynamicLight.dynamiclights) Direct3D.d3dd.SetTexture(2, dynamiclightmap);
 
 			// Go for all sectors
-			foreach(VisualSector s in sectors)
+			foreach(VisualSector s in visualSectors)
 			{
 				// Render this sector
 				s.RenderGeometry();

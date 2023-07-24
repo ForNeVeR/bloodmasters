@@ -5,8 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System.Collections;
-
 namespace CodeImp.Bloodmasters.Server
 {
 	public class ScavengerItem : Item
@@ -47,21 +45,14 @@ namespace CodeImp.Bloodmasters.Server
 			int result = 0;
 
 			// Go for all items in the map
-			foreach(DictionaryEntry de in Host.Instance.Server.items)
+            foreach(ScavengerItem si in Host.Instance.Server.items.Values.OfType<ScavengerItem>())
 			{
-				// Is this a scavenger item?
-				if(de.Value is ScavengerItem)
-				{
-					// Get the object
-					ScavengerItem si = (ScavengerItem)de.Value;
-
-					// Item for this team?
-					if(si.ThisTeam == team)
-					{
-						// Count when item is not taken yet
-						if(si.IsTaken == false) result++;
-					}
-				}
+                // Item for this team?
+                if(si.ThisTeam == team)
+                {
+                    // Count when item is not taken yet
+                    if(si.IsTaken == false) result++;
+                }
 			}
 
 			// Return result
@@ -72,21 +63,14 @@ namespace CodeImp.Bloodmasters.Server
 		public static void RespawnItems(TEAM team)
 		{
 			// Go for all items in the map
-			foreach(DictionaryEntry de in Host.Instance.Server.items)
+			foreach(ScavengerItem si in Host.Instance.Server.items.Values.OfType<ScavengerItem>())
 			{
-				// Is this a scavenger item?
-				if(de.Value is ScavengerItem)
-				{
-					// Get the object
-					ScavengerItem si = (ScavengerItem)de.Value;
-
-					// Item for this team?
-					if(si.ThisTeam == team)
-					{
-						// Set the respawn time to respawn immediately
-						si.RespawnDelay = 1;
-					}
-				}
+                // Item for this team?
+                if(si.ThisTeam == team)
+                {
+                    // Set the respawn time to respawn immediately
+                    si.RespawnDelay = 1;
+                }
 			}
 		}
 

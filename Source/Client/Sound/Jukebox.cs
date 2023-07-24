@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-using System.Collections;
+using System;
 using System.IO;
 
 namespace CodeImp.Bloodmasters.Client
@@ -68,10 +68,8 @@ namespace CodeImp.Bloodmasters.Client
 			else
 			{
 				// Sort list alphabetically
-				ArrayList sorter = new ArrayList(playlist);
-				sorter.Sort();
-				playlist = (string[])sorter.ToArray(typeof(string));
-			}
+                Array.Sort(playlist);
+            }
 
 			// Start playing the first track
 			if(playlist.Length > 0)

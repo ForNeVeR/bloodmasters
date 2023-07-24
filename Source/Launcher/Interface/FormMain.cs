@@ -6,7 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
 using System.IO;
@@ -20,7 +20,7 @@ namespace CodeImp.Bloodmasters.Launcher
     {
         private ServerBrowser browser;
         private bool updatelist = false;
-        private Hashtable flags = new Hashtable();
+        private Dictionary<string, int> flags = new();
 
         private System.Windows.Forms.PictureBox picLogo;
         private System.Windows.Forms.TabControl tabsMode;
@@ -1245,7 +1245,7 @@ namespace CodeImp.Bloodmasters.Launcher
             cmbMap.Items.Clear();
 
             // Go for all .wad files
-            ArrayList wads = ArchiveManager.FindAllFiles(".wad");
+            List<string> wads = ArchiveManager.FindAllFiles(".wad");
             foreach (string wf in wads)
             {
                 // Make short map name
@@ -1281,7 +1281,7 @@ namespace CodeImp.Bloodmasters.Launcher
             lstMaps.Items.Clear();
 
             // Go for all .wad files
-            ArrayList wads = ArchiveManager.FindAllFiles(".wad");
+            List<string> wads = ArchiveManager.FindAllFiles(".wad");
             foreach (string wf in wads)
             {
                 try
@@ -1391,15 +1391,15 @@ namespace CodeImp.Bloodmasters.Launcher
             string filename = (new string(countrycode)).ToLower() + ".ico";
 
             // Does this flag exist?
-            if (flags.Contains(filename))
+            if (flags.TryGetValue(filename, out int flag))
             {
                 // Return country flag
-                return (int)flags[filename];
+                return flag;
             }
             else
             {
                 // Return unknown flag
-                return (int)flags["_0.ico"];
+                return flags["_0.ico"];
                 //return 0;
             }
         }
@@ -1407,25 +1407,7 @@ namespace CodeImp.Bloodmasters.Launcher
         // This returns a flag icon image
         public Image GetFlagIcon(char[] countrycode)
         {
-            int index;
-
-            // Make the filename
-            string filename = (new string(countrycode)).ToLower() + ".ico";
-
-            // Does this flag exist?
-            if (flags.Contains(filename))
-            {
-                // Return country flag
-                index = (int)flags[filename];
-                return imglstFlags.Images[index];
-            }
-            else
-            {
-                // Return unknown flag
-                index = (int)flags["_0.ico"];
-                return imglstFlags.Images[index];
-                //return null;
-            }
+            return imglstFlags.Images[GetFlagIconIndex(countrycode)];
         }
 
         // This refreshes the list
@@ -1947,7 +1929,7 @@ namespace CodeImp.Bloodmasters.Launcher
                 lstGames.BeginUpdate();
 
                 // Get the whole list
-                Hashtable gitems = browser.GetFilteredList();
+                Dictionary<string, GamesListItem> gitems = browser.GetFilteredList();
 
                 // Go for all items to see if they need updating
                 for (int i = lstGames.Items.Count - 1; i >= 0; i--)
@@ -1956,11 +1938,8 @@ namespace CodeImp.Bloodmasters.Launcher
                     ListViewItem item = lstGames.Items[i];
 
                     // Item in the new collection?
-                    if (gitems.Contains(item.SubItems[9].Text))
+                    if (gitems.TryGetValue(item.SubItems[9].Text, out GamesListItem gi))
                     {
-                        // Get the server item
-                        GamesListItem gi = (GamesListItem)gitems[item.SubItems[9].Text];
-
                         // Update the item ifchanged
                         if (gi.Changed) gi.UpdateListViewItem(item);
 
@@ -1975,11 +1954,8 @@ namespace CodeImp.Bloodmasters.Launcher
                 }
 
                 // Go for all remaining items to add to the list
-                foreach (DictionaryEntry de in gitems)
+                foreach (GamesListItem gi in gitems.Values)
                 {
-                    // Get the server item
-                    GamesListItem gi = (GamesListItem)de.Value;
-
                     // Add to the list
                     gi.NewListViewItem(lstGames);
                 }

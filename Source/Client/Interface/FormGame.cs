@@ -7,8 +7,10 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace CodeImp.Bloodmasters.Client
@@ -25,9 +27,9 @@ namespace CodeImp.Bloodmasters.Client
 		private bool alt = false;
 		private bool shift = false;
 		private bool ctrl = false;
-		private Hashtable macrokeys = new Hashtable();
-		private Hashtable controlkeys = new Hashtable();
-		private ArrayList pressedcontrols = new ArrayList();
+		private Dictionary<int, string> macrokeys = new();
+		private Dictionary<int, string> controlkeys = new();
+		private HashSet<string> pressedcontrols = new();
 
 		// Properties
 		public Point Mouse { get { return new Point(lastmousex, lastmousey); } }
@@ -78,21 +80,18 @@ namespace CodeImp.Bloodmasters.Client
 			foreach(DictionaryEntry de in ctrls)
 			{
 				// Add control
-				if(!controlkeys.Contains((int)de.Value))
-					controlkeys.Add((int)de.Value, de.Key);
+                controlkeys.TryAdd((int)de.Value, (string)de.Key);
 			}
 
 			// Load all macro keys
 			IDictionary macros = General.config.ReadSetting("macros", new Hashtable());
 			foreach(DictionaryEntry de in macros)
 			{
-				try
-				{
-					// Add macro
-					if(!macrokeys.Contains(int.Parse((string)de.Key)))
-						macrokeys.Add(int.Parse((string)de.Key), de.Value);
-				}
-				catch(Exception) { }
+                // Add macro
+                if (int.TryParse((string)de.Key, CultureInfo.InvariantCulture, out int macroKey))
+                {
+                    macrokeys.TryAdd(macroKey, (string)de.Value);
+                }
 			}
 		}
 
@@ -163,10 +162,10 @@ namespace CodeImp.Bloodmasters.Client
 		private bool HandleMacroKeys(int k)
 		{
 			// Pressed key is a macro?
-			if(macrokeys.ContainsKey(k))
+			if(macrokeys.TryGetValue(k, out string macro))
 			{
 				// Execute macro now
-				General.console.ProcessInput((string)macrokeys[k]);
+				General.console.ProcessInput(macro);
 				return true;
 			}
 			else
@@ -336,19 +335,18 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Check if this key is configured
-			if((mk != Keys.None) && (controlkeys.Contains((int)mk)))
+			if((mk != Keys.None) && (controlkeys.TryGetValue((int)mk, out string controlName)))
 			{
 				// No console or menu open?
 				if(!General.console.PanelOpen && !General.chatbox.PanelOpen &&
 				!General.gamemenu.Visible)
-				{
-					// Key is now pressed
-					if(!pressedcontrols.Contains(controlkeys[(int)mk]))
-						pressedcontrols.Add(controlkeys[(int)mk]);
+                {
+                    // Key is now pressed
+                    pressedcontrols.Add(controlName);
 
-					// Handle impulse keys
+                    // Handle impulse keys
 					HandleImpulseKeys();
-				}
+                }
 			}
 
 			// Handle macro key
@@ -390,12 +388,11 @@ namespace CodeImp.Bloodmasters.Client
 				}
 
 				// Check if this key is configured
-				if((mk != Keys.None) && (controlkeys.Contains((int)mk)))
+				if((mk != Keys.None) && (controlkeys.TryGetValue((int)mk, out string controlName)))
 				{
 					// Key is now released
-					if(pressedcontrols.Contains(controlkeys[(int)mk]))
-						pressedcontrols.Remove(controlkeys[(int)mk]);
-				}
+                    pressedcontrols.Remove(controlName);
+                }
 			}
 
 			// Pass this event on to the base class
@@ -456,13 +453,14 @@ namespace CodeImp.Bloodmasters.Client
 					if(e.Delta > 0) keycode = (int)EXTRAKEYS.MScrollUp;
 					else keycode = (int)EXTRAKEYS.MScrollDown;
 
+                    bool pressedConfiguredKey = controlkeys.TryGetValue(keycode, out string configuredControlName);
+
 					// Check if this key is configured
-					if(controlkeys.Contains(keycode))
-					{
-						// Key is now pressed
-						if(!pressedcontrols.Contains(controlkeys[keycode]))
-							pressedcontrols.Add(controlkeys[keycode]);
-					}
+					if(pressedConfiguredKey)
+                    {
+                        // Key is now pressed
+                        pressedcontrols.Add(configuredControlName);
+                    }
 
 					// Handle impulse keys
 					HandleImpulseKeys();
@@ -471,12 +469,11 @@ namespace CodeImp.Bloodmasters.Client
 					HandleMacroKeys(keycode);
 
 					// Check if this key is configured
-					if(controlkeys.Contains(keycode))
+					if(pressedConfiguredKey)
 					{
 						// Key is now released
-						if(pressedcontrols.Contains(controlkeys[keycode]))
-							pressedcontrols.Remove(controlkeys[keycode]);
-					}
+                        pressedcontrols.Remove(configuredControlName);
+                    }
 				}
 			}
 
@@ -492,14 +489,16 @@ namespace CodeImp.Bloodmasters.Client
 			shift = e.Shift;
 			ctrl = e.Control;
 
+            bool pressedConfiguredKey = controlkeys.TryGetValue((int)e.KeyCode, out string configuredControlName);
+
 			// Console open?
 			if(General.console.PanelOpen)
 			{
 				// Check if this key is configured
-				if(controlkeys.Contains((int)e.KeyCode))
+				if(pressedConfiguredKey)
 				{
 					// Check if not the console key
-					if(controlkeys[(int)e.KeyCode].ToString() != "console")
+					if(configuredControlName != "console")
 					{
 						// Pass keys on to console
 						General.console.SpecialKeyPressed(e);
@@ -526,10 +525,10 @@ namespace CodeImp.Bloodmasters.Client
 			if(General.gamemenu.Visible)
 			{
 				// Check if this key is configured
-				if(controlkeys.Contains((int)e.KeyCode))
+				if(pressedConfiguredKey)
 				{
 					// Check if not the menu key
-					if(controlkeys[(int)e.KeyCode].ToString() != "exitgame")
+					if(configuredControlName != "exitgame")
 					{
 						// Pass keys on to menu
 						//General.console.SpecialKeyPressed(e);
@@ -545,15 +544,14 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Check if this key is configured
-			if(controlkeys.Contains((int)e.KeyCode))
-			{
-				// Key is now pressed
-				if(!pressedcontrols.Contains(controlkeys[(int)e.KeyCode]))
-					pressedcontrols.Add(controlkeys[(int)e.KeyCode]);
+			if(pressedConfiguredKey)
+            {
+                // Key is now pressed
+                pressedcontrols.Add(configuredControlName);
 
-				// Handle impulse keys
+                // Handle impulse keys
 				HandleImpulseKeys();
-			}
+            }
 
 			// Handle macro key
 			HandleMacroKeys((int)e.KeyCode);
@@ -604,12 +602,11 @@ namespace CodeImp.Bloodmasters.Client
 			ctrl = e.Control;
 
 			// Check if this key is configured
-			if(controlkeys.Contains((int)e.KeyCode))
+			if(controlkeys.TryGetValue((int)e.KeyCode, out string controlName))
 			{
 				// Key is now released
-				if(pressedcontrols.Contains(controlkeys[(int)e.KeyCode]))
-					pressedcontrols.Remove(controlkeys[(int)e.KeyCode]);
-			}
+                pressedcontrols.Remove(controlName);
+            }
 
 			// Key always handled
 			e.Handled = true;

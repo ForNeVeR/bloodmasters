@@ -6,7 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using CodeImp.Bloodmasters.Client.Graphics;
 using SharpDX;
 using SharpDX.Direct3D9;
@@ -25,7 +25,7 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Variables
 
 		// The particles flock
-		private ArrayList particles = new ArrayList(INITIAL_PARTICLES_MEMORY);
+		private List<Particle> particles = new(INITIAL_PARTICLES_MEMORY);
 
 		// The texture
 		private TextureResource texture;
@@ -130,7 +130,7 @@ namespace CodeImp.Bloodmasters.Client
 			while(i < particles.Count)
 			{
 				// Process particle
-				p = (Particle)particles[i];
+				p = particles[i];
 				p.Process();
 
 				// Trash when disposed or move on to the next

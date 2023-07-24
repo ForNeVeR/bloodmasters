@@ -7,7 +7,6 @@
 
 using System;
 using System.Drawing;
-using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using CodeImp.Bloodmasters;
@@ -25,14 +24,14 @@ namespace CodeImp.Bloodmasters.Launcher
 		public System.Windows.Forms.Label lblTitle;
 		public System.Windows.Forms.Label lblMessage;
 		public System.Windows.Forms.TextBox txtCallStack;
-		
+
 		// Constructor
 		public FormError()
 		{
 			// Required for Windows Form Designer support
 			InitializeComponent();
 		}
-		
+
 		// Clean up any resources being used.
 		protected override void Dispose( bool disposing )
 		{
@@ -42,11 +41,11 @@ namespace CodeImp.Bloodmasters.Launcher
 				// Dispose components, if any
 				if(components != null) components.Dispose();
 			}
-			
+
 			// Let superior class know about the dispose
 			base.Dispose(disposing);
 		}
-		
+
 		#region Windows Form Designer generated code
 		private void InitializeComponent()
 		{
@@ -58,9 +57,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.txtCallStack = new System.Windows.Forms.TextBox();
 			this.btnClose = new System.Windows.Forms.Button();
 			this.SuspendLayout();
-			// 
+			//
 			// picIcon
-			// 
+			//
 			this.picIcon.Image = ((System.Drawing.Image)(resources.GetObject("picIcon.Image")));
 			this.picIcon.Location = new System.Drawing.Point(16, 12);
 			this.picIcon.Name = "picIcon";
@@ -68,10 +67,10 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.picIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
 			this.picIcon.TabIndex = 0;
 			this.picIcon.TabStop = false;
-			// 
+			//
 			// lblTitle
-			// 
-			this.lblTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			//
+			this.lblTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.lblTitle.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.lblTitle.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
@@ -81,10 +80,10 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblTitle.TabIndex = 1;
 			this.lblTitle.Text = "Bloodmasters engine throws the following ";
 			this.lblTitle.UseMnemonic = false;
-			// 
+			//
 			// lblMessage
-			// 
-			this.lblMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			//
+			this.lblMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.lblMessage.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.lblMessage.Location = new System.Drawing.Point(56, 28);
@@ -93,10 +92,10 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblMessage.TabIndex = 2;
 			this.lblMessage.Text = "BlaException bladieblaap cannot be found and such.";
 			this.lblMessage.UseMnemonic = false;
-			// 
+			//
 			// label1
-			// 
-			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			//
+			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.AutoSize = true;
 			this.label1.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -107,11 +106,11 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.label1.TabIndex = 3;
 			this.label1.Text = "Error report information:";
 			this.label1.UseMnemonic = false;
-			// 
+			//
 			// txtCallStack
-			// 
-			this.txtCallStack.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-				| System.Windows.Forms.AnchorStyles.Left) 
+			//
+			this.txtCallStack.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+				| System.Windows.Forms.AnchorStyles.Left)
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtCallStack.Location = new System.Drawing.Point(56, 80);
 			this.txtCallStack.Multiline = true;
@@ -122,9 +121,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.txtCallStack.TabIndex = 0;
 			this.txtCallStack.Text = "Calls";
 			this.txtCallStack.WordWrap = false;
-			// 
+			//
 			// btnClose
-			// 
+			//
 			this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -134,9 +133,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.btnClose.TabIndex = 2;
 			this.btnClose.Text = "Close";
 			this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-			// 
+			//
 			// FormError
-			// 
+			//
 			this.AcceptButton = this.btnClose;
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.CancelButton = this.btnClose;
@@ -157,7 +156,7 @@ namespace CodeImp.Bloodmasters.Launcher
 
 		}
 		#endregion
-		
+
 		// Close clicked
 		private void btnClose_Click(object sender, System.EventArgs e)
 		{

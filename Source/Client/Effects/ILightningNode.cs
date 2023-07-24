@@ -7,7 +7,6 @@
 
 using System;
 using System.Drawing;
-using System.Collections;
 using CodeImp.Bloodmasters;
 using CodeImp;
 
@@ -18,7 +17,7 @@ namespace CodeImp.Bloodmasters.Client
 		// Required properties
 		Vector3D Position { get; }
 		Vector3D Velocity { get; }
-		
+
 		// Required methods
 		void RemoveLightning(Lightning l);
 		void AddLightning(Lightning l);

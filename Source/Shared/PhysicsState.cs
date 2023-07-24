@@ -7,9 +7,6 @@
 
 // This controls the physics in the game
 
-using System.Collections;
-using System.Collections.Generic;
-
 namespace CodeImp.Bloodmasters
 {
 	public abstract class PhysicsState
@@ -84,64 +81,30 @@ namespace CodeImp.Bloodmasters
 		// Returns true when collided with a wall
 		public bool ApplyVelocity(bool wallcollisions)
 		{
-			ArrayList clientslist = null;
-			Sidedef crossline = null;
-			return ApplyVelocity(wallcollisions, false, clientslist, null, out crossline);
+            return ApplyVelocity(wallcollisions, false, null, null, out _);
 		}
 
 		// This moves the position with the total velocity.
 		// Returns true when collided with a wall
 		public bool ApplyVelocity(bool wallcollisions, bool clientcollisions,
-						IPhysicsState[] allclients, IPhysicsState thisclient)
+						IReadOnlyList<IPhysicsState> allclients, IPhysicsState thisclient)
 		{
-			ArrayList clientslist = new ArrayList(allclients);
-			Sidedef crossline = null;
-			return ApplyVelocity(wallcollisions, clientcollisions, clientslist, thisclient, out crossline);
+            return ApplyVelocity(wallcollisions, clientcollisions, allclients, thisclient, out _);
 		}
 
 		// This moves the position with the total velocity.
 		// Returns true when collided with a wall
 		public bool ApplyVelocity(bool wallcollisions, bool clientcollisions,
-						IPhysicsState[] allclients, IPhysicsState thisclient,
+						IReadOnlyList<IPhysicsState> allclients, IPhysicsState thisclient,
 						out Sidedef crossline)
 		{
-			ArrayList clientslist = new ArrayList(allclients);
-			return ApplyVelocity(wallcollisions, clientcollisions, clientslist, thisclient, out crossline);
+            return ApplyVelocity(wallcollisions, clientcollisions, allclients, thisclient, out crossline, out _);
 		}
 
-		// This moves the position with the total velocity.
+        // This moves the position with the total velocity.
 		// Returns true when collided with a wall
 		public bool ApplyVelocity(bool wallcollisions, bool clientcollisions,
-						IPhysicsState[] allclients, IPhysicsState thisclient,
-						out Sidedef crossline, out object hitobj)
-		{
-			ArrayList clientslist = new ArrayList(allclients);
-			return ApplyVelocity(wallcollisions, clientcollisions, clientslist, thisclient, out crossline, out hitobj);
-		}
-
-		// This moves the position with the total velocity.
-		// Returns true when collided with a wall
-		public bool ApplyVelocity(bool wallcollisions, bool clientcollisions,
-								ArrayList allclients, IPhysicsState thisclient)
-		{
-			Sidedef crossline = null;
-			return ApplyVelocity(wallcollisions, clientcollisions, allclients, thisclient, out crossline);
-		}
-
-		// This moves the position with the total velocity.
-		// Returns true when collided with a wall
-		public bool ApplyVelocity(bool wallcollisions, bool clientcollisions,
-								ArrayList allclients, IPhysicsState thisclient,
-								out Sidedef crossline)
-		{
-			object obj = null;
-			return ApplyVelocity(wallcollisions, clientcollisions, allclients, thisclient, out crossline, out obj);
-		}
-
-		// This moves the position with the total velocity.
-		// Returns true when collided with a wall
-		public bool ApplyVelocity(bool wallcollisions, bool clientcollisions,
-								ArrayList allclients, IPhysicsState thisclient,
+								IReadOnlyList<IPhysicsState> allclients, IPhysicsState thisclient,
 								out Sidedef crossline, out object hitobj)
 		{
 			float stepheight;
@@ -191,11 +154,11 @@ namespace CodeImp.Bloodmasters
 			if(wallcollisions)
 			{
 				// Get all the nearby lines and make collisions
-				ArrayList lines = map.BlockMap.GetCollisionLines(pos.x, pos.y, tgt.x, tgt.y, radius);
+                List<Linedef> lines = map.BlockMap.GetCollisionLines(pos.x, pos.y, tgt.x, tgt.y, radius);
 				for(int i = 0; i < lines.Count; i++)
 				{
 					// Get the linedef
-					Linedef ld = (Linedef)lines[i];
+					Linedef ld = lines[i];
 
 					// Make possible collision
 					WallCollision wc = CreateWallCollision(ld, sv, stepheight);

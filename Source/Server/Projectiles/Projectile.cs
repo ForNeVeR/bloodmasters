@@ -5,8 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System.Collections;
-
 namespace CodeImp.Bloodmasters.Server
 {
 	public abstract class Projectile
@@ -125,7 +123,7 @@ namespace CodeImp.Bloodmasters.Server
 		// This teleports the projectile
 		private void TeleportToThing(int tag)
 		{
-			ArrayList dests = new ArrayList(10);
+			List<Thing> dests = new List<Thing>(10);
 			float zdiff;
 
 			// Keep old position
@@ -146,7 +144,7 @@ namespace CodeImp.Bloodmasters.Server
 			if(dests.Count > 0)
 			{
 				// Choose a random destination
-				Thing ft = (Thing)dests[Host.Instance.Random.Next(dests.Count)];
+				Thing ft = dests[Host.Instance.Random.Next(dests.Count)];
 
 				// Determine floor height difference
 				zdiff = state.pos.z - sector.CurrentFloor;

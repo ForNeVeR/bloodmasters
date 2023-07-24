@@ -25,7 +25,6 @@ The Connection
 
 */
 
-using System.Collections;
 using System.Net;
 
 namespace CodeImp.Bloodmasters
@@ -95,9 +94,9 @@ namespace CodeImp.Bloodmasters
 		*/
 
 		// Messages
-		private ArrayList in_reliables;
-		private ArrayList out_reliables;
-		private ArrayList out_messages;
+		private List<NetMessage> in_reliables;
+		private List<NetMessage> out_reliables;
+		private List<NetMessage> out_messages;
 
 		#endregion
 
@@ -126,14 +125,13 @@ namespace CodeImp.Bloodmasters
 			this.gateway = gateway;
 			this.address = addr;
 
-			// Create arrays
-			in_reliables = new ArrayList(MESSAGE_BUFFER_LIMIT);
-			out_reliables = new ArrayList(MESSAGE_BUFFER_LIMIT);
-			out_messages = new ArrayList(MESSAGE_BUFFER_LIMIT);
+			// Create lists
+			in_reliables = new List<NetMessage>(MESSAGE_BUFFER_LIMIT);
+			out_reliables = new List<NetMessage>(MESSAGE_BUFFER_LIMIT);
+			out_messages = new List<NetMessage>(MESSAGE_BUFFER_LIMIT);
 
 			// Make random ID
-			Random rnd = new Random();
-			randomid = rnd.Next(int.MaxValue);
+			randomid = Random.Shared.Next(int.MaxValue);
 
 			// Set timeouts
 			timeout = SharedGeneral.GetCurrentTime() + DEFAULT_TIMEOUT;
@@ -395,7 +393,7 @@ namespace CodeImp.Bloodmasters
 
 		// This make packets from the outgoing messages
 		// Also performs packetloss simulation
-		public ArrayList GetPackets()
+		public List<Packet> GetPackets()
 		{
 			int i = 0;
 			int waste, msgspacked = 0;
@@ -403,7 +401,7 @@ namespace CodeImp.Bloodmasters
 			NetMessage msg;
 
 			// Make packets array
-			ArrayList packets = new ArrayList(out_messages.Count);
+			List<Packet> packets = new List<Packet>(out_messages.Count);
 
 			// Sort all messages by size, biggest first
 			out_messages.Sort(new NetMessageComparer(true));
@@ -412,7 +410,7 @@ namespace CodeImp.Bloodmasters
 			while(i < out_messages.Count)
 			{
 				// Get the current message
-				msg = (NetMessage)out_messages[i];
+				msg = out_messages[i];
 
 				// Check if this message must be sent now
 				if(msg.SimSendTime <= SharedGeneral.GetCurrentTime())
@@ -493,8 +491,7 @@ namespace CodeImp.Bloodmasters
 				for(i = packets.Count - 1; i >= 0; i--)
 				{
 					// Randomly choose to drop this message
-					Random rnd = new Random();
-					if(rnd.Next((int)(10000f / (float)gateway.SimulateLoss)) < 100)
+                    if(Random.Shared.Next((int)(10000f / (float)gateway.SimulateLoss)) < 100)
 					{
 						// Remove packet
 						packets.RemoveAt(i);

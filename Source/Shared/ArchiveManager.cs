@@ -5,8 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System.Collections;
-
 namespace CodeImp.Bloodmasters
 {
 	public class ArchiveManager
@@ -14,7 +12,7 @@ namespace CodeImp.Bloodmasters
 		#region ================== Variables
 
 		// All archives
-		private static Hashtable archives = new Hashtable();
+		private static Dictionary<string, Archive> archives = new();
 
 		// Temporary path
 		private static string temppath;
@@ -30,18 +28,14 @@ namespace CodeImp.Bloodmasters
 		}
 
 		// This finds all files of a specific type in all archives
-		public static ArrayList FindAllFiles(string filetype)
+		public static List<string> FindAllFiles(string filetype)
 		{
-			ArrayList result = new ArrayList();
+			List<string> result = new List<string>();
 
 			// Go for all archives
-			foreach(DictionaryEntry de in archives)
+			foreach((string archivename, Archive a) in archives)
 			{
-				// Get filename and archive
-				string archivename = (string)de.Key;
-				Archive a = (Archive)de.Value;
-
-				// Go for all files in archive
+                // Go for all files in archive
 				foreach(string f in a.FileNames)
 				{
 					// Filename matches?
@@ -61,13 +55,9 @@ namespace CodeImp.Bloodmasters
 		public static string FindFileArchive(string filename)
 		{
 			// Go for all archives
-			foreach(DictionaryEntry de in archives)
+			foreach((string archivename, Archive a) in archives)
 			{
-				// Get filename and archive
-				string archivename = (string)de.Key;
-				Archive a = (Archive)de.Value;
-
-				// File in this archive?
+                // File in this archive?
 				if(a.FileExists(filename))
 				{
 					// Return the name of this archive
@@ -83,10 +73,10 @@ namespace CodeImp.Bloodmasters
 		public static Archive GetArchive(string archivename)
 		{
 			// Check if archive exists
-			if(archives.Contains(archivename))
+			if(archives.TryGetValue(archivename, out Archive archive))
 			{
 				// Return archive
-				return (Archive)archives[archivename];
+				return archive;
 			}
 			else
 			{
@@ -106,10 +96,10 @@ namespace CodeImp.Bloodmasters
 			string archivename = files[0].ToLower();
 
 			// Check if archive exists
-			if(archives.Contains(archivename))
+			if(archives.TryGetValue(archivename, out Archive archive))
 			{
 				// Return archive
-				return (Archive)archives[archivename];
+				return archive;
 			}
 			else
 			{
@@ -128,10 +118,9 @@ namespace CodeImp.Bloodmasters
 			string archivename = files[0].ToLower();
 
 			// Check if archive exists
-			if(archives.Contains(archivename))
+			if(archives.TryGetValue(archivename, out Archive a))
 			{
 				// Check if archive has the specified file
-				Archive a = (Archive)archives[archivename];
 				return a.FileExists(files[1]);
 			}
 			else
@@ -213,13 +202,9 @@ namespace CodeImp.Bloodmasters
 		public static void Dispose()
 		{
 			// Close all archives
-			foreach(DictionaryEntry de in archives)
+			foreach((string filename, Archive a) in archives)
 			{
-				// Get filename and archive
-				string filename = (string)de.Key;
-				Archive a = (Archive)de.Value;
-
-				// Close archive
+                // Close archive
 				a.Dispose();
 
 				// Remove temporary directory
