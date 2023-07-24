@@ -5,7 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System.Collections;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
@@ -629,12 +628,12 @@ namespace CodeImp.Bloodmasters
 
 		// This finds all "touching sectors"
 		// these are the sectors an object is overlapping
-		public ArrayList FindTouchingSectors(float x, float y, float radius)
+		public List<Sector> FindTouchingSectors(float x, float y, float radius)
 		{
-			ArrayList sectors = new ArrayList();
+            List<Sector> sectors = new  List<Sector>();
 
 			// Get all the nearby lines to check for intersection
-			ArrayList lines = blockmap.GetCollisionLines(x, y, radius);
+            List<Linedef> lines = blockmap.GetCollisionLines(x, y, radius);
 
 			// Go for all lines
 			foreach(Linedef ld in lines)
@@ -710,7 +709,7 @@ namespace CodeImp.Bloodmasters
 		}
 
 		// This returns the linedef nearest to the given coordinates
-		public Linedef GetNearestLine(float x, float y, IEnumerable linedefs)
+		public Linedef GetNearestLine(float x, float y, IEnumerable<Linedef> linedefs)
 		{
 			Linedef foundline = null;
 			float founddist = float.MaxValue;
@@ -757,7 +756,7 @@ namespace CodeImp.Bloodmasters
 			bool[] sectortested = new bool[sectors.Length];
 
 			// Find all lines near the trajectory
-			ArrayList lines = blockmap.GetCollisionLines(start.x, start.y, end.x, end.y);
+            List<Linedef> lines = blockmap.GetCollisionLines(start.x, start.y, end.x, end.y);
 
 			// No lines?
 			if(lines.Count == 0)

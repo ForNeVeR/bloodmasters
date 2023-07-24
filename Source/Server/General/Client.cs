@@ -5,8 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System.Collections;
-
 namespace CodeImp.Bloodmasters.Server
 {
 	public class Client : IPhysicsState
@@ -829,7 +827,7 @@ namespace CodeImp.Bloodmasters.Server
 		// Returns false when no spawn spots found
 		public bool TeleportToThing(int tag, Vector3D oldpos)
 		{
-			ArrayList dests = new ArrayList(10);
+			List<Thing> dests = new List<Thing>(10);
 
 			// Go for all things on the map
 			foreach(Thing t in Host.Instance.Server.map.Things)
@@ -851,7 +849,7 @@ namespace CodeImp.Bloodmasters.Server
 			else
 			{
 				// Choose a random destination
-				Thing ft = (Thing)dests[Host.Instance.Random.Next(dests.Count)];
+				Thing ft = dests[Host.Instance.Random.Next(dests.Count)];
 
 				// Go for all other clients
 				foreach(Client c in Host.Instance.Server.clients)
@@ -1898,12 +1896,9 @@ namespace CodeImp.Bloodmasters.Server
 		public void SendAllItemPickups()
 		{
 			// Go for all items
-			foreach(DictionaryEntry de in Host.Instance.Server.items)
+			foreach(Item i in Host.Instance.Server.items.Values)
 			{
-				// Get the item
-				Item i = (Item)de.Value;
-
-				// Send pickup message if taken
+                // Send pickup message if taken
 				if(i.IsTaken || i.IsAttached)
 					SendItemPickup(i.Owner, i, i.IsAttached, true);
 			}
@@ -2504,12 +2499,9 @@ namespace CodeImp.Bloodmasters.Server
 			if(state != null)
 			{
 				// Go for all items
-				foreach(DictionaryEntry de in Host.Instance.Server.items)
+				foreach(Item i in Host.Instance.Server.items.Values)
 				{
-					// Get the item
-					Item i = (Item)de.Value;
-
-					// Item not taken or attached?
+                    // Item not taken or attached?
 					if(!i.IsTaken && !i.IsAttached)
 					{
 						// Check if within acceptable Z level
@@ -2542,7 +2534,7 @@ namespace CodeImp.Bloodmasters.Server
 		private void PerformZChanges()
 		{
 			float highestz = float.MinValue;
-			ArrayList sectors;
+            List<Sector> sectors;
 
 			// Find touching sectors
 			sectors = Host.Instance.Server.map.FindTouchingSectors(state.pos.x, state.pos.y, Consts.PLAYER_RADIUS);

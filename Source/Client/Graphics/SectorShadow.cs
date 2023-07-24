@@ -6,7 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -48,7 +48,7 @@ namespace CodeImp.Bloodmasters.Client
 		}
 
 		// This makes a sector shadow from a line
-		public bool MakeSectorShadow(ArrayList vertices, VisualSector vs, Linedef l)
+		public bool MakeSectorShadow(List<TLVertex> vertices, VisualSector vs, Linedef l)
 		{
 			TLVertex v;
 			float fall_x, fall_y;

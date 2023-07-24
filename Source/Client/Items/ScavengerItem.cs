@@ -5,8 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System.Collections;
-
 namespace CodeImp.Bloodmasters.Client
 {
 	public class ScavengerItem : Item
@@ -47,15 +45,12 @@ namespace CodeImp.Bloodmasters.Client
 			int result = 0;
 
 			// Go for all items in the map
-			foreach(DictionaryEntry de in General.arena.Items)
+			foreach(Item item in General.arena.Items.Values)
 			{
 				// Is this a scavenger item?
-				if(de.Value is ScavengerItem)
+				if(item is ScavengerItem si)
 				{
-					// Get the object
-					ScavengerItem si = (ScavengerItem)de.Value;
-
-					// Count item when for this team
+                    // Count item when for this team
 					if(si.thisteam == team) result++;
 				}
 			}
@@ -70,15 +65,12 @@ namespace CodeImp.Bloodmasters.Client
 			int result = 0;
 
 			// Go for all items in the map
-			foreach(DictionaryEntry de in General.arena.Items)
+            foreach(Item item in General.arena.Items.Values)
 			{
 				// Is this a scavenger item?
-				if(de.Value is ScavengerItem)
+				if(item is ScavengerItem si)
 				{
-					// Get the object
-					ScavengerItem si = (ScavengerItem)de.Value;
-
-					// Item for this team?
+                    // Item for this team?
 					if(si.thisteam == team)
 					{
 						// Count when item is not taken yet
@@ -95,19 +87,16 @@ namespace CodeImp.Bloodmasters.Client
 		public static void RespawnItems(TEAM team)
 		{
 			// Go for all items in the map
-			foreach(DictionaryEntry de in General.arena.Items)
+            foreach(Item item in General.arena.Items.Values)
 			{
 				// Is this a scavenger item?
-				if(de.Value is ScavengerItem)
+				if(item is ScavengerItem si)
 				{
-					// Get the object
-					ScavengerItem si = (ScavengerItem)de.Value;
-
-					// Item for this team?
+                    // Item for this team?
 					if(si.thisteam == team)
 					{
 						// Respawn the item now
-						si.Respawn(false);
+                        si.Respawn(false);
 					}
 				}
 			}

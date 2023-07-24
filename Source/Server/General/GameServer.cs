@@ -56,7 +56,7 @@ namespace CodeImp.Bloodmasters.Server
 		private bool joinsmallest;
 		private int port;
 		private bool makepublic;
-		private ArrayList mapnames;
+		private List<string> mapnames;
 		private string rconpassword;
 		private bool isteamgame;
 		private bool jointeamspectating;
@@ -70,15 +70,15 @@ namespace CodeImp.Bloodmasters.Server
 		public Bloodmasters.Map map;
 
 		// Items
-		public Hashtable items;
+		public Dictionary<string, Item> items;
 
 		// Projectiles
-		public Hashtable projectiles;
-		public ArrayList disposeprojectiles;
+		public Dictionary<string, Projectile> projectiles;
+		public List<Projectile> disposeprojectiles;
 		public int nextprojectileid;
 
 		// Dynamic sectors for processing
-		public ArrayList dynamics;
+		public List<DynamicSector> dynamics;
 
 		// Networking
 		public Gateway gateway;
@@ -86,7 +86,7 @@ namespace CodeImp.Bloodmasters.Server
 
 		// All clients
 		public Client[] clients;
-		public Hashtable clientsaddrs;
+		public Dictionary<string, Client> clientsaddrs;
 		private int numclients;
 
 		// Team scores
@@ -94,8 +94,8 @@ namespace CodeImp.Bloodmasters.Server
 
 		// Bans
 		private string localbansfile;
-		private ArrayList localbans;
-		private ArrayList globalbans;
+		private List<string> localbans;
+		private List<string> globalbans;
 
 		// Callvote
 		public int callvotetimeout;
@@ -168,7 +168,7 @@ namespace CodeImp.Bloodmasters.Server
 
 			// Make the maps list
 			IDictionary maps = cfg.ReadSetting("maps", new ListDictionary());
-			mapnames = new ArrayList(maps.Count);
+			mapnames = new List<string>(maps.Count);
 			foreach(DictionaryEntry de in maps) mapnames.Add(de.Key.ToString());
 
 			// Fix possible input errors
@@ -190,7 +190,7 @@ namespace CodeImp.Bloodmasters.Server
 
 			// Initialize clients array
 			clients = new Client[maxclients];
-			clientsaddrs = new Hashtable(maxclients);
+			clientsaddrs = new Dictionary<string, Client>(maxclients);
 
 			// Start the gateway
 			gateway = new ServerGateway(port, 0, 0);
@@ -239,7 +239,7 @@ namespace CodeImp.Bloodmasters.Server
 			}
 
 			// Start with the first map
-			StartCurrentMap(mapnames[currentmap].ToString());
+			StartCurrentMap(mapnames[currentmap]);
 		}
 
 		// This terminates the server
@@ -263,22 +263,14 @@ namespace CodeImp.Bloodmasters.Server
 			// Dispose all items
 			if(items != null)
 			{
-				ICollection itemscol = items.Values;
-				ArrayList itemsarray = new ArrayList(itemscol);
-				foreach(Item i in itemsarray) i.Dispose();
-				itemsarray = null;
-				itemscol = null;
-			}
+                foreach(Item i in items.Values) i.Dispose();
+            }
 
 			// Dispose projectiles
 			if(projectiles != null)
 			{
-				ICollection prjcol = projectiles.Values;
-				ArrayList prjarray = new ArrayList(prjcol);
-				foreach(Projectile p in prjarray) p.Dispose();
-				prjarray = null;
-				prjcol = null;
-			}
+                foreach(Projectile p in projectiles.Values) p.Dispose();
+            }
 
 			// Clean up
 			if(gateway != null) gateway.Dispose();
@@ -367,7 +359,7 @@ namespace CodeImp.Bloodmasters.Server
 			string line;
 
 			// Read all lines
-			globalbans = new ArrayList();
+			globalbans = new List<string>();
 			while((line = readbody.ReadLine()) != null)
 			{
 				// Anything on this line?
@@ -385,7 +377,7 @@ namespace CodeImp.Bloodmasters.Server
 			string line;
 
 			// Read all lines
-			localbans = new ArrayList();
+			localbans = new List<string>();
 			while((line = readbody.ReadLine()) != null)
 			{
 				// Comment // on the line?
@@ -580,7 +572,7 @@ namespace CodeImp.Bloodmasters.Server
 		{
 			// Move to next map in list or restart list
 			if(currentmap >= mapnames.Count - 1) currentmap = 0; else currentmap++;
-			StartCurrentMap(mapnames[currentmap].ToString());
+			StartCurrentMap(mapnames[currentmap]);
 		}
 
 		// This loads the map with the current settings
@@ -589,7 +581,7 @@ namespace CodeImp.Bloodmasters.Server
 			int thinggametype = (int)Math.Pow(2, (int)Host.Instance.Server.GameType);
 
 			// Name of the next map
-			//string nextmapname = mapnames[currentmap].ToString();
+			//string nextmapname = mapnames[currentmap];
 			Write("Server is loading map \"" + nextmapname + "\"...", true);
 
 			// Load the map title
@@ -620,11 +612,11 @@ namespace CodeImp.Bloodmasters.Server
 			map = new ServerMap(nextmapname, false, Host.Instance.TempPath);
 
 			// New items
-			items = new Hashtable();
+			items = new Dictionary<string, Item>();
 
 			// New projectiles
-			projectiles = new Hashtable();
-			disposeprojectiles = new ArrayList();
+			projectiles = new Dictionary<string, Projectile>();
+			disposeprojectiles = new List<Projectile>();
 			nextprojectileid = 0;
 
 			// Ensure unique item ids start at 0
@@ -660,7 +652,7 @@ namespace CodeImp.Bloodmasters.Server
 									object[] args = new object[1];
 									args[0] = t;
 									Item item = (Item)asm.CreateInstance(tp.FullName, false, BindingFlags.Default,
-														null, args, CultureInfo.CurrentCulture, new object[0]);
+														null, args, CultureInfo.CurrentCulture, Array.Empty<object>());
 
 									// If the item is not temporary
 									// then add it to the items list
@@ -673,7 +665,7 @@ namespace CodeImp.Bloodmasters.Server
 			}
 
 			// Make dynamic sectors
-			dynamics = new ArrayList();
+			dynamics = new List<DynamicSector>();
 			foreach(Sector s in map.Sectors)
 			{
 				// Presume no dynamic item
@@ -858,7 +850,7 @@ namespace CodeImp.Bloodmasters.Server
 
 			// Move to next map in list or restart list
 			if(currentmap >= mapnames.Count - 1) currentmap = 0; else currentmap++;
-			StartCurrentMap(mapnames[currentmap].ToString());
+			StartCurrentMap(mapnames[currentmap]);
 
 			// New gamestate
 			DM_ToWaiting();
@@ -948,7 +940,7 @@ namespace CodeImp.Bloodmasters.Server
 
 			// Move to next map in list or restart list
 			if(currentmap >= mapnames.Count - 1) currentmap = 0; else currentmap++;
-			StartCurrentMap(mapnames[currentmap].ToString());
+			StartCurrentMap(mapnames[currentmap]);
 
 			// New gamestate
 			CTF_ToWaiting();
@@ -1038,7 +1030,7 @@ namespace CodeImp.Bloodmasters.Server
 
 			// Move to next map in list or restart list
 			if(currentmap >= mapnames.Count - 1) currentmap = 0; else currentmap++;
-			StartCurrentMap(mapnames[currentmap].ToString());
+			StartCurrentMap(mapnames[currentmap]);
 
 			// New gamestate
 			SC_ToWaiting();
@@ -1416,12 +1408,9 @@ namespace CodeImp.Bloodmasters.Server
 					else
 					{
 						// Client with this connection?
-						if(clientsaddrs.Contains(msg.Address.ToString()))
+						if(clientsaddrs.TryGetValue(msg.Address.ToString(), out clnt))
 						{
-							// Get the client
-							clnt = (Client)clientsaddrs[msg.Address.ToString()];
-
-							// Handle message command
+                            // Handle message command
 							switch(msg.Command)
 							{
 								case MsgCmd.Disconnect: clnt.hDisconnect(msg); break;
@@ -1639,7 +1628,7 @@ namespace CodeImp.Bloodmasters.Server
 			if(connectid == msg.Connection.RandomID)
 			{
 				// Not already logged in?
-				if(!clientsaddrs.Contains(msg.Connection.Address.ToString()))
+				if(!clientsaddrs.ContainsKey(msg.Connection.Address.ToString()))
 				{
 					// Check the password
 					if((givenpassword == password) || (password.Trim() == ""))
@@ -2442,7 +2431,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void RespawnAllItems()
 		{
 			// Respawn all items
-			foreach(DictionaryEntry de in items) ((Item)de.Value).Respawn();
+			foreach(Item item in items.Values) item.Respawn();
 		}
 
 		#endregion
@@ -2463,7 +2452,7 @@ namespace CodeImp.Bloodmasters.Server
 			}
 
 			// Process all projectiles
-			ArrayList prjs = new ArrayList(projectiles.Values);
+			List<Projectile> prjs = new List<Projectile>(projectiles.Values);
 			foreach(Projectile p in prjs)
 			{
 				// Process the projectile
@@ -2482,7 +2471,7 @@ namespace CodeImp.Bloodmasters.Server
 			BroadcastSectorMovements();
 
 			// Process all items
-			foreach(DictionaryEntry de in items) ((Item)de.Value).Process();
+			foreach(Item item in items.Values) item.Process();
 
 			// Process all clients
 			for(int i = 0; i < maxclients; i++)

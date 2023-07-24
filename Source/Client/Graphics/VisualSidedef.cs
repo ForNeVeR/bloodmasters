@@ -6,7 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using CodeImp.Bloodmasters.Client.Graphics;
 using SharpDX.Direct3D9;
 
@@ -166,7 +166,7 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Geometry
 
 		// This adds a quad of vertices to an array
-		private void AddVertexQuad(ArrayList list, int v1, int v2, float top, float bot,
+		private void AddVertexQuad(List<MVertex> list, int v1, int v2, float top, float bot,
 									float tl, float tt, float tr, float tb,
 									int begincolor, int endcolor)
 		{
@@ -245,7 +245,7 @@ namespace CodeImp.Bloodmasters.Client
 		}
 
 		// This builds middle wall vertices
-		public ArrayList MakeMiddleWall(int vertexoffset)
+		public List<MVertex> MakeMiddleWall(int vertexoffset)
 		{
 			float ttop, tbottom, tleft, tright;
 			int endcolor = -1;
@@ -253,7 +253,7 @@ namespace CodeImp.Bloodmasters.Client
 			float tdelta;
 
 			// This will temporarely hold the vertices
-			ArrayList verts = new ArrayList();
+            List<MVertex> verts = new List<MVertex>();
 
 			// Check if a middle wall exists
 			if(tmiddle != null)
@@ -323,14 +323,14 @@ namespace CodeImp.Bloodmasters.Client
 		}
 
 		// This builds lower wall vertices
-		public ArrayList MakeLowerWall(int vertexoffset)
+		public List<MVertex> MakeLowerWall(int vertexoffset)
 		{
 			float ttop, tbottom, tleft, tright;
 			int endcolor = -1;
 			int begincolor = -1;
 
 			// This will temporarely hold the vertices
-			ArrayList verts = new ArrayList();
+            List<MVertex> verts = new List<MVertex>();
 
 			// Check if a lower wall is possible
 			if((tlower != null) && (sidedef.OtherSide != null))
@@ -374,13 +374,13 @@ namespace CodeImp.Bloodmasters.Client
 		}
 
 		// This builds upper wall vertices
-		public ArrayList MakeUpperWall(int vertexoffset)
+		public List<MVertex> MakeUpperWall(int vertexoffset)
 		{
 			float ttop, tbottom, tleft, tright;
 			float topdiff;
 
 			// This will temporarely hold the vertices
-			ArrayList verts = new ArrayList();
+			List<MVertex> verts = new List<MVertex>();
 
 			// Check if a upper wall is possible
 			if((tupper != null) && (sidedef.OtherSide != null))

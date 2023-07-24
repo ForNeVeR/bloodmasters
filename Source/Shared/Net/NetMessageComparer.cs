@@ -10,30 +10,25 @@ using System.Text;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Collections;
 using CodeImp;
 
 namespace CodeImp.Bloodmasters
 {
-	public class NetMessageComparer : IComparer
+	public class NetMessageComparer : IComparer<NetMessage>
 	{
 		bool reversed = false;
-		
+
 		// Constructor
 		public NetMessageComparer(bool reversed)
 		{
 			// Apply settings
 			this.reversed = reversed;
 		}
-		
+
 		// Compare two NetMessages
-		public int Compare(object x, object y)
+		public int Compare(NetMessage m1, NetMessage m2)
 		{
-			// Get proper message objects
-			NetMessage m1 = (NetMessage)x;
-			NetMessage m2 = (NetMessage)y;
-			
-			// Check if sorting reversed
+            // Check if sorting reversed
 			if(reversed)
 			{
 				// Compare difference in size

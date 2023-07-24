@@ -22,7 +22,6 @@ The Gateway
 
 */
 
-using System.Collections;
 using System.Net;
 using System.Net.Sockets;
 
@@ -50,15 +49,15 @@ namespace CodeImp.Bloodmasters
 		private Socket socket;
 
 		// All connections
-		private Hashtable connections;
+		private Dictionary<string, Connection> connections;
 
 		// Incoming messages
-		private Queue in_messages;
+		private Queue<NetMessage> in_messages;
 
 		// Simulation
 		private int simping = 0;
 		private int simloss = 0;
-		private Queue sim_messages;
+		private Queue<NetMessage> sim_messages;
 
 		#endregion
 
@@ -102,9 +101,9 @@ namespace CodeImp.Bloodmasters
 			ShowNetworkingInfo("Gateway bound to port " + port);
 
 			// Create arrays
-			in_messages = new Queue();
-			connections = new Hashtable();
-			sim_messages = new Queue();
+			in_messages = new Queue<NetMessage>();
+			connections = new Dictionary<string, Connection>();
+			sim_messages = new Queue<NetMessage>();
 
 			// Set lag simulation
 			this.SimulatePing = simping;
@@ -138,10 +137,10 @@ namespace CodeImp.Bloodmasters
 		public Connection CreateConnection(IPEndPoint addr)
 		{
 			// Connection already made?
-			if(connections.Contains(addr.ToString()))
+			if(connections.TryGetValue(addr.ToString(), out Connection connection))
 			{
 				// Return existing connection
-				return (Connection)connections[addr.ToString()];
+				return connection;
 			}
 			else
 			{
@@ -157,12 +156,10 @@ namespace CodeImp.Bloodmasters
 		public void DestroyConnection(IPEndPoint addr)
 		{
 			// Connection exists?
-			if(connections.Contains(addr.ToString()))
+			if(connections.Remove(addr.ToString(), out Connection c))
 			{
 				// Destroy the connection
 				ShowNetworkingInfo("Disposing connection for " + addr);
-				Connection c = (Connection)connections[addr.ToString()];
-				connections.Remove(addr.ToString());
 				c.Dispose();
 			}
 		}
@@ -172,10 +169,10 @@ namespace CodeImp.Bloodmasters
 		public Connection FindConnection(IPEndPoint addr)
 		{
 			// Connection exists?
-			if(connections.Contains(addr.ToString()))
+			if(connections.TryGetValue(addr.ToString(), out Connection c))
 			{
 				// Return the connection
-				return (Connection)connections[addr.ToString()];
+				return c;
 			}
 			else
 			{
@@ -220,7 +217,7 @@ namespace CodeImp.Bloodmasters
 			if(in_messages.Count > 0)
 			{
 				// Return message
-				return (NetMessage)in_messages.Dequeue();
+				return in_messages.Dequeue();
 			}
 			else
 			{
@@ -265,7 +262,7 @@ namespace CodeImp.Bloodmasters
 		public void Process()
 		{
 			IPEndPoint addr = new IPEndPoint(IPAddress.Any, 0);
-			EndPoint addrep = (EndPoint)addr;
+			EndPoint addrep = addr;
 			byte[] buffer = new byte[2048];
 			int received;
 			bool disconnected;
@@ -361,12 +358,9 @@ namespace CodeImp.Bloodmasters
 			{
 				// Go for all connections
 				disconnected = false;
-				foreach(DictionaryEntry de in connections)
+				foreach(Connection c in connections.Values)
 				{
-					// Get the connection
-					Connection c = (Connection)de.Value;
-
-					// Process connection
+                    // Process connection
 					c.Process();
 
 					// Disconnected?
@@ -380,14 +374,14 @@ namespace CodeImp.Bloodmasters
 					else
 					{
 						// Go for all packets
-						ArrayList packets = c.GetPackets();
+						List<Packet> packets = c.GetPackets();
 						foreach(Packet p in packets)
 						{
 							// DEBUG:
 							ShowNetworkingInfo("Sending packet to " + p.Address + " (" + p.Length + " bytes)");
 
 							// Send packet
-							try { socket.SendTo(p.GetData(), (EndPoint)p.Address); }
+							try { socket.SendTo(p.GetData(), p.Address); }
 							catch(SocketException) { }
 						}
 					}
@@ -398,7 +392,7 @@ namespace CodeImp.Bloodmasters
 
 			// Move messages from ping simulation
 			while((sim_messages.Count > 0) &&
-			(((NetMessage)sim_messages.Peek()).SimSendTime < SharedGeneral.GetCurrentTime()))
+			(sim_messages.Peek().SimSendTime < SharedGeneral.GetCurrentTime()))
 				in_messages.Enqueue(sim_messages.Dequeue());
 		}
 

@@ -9,7 +9,6 @@
 // functionality which are used throughout this engine. Bla.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -57,8 +56,8 @@ namespace CodeImp.Bloodmasters.Client
 		private static Rectangle screencliprect;
 
 		// Resources
-		private static Hashtable resources;
-		private static Hashtable textures;
+		private static Dictionary<string, Resource> resources;
+		private static Dictionary<string, TextureResource> textures;
 		private static int resourceid = 0;
 
 		// Stateblocks
@@ -1182,9 +1181,9 @@ namespace CodeImp.Bloodmasters.Client
 			// Indicate that we will manage objects ourself
 			//Device.IsUsingEventHandlers = false;
 
-			// Make arrays for resources
-			resources = new Hashtable();
-			textures = new Hashtable();
+			// Make dictionaries for resources
+			resources = new Dictionary<string, Resource>();
+			textures = new Dictionary<string, TextureResource>();
 
 			// Set the render target
 			rendertarget = target;
@@ -1494,7 +1493,7 @@ namespace CodeImp.Bloodmasters.Client
 		public static SurfaceResource LoadSurfaceResource(string filename, Pool memorypool)
 		{
 			// Continue making reference names until an unused one is found
-			while(resources.Contains(resourceid.ToString())) resourceid = (resourceid + 1) % (int.MaxValue - 1);
+			while(resources.ContainsKey(resourceid.ToString())) resourceid = (resourceid + 1) % (int.MaxValue - 1);
 
 			// Load the resource with this as reference name
 			return LoadSurfaceResource(filename, resourceid.ToString(), memorypool);
@@ -1537,10 +1536,10 @@ namespace CodeImp.Bloodmasters.Client
 			if(File.Exists(Path.Combine(General.apppath, filename)))
 			{
 				// Check if already loaded
-				if((textures.Contains(filename) == true) && (usecache == true))
+				if((textures.TryGetValue(filename, out TextureResource textureResource)) && (usecache == true))
 				{
 					// Return resource
-					return (TextureResource)textures[filename];
+					return textureResource;
 				}
 				else
 				{
@@ -1597,13 +1596,9 @@ namespace CodeImp.Bloodmasters.Client
 		// This removes a specific texture resource from cache
 		public static void RemoveTextureCache(string filename)
 		{
-			// Does this exist?
-			if(textures.Contains(filename))
-			{
-				// Remove from cache
-				textures.Remove(filename);
-			}
-		}
+            // Remove from cache
+            textures.Remove(filename);
+        }
 
 		// This removes all textures from cache
 		public static void FlushTextures()
@@ -1616,7 +1611,7 @@ namespace CodeImp.Bloodmasters.Client
 		public static TextResource CreateTextResource(CharSet charset)
 		{
 			// Continue making reference names until an unused one is found
-			while(resources.Contains(resourceid.ToString())) resourceid = (resourceid + 1) % (int.MaxValue - 1);
+			while(resources.ContainsKey(resourceid.ToString())) resourceid = (resourceid + 1) % (int.MaxValue - 1);
 
 			// Load the resource with this as reference name
 			return CreateTextResource(charset, resourceid.ToString());
@@ -1639,12 +1634,9 @@ namespace CodeImp.Bloodmasters.Client
 		public static void DestroyResource(string referencename)
 		{
 			// Check if this resource exists
-			if(resources.Contains(referencename))
+			if(resources.TryGetValue(referencename, out Resource res))
 			{
-				// Get the resource object
-				Resource res = (Resource)resources[referencename];
-
-				// Unload the resource
+                // Unload the resource
 				res.Unload();
 
 				// Remove resource from collection
@@ -1656,10 +1648,10 @@ namespace CodeImp.Bloodmasters.Client
 		public static Resource GetResource(string referencename)
 		{
 			// Check if this resource exists
-			if(resources.Contains(referencename))
+			if(resources.TryGetValue(referencename, out Resource res))
 			{
 				// Return the resource object
-				return (Resource)resources[referencename];
+				return res;
 			}
 			else
 			{
@@ -1680,17 +1672,11 @@ namespace CodeImp.Bloodmasters.Client
 			if(General.gamemenu != null) General.gamemenu.UnloadResources();
 
 			// Go for all resources
-			foreach(DictionaryEntry item in resources)
+			foreach(Resource res in resources.Values)
 			{
-				// Get the resource object
-				Resource res = (Resource)item.Value;
-
-				// Unload this resource
+                // Unload this resource
 				res.Unload();
-
-				// Clean up
-				res = null;
-			}
+            }
 
 			// Clean up memory
 			GC.Collect();
@@ -1700,17 +1686,11 @@ namespace CodeImp.Bloodmasters.Client
 		private static void ReloadAllResources()
 		{
 			// Go for all resources
-			foreach(DictionaryEntry item in resources)
+			foreach(Resource res in resources.Values)
 			{
-				// Get the resource object
-				Resource res = (Resource)item.Value;
-
-				// Reload this resource
+                // Reload this resource
 				res.Reload();
-
-				// Clean up
-				res = null;
-			}
+            }
 
 			// Let the arena rebuild its resources
 			if(General.arena != null) General.arena.ReloadResources();

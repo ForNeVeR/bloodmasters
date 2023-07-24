@@ -9,7 +9,7 @@
 // Name Score Frags Deaths Ping / Loss
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using SharpDX.Direct3D9;
 
@@ -55,7 +55,7 @@ namespace CodeImp.Bloodmasters.Client
 		private bool updateneeded = true;
 
 		// Clients array
-		private ArrayList clients;
+		private List<Client> clients;
 
 		// Window border and lines
 		private WindowBorder window;
@@ -91,7 +91,7 @@ namespace CodeImp.Bloodmasters.Client
 			string tempfile;
 
 			// Clients array
-			clients = new ArrayList(32);
+			clients = new List<Client>(32);
 
 			// Create window
 			window = new WindowBorder(TABLE_X - TABLE_BORDERSPACING,

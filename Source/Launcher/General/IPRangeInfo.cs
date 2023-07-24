@@ -9,7 +9,6 @@ using System;
 using System.IO;
 using System.Text;
 using System.Globalization;
-using System.Collections;
 using System.Collections.Specialized;
 
 namespace CodeImp
@@ -27,7 +26,7 @@ namespace CodeImp
 			ccode2 = pccode2.ToCharArray();
 			country = pcountry;
 		}
-		
+
 		// Members
 		public long from;
 		public long to;

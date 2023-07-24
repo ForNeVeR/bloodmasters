@@ -6,7 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using CodeImp.Bloodmasters.Client.Graphics;
 using SharpDX;
 using SharpDX.Direct3D9;
@@ -43,7 +43,7 @@ namespace CodeImp.Bloodmasters.Client
 		// Constructor
 		public Shock(Vector3D from, Vector3D to, float fadechange)
 		{
-			ArrayList v = new ArrayList();
+			List<MVertex> v = new List<MVertex>();
 
 			// Set fade speed
 			this.fadechange = fadechange;
@@ -60,13 +60,13 @@ namespace CodeImp.Bloodmasters.Client
 			// Make the shock
 			AddShockVertices(v, from, to);
 
-			// Make vertices array from arraylist
-			verts = (MVertex[])v.ToArray(typeof(MVertex));
+			// Make vertices array from list
+			verts = v.ToArray();
 			faces = verts.Length / 3;
 		}
 
 		// This adds shock vertices over a trajectory
-		private void AddShockVertices(ArrayList v, Vector3D from, Vector3D to)
+		private void AddShockVertices(List<MVertex> v, Vector3D from, Vector3D to)
 		{
 			int corners, segments;
 			float rnd_offset, rnd_width, min_width;

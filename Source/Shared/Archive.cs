@@ -8,7 +8,6 @@
 // This class provides functionality to read files from an
 // archive (Directory or RAR file).
 
-using System.Collections;
 using System.Runtime.InteropServices;
 
 namespace CodeImp
@@ -193,8 +192,8 @@ namespace CodeImp
 		private void Open(string pathname)
 		{
 			int result;
-			ArrayList files = new ArrayList();
-			ArrayList crcs = new ArrayList();
+			List<string> files = new List<string>();
+			List<uint> crcs = new List<uint>();
 
 			// Set the archive pathname and title
 			archivename = pathname;
@@ -263,8 +262,8 @@ namespace CodeImp
 				}
 
 				// Make standard array from files
-				archivefiles = (string[])files.ToArray(typeof(string));
-				archivefilecrcs = (uint[])crcs.ToArray(typeof(uint));
+				archivefiles = files.ToArray();
+				archivefilecrcs = crcs.ToArray();
 
 				// Close archive
 				RARCloseArchive(archive);

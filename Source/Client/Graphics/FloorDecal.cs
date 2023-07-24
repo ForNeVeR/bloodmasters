@@ -329,7 +329,7 @@ namespace CodeImp.Bloodmasters.Client
 			if((sector.InScreen) && (texture != null))
 			{
 				// Get the sector
-				Sector sc = (Sector)sector.Sectors[0];
+				Sector sc = sector.Sectors[0];
 
 				// Sector dynamic?
 				if(sc.Dynamic)
