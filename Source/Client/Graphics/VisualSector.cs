@@ -693,7 +693,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Create vertex buffer
 				mapvertices = new VertexBuffer(Direct3D.d3dd, sizeof(MVertex) * verts.Count,
-							Usage.WriteOnly, MVertex.Format, Pool.Managed);
+							Usage.WriteOnly, MVertex.Format, Pool.Default);
 
 				// Lock vertex buffer
 				var vertsa = mapvertices.Lock<MVertex>(0, verts.Count);
