@@ -1109,71 +1109,7 @@ namespace CodeImp.Bloodmasters.Client
 			GC.Collect();
 		}
 
-		// This resets the device
-		public static bool Reset()
-		{
-			// The desktop resolution may have changed, which
-			// also changes our mode restrictions for windowed mode.
-			// We must find the closest mode match again.
-
-			// Find the exact or closest matching display mode.
-			// This also sets the format to the current
-			// display format for windowed mode.
-			if(FindDisplayMode(displaymode, displaywindowed, displayfsaa))
-			{
-				// Trash the backbuffer
-				backbuffer.Dispose();
-				backbuffer = null;
-				depthbuffer.Dispose();
-				depthbuffer = null;
-
-				// Trash stateblocks
-				try { sb_nalpha.Dispose(); } catch(Exception) {} sb_nalpha = null;
-				try { sb_nadditivealpha.Dispose(); } catch(Exception) {} sb_nadditivealpha = null;
-				try { sb_tlmodalpha.Dispose(); } catch(Exception) {} sb_tlmodalpha = null;
-				try { sb_nlightmap.Dispose(); } catch(Exception) {} sb_nlightmap = null;
-				try { sb_nlightmapalpha.Dispose(); } catch(Exception) {} sb_nlightmapalpha = null;
-				try { sb_tllightdraw.Dispose(); } catch(Exception) {} sb_tllightdraw = null;
-				try { sb_tllightblend.Dispose(); } catch(Exception) {} sb_tllightblend = null;
-				try { sb_nlines.Dispose(); } catch(Exception) {} sb_nlines = null;
-				try { sb_pnormal.Dispose(); } catch(Exception) {} sb_pnormal = null;
-				try { sb_padditive.Dispose(); } catch(Exception) {} sb_padditive = null;
-				try { sb_nlightblend.Dispose(); } catch(Exception) {} sb_nlightblend = null;
-
-				// Choose most appropriate lightmap format
-				ChooseLightmapFormat();
-
-				// Create presentation parameters
-				displaypp = CreatePresentParameters(displaymode, displaywindowed, displaysyncrefresh, displayfsaa);
-
-				// Adjust rendertarget to display mode
-				AdjustRenderTarget(adapter, displaymode, displaywindowed);
-
-				// Reset the device
-				try { d3dd.Reset(displaypp); }
-				catch(Exception) { return false; }
-
-				// Get the new backbuffer
-				backbuffer = d3dd.GetBackBuffer(0, 0);
-				depthbuffer = d3dd.DepthStencilSurface;
-
-				// Setup renderstates
-				SetupRenderstates();
-
-				// Clear the screen
-				ClearScreen();
-
-				// Success
-				return true;
-			}
-			else
-			{
-				// Failed
-				return false;
-			}
-		}
-
-		// This will initialize the Direct3D device
+        // This will initialize the Direct3D device
 		public static bool Initialize(Form target)
 		{
 			DeviceType devtype;
