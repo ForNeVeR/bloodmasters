@@ -14,7 +14,6 @@
         <RootNamespace>CodeImp.Bloodmasters.Client</RootNamespace>
         <OutputPath>..\..\Build\</OutputPath>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-        <DefineConstants>$(DefineConstants);CLIENT</DefineConstants>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>11</LangVersion>
     </PropertyGroup>
