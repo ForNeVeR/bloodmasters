@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using SharpDX;
 using SharpDX.Direct3D9;
@@ -1627,7 +1628,7 @@ namespace CodeImp.Bloodmasters.Client
                 var displayModeFilter = new DisplayModeFilter
                 {
                     Format = format,
-                    Size = System.Runtime.CompilerServices.Unsafe.SizeOf<DisplayModeFilter>(),
+                    Size = Unsafe.SizeOf<DisplayModeFilter>(),
                 };
 
                 var count = direct3d.GetAdapterModeCountEx(a.Adapter, displayModeFilter);

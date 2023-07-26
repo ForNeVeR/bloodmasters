@@ -14,7 +14,7 @@ namespace CodeImp.Bloodmasters.Launcher
 	public class FormOptions : System.Windows.Forms.Form
 	{
 		private int last_fsaa;
-		private DisplayMode last_mode;
+		private DisplayModeEx last_mode;
 		private Dictionary<string, int> controlkeys = new();
 		private System.ComponentModel.Container components = null;
 		private System.Windows.Forms.Button btnOK;
