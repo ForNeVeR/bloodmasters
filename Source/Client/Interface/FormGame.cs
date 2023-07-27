@@ -247,8 +247,8 @@ namespace CodeImp.Bloodmasters.Client
 			base.Dispose(disposing);
 		}
 
-		// When the window is being closed
-		protected override void OnClosing(CancelEventArgs e)
+        // When the window is being closed
+		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
             // Disconnect from server
 			General.Disconnect(true);
@@ -258,7 +258,7 @@ namespace CodeImp.Bloodmasters.Client
 			General.serverrunning = false;
 
 			// Pass this event on to the base class
-			base.OnClosing(e);
+			base.OnFormClosing(e);
 		}
 
 		// When focus is received
