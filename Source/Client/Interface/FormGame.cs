@@ -250,11 +250,7 @@ namespace CodeImp.Bloodmasters.Client
 		// When the window is being closed
 		protected override void OnClosing(CancelEventArgs e)
 		{
-			// Cancel the close and just hide window
-			e.Cancel = true;
-			//this.Hide();
-
-			// Disconnect from server
+            // Disconnect from server
 			General.Disconnect(true);
 
 			// Terminate client and server if running
