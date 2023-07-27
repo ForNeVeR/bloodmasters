@@ -39,7 +39,7 @@ namespace CodeImp.Bloodmasters
 				foreach(string f in a.FileNames)
 				{
 					// Filename matches?
-					if(f.ToLower().EndsWith(filetype.ToLower()))
+					if(f.EndsWith(filetype, StringComparison.InvariantCultureIgnoreCase))
 					{
 						// Add to result list
 						result.Add(archivename + "/" + f);
@@ -130,20 +130,7 @@ namespace CodeImp.Bloodmasters
 			}
 		}
 
-		// This returns the CRC for a given file
-		public static uint GetFileCRC(string filepathname)
-		{
-			// Get the archive
-			Archive a = GetFileArchive(filepathname);
-
-			// Split the filepathname
-			string[] files = filepathname.Split('/');
-
-			// Return the file CRC
-			return a.GetFileCRC(files[1]);
-		}
-
-		// This extracts the file from its archive and returns
+        // This extracts the file from its archive and returns
 		// the full path and filename to the temporary file
 		public static string ExtractFile(string filepathname) { return ExtractFile(filepathname, false); }
 		public static string ExtractFile(string filepathname, bool overwrite)
@@ -204,10 +191,7 @@ namespace CodeImp.Bloodmasters
 			// Close all archives
 			foreach((string filename, Archive a) in archives)
 			{
-                // Close archive
-				a.Dispose();
-
-				// Remove temporary directory
+                // Remove temporary directory
 				string tempdir = Path.Combine(temppath, filename);
 				try { Directory.Delete(tempdir, true); } catch(Exception) { }
 			}
