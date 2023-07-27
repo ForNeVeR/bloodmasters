@@ -41,7 +41,6 @@ Source: Flags.rar; DestDir: {app}
 Source: General.rar; DestDir: {app}
 Source: ip-to-country.csv; DestDir: {app}
 Source: lavaruins.rar; DestDir: {app}
-Source: libunrar.dll; DestDir: {app}
 Source: Microsoft.DirectX.AudioVideoPlayback.dll; DestDir: {app}
 Source: Microsoft.DirectX.Direct3D.dll; DestDir: {app}
 Source: Microsoft.DirectX.Direct3DX.dll; DestDir: {app}
