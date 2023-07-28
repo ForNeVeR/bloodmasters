@@ -17,7 +17,6 @@
         <OutputPath>..\..\Build\</OutputPath>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <LangVersion>11</LangVersion>
     </PropertyGroup>
     <ItemGroup>
         <InternalsVisibleTo Include="Bloodmasters.Tests" />
