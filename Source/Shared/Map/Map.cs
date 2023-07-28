@@ -129,48 +129,7 @@ namespace CodeImp.Bloodmasters
 			// Read the whole map as well?
 			if(infoonly == false)
 			{
-				// Check if the map is missing GL structures
-				//if(Wad.ReadLump(tempwadfile, "GL_SSECT") == null)
-				{
-					// Get glbsp.exe out of the closet!
-					string glbspexe = ArchiveManager.ExtractFile("general.rar/glbsp.exe");
-
-					// Call glbsp.exe to make the GL nodes
-					using Process glbsp = new Process();
-					glbsp.StartInfo.WorkingDirectory = Path.GetDirectoryName(glbspexe);
-					glbsp.StartInfo.FileName = glbspexe;
-					glbsp.StartInfo.Arguments = "-noreject -noprog -v5 -factor 20 -q \"" + tempwadfile + "\" -o \"" + tempwadfile + "\"";
-					glbsp.StartInfo.CreateNoWindow = true;
-					glbsp.StartInfo.ErrorDialog = false;
-					glbsp.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                    glbsp.StartInfo.UseShellExecute = true;
-					if(glbsp.Start())
-					{
-						// Wait for the builder to finish
-						glbsp.WaitForExit(20000);
-						if(glbsp.HasExited == true)
-						{
-							// Check if the map is still missing GL structures
-							if(Wad.ReadLump(tempwadfile, "GL_SSECT") == null)
-							{
-								// Cannot run glbsp to fix the nodes
-								throw(new Exception("Failed to build map graphics nodes."));
-							}
-						}
-						else
-						{
-							// Cannot run glbsp to fix the nodes
-							throw(new Exception("Time out while building map graphics nodes."));
-						}
-					}
-					else
-					{
-						// Cannot run glbsp to fix the nodes
-						throw(new Exception("Unable to start map nodes builder."));
-					}
-				}
-
-				// Load the map data from GL structures
+                // Load the map data from GL structures
 				numorigverts = LoadVertices(tempwadfile);
 				LoadSectors(tempwadfile);
 				LoadSidedefs(tempwadfile);
