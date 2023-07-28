@@ -14,8 +14,6 @@
     <PropertyGroup>
         <ApplicationIcon>..\..\Resources\bm.ico</ApplicationIcon>
         <RootNamespace>CodeImp.Bloodmasters.Client</RootNamespace>
-        <OutputPath>..\..\Build\</OutputPath>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
     <ItemGroup>
@@ -27,6 +25,7 @@
         <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
     </ItemGroup>
     <ItemGroup>
+        <None Update=".bloodmasters.dev.marker" CopyToOutputDirectory="PreserveNewest" />
         <None Update="client-standalone.debug.cfg" CopyToOutputDirectory="PreserveNewest" />
         <None Update="server.debug.cfg" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>

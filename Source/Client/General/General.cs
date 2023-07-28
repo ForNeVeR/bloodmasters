@@ -53,6 +53,7 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Variables
 
 		// Application paths and name
+        // TODO: Remove apppath from here
 		public static string apppath = "";
 		public static string appname = "";
 		public static string temppath = "";
@@ -2212,8 +2213,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// No proper commands given
 				// Run the standard launcher
-				try { Process.Start(Path.Combine(apppath, "BMLauncher.exe")); }
-				catch(Exception) { }
+                Process.Start(Paths.LauncherPath);
 				return;
 			}
 
