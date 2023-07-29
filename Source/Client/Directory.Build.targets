@@ -1,0 +1,8 @@
+<Project>
+	<Target Name="CopyDxFileOnBuild" AfterTargets="Build">
+		<Copy SourceFiles="$(PkgMicrosoft_DXSDK_D3DX)\build\native\release\bin\x64\D3DX9_43.dll" DestinationFolder="$(TargetDir)" />
+	</Target>
+	<Target Name="CopyDxFileOnPublish" AfterTargets="Publish">
+		<Copy SourceFiles="$(PkgMicrosoft_DXSDK_D3DX)\build\native\release\bin\x64\D3DX9_43.dll" DestinationFolder="$(PublishDir)" />
+	</Target>
+</Project>

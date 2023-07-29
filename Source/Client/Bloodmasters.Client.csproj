@@ -7,6 +7,10 @@
         <UseWindowsForms>true</UseWindowsForms>
     </PropertyGroup>
 
+    <ItemGroup>
+        <PackageReference Include="Microsoft.DXSDK.D3DX" Version="9.29.952.8" GeneratePathProperty="true" />
+    </ItemGroup>
+
     <PropertyGroup>
         <ApplicationIcon>..\..\Resources\bm.ico</ApplicationIcon>
         <RootNamespace>CodeImp.Bloodmasters.Client</RootNamespace>

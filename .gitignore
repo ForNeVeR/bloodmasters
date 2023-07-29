@@ -9,5 +9,6 @@ obj/
 /Build/**/*.json
 /Build/**/*.pdb
 /Build/*.debug.cfg
+/Build/**/publish/*
 
 *.user
