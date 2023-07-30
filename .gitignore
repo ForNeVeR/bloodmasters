@@ -4,12 +4,12 @@
 bin/
 obj/
 
+/Build/*.debug.cfg
+/Build/*.marker
+/Build/**/publish/*
 /Build/**/*.dll
 /Build/**/*.exe
 /Build/**/*.json
 /Build/**/*.pdb
-/Build/*.debug.cfg
-/Build/**/publish/*
-/Build/*.marker
 
 *.user
