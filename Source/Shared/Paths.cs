@@ -68,4 +68,7 @@ public static class Paths
 
     /// <summary>Directory for the log files. Write access.</summary>
     public static readonly string LogDirPath = AllPurposeDirPath;
+
+    /// <summary>Directory for screenshots. Write access.</summary>
+    public static readonly string ScreenshotsDirPath = Path.Combine(AllPurposeDirPath, "Screenshots");
 }

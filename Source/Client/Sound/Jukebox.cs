@@ -43,7 +43,7 @@ namespace CodeImp.Bloodmasters.Client
 			volume = (float)General.config.ReadSetting("musicvolume", 50) / 100f;
 
 			// Make playlist from directory
-			string musicdir = Path.Combine(General.apppath, "Music");
+			string musicdir = Path.Combine(Paths.BundledResourceDir, "Music");
 			playlist = Directory.GetFiles(musicdir, "*.mp3");
 
 			// Randomize playlist?
