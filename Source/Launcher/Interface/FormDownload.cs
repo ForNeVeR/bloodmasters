@@ -1,10 +1,8 @@
 using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
+using System.IO;
 using System.Net;
 using System.Text;
-using System.IO;
+using System.Windows.Forms;
 
 namespace CodeImp.Bloodmasters.Launcher
 {
@@ -302,7 +300,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			if(contentlength > 0) prgStatus.Maximum = contentlength;
 
 			// Make the file
-			filename = Path.Combine(General.apppath, server.MapName + ".rar");
+			filename = Path.Combine(Paths.DownloadedResourceDir, server.MapName + ".rar");
 			file = File.Open(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.None);
 
 			// Get the http download

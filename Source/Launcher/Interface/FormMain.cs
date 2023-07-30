@@ -1519,7 +1519,7 @@ namespace CodeImp.Bloodmasters.Launcher
             General.SaveConfiguration();
 
             // Make the server configuration file
-            string scfgfile = General.MakeUniqueFilename(General.apppath, "server_", ".cfg");
+            string scfgfile = General.MakeUniqueFilename(Paths.ConfigDirPath, "server_", ".cfg");
             Configuration scfg = MakeServerConfig(true);
             scfg.SaveConfiguration(scfgfile);
 
@@ -1802,7 +1802,7 @@ namespace CodeImp.Bloodmasters.Launcher
                             download.Dispose();
 
                             // Check if new file exists
-                            filename = Path.Combine(General.apppath, gitem.MapName + ".rar");
+                            filename = Path.Combine(Paths.DownloadedResourceDir, gitem.MapName + ".rar");
                             if (File.Exists(filename))
                             {
                                 // Busy!

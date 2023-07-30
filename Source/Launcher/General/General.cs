@@ -27,7 +27,6 @@ namespace CodeImp.Bloodmasters.Launcher
 		#region ================== Variables
 
 		// Paths and names
-		public static string apppath = "";
 		public static string appname = "";
 		public static string temppath = "";
 
@@ -67,10 +66,6 @@ namespace CodeImp.Bloodmasters.Launcher
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
 			Application.DoEvents();		// This must be here to work around a .NET bug
 
-			// Setup application path
-			Uri localpath = new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase), true);
-			apppath = localpath.AbsolutePath;
-
 			// Setup application name
 			appname = Assembly.GetExecutingAssembly().GetName().Name;
 
@@ -82,9 +77,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			Directory.CreateDirectory(temppath);
 
 			// Setup filenames
-			configfilename = Path.Combine(General.apppath, configfilename);
-			logfilename = Path.Combine(apppath, appname + ".log");
-			ip2countryfilename = Path.Combine(General.apppath, ip2countryfilename);
+			configfilename = Path.Combine(Paths.ConfigDirPath, configfilename);
+			logfilename = Path.Combine(Paths.LogDirPath, appname + ".log");
+			ip2countryfilename = Path.Combine(Paths.BundledResourceDir, ip2countryfilename);
 
 			// Initialize DirectX
 			try { Direct3D.InitDX(); }
@@ -165,7 +160,7 @@ namespace CodeImp.Bloodmasters.Launcher
 
                         // Open all archives with archivemanager
                         mainwindow.ShowStatus("Loading data archives...");
-                        ArchiveManager.Initialize(General.apppath, General.temppath);
+                        ArchiveManager.Initialize(Paths.BundledResourceDir, General.temppath);
 
                         // Refrehs maps in list
                         mainwindow.RefreshMapsLists();
@@ -404,7 +399,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			mainwindow.ShowStatus("Launching game...");
 
 			// Determine launch filename
-			string launchfile = MakeUniqueFilename(apppath, "launch_", ".cfg");
+			string launchfile = MakeUniqueFilename(Paths.ConfigDirPath, "launch_", ".cfg");
 			serverfile = servfile;
 
 			// Write launch file
@@ -412,8 +407,8 @@ namespace CodeImp.Bloodmasters.Launcher
 
 			// Make the process
 			bmproc = new Process();
-			bmproc.StartInfo.WorkingDirectory = General.apppath;
-			bmproc.StartInfo.FileName = "Bloodmasters.exe";
+			bmproc.StartInfo.FileName = Paths.ClientExecutablePath;
+			bmproc.StartInfo.WorkingDirectory = Path.GetDirectoryName(Paths.ClientExecutablePath);
 			bmproc.StartInfo.Arguments = launchfile;
 			bmproc.StartInfo.CreateNoWindow = false;
 			bmproc.StartInfo.ErrorDialog = false;

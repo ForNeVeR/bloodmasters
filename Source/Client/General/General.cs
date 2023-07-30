@@ -2213,7 +2213,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// No proper commands given
 				// Run the standard launcher
-                Process.Start(Paths.LauncherPath);
+                Process.Start(Paths.LauncherExecutablePath);
 				return;
 			}
 
