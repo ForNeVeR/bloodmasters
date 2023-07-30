@@ -25,12 +25,14 @@
         <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
     </ItemGroup>
     <ItemGroup>
-        <None Update=".bloodmasters.dev.marker" CopyToOutputDirectory="PreserveNewest" />
         <None Update="client-standalone.debug.cfg" CopyToOutputDirectory="PreserveNewest" />
         <None Update="server.debug.cfg" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Server\Bloodmasters.Server.csproj" />
         <ProjectReference Include="..\Shared\Bloodmasters.Shared.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="..\..\.bloodmasters.dev.marker" CopyToOutputDirectory="Always"/>
     </ItemGroup>
 </Project>

@@ -6,6 +6,7 @@ namespace CodeImp.Bloodmasters;
 public static class Paths
 {
     private const string DevModeMarkerFileName = ".bloodmasters.dev.marker";
+    private const string DevSolutionRootMarkerFileName = ".bloodmasters.solution-root.marker";
     private const string TargetFrameworkForExecutables = "net7.0-windows";
     private const string BuildConfiguration =
 #if DEBUG
@@ -29,8 +30,18 @@ public static class Paths
 
     private static readonly string? SolutionRootPath =
         IsDevModeBuild
-            ? Path.Combine(AppBaseDir, "../../../../../")
+            ? FindSolutionRootRelativelyTo(AppBaseDir)
             : null;
+    private static string? FindSolutionRootRelativelyTo(string appBaseDir)
+    {
+        var currentDir = appBaseDir;
+        while (currentDir != null && !File.Exists(Path.Combine(currentDir, DevSolutionRootMarkerFileName)))
+        {
+            currentDir = Path.GetDirectoryName(currentDir);
+        }
+
+        return currentDir;
+    }
 
     private const string ClientExecutableFileName = "Bloodmasters.exe";
     public static readonly string ClientExecutablePath =
@@ -45,8 +56,8 @@ public static class Paths
                 ClientExecutableFileName)
             : Path.Combine(AppBaseDir, ClientExecutableFileName);
 
-    // TODO: Get rid of its usage.
-    private static string AllPurposeDirPath =
+    // TODO[#84]: Get rid of its usage.
+    private static readonly string AllPurposeDirPath =
         IsDevModeBuild
             ? Path.Combine(SolutionRootPath!, "Build")
             : Path.Combine(AppBaseDir);

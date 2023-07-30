@@ -1,0 +1,3 @@
+This file enables Bloodmasters to work from the way the game files are placed in the dev mode (when built from sources).
+
+It should be copied near each game binary for it to detect the dev mode.

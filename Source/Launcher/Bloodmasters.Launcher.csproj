@@ -22,4 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Shared\Bloodmasters.Shared.csproj" />
   </ItemGroup>
+  <ItemGroup>
+      <Content Include="..\..\.bloodmasters.dev.marker" CopyToOutputDirectory="Always"/>
+  </ItemGroup>
 </Project>

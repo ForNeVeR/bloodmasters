@@ -10,5 +10,6 @@ obj/
 /Build/**/*.pdb
 /Build/*.debug.cfg
 /Build/**/publish/*
+/Build/*.marker
 
 *.user
