@@ -27,9 +27,8 @@ namespace CodeImp.Bloodmasters.Server
 		// Application paths and name
 		public static string apppath = "";
 		public static string appname = "";
-		public static string temppath = "";
 
-		// Filenames
+        // Filenames
 		public static string logfilename = "";
 		public static bool logtofile = false;
 
@@ -56,16 +55,8 @@ namespace CodeImp.Bloodmasters.Server
 			// Setup application name
 			appname = Assembly.GetExecutingAssembly().GetName().Name;
 
-			// Temporary directory (in system temporary directory)
-			//temppath = Path.Combine(Path.GetTempPath(), "bloodmasters_temp");
-			do { temppath = Path.Combine(Path.GetTempPath(), RandomString(8)); }
-			while(Directory.Exists(temppath) || File.Exists(temppath));
-
-			// Make directories if they dont exist
-			if(Directory.Exists(temppath) == false) Directory.CreateDirectory(temppath);
-
-			// Open all archives with archivemanager
-			ArchiveManager.Initialize(General.apppath, General.temppath);
+            // Open all archives with archivemanager
+			ArchiveManager.Initialize(General.apppath);
 
 			// Setup filenames
 			logfilename = Path.Combine(apppath, appname + ".log");
@@ -93,7 +84,7 @@ namespace CodeImp.Bloodmasters.Server
 			ArchiveManager.Dispose();
 
 			// Delete the temporary directory
-			if(General.temppath != "") Directory.Delete(General.temppath, true);
+			if(!string.IsNullOrEmpty(Paths.TempDirPath)) Directory.Delete(Paths.TempDirPath, true);
 
 			// End of program
 			//Application.Exit();

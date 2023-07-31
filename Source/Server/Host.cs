@@ -10,7 +10,6 @@ public interface IHost
 
     public bool LogToFile { get; }
     public string LogFileName { get; }
-    public string TempPath { get; }
 
     public int RealTime { get; }
 
