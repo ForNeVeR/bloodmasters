@@ -24,9 +24,21 @@ public sealed class TempDirPathTests : IClassFixture<TempDirPathTestsFixture>
     [Fact(DisplayName = "Temporary directory should only be created once")]
     public void TemporaryDirectoryShouldOnlyBeCreatedOnce()
     {
+        // Arrange
         var tempDirPath2 = CodeImp.Bloodmasters.Paths.TempDirPath;
 
+        // Assert
         Assert.Equal(_tempDir, tempDirPath2);
+    }
+
+    [Fact(DisplayName = "Temporary directory should contain suffix 'Bloodmasters'")]
+    public void TemporaryDirectoryShouldContainSuffixBloodmasters()
+    {
+        // Arrange
+        var dirName = Path.GetFileName(_tempDir);
+
+        // Assert
+        Assert.StartsWith("Bloodmasters", dirName);
     }
 }
 
