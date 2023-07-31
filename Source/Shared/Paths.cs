@@ -49,7 +49,7 @@ public static class Paths
             ? Path.Combine(
                 SolutionRootPath!,
                 "Source",
-                "Bloodmasters",
+                "Client",
                 "bin",
                 BuildConfiguration,
                 TargetFrameworkForExecutables,
