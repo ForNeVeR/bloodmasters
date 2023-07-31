@@ -1,3 +1,4 @@
+using CodeImp.Bloodmasters.Client.Graphics;
 using SharpDX;
 
 namespace Bloodmasters.Tests.Graphics
@@ -127,6 +128,27 @@ namespace Bloodmasters.Tests.Graphics
 
             //Assert
             Assert.True(result.X == 6.634325f && result.Y == 6.068153f && result.Z == 6.3136373f);
+        }
+        [Fact]
+        public async Task CorrectCalculationsWithNormalMatrixUnproject_Success()
+        {
+            //Act
+            var result = Vector3Ex.Unproject(new Vector3(4f), GetNormalViewport(), GetMatrixWithNormalColomns1(),
+                GetMatrixWithNormalColomns2(), GetMatrixWithNormalColomns3());
+
+            //Asssert
+            Assert.True(result.X == 1.7231272f && result.Y == -2.9434085f && result.Z == -0.50013363f);
+        }
+
+        [Fact]
+        public async Task IsMormalizeIsFalseWithCorrectMatrix_Success()
+        {
+            //Act
+            var result = Vector3Ex.Unproject(new Vector3(4f), GetNormalViewport(), GetMatrixWithNormalColomns1(),
+                GetMatrixWithNormalColomns2(), GetMatrixWithNormalColomns3());
+
+            //Assert
+            Assert.False(result.IsNormalized);
         }
     }
 }
