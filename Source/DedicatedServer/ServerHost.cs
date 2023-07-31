@@ -14,7 +14,6 @@ public class ServerHost : IHost
 
     public bool LogToFile => General.logtofile;
     public string LogFileName => General.logfilename;
-    public string TempPath => General.temppath;
 
     public int RealTime => SharedGeneral.realtime;
 

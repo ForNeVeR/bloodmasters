@@ -15,7 +15,7 @@ namespace CodeImp.Bloodmasters
 		private static Dictionary<string, Archive> archives = new();
 
 		// Temporary path
-		private static string temppath;
+		private static string tempPath = Paths.TempDirPath;
 
 		#endregion
 
@@ -24,7 +24,7 @@ namespace CodeImp.Bloodmasters
 		// This returns the temp path for a specific archive
 		public static string GetArchiveTempPath(Archive archive)
 		{
-			return Path.Combine(temppath, archive.Title);
+			return Path.Combine(tempPath, archive.Title);
 		}
 
 		// This finds all files of a specific type in all archives
@@ -142,17 +142,14 @@ namespace CodeImp.Bloodmasters
 			string[] files = filepathname.Split('/');
 
 			// Extract file
-			string tempdir = Path.Combine(temppath, files[0].ToLower());
+			string tempdir = Path.Combine(tempPath, files[0].ToLower());
 			return a.ExtractFile(files[1], tempdir, overwrite);
 		}
 
 		// Will open all archives in the given directory and manages the files
-		public static void Initialize(string archivespath, string temppath)
+		public static void Initialize(string archivespath)
 		{
-			// Keep temp path
-			ArchiveManager.temppath = temppath;
-
-			// Find all .rar files and directories
+            // Find all .rar files and directories
 			string[] archfiles = Directory.GetFiles(archivespath, "*.rar");
 			string[] archdirs = Directory.GetDirectories(archivespath, "*.rar");
 
@@ -178,7 +175,7 @@ namespace CodeImp.Bloodmasters
 			Archive a = new Archive(filepathname);
 
 			// Make temporary directory
-			string tempdir = Path.Combine(ArchiveManager.temppath, lf);
+			string tempdir = Path.Combine(ArchiveManager.tempPath, lf);
 			if(Directory.Exists(tempdir) == false) Directory.CreateDirectory(tempdir);
 
 			// Add to collection
@@ -192,7 +189,7 @@ namespace CodeImp.Bloodmasters
 			foreach((string filename, Archive a) in archives)
 			{
                 // Remove temporary directory
-				string tempdir = Path.Combine(temppath, filename);
+				string tempdir = Path.Combine(tempPath, filename);
 				try { Directory.Delete(tempdir, true); } catch(Exception) { }
 			}
 		}

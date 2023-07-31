@@ -82,4 +82,7 @@ public static class Paths
 
     /// <summary>Directory for screenshots. Write access.</summary>
     public static readonly string ScreenshotsDirPath = Path.Combine(AllPurposeDirPath, "Screenshots");
+
+    /// <summary>Directory for temporary data. Read + write access.</summary>
+    public static readonly string TempDirPath = Directory.CreateTempSubdirectory(prefix: "Bloodmasters").FullName;
 }

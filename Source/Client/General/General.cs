@@ -54,9 +54,8 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Application paths and name
 		public static string appname = "";
-		public static string temppath = "";
 
-		// Filenames
+        // Filenames
 		private static string configfilename = "Bloodmasters.cfg";
 		public static string logfilename = ""; // TODO[#45]: Only used in server code. Remove later.
 
@@ -155,19 +154,12 @@ namespace CodeImp.Bloodmasters.Client
 			// Setup application name
 			appname = Assembly.GetExecutingAssembly().GetName().Name;
 
-			// Temporary directory (in system temporary directory)
-			do { temppath = Path.Combine(Path.GetTempPath(), RandomString(8)); }
-			while(Directory.Exists(temppath) || File.Exists(temppath));
-
-			// Make temporary directory
-			Directory.CreateDirectory(temppath);
-
-			// Ensure a Music directory exists
+            // Ensure a Music directory exists
 			string musicdir = Path.Combine(Paths.BundledResourceDir, "Music");
 			if(!Directory.Exists(musicdir)) Directory.CreateDirectory(musicdir);
 
 			// Open all archives with archivemanager
-			ArchiveManager.Initialize(Paths.BundledResourceDir, General.temppath);
+			ArchiveManager.Initialize(Paths.BundledResourceDir);
 			ArchiveManager.OpenArchive(Path.Combine(Paths.BundledResourceDir, "sprites"));
 
 			// Setup filenames
@@ -335,8 +327,8 @@ namespace CodeImp.Bloodmasters.Client
 			ArchiveManager.Dispose();
 
 			// Delete the temporary directory
-			if(General.temppath != "")
-				try { Directory.Delete(General.temppath, true); } catch(Exception) { }
+			if(!string.IsNullOrEmpty(Paths.TempDirPath))
+				try { Directory.Delete(Paths.TempDirPath, true); } catch(Exception) { }
 
 			// End of program
 			Application.Exit();
@@ -1990,7 +1982,7 @@ namespace CodeImp.Bloodmasters.Client
 			clients[localclientid] = General.localclient;
 
 			// Load the map
-			try { map = new ClientMap(mapname, false, temppath); }
+			try { map = new ClientMap(mapname, false, Paths.TempDirPath); }
 			catch(FileNotFoundException) { return "You do not have the map \"" + mapname + "\"."; }
 
 			// Load the arena

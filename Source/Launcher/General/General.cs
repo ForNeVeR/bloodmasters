@@ -28,9 +28,8 @@ namespace CodeImp.Bloodmasters.Launcher
 
 		// Paths and names
 		public static string appname = "";
-		public static string temppath = "";
 
-		// Configuration
+        // Configuration
 		public static Configuration config;
 
 		// Filenames
@@ -69,14 +68,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			// Setup application name
 			appname = Assembly.GetExecutingAssembly().GetName().Name;
 
-			// Temporary directory (in system temporary directory)
-			do { temppath = Path.Combine(Path.GetTempPath(), RandomString(8)); }
-			while(Directory.Exists(temppath) || File.Exists(temppath));
-
-			// Make temporary directory
-			Directory.CreateDirectory(temppath);
-
-			// Setup filenames
+            // Setup filenames
 			configfilename = Path.Combine(Paths.ConfigDirPath, configfilename);
 			logfilename = Path.Combine(Paths.LogDirPath, appname + ".log");
 			ip2countryfilename = Path.Combine(Paths.BundledResourceDir, ip2countryfilename);
@@ -160,7 +152,7 @@ namespace CodeImp.Bloodmasters.Launcher
 
                         // Open all archives with archivemanager
                         mainwindow.ShowStatus("Loading data archives...");
-                        ArchiveManager.Initialize(Paths.BundledResourceDir, General.temppath);
+                        ArchiveManager.Initialize(Paths.BundledResourceDir);
 
                         // Refrehs maps in list
                         mainwindow.RefreshMapsLists();
@@ -261,8 +253,8 @@ namespace CodeImp.Bloodmasters.Launcher
 			ArchiveManager.Dispose();
 
 			// Delete the temporary directory
-			if(General.temppath != "")
-				try { Directory.Delete(General.temppath, true); } catch(Exception) { }
+			if(!string.IsNullOrEmpty(Paths.TempDirPath))
+				try { Directory.Delete(Paths.TempDirPath, true); } catch(Exception) { }
 
 			// End of program
 			Application.Exit();
