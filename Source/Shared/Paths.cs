@@ -65,7 +65,14 @@ public static class Paths
     private const string LauncherExecutableFileName = "BMLauncher.exe";
     public static readonly string LauncherExecutablePath =
         IsDevModeBuild
-            ? Path.Combine(SolutionRootPath!, "Build", LauncherExecutableFileName)
+            ? Path.Combine(
+                SolutionRootPath!,
+                "Source",
+                "Launcher",
+                "bin",
+                BuildConfiguration,
+                TargetFrameworkForExecutables,
+                LauncherExecutableFileName)
             : Path.Combine(AppBaseDir, LauncherExecutableFileName);
 
     /// <summary>Directory with the resources distributed alongside tha game. Read-only access.</summary>

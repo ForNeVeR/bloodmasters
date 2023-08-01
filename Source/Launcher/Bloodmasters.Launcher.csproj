@@ -10,8 +10,6 @@
     <ApplicationIcon>..\..\Resources\bm.ico</ApplicationIcon>
     <AssemblyName>BMLauncher</AssemblyName>
     <RootNamespace>CodeImp.Bloodmasters.Launcher</RootNamespace>
-    <OutputPath>..\..\Build\</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <LangVersion>11</LangVersion>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
