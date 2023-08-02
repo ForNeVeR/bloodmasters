@@ -25,7 +25,6 @@ namespace CodeImp.Bloodmasters.Server
 		#region ================== Variables
 
 		// Application paths and name
-		public static string apppath = "";
 		public static string appname = "";
 
         // Filenames
@@ -48,18 +47,14 @@ namespace CodeImp.Bloodmasters.Server
 		// This is the very first initialize of the engine
 		private static bool Initialize()
 		{
-			// Setup application path
-			Uri localpath = new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase), true);
-			apppath = localpath.AbsolutePath;
-
 			// Setup application name
 			appname = Assembly.GetExecutingAssembly().GetName().Name;
 
             // Open all archives with archivemanager
-			ArchiveManager.Initialize(General.apppath);
+			ArchiveManager.Initialize(Paths.BundledResourceDir);
 
 			// Setup filenames
-			logfilename = Path.Combine(apppath, appname + ".log");
+			logfilename = Path.Combine(Paths.LogDirPath, appname + ".log");
 
 			// Setup clock
 			SharedGeneral.previoustime = SharedGeneral.GetCurrentTime();
@@ -98,7 +93,7 @@ namespace CodeImp.Bloodmasters.Server
 		public static string LoadServerConfiguration(string[] args)
 		{
 			// Determine config file
-			string configfile = Path.Combine(apppath, "bmserver.cfg");
+			string configfile = Path.Combine(Paths.ConfigDirPath, "bmserver.cfg");
 			if(args.Length > 0) configfile = args[args.Length - 1];
 
 			// Load the config file
@@ -120,7 +115,7 @@ namespace CodeImp.Bloodmasters.Server
 				else
 				{
 					// Make path relative to app path
-					logfilename = Path.Combine(apppath, logfile);
+					logfilename = Path.Combine(Paths.LogDirPath, logfile);
 				}
 			}
 
