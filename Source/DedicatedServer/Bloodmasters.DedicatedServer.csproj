@@ -7,11 +7,6 @@
         <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.Drawing">
-      <Name>System.Drawing</Name>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Server\Bloodmasters.Server.csproj" />
     <ProjectReference Include="..\Shared\Bloodmasters.Shared.csproj" />
   </ItemGroup>
