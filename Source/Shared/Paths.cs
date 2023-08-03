@@ -78,21 +78,21 @@ public static class Paths
     public static readonly string BundledResourceDir = ContentDirPath;
 
     /// <summary>Directory for the downloaded resources. Read + write access.</summary>
-    // TODO: Better download path, like the user Downloads folder or AppData
+    // TODO[#93]: Better download path, like the user Downloads folder or AppData
     public static readonly string DownloadedResourceDir = ContentDirPath;
 
     /// <summary>Directory with the game configuration files. Read + write access.</summary>
     public static readonly string ConfigDirPath =
         IsDevModeBuild
             ? Path.Combine(SolutionRootPath!, "Source", "Config", "Debug")
-            : Path.Combine(AppBaseDir); // TODO: Better path for r+w files in release, like AppData
+            : Path.Combine(AppBaseDir); // TODO[#93]: Better path for r+w files in release, like AppData
 
     /// <summary>Directory for the log files. Write access.</summary>
-    // TODO: Logs in production should be moved to another place
+    // TODO[#93]: Logs in production should be moved to another place
     public static readonly string LogDirPath = AppBaseDir;
 
     /// <summary>Directory for screenshots. Write access.</summary>
-    // TODO: Write screenshots to the user documents folder
+    // TODO[#93]: Write screenshots to the user documents folder
     public static readonly string ScreenshotsDirPath = Path.Combine(AppBaseDir, "Screenshots");
 
     /// <summary>Directory for temporary data. Read + write access.</summary>
