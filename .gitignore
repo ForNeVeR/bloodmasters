@@ -1,16 +1,9 @@
+/Source/Config/Debug/
+
 .idea/
 .vs/
 
 bin/
 obj/
-
-/Build/*.debug.cfg
-/Build/*.marker
-/Build/**/publish/*
-/Build/**/*.dll
-/Build/**/*.exe
-/Build/**/*.json
-/Build/**/*.pdb
-/Source/Config/Debug/
 
 *.user
