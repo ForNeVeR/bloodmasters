@@ -7,13 +7,6 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <Target Name="CopyConfigFile" BeforeTargets="Build"
-            Inputs="..\Config\bmserver.cfg"
-            Outputs="..\Config\Debug\bmserver.cfg">
-        <Copy Condition="!Exists('..\Config\Debug\bmserver.cfg')" SkipUnchangedFiles="true"
-              SourceFiles="..\Config\bmserver.cfg" DestinationFolder="..\Config\Debug\" />
-    </Target>
-
     <ItemGroup>
       <ProjectReference Include="..\Shared\Bloodmasters.Shared.csproj" />
     </ItemGroup>
