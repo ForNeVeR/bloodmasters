@@ -11,6 +11,13 @@
         <PackageReference Include="Microsoft.DXSDK.D3DX" Version="9.29.952.8" GeneratePathProperty="true" />
     </ItemGroup>
 
+    <Target Name="CopyConfigFile" BeforeTargets="Build"
+        Inputs="..\Config\Bloodmasters.cfg"
+        Outputs="..\Config\Debug\Bloodmasters.cfg">
+        <Copy Condition="!Exists('..\Config\Debug\Bloodmasters.cfg')" SkipUnchangedFiles="true"
+              SourceFiles="..\Config\Bloodmasters.cfg" DestinationFolder="..\Config\Debug\" />
+    </Target>
+
     <PropertyGroup>
         <ApplicationIcon>..\..\Resources\bm.ico</ApplicationIcon>
         <RootNamespace>CodeImp.Bloodmasters.Client</RootNamespace>

@@ -11,5 +11,6 @@ obj/
 /Build/**/*.exe
 /Build/**/*.json
 /Build/**/*.pdb
+/Source/Config/Debug/
 
 *.user

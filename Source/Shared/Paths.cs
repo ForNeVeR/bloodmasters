@@ -56,10 +56,9 @@ public static class Paths
                 ClientExecutableFileName)
             : Path.Combine(AppBaseDir, ClientExecutableFileName);
 
-    // TODO[#84]: Get rid of its usage.
-    private static readonly string AllPurposeDirPath =
+    private static readonly string ContentDirPath =
         IsDevModeBuild
-            ? Path.Combine(SolutionRootPath!, "Build")
+            ? Path.Combine(SolutionRootPath!, "Source", "Content")
             : Path.Combine(AppBaseDir);
 
     private const string LauncherExecutableFileName = "BMLauncher.exe";
@@ -76,19 +75,25 @@ public static class Paths
             : Path.Combine(AppBaseDir, LauncherExecutableFileName);
 
     /// <summary>Directory with the resources distributed alongside tha game. Read-only access.</summary>
-    public static readonly string BundledResourceDir = AllPurposeDirPath;
+    public static readonly string BundledResourceDir = ContentDirPath;
 
     /// <summary>Directory for the downloaded resources. Read + write access.</summary>
-    public static readonly string DownloadedResourceDir = AllPurposeDirPath;
+    // TODO: Better download path, like the user Downloads folder or AppData
+    public static readonly string DownloadedResourceDir = ContentDirPath;
 
     /// <summary>Directory with the game configuration files. Read + write access.</summary>
-    public static readonly string ConfigDirPath = AllPurposeDirPath;
+    public static readonly string ConfigDirPath =
+        IsDevModeBuild
+            ? Path.Combine(SolutionRootPath!, "Source", "Config", "Debug")
+            : Path.Combine(AppBaseDir); // TODO: Better path for r+w files in release, like AppData
 
     /// <summary>Directory for the log files. Write access.</summary>
-    public static readonly string LogDirPath = AllPurposeDirPath;
+    // TODO: Logs in production should be moved to another place
+    public static readonly string LogDirPath = AppBaseDir;
 
     /// <summary>Directory for screenshots. Write access.</summary>
-    public static readonly string ScreenshotsDirPath = Path.Combine(AllPurposeDirPath, "Screenshots");
+    // TODO: Write screenshots to the user documents folder
+    public static readonly string ScreenshotsDirPath = Path.Combine(AppBaseDir, "Screenshots");
 
     /// <summary>Directory for temporary data. Read + write access.</summary>
     public static readonly string TempDirPath = Directory.CreateTempSubdirectory(prefix: "Bloodmasters").FullName;
