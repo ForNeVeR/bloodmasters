@@ -8,11 +8,11 @@
 // The DirectSound class contains functions for DirectSound related
 // functionality which are used throughout this engine. Bla.
 
-using FireAndForgetAudioSample;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using FireAndForgetAudioSample;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -57,7 +57,8 @@ namespace CodeImp.Bloodmasters.Client
 		private static Vector2D listenpos;
 		private static List<ISound> playingsounds = new();
 
-        public static Hashtable AllSounds
+        // TODO: Why do we need this?
+        public static Dictionary<string, ISound> AllSounds
         {
             get { return sounds; }
         }
