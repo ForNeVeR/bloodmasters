@@ -2,11 +2,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bloodmasters.Client", "Client\Bloodmasters.Client.csproj", "{406F2DC0-ED64-4D82-A75C-12DFC3300A66}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Client", "Client\Bloodmasters.Client.csproj", "{406F2DC0-ED64-4D82-A75C-12DFC3300A66}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bloodmasters.Launcher", "Launcher\Bloodmasters.Launcher.csproj", "{0232A66E-1D9B-483C-88A3-432F4EE78D12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Launcher", "Launcher\Bloodmasters.Launcher.csproj", "{0232A66E-1D9B-483C-88A3-432F4EE78D12}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bloodmasters.Tests", "Tests\Bloodmasters.Tests.csproj", "{45784815-6BB5-47B0-A4EA-78E3B1A4E098}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Tests", "Tests\Bloodmasters.Tests.csproj", "{45784815-6BB5-47B0-A4EA-78E3B1A4E098}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{EB72F3E9-ECD2-4653-AE18-5D10614ADBAA}"
 	ProjectSection(SolutionItems) = preProject
@@ -33,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\.gitignore = ..\.gitignore
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bloodmasters.Server", "Server\Bloodmasters.Server.csproj", "{34A2FA5F-08A5-4464-82AD-BEC71C200352}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Server", "Server\Bloodmasters.Server.csproj", "{34A2FA5F-08A5-4464-82AD-BEC71C200352}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
