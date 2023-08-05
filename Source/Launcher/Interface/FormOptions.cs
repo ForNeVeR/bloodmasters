@@ -5,8 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-using System.Collections;
-using System.Collections.Specialized;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using SharpDX.Direct3D9;
 
@@ -15,8 +14,8 @@ namespace CodeImp.Bloodmasters.Launcher
 	public class FormOptions : System.Windows.Forms.Form
 	{
 		private int last_fsaa;
-		private DisplayMode last_mode;
-		private ListDictionary controlkeys = new ListDictionary();
+		private DisplayModeEx last_mode;
+		private Dictionary<string, int> controlkeys = new();
 		private System.ComponentModel.Container components = null;
 		private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.Button btnCancel;
@@ -119,7 +118,7 @@ namespace CodeImp.Bloodmasters.Launcher
 				int keycode = General.config.ReadSetting("controls/" + c.Tag, (int)Keys.None);
 				if(c.SubItems.Count < 2) c.SubItems.Add("");
 				c.SubItems[1].Text = InputKey.GetKeyName(keycode);
-				controlkeys.Add(c.Tag, keycode);
+				controlkeys.Add((string)c.Tag, keycode);
 			}
 
 			// Other options in control
@@ -1138,23 +1137,23 @@ namespace CodeImp.Bloodmasters.Launcher
 				changed = false;
 
 				// Go for all in controlkeys
-				foreach(DictionaryEntry de in controlkeys)
+				foreach((string key, int value) in controlkeys)
 				{
 					// Not the same action?
-					if((string)de.Key != newaction)
+					if(key != newaction)
 					{
 						// Same control?
-						if((int)de.Value == control)
+						if(value == control)
 						{
 							// Set control to none
-							controlkeys[(string)de.Key] = (int)Keys.None;
+							controlkeys[key] = (int)Keys.None;
 
 							// This needs an update in the list
 							// so go for all items in the list
 							foreach(ListViewItem li in lstControls.Items)
 							{
 								// Check if this is the matching item
-								if((string)li.Tag == (string)de.Key)
+								if((string)li.Tag == key)
 								{
 									// Update the control displayed on this item
 									li.SubItems[1].Text = InputKey.GetKeyName((int)Keys.None);
@@ -1193,9 +1192,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			General.config.WriteSetting("teamcolorednames", chkTeamColoredNames.Checked);
 
 			// Apply controls
-			foreach(DictionaryEntry de in controlkeys)
+			foreach((string key, int value) in controlkeys)
 			{
-				General.config.WriteSetting("controls/" + de.Key, (int)de.Value);
+				General.config.WriteSetting("controls/" + key, value);
 			}
 
 			// Apply other options in controls
@@ -1307,7 +1306,7 @@ namespace CodeImp.Bloodmasters.Launcher
 				ListViewItem item = lstControls.SelectedItems[0];
 
 				// Get the key associated with the control
-				int keycode = (int)controlkeys[item.Tag];
+				int keycode = controlkeys[(string)item.Tag];
 
 				// Enable controls
 				lblAction.Enabled = true;
@@ -1354,17 +1353,19 @@ namespace CodeImp.Bloodmasters.Launcher
 				// Anything in combo selected?
 				if(cmbControl.SelectedItem != null)
 				{
+                    string itemTag = (string)item.Tag;
+
 					// Check if actually changing
-					if((int)controlkeys[item.Tag] != (int)cmbControl.SelectedItem)
+					if(controlkeys[itemTag] != (int)cmbControl.SelectedItem)
 					{
 						// Change the control
 						item.SubItems[1].Text = cmbControl.SelectedItem.ToString();
-						controlkeys[item.Tag] = (int)cmbControl.SelectedItem;
+						controlkeys[itemTag] = (int)cmbControl.SelectedItem;
 						cmbControl.SelectionLength = 0;
 						cmbControl.SelectionStart = cmbControl.Text.Length;
 
 						// Clear this control from any other actions
-						ClearExistingControl((string)item.Tag, (int)cmbControl.SelectedItem);
+						ClearExistingControl(itemTag, (int)cmbControl.SelectedItem);
 					}
 				}
 			}
@@ -1405,18 +1406,20 @@ namespace CodeImp.Bloodmasters.Launcher
 				// Get the selected item
 				ListViewItem item = lstControls.SelectedItems[0];
 
+                string itemTag = (string)item.Tag;
+
 				// Check if actually changing
-				if((int)controlkeys[item.Tag] != (int)e.KeyCode)
+				if(controlkeys[itemTag] != (int)e.KeyCode)
 				{
 					// Change the control
 					item.SubItems[1].Text = e.KeyCode.ToString();
-					controlkeys[item.Tag] = (int)e.KeyCode;
+					controlkeys[itemTag] = (int)e.KeyCode;
 					cmbControl.Text = e.KeyCode.ToString();
 					cmbControl.SelectionLength = 0;
 					cmbControl.SelectionStart = cmbControl.Text.Length;
 
 					// Clear this control from any other actions
-					ClearExistingControl((string)item.Tag, (int)e.KeyCode);
+					ClearExistingControl(itemTag, (int)e.KeyCode);
 				}
 			}
 

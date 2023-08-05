@@ -4,4 +4,7 @@
         <ProductName>Bloodmasters</ProductName>
         <Copyright>Pascal vd Heiden, www.codeimp.com; Copyright © Bloodmasters contributors 2023</Copyright>
     </PropertyGroup>
+    <PropertyGroup>
+        <LangVersion>11</LangVersion>
+    </PropertyGroup>
 </Project>

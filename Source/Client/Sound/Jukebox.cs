@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-using System.Collections;
+using System;
 using System.IO;
 
 namespace CodeImp.Bloodmasters.Client
@@ -43,7 +43,7 @@ namespace CodeImp.Bloodmasters.Client
 			volume = (float)General.config.ReadSetting("musicvolume", 50) / 100f;
 
 			// Make playlist from directory
-			string musicdir = Path.Combine(General.apppath, "Music");
+			string musicdir = Path.Combine(Paths.BundledResourceDir, "Music");
 			playlist = Directory.GetFiles(musicdir, "*.mp3");
 
 			// Randomize playlist?
@@ -68,10 +68,8 @@ namespace CodeImp.Bloodmasters.Client
 			else
 			{
 				// Sort list alphabetically
-				ArrayList sorter = new ArrayList(playlist);
-				sorter.Sort();
-				playlist = (string[])sorter.ToArray(typeof(string));
-			}
+                Array.Sort(playlist);
+            }
 
 			// Start playing the first track
 			if(playlist.Length > 0)

@@ -5,12 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
-
 namespace CodeImp.Bloodmasters.Server
 {
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple=true, Inherited=false)]

@@ -415,7 +415,7 @@ namespace CodeImp.Bloodmasters.Client
 				if(SharedGeneral.currenttime % 300 < 150) cursor = INPUT_CURSOR;
 
 				// Update the input resource
-				panelinput.Text = INPUT_PROMPT + General.TrimColorCodes(inputstr) + cursor;
+				panelinput.Text = INPUT_PROMPT + Markup.TrimColorCodes(inputstr) + cursor;
 			}
 		}
 
@@ -545,7 +545,7 @@ namespace CodeImp.Bloodmasters.Client
 				int firstspace = cmdline.IndexOf(" ");
 				if(firstspace == -1) firstspace = cmdline.Length;
 				cmd = cmdline.Substring(0, firstspace).ToLower();
-				cmd = General.StripColorCodes(cmd);
+				cmd = Markup.StripColorCodes(cmd);
 
 				// Arguments?
 				if(firstspace + 1 > cmdline.Length)
@@ -591,7 +591,7 @@ namespace CodeImp.Bloodmasters.Client
 		private void hCallvote(string args)
 		{
 			// Anything command given?
-			if(General.StripColorCodes(args).Trim() != "")
+			if(Markup.StripColorCodes(args).Trim() != "")
 			{
 				// Send comamnd to server
 				NetMessage msg = General.conn.CreateMessage(MsgCmd.CallvoteRequest, true);
@@ -635,7 +635,7 @@ namespace CodeImp.Bloodmasters.Client
 		private void hName(string args)
 		{
 			// Anything to change name into?
-			if(General.StripColorCodes(args).Trim() != "")
+			if(Markup.StripColorCodes(args).Trim() != "")
 			{
 				// Send rename message to server
 				NetMessage msg = General.conn.CreateMessage(MsgCmd.PlayerNameChange, true);
@@ -664,7 +664,7 @@ namespace CodeImp.Bloodmasters.Client
 		{
 			// Make path and filename
 			string filename = General.mapname + "_" + DateTime.Now.ToString("MM\\_dd\\_yyyy\\_HH\\_mm\\_ss") + ".png";
-			string pathname = Path.Combine(General.apppath, "Screenshots");
+			string pathname = Path.Combine(Paths.ScreenshotsDirPath);
 			string filepathname = Path.Combine(pathname, filename);
 
 			// Ensure screenshots directory exists
@@ -679,7 +679,7 @@ namespace CodeImp.Bloodmasters.Client
 		private void hKill(string args)
 		{
 			// No argument given?
-			if(General.StripColorCodes(args).Trim() == "")
+			if(Markup.StripColorCodes(args).Trim() == "")
 			{
 				// Send message to server
 				NetMessage msg = General.conn.CreateMessage(MsgCmd.Suicide, true);
@@ -688,7 +688,7 @@ namespace CodeImp.Bloodmasters.Client
 			else
 			{
 				// Show usage
-				AddMessage("No arguments, no \"" + General.StripColorCodes(args).Trim() + "\", just kill yourself!", false);
+				AddMessage("No arguments, no \"" + Markup.StripColorCodes(args).Trim() + "\", just kill yourself!", false);
 			}
 		}
 
@@ -781,7 +781,7 @@ namespace CodeImp.Bloodmasters.Client
 		private void hSay(string args)
 		{
 			// Anything to say?
-			if(General.StripColorCodes(args).Trim() != "")
+			if(Markup.StripColorCodes(args).Trim() != "")
 			{
 				// Send say message to server
 				NetMessage msg = General.conn.CreateMessage(MsgCmd.SayMessage, true);
@@ -802,7 +802,7 @@ namespace CodeImp.Bloodmasters.Client
 		private void hSayTeam(string args)
 		{
 			// Anything to say?
-			if(General.StripColorCodes(args).Trim() != "")
+			if(Markup.StripColorCodes(args).Trim() != "")
 			{
 				// Send say team message to server
 				NetMessage msg = General.conn.CreateMessage(MsgCmd.SayTeamMessage, true);
@@ -823,7 +823,7 @@ namespace CodeImp.Bloodmasters.Client
 		private void hRCon(string args)
 		{
 			// Anything to rcon?
-			if(General.StripColorCodes(args).Trim() != "")
+			if(Markup.StripColorCodes(args).Trim() != "")
 			{
 				// Send rcon arguments to server
 				NetMessage msg = General.conn.CreateMessage(MsgCmd.Command, true);
@@ -853,7 +853,7 @@ namespace CodeImp.Bloodmasters.Client
 			int newvalue;
 
 			// New ping given?
-			if(General.StripColorCodes(args).Trim() != "")
+			if(Markup.StripColorCodes(args).Trim() != "")
 			{
 				try { newvalue = int.Parse(args); } catch(Exception) { newvalue = 0; }
 				if(newvalue >= 0)
@@ -877,7 +877,7 @@ namespace CodeImp.Bloodmasters.Client
 			int newvalue;
 
 			// New loss given?
-			if(General.StripColorCodes(args).Trim() != "")
+			if(Markup.StripColorCodes(args).Trim() != "")
 			{
 				try { newvalue = int.Parse(args); } catch(Exception) { newvalue = 0; }
 				if((newvalue >= 0) && (newvalue <= 100))
@@ -901,12 +901,12 @@ namespace CodeImp.Bloodmasters.Client
 			StreamWriter log = null;
 
 			// Filename given?
-			if(General.StripColorCodes(args).Trim() != "")
+			if(Markup.StripColorCodes(args).Trim() != "")
 			{
 				try
 				{
-					// When no path given, write to current directory
-					Directory.SetCurrentDirectory(General.apppath);
+					// When no path given, write to the log directory
+					Directory.SetCurrentDirectory(Paths.LogDirPath);
 
 					// Open the log file
 					log = File.CreateText(args);
@@ -915,7 +915,7 @@ namespace CodeImp.Bloodmasters.Client
 					foreach(string l in alllines)
 					{
 						// Output line to log file
-						log.WriteLine(General.StripColorCodes(l));
+						log.WriteLine(Markup.StripColorCodes(l));
 					}
 
 					// Close the log file

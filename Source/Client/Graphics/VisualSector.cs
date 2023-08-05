@@ -6,7 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using CodeImp.Bloodmasters.Client.Graphics;
 using SharpDX;
@@ -34,7 +34,7 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Variables
 
 		// Reference to sector data
-		private ArrayList sectors;
+		private List<ClientSector> sectors;
 		private int index;
 
 		// This is set to true when sector is in screen
@@ -51,14 +51,14 @@ namespace CodeImp.Bloodmasters.Client
 		private VertexBuffer shadowvertices = null;
 
 		// SectorShadows on this sector
-		private ArrayList sectorshadows;
+		private List<SectorShadow> sectorshadows;
 
 		// Sidedefs in this sector
-		private ArrayList sidedefs;
+		private List<VisualSidedef> sidedefs;
 
 		// Floor and ceiling textures
-		private ArrayList tfloors;
-		private ArrayList tceils;
+		private List<ITextureResource> tfloors;
+		private List<ITextureResource> tceils;
 
 		// Heights
 		private float lowestfloor;
@@ -83,7 +83,7 @@ namespace CodeImp.Bloodmasters.Client
 		private int debugcolor = 0;
 
 		// Lists of nearby lights
-		private ArrayList lights = new ArrayList();
+        private List<StaticLight> lights = new();
 
 		#endregion
 
@@ -100,13 +100,13 @@ namespace CodeImp.Bloodmasters.Client
 		public Texture Lightmap { get { return lightmap; } }
 		public bool InScreen { get { return inscreen; } }
 		public bool DynamicLightmap { get { return dynamiclightmap; } }
-		public ArrayList Sectors { get { return sectors; } }
-		public ArrayList VisualSidedefs { get { return sidedefs; } }
+		public List<ClientSector> Sectors { get { return sectors; } }
+		public List<VisualSidedef> VisualSidedefs { get { return sidedefs; } }
 		public int LightmapSize { get { return lightmapsize; } }
 		public float LightmapUnit { get { return lightmapunit; } }
 		public float LowestFloor { get { return lowestfloor; } }
 		public float HighestFloor { get { return highestfloor; } }
-		public ArrayList Lights { get { return lights; } }
+		public List<StaticLight> Lights { get { return lights; } }
 		public int AmbientLight { get { return ambientlight; } }
 		public bool FixedLight { get { return fixedlight; } }
 		public int Index { get { return index; } }
@@ -119,10 +119,10 @@ namespace CodeImp.Bloodmasters.Client
 		public VisualSector(ClientSector sector)
 		{
 			// Make arrays
-			sectors = new ArrayList();
-			tfloors = new ArrayList();
-			tceils = new ArrayList();
-			sectorshadows = new ArrayList();
+			sectors = new List<ClientSector>();
+			tfloors = new List<ITextureResource>();
+			tceils = new List<ITextureResource>();
+			sectorshadows = new List<SectorShadow>();
 
 			// Make references
 			sectors.Add(sector);
@@ -181,7 +181,7 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Make list of sidedefs
-			sidedefs = new ArrayList();
+			sidedefs = new List<VisualSidedef>();
 			foreach(SubSector ss in sector.Subsectors)
 			{
 				// Go for all segments
@@ -241,7 +241,7 @@ namespace CodeImp.Bloodmasters.Client
 		public void WriteSectorDebugInfo(StreamWriter writer)
 		{
 			// Go for all sectors
-			foreach(Sector ss in sectors)
+			foreach(ClientSector ss in sectors)
 			{
 				// Output information
 				writer.WriteLine("   Sector " + ss.Index);
@@ -351,7 +351,7 @@ namespace CodeImp.Bloodmasters.Client
 		public bool CanBeVisible(int fromsector)
 		{
 			// Go for all sectors
-			foreach(Sector s in sectors)
+			foreach(ClientSector s in sectors)
 			{
 				// Return true when any portion is visible
 				if(General.map.RejectMap.CanBeVisible(fromsector, s.Index))
@@ -623,21 +623,21 @@ namespace CodeImp.Bloodmasters.Client
 			ClientSector sc;
 			int i;
 			float lmtop = 0f;
-			ArrayList newverts;
+            List<MVertex> newverts;
 
 			// Make shadows geometry
 			MakeSectorShadows();
 
 			// This will temporarely hold the vertices
-			ArrayList verts = new ArrayList();
+            List<MVertex> verts = new List<MVertex>();
 
 			// Go for all sectors
 			for(i = 0; i < sectors.Count; i++)
 			{
 				// Get the sector and textures
-				sc = (ClientSector)sectors[i];
-				tc = (ITextureResource)tceils[i];
-				tf = (ITextureResource)tfloors[i];
+				sc = sectors[i];
+				tc = tceils[i];
+				tf = tfloors[i];
 
 				// Floor?
 				if(tf != null)
@@ -693,7 +693,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Create vertex buffer
 				mapvertices = new VertexBuffer(Direct3D.d3dd, sizeof(MVertex) * verts.Count,
-							Usage.WriteOnly, MVertex.Format, Pool.Managed);
+							Usage.WriteOnly, MVertex.Format, Pool.Default);
 
 				// Lock vertex buffer
 				var vertsa = mapvertices.Lock<MVertex>(0, verts.Count);
@@ -724,12 +724,12 @@ namespace CodeImp.Bloodmasters.Client
 		}
 
 		// This builds floor vertices for subsectors
-		private ArrayList MakeSubSectorPolygon(SubSector s, bool floor, ITextureResource tex)
+		private List<MVertex> MakeSubSectorPolygon(SubSector s, bool floor, ITextureResource tex)
 		{
 			MVertex v1, v2, v3;
 
 			// This will temporarely hold the vertices
-			ArrayList verts = new ArrayList();
+            List<MVertex> verts = new List<MVertex>();
 
 			// First vertex is always begin of first segment
 			v1 = MakeSectorVertex(s.Segments[0].v1, s, floor, tex);
@@ -803,13 +803,13 @@ namespace CodeImp.Bloodmasters.Client
 			SectorShadow ss;
 
 			// This will temporarely hold the vertices
-			ArrayList verts = new ArrayList();
+            List<TLVertex> verts = new List<TLVertex>();
 
 			// Determine in which area linedefs should be used
 			RectangleF shadowarea = RectangleEx.Inflate(secbounds, 10f, 10f);
 
 			// Go for all nearby linedefs
-			ArrayList lines = General.map.BlockMap.GetCollisionLines(shadowarea.ToSystemDrawing());
+            List<Linedef> lines = General.map.BlockMap.GetCollisionLines(shadowarea.ToSystemDrawing());
 			foreach(Linedef l in lines)
 			{
 				// Make sector shadow
@@ -893,7 +893,7 @@ namespace CodeImp.Bloodmasters.Client
 			for(int i = 0; i < sectors.Count; i++)
 			{
 				// Get the sector
-				sc = (ClientSector)sectors[i];
+				sc = sectors[i];
 
 				// Does it have a floor?
 				if(tfloors[i] != null)
@@ -932,8 +932,8 @@ namespace CodeImp.Bloodmasters.Client
 				for(i = 0; i < sectors.Count; i++)
 				{
 					// Get the sector and texture
-					sc = (ClientSector)sectors[i];
-					t = (ITextureResource)tceils[i];
+					sc = sectors[i];
+					t = tceils[i];
 
 					// Ceiling?
 					if(t != null)
@@ -954,8 +954,8 @@ namespace CodeImp.Bloodmasters.Client
 				for(i = 0; i < sectors.Count; i++)
 				{
 					// Get the sector and texture
-					sc = (ClientSector)sectors[i];
-					t = (ITextureResource)tfloors[i];
+					sc = sectors[i];
+					t = tfloors[i];
 
 					// Floor?
 					if(t != null)

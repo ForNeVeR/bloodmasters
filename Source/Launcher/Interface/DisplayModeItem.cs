@@ -12,10 +12,10 @@ namespace CodeImp.Bloodmasters.Launcher
 {
 	public struct DisplayModeItem : IComparable
 	{
-		public DisplayMode mode;
+		public DisplayModeEx mode;
 
 		// Constructor
-		public DisplayModeItem(DisplayMode m)
+		public DisplayModeItem(DisplayModeEx m)
 		{
 			mode = m;
 		}

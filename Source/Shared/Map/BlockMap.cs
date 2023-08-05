@@ -6,7 +6,6 @@
 \********************************************************************/
 
 using System;
-using System.Collections;
 using System.Drawing;
 using System.IO;
 
@@ -27,7 +26,7 @@ namespace CodeImp.Bloodmasters
 		private Map map;
 
 		// Blockmap
-		private ArrayList[,] blocks;
+		private List<Linedef>[,] blocks;
 		private int cols;
 		private int rows;
 		private float ox;
@@ -60,9 +59,9 @@ namespace CodeImp.Bloodmasters
 			cols = data.ReadUInt16();
 			rows = data.ReadUInt16();
 
-			// Make blockmap array and an
+			// Make blockmap list and an
 			// array to keep the offsets
-			blocks = new ArrayList[cols, rows];
+			blocks = new List<Linedef>[cols, rows];
 			int[,] offsets = new int[cols, rows];
 
 			// Go for all rows and columns
@@ -83,7 +82,7 @@ namespace CodeImp.Bloodmasters
 				for(int c = 0; c < cols; c++)
 				{
 					// Make a list for the linedefs
-					blocks[c, r] = new ArrayList();
+					blocks[c, r] = new List<Linedef>();
 
 					// Seek to the offset for this block
 					data.BaseStream.Seek(offsets[c, r], SeekOrigin.Begin);
@@ -117,7 +116,7 @@ namespace CodeImp.Bloodmasters
 		#region ================== Methods
 
 		// This returns the nearby lines for a specific line
-		public ArrayList GetCollisionLines(float x1, float y1, float x2, float y2)
+		public List<Linedef> GetCollisionLines(float x1, float y1, float x2, float y2)
 		{
 			bool[] lineadded = new bool[map.Linedefs.Length];
 			Vector2D v1, v2;
@@ -128,7 +127,7 @@ namespace CodeImp.Bloodmasters
 			int dirx, diry;
 
 			// Make list for the lines
-			ArrayList lines = new ArrayList(EXPECTED_LINES_PER_TEST);
+            List<Linedef> lines = new List<Linedef>(EXPECTED_LINES_PER_TEST);
 
 			// Adjust coordinates to match blockmap offset
 			v1 = new Vector2D(x1 - ox, y1 - oy);
@@ -216,7 +215,7 @@ namespace CodeImp.Bloodmasters
 
 		// This returns the nearby lines for a specific line and radius
 		// NOTE: Line and radius are used to find the lines in a square region
-		public ArrayList GetCollisionLines(float x1, float y1, float x2, float y2, float radius)
+		public List<Linedef> GetCollisionLines(float x1, float y1, float x2, float y2, float radius)
 		{
 			float l, r, b, t;
 
@@ -235,14 +234,14 @@ namespace CodeImp.Bloodmasters
 		}
 
 		// This returns the nearby lines for a specific position and radius
-		public ArrayList GetCollisionLines(float x, float y, float radius)
+		public List<Linedef> GetCollisionLines(float x, float y, float radius)
 		{
 			// Make region and return lines in region
 			return GetCollisionLines(new RectangleF(x - radius, y - radius, radius * 2, radius * 2));
 		}
 
 		// This returns the lines for a specific region
-		public ArrayList GetCollisionLines(RectangleF region)
+		public List<Linedef> GetCollisionLines(RectangleF region)
 		{
 			bool[] lineadded = new bool[map.Linedefs.Length];
 			int c1, c2, r1, r2, c, r;
@@ -261,7 +260,7 @@ namespace CodeImp.Bloodmasters
 			if(r2 < 0) r2 = 0; else if(r2 >= rows) r2 = rows - 1;
 
 			// Make list for the lines
-			ArrayList lines = new ArrayList(EXPECTED_LINES_PER_TEST);
+            List<Linedef> lines = new List<Linedef>(EXPECTED_LINES_PER_TEST);
 
 			// Add lines to the list
 			for(c = c1; c <= c2; c++)
@@ -273,7 +272,7 @@ namespace CodeImp.Bloodmasters
 		}
 
 		// This adds lines from a block to a list
-		private void AddBlockLines(ArrayList lines, int r, int c, ref bool[] lineadded)
+		private void AddBlockLines(List<Linedef> lines, int r, int c, ref bool[] lineadded)
 		{
 			// Go for all lines
 			foreach(Linedef ld in blocks[c, r])

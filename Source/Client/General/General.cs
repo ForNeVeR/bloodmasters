@@ -19,7 +19,6 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using CodeImp.Bloodmasters.Client.Net;
@@ -39,9 +38,8 @@ namespace CodeImp.Bloodmasters.Client
 
 		// API declarations
 		[DllImport("user32.dll")] public static extern int LockWindowUpdate(IntPtr hwnd);
-		[DllImport("kernel32.dll")] public static extern short QueryPerformanceFrequency(ref long x);
 
-		#region ================== Constants
+        #region ================== Constants
 
 		// Networking
 		public const int CONNECT_TIMEOUT = 30000;
@@ -56,11 +54,9 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Variables
 
 		// Application paths and name
-		public static string apppath = "";
 		public static string appname = "";
-		public static string temppath = "";
 
-		// Filenames
+        // Filenames
 		private static string configfilename = "Bloodmasters.cfg";
 		public static string logfilename = ""; // TODO[#45]: Only used in server code. Remove later.
 
@@ -156,34 +152,24 @@ namespace CodeImp.Bloodmasters.Client
 			Application.EnableVisualStyles();
 			Application.DoEvents();		// This must be here to work around a .NET bug
 
-			// Setup application path
-			Uri localpath = new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase), true);
-			apppath = localpath.AbsolutePath;
-
 			// Setup application name
 			appname = Assembly.GetExecutingAssembly().GetName().Name;
 
-			// Temporary directory (in system temporary directory)
-			do { temppath = Path.Combine(Path.GetTempPath(), RandomString(8)); }
-			while(Directory.Exists(temppath) || File.Exists(temppath));
-
-			// Make temporary directory
-			Directory.CreateDirectory(temppath);
-
-			// Ensure a Music directory exists
-			string musicdir = Path.Combine(General.apppath, "Music");
+            // Ensure a Music directory exists
+			string musicdir = Path.Combine(Paths.BundledResourceDir, "Music");
 			if(!Directory.Exists(musicdir)) Directory.CreateDirectory(musicdir);
 
 			// Open all archives with archivemanager
-			ArchiveManager.Initialize(General.apppath, General.temppath);
-			ArchiveManager.OpenArchive(Path.Combine(General.apppath, "sprites"));
+			ArchiveManager.Initialize(Paths.BundledResourceDir);
+			ArchiveManager.OpenArchive(Path.Combine(Paths.BundledResourceDir, "sprites"));
 
 			// Setup filenames
-			configfilename = Path.Combine(General.apppath, configfilename);
-			logfilename = Path.Combine(apppath, appname + ".log");
+			configfilename = Path.Combine(Paths.ConfigDirPath, configfilename);
+			logfilename = Path.Combine(Paths.LogDirPath, appname + ".log");
 
 			// Get the high resolution clock frequency
-			if(QueryPerformanceFrequency(ref timefrequency) == 0)
+            timefrequency = TimeProvider.System.TimestampFrequency;
+			if(timefrequency == 0)
 			{
 				// No high resolution clock available
 				timefrequency = -1;
@@ -342,8 +328,8 @@ namespace CodeImp.Bloodmasters.Client
 			ArchiveManager.Dispose();
 
 			// Delete the temporary directory
-			if(General.temppath != "")
-				try { Directory.Delete(General.temppath, true); } catch(Exception) { }
+			if(!string.IsNullOrEmpty(Paths.TempDirPath))
+				try { Directory.Delete(Paths.TempDirPath, true); } catch(Exception) { }
 
 			// End of program
 			Application.Exit();
@@ -394,7 +380,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(!File.Exists(allargs))
 			{
 				// Try in local path
-				if(!File.Exists(Path.Combine(apppath, allargs)))
+				if(!File.Exists(Path.Combine(Paths.ConfigDirPath, allargs)))
 				{
 					// Cannot find configuration
 					MessageBox.Show("Unable to load the configuration file " + Path.GetFileName(allargs) + ".", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -403,7 +389,7 @@ namespace CodeImp.Bloodmasters.Client
 				else
 				{
 					// Its in the local path
-					allargs = Path.Combine(apppath, allargs);
+					allargs = Path.Combine(Paths.ConfigDirPath, allargs);
 				}
 			}
 
@@ -2007,7 +1993,7 @@ namespace CodeImp.Bloodmasters.Client
 			clients[localclientid] = General.localclient;
 
 			// Load the map
-			try { map = new ClientMap(mapname, false, temppath); }
+			try { map = new ClientMap(mapname, false, Paths.TempDirPath); }
 			catch(FileNotFoundException) { return "You do not have the map \"" + mapname + "\"."; }
 
 			// Load the arena
@@ -2214,7 +2200,9 @@ namespace CodeImp.Bloodmasters.Client
 
 		// This load the application
 		private static void _Main(string[] args)
-		{
+        {
+            Host.Instance = new ClientHost();
+
 			string deviceerror = null;
 
 			// No arguments give nat all?
@@ -2222,8 +2210,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// No proper commands given
 				// Run the standard launcher
-				try { Process.Start(Path.Combine(apppath, "BMLauncher.exe")); }
-				catch(Exception) { }
+                Process.Start(Paths.LauncherExecutablePath);
 				return;
 			}
 
@@ -2273,7 +2260,7 @@ namespace CodeImp.Bloodmasters.Client
                                     serverrunning = true;
 
                                     // Correct path if needed
-                                    if (!File.Exists(hostfile)) hostfile = Path.Combine(apppath, hostfile);
+                                    if (!File.Exists(hostfile)) hostfile = Path.Combine(Paths.ConfigDirPath, hostfile);
 
                                     // Load server configuration
                                     Configuration scfg = new Configuration(true);
@@ -2295,7 +2282,7 @@ namespace CodeImp.Bloodmasters.Client
                                     serverrunning = true;
 
                                     // Correct path if needed
-                                    if (!File.Exists(dedfile)) hostfile = Path.Combine(apppath, dedfile);
+                                    if (!File.Exists(dedfile)) hostfile = Path.Combine(Paths.ConfigDirPath, dedfile);
 
                                     // Load server configuration
                                     Configuration scfg = new Configuration(true);
@@ -2479,37 +2466,6 @@ namespace CodeImp.Bloodmasters.Client
 
 			// Return power
 			return (int)Math.Pow(2, p);
-		}
-
-		// This trims the last color code from a string
-		public static string TrimColorCodes(string str)
-		{
-			// Remove all color code signs from the end of the string
-			return str.TrimEnd(Consts.COLOR_CODE_SIGN.ToCharArray());
-		}
-
-		// This strips color codes from a string
-		public static string StripColorCodes(string str)
-		{
-			StringBuilder result = new StringBuilder(str.Length);
-
-			// Split the string by color code
-			string[] pieces = str.Split(Consts.COLOR_CODE_SIGN.ToCharArray());
-
-			// Go for all pieces and append them
-			result.Append(pieces[0]);
-			for(int i = 1; i < pieces.Length; i++)
-			{
-				// Not an empty string?
-				if(pieces[i] != "")
-				{
-					// Append everything except the first character
-					result.Append(pieces[i].Substring(1));
-				}
-			}
-
-			// Return final string
-			return result.ToString();
 		}
 
 		// This creates a string of random ASCII chars

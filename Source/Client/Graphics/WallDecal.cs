@@ -6,7 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using CodeImp.Bloodmasters.Client.Graphics;
 using SharpDX;
 using SharpDX.Direct3D9;
@@ -138,7 +138,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(!Decal.showdecals) return null;
 
 			// Get all lines near rectangle
-			ArrayList lines = General.map.BlockMap.GetCollisionLines(nx, ny, size);
+            List<Linedef> lines = General.map.BlockMap.GetCollisionLines(nx, ny, size);
 			if(lines.Count > 0)
 			{
 				// Get the nearest line

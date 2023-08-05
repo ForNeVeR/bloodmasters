@@ -12,7 +12,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -28,11 +27,9 @@ namespace CodeImp.Bloodmasters.Launcher
 		#region ================== Variables
 
 		// Paths and names
-		public static string apppath = "";
 		public static string appname = "";
-		public static string temppath = "";
 
-		// Configuration
+        // Configuration
 		public static Configuration config;
 
 		// Filenames
@@ -65,26 +62,16 @@ namespace CodeImp.Bloodmasters.Launcher
 		{
 			// Enable OS visual styles
 			Application.EnableVisualStyles();
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
 			Application.DoEvents();		// This must be here to work around a .NET bug
-
-			// Setup application path
-			Uri localpath = new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase), true);
-			apppath = localpath.AbsolutePath;
 
 			// Setup application name
 			appname = Assembly.GetExecutingAssembly().GetName().Name;
 
-			// Temporary directory (in system temporary directory)
-			do { temppath = Path.Combine(Path.GetTempPath(), RandomString(8)); }
-			while(Directory.Exists(temppath) || File.Exists(temppath));
-
-			// Make temporary directory
-			Directory.CreateDirectory(temppath);
-
-			// Setup filenames
-			configfilename = Path.Combine(General.apppath, configfilename);
-			logfilename = Path.Combine(apppath, appname + ".log");
-			ip2countryfilename = Path.Combine(General.apppath, ip2countryfilename);
+            // Setup filenames
+			configfilename = Path.Combine(Paths.ConfigDirPath, configfilename);
+			logfilename = Path.Combine(Paths.LogDirPath, appname + ".log");
+			ip2countryfilename = Path.Combine(Paths.BundledResourceDir, ip2countryfilename);
 
 			// Initialize DirectX
 			try { Direct3D.InitDX(); }
@@ -165,7 +152,7 @@ namespace CodeImp.Bloodmasters.Launcher
 
                         // Open all archives with archivemanager
                         mainwindow.ShowStatus("Loading data archives...");
-                        ArchiveManager.Initialize(General.apppath, General.temppath);
+                        ArchiveManager.Initialize(Paths.BundledResourceDir);
 
                         // Refrehs maps in list
                         mainwindow.RefreshMapsLists();
@@ -266,8 +253,8 @@ namespace CodeImp.Bloodmasters.Launcher
 			ArchiveManager.Dispose();
 
 			// Delete the temporary directory
-			if(General.temppath != "")
-				try { Directory.Delete(General.temppath, true); } catch(Exception) { }
+			if(!string.IsNullOrEmpty(Paths.TempDirPath))
+				try { Directory.Delete(Paths.TempDirPath, true); } catch(Exception) { }
 
 			// End of program
 			Application.Exit();
@@ -404,7 +391,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			mainwindow.ShowStatus("Launching game...");
 
 			// Determine launch filename
-			string launchfile = MakeUniqueFilename(apppath, "launch_", ".cfg");
+			string launchfile = MakeUniqueFilename(Paths.ConfigDirPath, "launch_", ".cfg");
 			serverfile = servfile;
 
 			// Write launch file
@@ -412,8 +399,8 @@ namespace CodeImp.Bloodmasters.Launcher
 
 			// Make the process
 			bmproc = new Process();
-			bmproc.StartInfo.WorkingDirectory = General.apppath;
-			bmproc.StartInfo.FileName = "Bloodmasters.exe";
+			bmproc.StartInfo.FileName = Paths.ClientExecutablePath;
+			bmproc.StartInfo.WorkingDirectory = Path.GetDirectoryName(Paths.ClientExecutablePath);
 			bmproc.StartInfo.Arguments = launchfile;
 			bmproc.StartInfo.CreateNoWindow = false;
 			bmproc.StartInfo.ErrorDialog = false;
@@ -523,7 +510,7 @@ namespace CodeImp.Bloodmasters.Launcher
 		// the problem as a description
 		public static string ValidatePlayerName(string name)
 		{
-			string strippedname = General.StripColorCodes(name);
+			string strippedname = Markup.StripColorCodes(name);
 
 			// Check length
 			if(strippedname.Length < 1)
@@ -596,38 +583,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			return (int)Math.Pow(2, p);
 		}
 
-		// This trims the last color code from a string
-		public static string TrimColorCodes(string str)
-		{
-			// Remove all color code signs from the end of the string
-			return str.TrimEnd(Consts.COLOR_CODE_SIGN.ToCharArray());
-		}
-
-		// This strips color codes from a string
-		public static string StripColorCodes(string str)
-		{
-			StringBuilder result = new StringBuilder(str.Length);
-
-			// Split the string by color code
-			string[] pieces = str.Split(Consts.COLOR_CODE_SIGN.ToCharArray());
-
-			// Go for all pieces and append them
-			result.Append(pieces[0]);
-			for(int i = 1; i < pieces.Length; i++)
-			{
-				// Not an empty string?
-				if(pieces[i] != "")
-				{
-					// Append everything except the first character
-					result.Append(pieces[i].Substring(1));
-				}
-			}
-
-			// Return final string
-			return result.ToString();
-		}
-
-		// This creates a string of random ASCII chars
+     	// This creates a string of random ASCII chars
 		public static string RandomString(int len)
 		{
 			string result = "";

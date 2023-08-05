@@ -10,7 +10,7 @@
 
 using FireAndForgetAudioSample;
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
@@ -47,7 +47,7 @@ namespace CodeImp.Bloodmasters.Client
 		// TODO[#16]: private static Microsoft.DirectX.DirectSound.Buffer dspb;
 
 		// Resources
-		private static Hashtable sounds = new Hashtable();
+		private static Dictionary<string, ISound> sounds = new();
 
 		// Settings
 		public static bool playeffects;
@@ -55,7 +55,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		// 3D Sound
 		private static Vector2D listenpos;
-		private static ArrayList playingsounds = new ArrayList();
+		private static List<ISound> playingsounds = new();
 
         public static Hashtable AllSounds
         {
@@ -239,7 +239,7 @@ namespace CodeImp.Bloodmasters.Client
 			//if(!DirectSound.playeffects) return new NullSound();
 
 			// Return sound object if it exists
-			if(!sounds.Contains(filename))
+			if(!sounds.TryGetValue(filename, out ISound snd))
 			{
 				// Error, sound not loaded
 				if(General.console != null) General.console.AddMessage("Sound file \"" + filename + "\" is not loaded.", true);
@@ -247,7 +247,7 @@ namespace CodeImp.Bloodmasters.Client
             }
 
             // Return sound
-            string newsnd = (string)sounds[filename];// TODO[#16]: ISound newsnd = new Sound((Sound)sounds[filename], positional);
+            string newsnd = (string)sounds[filename];// TODO[#16]: ISound newsnd = new Sound(snd, positional);
             return newsnd;
 		}
 
@@ -297,7 +297,7 @@ namespace CodeImp.Bloodmasters.Client
 		// This checks if a sound exists
 		public static bool SoundExists(string filename)
 		{
-			return sounds.Contains(filename);
+			return sounds.ContainsKey(filename);
 		}
 
 		// This creates a new sound
@@ -313,7 +313,7 @@ namespace CodeImp.Bloodmasters.Client
             string s; // TODO[#16]: ISound s
 
             // Check if not already exists
-            if (sounds.Contains(filename) == false)
+            if (sounds.ContainsKey(filename) == false)
 			{
 				// Not playing sounds?
 				if(!DirectSound.playeffects)
@@ -340,16 +340,12 @@ namespace CodeImp.Bloodmasters.Client
 		// This destroys a sound
 		public static void DestroySound(string filename)
 		{
-			//// Check if sound exists
-			//if(sounds.Contains(filename))
+			//// Remove from collection if sound exists
+			//if(sounds.Remove(filename, out ISound s))
 			//{
 			//	// Dispose it
-			//	ISound s = (ISound)sounds[filename];
-			//	s.Dispose();
-
-			//	// Remove from collection
-			//	sounds.Remove(filename);
-			//}
+            //    s.Dispose();
+            //}
 		}
 
 		// This destroys all resources
@@ -359,7 +355,7 @@ namespace CodeImp.Bloodmasters.Client
 			//for(int i = playingsounds.Count - 1; i >= 0; i--)
 			//{
 			//	// Get the sound
-			//	ISound s = (ISound)playingsounds[i];
+			//	ISound s = playingsounds[i];
 
 			//	// Dispose it
 			//	s.Dispose();
@@ -367,11 +363,10 @@ namespace CodeImp.Bloodmasters.Client
 			//playingsounds.Clear();
 
 			//// Go for all sounds
-			//foreach(DictionaryEntry de in sounds)
+			//foreach(ISound s in sounds.Values)
 			//{
 			//	// Dispose it
-			//	ISound s = (ISound)de.Value;
-			//	s.Dispose();
+            //    s.Dispose();
 			//}
 			//sounds.Clear();
 		}
@@ -387,7 +382,7 @@ namespace CodeImp.Bloodmasters.Client
 			for(int i = playingsounds.Count - 1; i >= 0; i--)
 			{
 				// Get the sound
-				ISound s = (Sound)playingsounds[i];
+				ISound s = playingsounds[i];
 
 				// Update sound
 				s.Update();

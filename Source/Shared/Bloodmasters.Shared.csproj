@@ -8,7 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="NAudio" Version="2.1.0" />
+        <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="8.0.0-preview.6.23329.7" />
+        <PackageReference Include="SharpCompress" Version="0.33.0" />
+        <PackageReference Include="NAudio" Version="2.1.0" />
     </ItemGroup>
 
 </Project>

@@ -267,7 +267,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(text.Length == 0) return;
 
 			// Calculate the number of vertices
-			int numvertices = General.StripColorCodes(text).Length * 4;
+			int numvertices = Markup.StripColorCodes(text).Length * 4;
 
 			// Cannot make this when theres no vertices
 			numfaces = 0;

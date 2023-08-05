@@ -5,10 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
 namespace CodeImp.Bloodmasters.Server
 {
 	public class ProxyDoor : DynamicSector
@@ -62,7 +58,7 @@ namespace CodeImp.Bloodmasters.Server
 
 			// Go for all clients to check if anyone
 			// is in this sector or a proximity sector
-			foreach(Client c in General.server.clients)
+			foreach(Client c in Host.Instance.Server.clients)
 			{
 				// Client in the game?
 				if((c != null) && !c.Loading && !c.Spectator && c.IsAlive)

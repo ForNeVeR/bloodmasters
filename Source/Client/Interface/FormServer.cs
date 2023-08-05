@@ -9,7 +9,6 @@ using System;
 using System.IO;
 using System.Text;
 using System.Drawing;
-using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -23,14 +22,14 @@ namespace CodeImp.Bloodmasters.Client
 		private System.Windows.Forms.Label lblInfo;
 		private System.Windows.Forms.RichTextBox rtbConsole;
 		private System.ComponentModel.Container components = null;
-		
+
 		// Constructor
 		public FormServer()
 		{
 			// Required for Windows Form Designer support
 			InitializeComponent();
 		}
-		
+
 		// Clean up any resources being used.
 		protected override void Dispose( bool disposing )
 		{
@@ -40,11 +39,11 @@ namespace CodeImp.Bloodmasters.Client
 				// Dispose components, if any
 				if(components != null) components.Dispose();
 			}
-			
+
 			// Let superior class know about the dispose
 			base.Dispose(disposing);
 		}
-		
+
 		#region Windows Form Designer generated code
 		/// <summary>
 		/// Required method for Designer support - do not modify
@@ -55,10 +54,10 @@ namespace CodeImp.Bloodmasters.Client
 			this.lblInfo = new System.Windows.Forms.Label();
 			this.rtbConsole = new System.Windows.Forms.RichTextBox();
 			this.SuspendLayout();
-			// 
+			//
 			// lblInfo
-			// 
-			this.lblInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			//
+			this.lblInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.lblInfo.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.lblInfo.Location = new System.Drawing.Point(4, 4);
@@ -67,11 +66,11 @@ namespace CodeImp.Bloodmasters.Client
 			this.lblInfo.TabIndex = 0;
 			this.lblInfo.Text = "Bloodmasters dedicated server is running.  Close this window to stop the server.";
 			this.lblInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
+			//
 			// rtbConsole
-			// 
-			this.rtbConsole.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-				| System.Windows.Forms.AnchorStyles.Left) 
+			//
+			this.rtbConsole.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+				| System.Windows.Forms.AnchorStyles.Left)
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.rtbConsole.BackColor = System.Drawing.Color.Black;
 			this.rtbConsole.DetectUrls = false;
@@ -85,9 +84,9 @@ namespace CodeImp.Bloodmasters.Client
 			this.rtbConsole.Size = new System.Drawing.Size(554, 234);
 			this.rtbConsole.TabIndex = 1;
 			this.rtbConsole.Text = "";
-			// 
+			//
 			// FormServer
-			// 
+			//
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.ClientSize = new System.Drawing.Size(558, 271);
 			this.Controls.Add(this.rtbConsole);
@@ -102,20 +101,20 @@ namespace CodeImp.Bloodmasters.Client
 
 		}
 		#endregion
-		
+
 		// Window closing
 		private void FormServer_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			// Stop the server
 			General.serverrunning = false;
 		}
-		
+
 		// This updates the console
 		public void WriteLine(string text)
 		{
 			Write(text + "\n");
 		}
-		
+
 		// This updates the console
 		public void Write(string text)
 		{
@@ -125,15 +124,15 @@ namespace CodeImp.Bloodmasters.Client
 				// Jump to the end
 				rtbConsole.SelectionStart = int.MaxValue;
 				rtbConsole.SelectionLength = 0;
-				
+
 				// Insert text
 				rtbConsole.AppendText(text);
-				
+
 				// Jump to the end again
 				rtbConsole.SelectionStart = int.MaxValue;
 				rtbConsole.SelectionLength = 0;
 				rtbConsole.ScrollToCaret();
-				
+
 				// Update window
 				this.Update();
 			}

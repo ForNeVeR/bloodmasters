@@ -5,31 +5,21 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
-
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
 namespace CodeImp.Bloodmasters.Server
 {
 	[ServerItem(4002, RespawnTime=0)]
 	public class RedFlag : Flag
 	{
 		#region ================== Constants
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public RedFlag(Thing t) : base(t)
 		{
@@ -37,7 +27,7 @@ namespace CodeImp.Bloodmasters.Server
 			this.thisteam = TEAM.RED;
 			this.otherteam = TEAM.BLUE;
 		}
-		
+
 		#endregion
 	}
 }

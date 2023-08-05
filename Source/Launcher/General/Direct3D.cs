@@ -6,8 +6,8 @@
 \********************************************************************/
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using SharpDX.Direct3D9;
 
@@ -25,13 +25,13 @@ namespace CodeImp.Bloodmasters.Launcher
 
 		#region ================== Variables
 
-        private static SharpDX.Direct3D9.Direct3D _direct3D9Ex;
+        private static Direct3DEx _direct3D9Ex;
 
 		// Devices
 		private static int adapterIndex;
 
 		// Current settings
-		private static DisplayMode displaymode;
+		private static DisplayModeEx displaymode;
 		private static bool displaywindowed;
 		private static bool displaysyncrefresh;
 		private static int displayfsaa;
@@ -50,7 +50,7 @@ namespace CodeImp.Bloodmasters.Launcher
 		public static bool DisplaySyncRefresh { get { return displaysyncrefresh; } set { displaysyncrefresh = value; } }
 		public static int DisplayFSAA { get { return displayfsaa; } set { displayfsaa = value; } }
 		public static int DisplayGamma { get { return displaygamma; } set { displaygamma = value; } }
-		public static DisplayMode DisplayMode { get { return displaymode; } set { displaymode = value; } }
+		public static DisplayModeEx DisplayMode { get { return displaymode; } set { displaymode = value; } }
 
 		#endregion
 
@@ -255,119 +255,13 @@ namespace CodeImp.Bloodmasters.Launcher
 			General.config.WriteSetting("displaydriver", adapterIndex);
 		}
 
-		// This returns a specific display mode
-		public static DisplayMode GetDisplayMode(int index)
-		{
-			int counter = 0;
-
-			// Enumerate all display modes
-			foreach(DisplayMode d in GetAdapterDisplayModes(adapterIndex))
-			{
-				// Return settings if this the mode to use
-				if(index == counter) return d;
-
-				// Next mode
-				counter++;
-			}
-
-			// Nothing
-			return new DisplayMode();
-		}
-
-		#endregion
+        #endregion
 
 		#region ================== Capabilities Validation
 
-		// This finds the closest matching display mode
-		private static bool FindDisplayMode(ref DisplayMode mode, bool windowed, int fsaa)
-		{
-			// In case windowed is true, the display format
-			// must be set to the current format
-			if(windowed) mode.Format = _direct3D9Ex.GetAdapterDisplayMode(adapterIndex).Format;
-
-			// Go for all display modes to find the one specified
-			var allmodes = GetAdapterDisplayModes(adapterIndex);
-			foreach(DisplayMode dm in allmodes)
-			{
-				// Check if this is the same mode
-				if((dm.Width == mode.Width) &&
-				   (dm.Height == mode.Height) &&
-				   (dm.Format == mode.Format) &&
-				   (dm.RefreshRate == mode.RefreshRate))
-				{
-					// Check if this format is supported
-					if(ValidateDisplayMode(dm, windowed))
-					{
-						// Set display mode and return success
-						mode = dm;
-						return true;
-					}
-				}
-			}
-
-			// If the exact mode could not be found,
-			// try searching again, but disregard the refreshrate.
-			// Go for all display modes to find a matching mode
-			allmodes = GetAdapterDisplayModes(adapterIndex);
-			foreach(DisplayMode dm in allmodes)
-			{
-				// Check if this is the same mode
-				if((dm.Width == mode.Width) &&
-				   (dm.Height == mode.Height) &&
-				   (dm.Format == mode.Format))
-				{
-					// Check if this format is supported
-					if(ValidateDisplayMode(dm, windowed))
-					{
-						// Set display mode and return success
-						mode = dm;
-						return true;
-					}
-				}
-			}
-
-			// If the mode can still not be found,
-			// try searching again, but disregard refreshrate and format.
-			// Go for all display modes to find a matching mode
-			allmodes = GetAdapterDisplayModes(adapterIndex);
-			foreach(DisplayMode dm in allmodes)
-			{
-				// Check if this is the same mode
-				if((dm.Width == mode.Width) &&
-				   (dm.Height == mode.Height))
-				{
-					// Check if this format is supported
-					if(ValidateDisplayMode(dm, windowed))
-					{
-						// Set display mode and return success
-						mode = dm;
-						return true;
-					}
-				}
-			}
-
-			// Still no matching display mode found?
-			// Then just pick the first valid one.
-			// Go for all display modes to find the first valid mode
-			allmodes = GetAdapterDisplayModes(adapterIndex);
-			foreach(DisplayMode dm in allmodes)
-			{
-				// Check if this format is supported
-				if(ValidateDisplayMode(dm, windowed))
-				{
-					// Set display mode and return success
-					mode = dm;
-					return true;
-				}
-			}
-
-			// No valid mode found
-			return false;
-		}
-
-		// This tests if the given display mode is supported and
+        // This tests if the given display mode is supported and
 		// if it supports everything this engine needs
-		public static bool ValidateDisplayMode(DisplayMode mode, bool windowed)
+		public static bool ValidateDisplayMode(DisplayModeEx mode, bool windowed)
 		{
 			// The resolution must be at least 640x480
 			if((mode.Width < 640) || (mode.Height < 480)) return false;
@@ -449,9 +343,9 @@ namespace CodeImp.Bloodmasters.Launcher
 		public static void InitDX()
         {
 			// Initialize variables
-            _direct3D9Ex = new SharpDX.Direct3D9.Direct3D();
+            _direct3D9Ex = new Direct3DEx();
 			adapterIndex = 0;
-			displaymode = new DisplayMode();
+			displaymode = new DisplayModeEx();
 		}
 
         public static void DeinitDirectX()
@@ -462,15 +356,21 @@ namespace CodeImp.Bloodmasters.Launcher
 
 		#endregion
 
-        private static List<DisplayMode> GetAdapterDisplayModes(int adapter)
+        private static List<DisplayModeEx> GetAdapterDisplayModes(int adapter)
         {
-            var displayModes = new List<DisplayMode>();
+            var displayModes = new List<DisplayModeEx>();
             foreach (var format in Enum.GetValues<Format>())
             {
-                var count = _direct3D9Ex.GetAdapterModeCount(adapter, format);
+                var displayModeFilter = new DisplayModeFilter
+                {
+                    Format = format,
+                    Size = Unsafe.SizeOf<DisplayModeFilter>(),
+                };
+
+                var count = _direct3D9Ex.GetAdapterModeCountEx(adapter, displayModeFilter);
                 for (var i = 0; i < count; ++i)
                 {
-                    var mode = _direct3D9Ex.EnumAdapterModes(adapter, format, i);
+                    var mode = _direct3D9Ex.EnumerateAdapterModesEx(adapter, displayModeFilter, i);
                     displayModes.Add(mode);
                 }
             }

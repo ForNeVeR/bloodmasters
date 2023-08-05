@@ -6,7 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using CodeImp.Bloodmasters.Client.Graphics;
 using SharpDX;
 using SharpDX.Direct3D9;
@@ -114,8 +114,8 @@ namespace CodeImp.Bloodmasters.Client
 				//Direct3D.d3dd.SetTexture(0, DynamicLight.lightimages[template].texture);
 
 				// Get all the nearby lines to check for intersection
-				ArrayList lines = General.map.BlockMap.GetCollisionLines(pos.x, pos.y, range);
-				ArrayList sectors = new ArrayList(lines.Count * 2);
+                List<Linedef> lines = General.map.BlockMap.GetCollisionLines(pos.x, pos.y, range);
+				List<Sector> sectors = new List<Sector>(lines.Count * 2);
 
 				// Go for all lines
 				foreach(Linedef ld in lines)
@@ -130,7 +130,7 @@ namespace CodeImp.Bloodmasters.Client
 				if(sectors.Count == 0) sectors.Add(General.map.GetSubSectorAt(pos.x, pos.y).Sector);
 
 				// Go for all sectors
-				foreach(ClientSector s in sectors)
+                foreach(ClientSector s in sectors)
 				{
 					// Visual Sector not done yet?
 					if((s.VisualSector != null) && s.VisualSector.InScreen && !donevsectors[s.VisualSector.Index])

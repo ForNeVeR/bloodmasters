@@ -6,7 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace CodeImp.Bloodmasters.Client
@@ -16,7 +16,7 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Variables
 
 		// Static variables
-		private static Hashtable animations = new Hashtable();
+		private static Dictionary<string, Animation> animations = new();
 
 		// Instance stuff
 		private int frametime;
@@ -148,14 +148,14 @@ namespace CodeImp.Bloodmasters.Client
 		public static bool IsLoaded(string anifile)
 		{
 			// Check if the specified animation is not loaded yet
-			return Animation.animations.Contains(anifile.ToLower());
+			return Animation.animations.ContainsKey(anifile.ToLower());
 		}
 
 		// This returns a new instance of an animation
 		public static Animation CreateFrom(string anifile)
 		{
 			// Get the loaded animation
-			Animation ani = (Animation)Animation.animations[anifile.ToLower()];
+			Animation ani = Animation.animations[anifile.ToLower()];
 
 			// Make a new animation with same properties
 			Animation newani = new Animation();
@@ -176,7 +176,7 @@ namespace CodeImp.Bloodmasters.Client
 		{
 			// Clear animations
 			Animation.animations.Clear();
-			Animation.animations = new Hashtable();
+			Animation.animations = new Dictionary<string, Animation>();
 		}
 
 		#endregion

@@ -7,7 +7,6 @@
 
 using System;
 using System.Drawing;
-using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -26,13 +25,13 @@ namespace CodeImp.Bloodmasters.Launcher
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.Button btnJoin;
 		private System.ComponentModel.Container components = null;
-		
+
 		// Constructor
 		public FormGameSpecify()
 		{
 			// Required for Windows Form Designer support
 			InitializeComponent();
-			
+
 			// Fill with last used settings
 			txtJoinAddress.Text = General.config.ReadSetting("joinaddress", "");
 			txtJoinPort.Text = General.config.ReadSetting("joinport", "0");
@@ -48,7 +47,7 @@ namespace CodeImp.Bloodmasters.Launcher
 				// Dispose components, if any
 				if(components != null) components.Dispose();
 			}
-			
+
 			// Let superior class know about the dispose
 			base.Dispose(disposing);
 		}
@@ -73,9 +72,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.groupBox2.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
-			// 
+			//
 			// groupBox2
-			// 
+			//
 			this.groupBox2.Controls.Add(this.txtJoinPassword);
 			this.groupBox2.Controls.Add(this.lblJoinPassword);
 			this.groupBox2.Location = new System.Drawing.Point(8, 112);
@@ -84,9 +83,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.groupBox2.TabIndex = 9;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = " Password ";
-			// 
+			//
 			// txtJoinPassword
-			// 
+			//
 			this.txtJoinPassword.AutoSize = false;
 			this.txtJoinPassword.Location = new System.Drawing.Point(92, 27);
 			this.txtJoinPassword.MaxLength = 50;
@@ -95,18 +94,18 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.txtJoinPassword.Size = new System.Drawing.Size(192, 22);
 			this.txtJoinPassword.TabIndex = 7;
 			this.txtJoinPassword.Text = "";
-			// 
+			//
 			// lblJoinPassword
-			// 
+			//
 			this.lblJoinPassword.Location = new System.Drawing.Point(4, 27);
 			this.lblJoinPassword.Name = "lblJoinPassword";
 			this.lblJoinPassword.Size = new System.Drawing.Size(84, 20);
 			this.lblJoinPassword.TabIndex = 6;
 			this.lblJoinPassword.Text = "Password:";
 			this.lblJoinPassword.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
+			//
 			// groupBox1
-			// 
+			//
 			this.groupBox1.Controls.Add(this.txtJoinPort);
 			this.groupBox1.Controls.Add(this.txtJoinAddress);
 			this.groupBox1.Controls.Add(this.lblJoinPort);
@@ -117,45 +116,45 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.groupBox1.TabIndex = 8;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = " Server ";
-			// 
+			//
 			// txtJoinPort
-			// 
+			//
 			this.txtJoinPort.AutoSize = false;
 			this.txtJoinPort.Location = new System.Drawing.Point(92, 56);
 			this.txtJoinPort.Name = "txtJoinPort";
 			this.txtJoinPort.Size = new System.Drawing.Size(192, 22);
 			this.txtJoinPort.TabIndex = 8;
 			this.txtJoinPort.Text = "";
-			// 
+			//
 			// txtJoinAddress
-			// 
+			//
 			this.txtJoinAddress.AutoSize = false;
 			this.txtJoinAddress.Location = new System.Drawing.Point(92, 28);
 			this.txtJoinAddress.Name = "txtJoinAddress";
 			this.txtJoinAddress.Size = new System.Drawing.Size(192, 22);
 			this.txtJoinAddress.TabIndex = 7;
 			this.txtJoinAddress.Text = "";
-			// 
+			//
 			// lblJoinPort
-			// 
+			//
 			this.lblJoinPort.Location = new System.Drawing.Point(4, 56);
 			this.lblJoinPort.Name = "lblJoinPort";
 			this.lblJoinPort.Size = new System.Drawing.Size(84, 20);
 			this.lblJoinPort.TabIndex = 6;
 			this.lblJoinPort.Text = "Port:";
 			this.lblJoinPort.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
+			//
 			// lblJoinAddress
-			// 
+			//
 			this.lblJoinAddress.Location = new System.Drawing.Point(4, 28);
 			this.lblJoinAddress.Name = "lblJoinAddress";
 			this.lblJoinAddress.Size = new System.Drawing.Size(84, 20);
 			this.lblJoinAddress.TabIndex = 5;
 			this.lblJoinAddress.Text = "Address:";
 			this.lblJoinAddress.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
+			//
 			// btnCancel
-			// 
+			//
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -165,9 +164,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.btnCancel.Size = new System.Drawing.Size(104, 27);
 			this.btnCancel.TabIndex = 11;
 			this.btnCancel.Text = "Cancel";
-			// 
+			//
 			// btnJoin
-			// 
+			//
 			this.btnJoin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnJoin.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnJoin.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -178,9 +177,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.btnJoin.TabIndex = 10;
 			this.btnJoin.Text = "Join";
 			this.btnJoin.Click += new System.EventHandler(this.btnJoin_Click);
-			// 
+			//
 			// FormGameSpecify
-			// 
+			//
 			this.AcceptButton = this.btnJoin;
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.CancelButton = this.btnCancel;
@@ -203,7 +202,7 @@ namespace CodeImp.Bloodmasters.Launcher
 
 		}
 		#endregion
-		
+
 		// Join clicked
 		private void btnJoin_Click(object sender, System.EventArgs e)
 		{

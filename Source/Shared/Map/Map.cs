@@ -5,7 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System.Collections;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
@@ -130,49 +129,7 @@ namespace CodeImp.Bloodmasters
 			// Read the whole map as well?
 			if(infoonly == false)
 			{
-				// Check if the map is missing GL structures
-				//if(Wad.ReadLump(tempwadfile, "GL_SSECT") == null)
-				{
-					// Get glbsp.exe out of the closet!
-					string glbspexe = ArchiveManager.ExtractFile("general.rar/glbsp.exe");
-
-					// Call glbsp.exe to make the GL nodes
-					Process glbsp = new Process();
-					glbsp.StartInfo.WorkingDirectory = Path.GetDirectoryName(glbspexe);
-					glbsp.StartInfo.FileName = glbspexe;
-					glbsp.StartInfo.Arguments = "-noreject -noprog -v5 -factor 20 -q \"" + tempwadfile + "\" -o \"" + tempwadfile + "\"";
-					glbsp.StartInfo.CreateNoWindow = false;
-					glbsp.StartInfo.ErrorDialog = false;
-					glbsp.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-					glbsp.StartInfo.RedirectStandardOutput = true;
-					glbsp.StartInfo.UseShellExecute = false;
-					if(glbsp.Start())
-					{
-						// Wait for the builder to finish
-						glbsp.WaitForExit(20000);
-						if(glbsp.HasExited == true)
-						{
-							// Check if the map is still missing GL structures
-							if(Wad.ReadLump(tempwadfile, "GL_SSECT") == null)
-							{
-								// Cannot run glbsp to fix the nodes
-								throw(new Exception("Failed to build map graphics nodes."));
-							}
-						}
-						else
-						{
-							// Cannot run glbsp to fix the nodes
-							throw(new Exception("Time out while building map graphics nodes."));
-						}
-					}
-					else
-					{
-						// Cannot run glbsp to fix the nodes
-						throw(new Exception("Unable to start map nodes builder."));
-					}
-				}
-
-				// Load the map data from GL structures
+                // Load the map data from GL structures
 				numorigverts = LoadVertices(tempwadfile);
 				LoadSectors(tempwadfile);
 				LoadSidedefs(tempwadfile);
@@ -630,12 +587,12 @@ namespace CodeImp.Bloodmasters
 
 		// This finds all "touching sectors"
 		// these are the sectors an object is overlapping
-		public ArrayList FindTouchingSectors(float x, float y, float radius)
+		public List<Sector> FindTouchingSectors(float x, float y, float radius)
 		{
-			ArrayList sectors = new ArrayList();
+            List<Sector> sectors = new  List<Sector>();
 
 			// Get all the nearby lines to check for intersection
-			ArrayList lines = blockmap.GetCollisionLines(x, y, radius);
+            List<Linedef> lines = blockmap.GetCollisionLines(x, y, radius);
 
 			// Go for all lines
 			foreach(Linedef ld in lines)
@@ -711,7 +668,7 @@ namespace CodeImp.Bloodmasters
 		}
 
 		// This returns the linedef nearest to the given coordinates
-		public Linedef GetNearestLine(float x, float y, IEnumerable linedefs)
+		public Linedef GetNearestLine(float x, float y, IEnumerable<Linedef> linedefs)
 		{
 			Linedef foundline = null;
 			float founddist = float.MaxValue;
@@ -758,7 +715,7 @@ namespace CodeImp.Bloodmasters
 			bool[] sectortested = new bool[sectors.Length];
 
 			// Find all lines near the trajectory
-			ArrayList lines = blockmap.GetCollisionLines(start.x, start.y, end.x, end.y);
+            List<Linedef> lines = blockmap.GetCollisionLines(start.x, start.y, end.x, end.y);
 
 			// No lines?
 			if(lines.Count == 0)

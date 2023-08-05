@@ -5,7 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System.Collections;
 using System.Drawing;
 
 namespace CodeImp.Bloodmasters
@@ -66,7 +65,7 @@ namespace CodeImp.Bloodmasters
 		protected Sector[] adjsectors;
 
 		// Items
-		private ArrayList items = new ArrayList();
+		private List<object> items = new();
 
 		#endregion
 
@@ -125,7 +124,7 @@ namespace CodeImp.Bloodmasters
 		public Sector[] AdjacentSectors { get { return adjsectors; } }
 
 		// Items
-		public ArrayList Items { get { return items; } }
+		public List<object> Items { get { return items; } }
 
 		#endregion
 
@@ -254,7 +253,7 @@ namespace CodeImp.Bloodmasters
 		// This finds all adjacent sectors
 		public void FindAdjacentSectors()
 		{
-			ArrayList adjs = new ArrayList();
+			List<Sector> adjs = new List<Sector>();
 
 			// Go for all subsectors
 			foreach(SubSector ss in subsectors)
@@ -275,7 +274,7 @@ namespace CodeImp.Bloodmasters
 			}
 
 			// Make the array
-			adjsectors = (Sector[])adjs.ToArray(typeof(Sector));
+			adjsectors = adjs.ToArray();
 		}
 
 		// This finds the lowest adjacent floor

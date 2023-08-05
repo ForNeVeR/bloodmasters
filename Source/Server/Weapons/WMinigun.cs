@@ -5,9 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-#if CLIENT
-#endif
-
 namespace CodeImp.Bloodmasters.Server
 {
 	[WeaponInfo(WEAPON.MINIGUN, RefireDelay=50, Description="Minigun",

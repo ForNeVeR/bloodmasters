@@ -5,11 +5,8 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
 using System.Globalization;
 using System.Reflection;
-#if CLIENT
-#endif
 
 namespace CodeImp.Bloodmasters.Server
 {

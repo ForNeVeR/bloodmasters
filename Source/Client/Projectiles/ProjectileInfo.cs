@@ -7,7 +7,6 @@
 
 using System;
 using System.Drawing;
-using System.Collections;
 using CodeImp.Bloodmasters;
 using CodeImp;
 
@@ -18,10 +17,10 @@ namespace CodeImp.Bloodmasters.Client
 	{
 		// Members
 		private PROJECTILE type;
-		
+
 		// Properties
 		public PROJECTILE Type { get { return type; } }
-		
+
 		// Constructor
 		public ProjectileInfo(PROJECTILE type)
 		{

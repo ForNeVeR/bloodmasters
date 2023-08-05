@@ -31,10 +31,7 @@ jobs:
           path: ${{ env.NUGET_PACKAGES }}
           key: ${{ runner.os }}.nuget.${{ hashFiles('**/*.csproj') }}
 
-      - name: Build server
-        run: dotnet build Source\DedicatedServer.sln
-
-      - name: Build client
+      - name: Build
         run: dotnet build Source\Bloodmasters.sln
 
       - name: Test

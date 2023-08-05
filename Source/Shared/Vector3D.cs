@@ -22,6 +22,14 @@ namespace CodeImp.Bloodmasters
 			this.z = z;
 		}
 
+        // Constructor
+        public Vector3D(Vector3D v)
+        {
+            this.x = v.x;
+            this.y = v.y;
+            this.z = v.z;
+        }
+
 		// Constructor
 		public Vector3D(Vector2D v)
 		{

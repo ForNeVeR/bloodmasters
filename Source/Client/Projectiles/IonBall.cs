@@ -6,7 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using FireAndForgetAudioSample;
 using SharpDX.Direct3D9;
 
@@ -31,7 +31,7 @@ namespace CodeImp.Bloodmasters.Client
 		private Sprite sprite;
 		private ISound flying;
 		private DynamicLight light;
-		private ArrayList lightnings = new ArrayList();
+		private List<Lightning> lightnings = new();
 		private int particletime;
 
 		#endregion
@@ -356,7 +356,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Dispose them all
 				for(int i = lightnings.Count - 1; i >= 0; i--)
-					((Lightning)lightnings[i]).Dispose();
+					lightnings[i].Dispose();
 			}
 		}
 

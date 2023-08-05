@@ -6,7 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using FireAndForgetAudioSample;
 using SharpDX;
@@ -126,7 +126,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Effects
 		private FireEffect fireeffect = null;
-		private ArrayList lightnings = new ArrayList();
+		private List<Lightning> lightnings = new();
 		private RageEffect rageeffect = null;
 		private int ragecolor = -1;
 
@@ -158,7 +158,7 @@ namespace CodeImp.Bloodmasters.Client
 		public bool ShowNuke { get { return shownuke; } set { shownuke = value; } }
 		public bool ShowRing { get { return showring; } set { showring = value; } }
 		public Vector3D Velocity { get { return state.vel; } }
-		public ArrayList Lightnings { get { return lightnings; } }
+		public List<Lightning> Lightnings { get { return lightnings; } }
 		public TEAM Team { get { return team; } }
 		public int ClientID { get { return clientid; } }
 		public bool ShowRage { get { return showrage; } set { showrage = value; } }
@@ -291,7 +291,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Dispose them all
 				for(int i = lightnings.Count - 1; i >= 0; i--)
-					((Lightning)lightnings[i]).Dispose();
+					lightnings[i].Dispose();
 			}
 		}
 
@@ -548,18 +548,18 @@ namespace CodeImp.Bloodmasters.Client
 		public void FindHighestSector()
 		{
 			// Find touching sectors
-			ArrayList sectors = General.map.FindTouchingSectors(state.pos.x, state.pos.y, Consts.PLAYER_RADIUS);
+            List<Sector> sectors = General.map.FindTouchingSectors(state.pos.x, state.pos.y, Consts.PLAYER_RADIUS);
 
 			// Start with the current
 			highestsector = sector;
 			float highestz = sector.CurrentFloor;
 
 			// Find the highest sector floor
-			foreach(ClientSector s in sectors)
+            foreach(ClientSector s in sectors)
 			{
 				// Check if higher but not blocking
-				if((s.CurrentFloor > highestz) &&
-				   (s.CurrentFloor - Consts.MAX_STEP_HEIGHT <= state.pos.z))
+                if((s.CurrentFloor > highestz) &&
+                   (s.CurrentFloor - Consts.MAX_STEP_HEIGHT <= state.pos.z))
 				{
 					// This height is higher and still valid
 					highestz = s.CurrentFloor;

@@ -5,11 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
 namespace CodeImp.Bloodmasters.Server
 {
 	public abstract class Item
@@ -140,7 +135,7 @@ namespace CodeImp.Bloodmasters.Server
 			owner.Carrying = this;
 
 			// Broadcast item pickup signal
-			General.server.BroadcastItemPickup(c, this, true);
+			Host.Instance.Server.BroadcastItemPickup(c, this, true);
 		}
 
 		// This detaches the item from a client
@@ -156,7 +151,7 @@ namespace CodeImp.Bloodmasters.Server
 		public void Move(float nx, float ny, float nz)
 		{
 			// Find the new sector
-			Sector newsec = General.server.map.GetSubSectorAt(nx, ny).Sector;
+			Sector newsec = Host.Instance.Server.map.GetSubSectorAt(nx, ny).Sector;
 			if(newsec != sector)
 			{
 				// Sector changes!
@@ -182,7 +177,7 @@ namespace CodeImp.Bloodmasters.Server
 			owner = c;
 
 			// Broadcast item pickup signal
-			General.server.BroadcastItemPickup(c, this, false);
+            Host.Instance.Server.BroadcastItemPickup(c, this, false);
 		}
 
 		// This respawns an item

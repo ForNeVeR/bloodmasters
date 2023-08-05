@@ -5,11 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
 namespace CodeImp.Bloodmasters.Server
 {
 	[ProjectileInfo(PROJECTILE.NUKEDETONATION)]
@@ -79,7 +74,7 @@ namespace CodeImp.Bloodmasters.Server
 			if((SharedGeneral.currenttime > hurttime) && (hurttime > 0))
 			{
 				// Go for all playing clients
-				foreach(Client c in General.server.clients)
+				foreach(Client c in Host.Instance.Server.clients)
 				{
 					// Client alive?
 					if((c != null) && (!c.Loading) && (c.IsAlive))
@@ -113,7 +108,7 @@ namespace CodeImp.Bloodmasters.Server
 						else if(distance < SOFT_RANGE)
 						{
 							// Check if something is blocking in between client and explosion
-							if(General.server.map.FindRayMapCollision(state.pos, c.State.pos))
+							if(Host.Instance.Server.map.FindRayMapCollision(state.pos, c.State.pos))
 							{
 								// Half the damage only
 								amp = 0.5f;
@@ -150,19 +145,19 @@ namespace CodeImp.Bloodmasters.Server
 				for(int i = 0; i < FIRE_PROJECTILES; i++)
 				{
 					// Make a random direction
-					angle = (float)(General.random.NextDouble() * Math.PI * 2D);
+					angle = (float)(Host.Instance.Random.NextDouble() * Math.PI * 2D);
 					mx = (float)Math.Sin(angle);
 					my = (float)Math.Cos(angle);
 
 					// Make random distance
 					do
 					{
-						distance = (float)General.random.NextDouble();
+						distance = (float)Host.Instance.Random.NextDouble();
 					}
-					while((distance < (float)General.random.NextDouble()) &&
-					      (distance < (float)General.random.NextDouble()) &&
-					      (distance < (float)General.random.NextDouble()) &&
-					      (distance < (float)General.random.NextDouble()));
+					while((distance < (float)Host.Instance.Random.NextDouble()) &&
+					      (distance < (float)Host.Instance.Random.NextDouble()) &&
+					      (distance < (float)Host.Instance.Random.NextDouble()) &&
+					      (distance < (float)Host.Instance.Random.NextDouble()));
 
 					// Make final position
 					firepos = new Vector3D(state.pos.x + (mx * distance * FIRE_RANGE), state.pos.y + (my * distance * FIRE_RANGE), state.pos.z + PROJECTILE_Z);
@@ -176,7 +171,7 @@ namespace CodeImp.Bloodmasters.Server
 					else
 					{
 						// Check if explosion reaches here
-						spawnfire = !General.server.map.FindRayMapCollision(state.pos, firepos);
+						spawnfire = !Host.Instance.Server.map.FindRayMapCollision(state.pos, firepos);
 					}
 
 					// Spawn the fire

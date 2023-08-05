@@ -35,7 +35,7 @@
 #endregion
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using CodeImp.Bloodmasters.Client.Graphics;
 using SharpDX;
@@ -96,11 +96,11 @@ namespace CodeImp.Bloodmasters.Client
 		private float wallslightmapunit;
 
 		// List of nearby sectors
-		private ArrayList sectors = new ArrayList();
+		private List<VisualSector> sectors = new();
 
 		// List of nearby sides
-		private ArrayList sides = new ArrayList();
-		private ArrayList visualsides = new ArrayList();
+		private List<ClientSidedef> sides = new();
+		private List<VisualSidedef> visualsides = new();
 
 		#endregion
 
@@ -120,7 +120,7 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Constructor / Destructor
 
 		// Constructor
-		public StaticLight(Thing t, ArrayList vsectors, bool shadows)
+		public StaticLight(Thing t, IReadOnlyList<VisualSector> vsectors, bool shadows)
 		{
 			// Keep properties
 			this.thingindex = t.Index;
@@ -137,7 +137,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Constructor
 		public StaticLight(float x, float y, float z, float range, int basecolor,
-					int template, ArrayList vsectors, bool shadows, bool permanent)
+					int template, IReadOnlyList<VisualSector> vsectors, bool shadows, bool permanent)
 		{
 			// Keep properties
 			this.thingindex = -1;
@@ -152,10 +152,10 @@ namespace CodeImp.Bloodmasters.Client
 
 		// This sets up the light
 		private void SetupLight(float x, float y, float z, Sector sector,
-								float range, int basecolor, ArrayList vsectors, int template)
+								float range, int basecolor, IReadOnlyList<VisualSector> vsectors, int template)
 		{
 			ClientSidedef s;
-			ArrayList lines;
+            List<Linedef> lines;
 
 			// Properties for all lights
 			this.x = x;
@@ -187,7 +187,7 @@ namespace CodeImp.Bloodmasters.Client
 			for(int i = 0; i < vsectors.Count; i++)
 			{
 				// Get VisualSector
-				VisualSector vs = (VisualSector)vsectors[i];
+				VisualSector vs = vsectors[i];
 
 				// Check if this light can be seen from the sector
 				if(vs.CanBeVisible(sector.Index))
@@ -209,7 +209,7 @@ namespace CodeImp.Bloodmasters.Client
 			for(int l = lines.Count - 1; l >= 0; l--)
 			{
 				// Get the line
-				Linedef ld = (Linedef)lines[l];
+				Linedef ld = lines[l];
 
 				// Check side of line
 				float side = ld.SideOfLine(x, y);
@@ -776,7 +776,7 @@ namespace CodeImp.Bloodmasters.Client
 				System.Drawing.Color c = System.Drawing.Color.FromArgb(color);
 
 				// Determine alpha component
-				float ca = StaticLight.CalculateHeightAlpha((Sector)vs.Sectors[0], this.z);
+				float ca = StaticLight.CalculateHeightAlpha(vs.Sectors[0], this.z);
 
 				// Make vertex colors
 				int vc = System.Drawing.Color.FromArgb((int)(ca * 255f), c).ToArgb();

@@ -6,7 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using CodeImp.Bloodmasters.Client.Graphics;
 using SharpDX;
 using SharpDX.Direct3D9;
@@ -43,7 +43,7 @@ namespace CodeImp.Bloodmasters.Client
 		// Constructor
 		public Shock(Vector3D from, Vector3D to, float fadechange)
 		{
-			ArrayList v = new ArrayList();
+			List<MVertex> v = new List<MVertex>();
 
 			// Set fade speed
 			this.fadechange = fadechange;
@@ -60,13 +60,13 @@ namespace CodeImp.Bloodmasters.Client
 			// Make the shock
 			AddShockVertices(v, from, to);
 
-			// Make vertices array from arraylist
-			verts = (MVertex[])v.ToArray(typeof(MVertex));
+			// Make vertices array from list
+			verts = v.ToArray();
 			faces = verts.Length / 3;
 		}
 
 		// This adds shock vertices over a trajectory
-		private void AddShockVertices(ArrayList v, Vector3D from, Vector3D to)
+		private void AddShockVertices(List<MVertex> v, Vector3D from, Vector3D to)
 		{
 			int corners, segments;
 			float rnd_offset, rnd_width, min_width;
@@ -90,8 +90,8 @@ namespace CodeImp.Bloodmasters.Client
 			segments = corners + 1;
 
 			// Project the trajectory coordinates
-			from2d = new Vector3D(General.arena.Projected(from.ToDx()).FromDx());
-			to2d = new Vector3D(General.arena.Projected(to.ToDx()).FromDx());
+			from2d = General.arena.Projected(from.ToDx()).FromDx();
+			to2d = General.arena.Projected(to.ToDx()).FromDx();
 			delta2d = to2d - from2d;
 
 			// Calculate segment length scalar in 2D
@@ -134,8 +134,8 @@ namespace CodeImp.Bloodmasters.Client
 					p4 = (ve + (trjnorm * soffset)) - (trjnorm * swidth);
 
 					// Unproject vertices to 3D space
-					v3 = new Vector3D(General.arena.Unprojected(p3.ToDx()).FromDx());
-					v4 = new Vector3D(General.arena.Unprojected(p4.ToDx()).FromDx());
+					v3 = General.arena.Unprojected(p3.ToDx()).FromDx();
+					v4 = General.arena.Unprojected(p4.ToDx()).FromDx();
 				}
 
 				// Make real vertices

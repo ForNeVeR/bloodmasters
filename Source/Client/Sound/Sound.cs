@@ -65,10 +65,10 @@ namespace CodeImp.Bloodmasters.Client
 		}
 
 		// Clone constructor for positional sound
-		public Sound(Sound clonesnd, bool positional)
+		public Sound(ISound clonesnd, bool positional)
 		{
 			// Keep the filename
-			this.filename = clonesnd.filename;
+			this.filename = clonesnd.Filename;
 
 			// TODO[#16]: Clone the sound
 			// snd = clonesnd.snd.Clone(DirectSound.dsd);

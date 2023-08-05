@@ -6,7 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -26,7 +26,7 @@ namespace CodeImp.Bloodmasters.Client
 		private ClientSector sector;
 		private bool disposed;
 		private int shockendtime;
-		private ArrayList lightnings = new ArrayList();
+		private List<Lightning> lightnings = new();
 		private int source;
 		private TEAM team;
 
@@ -181,7 +181,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Dispose them all
 				for(int i = lightnings.Count - 1; i >= 0; i--)
-					((Lightning)lightnings[i]).Dispose();
+					lightnings[i].Dispose();
 			}
 		}
 

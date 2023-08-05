@@ -8,7 +8,6 @@
 using System;
 using System.Drawing;
 using System.Net;
-using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -66,35 +65,35 @@ namespace CodeImp.Bloodmasters.Launcher
 		private int lastrevision;
 		private System.Windows.Forms.Label lblBuildDescription;
 		private GamesListItem item;
-		
+
 		// Constructor
 		public FormGameInfo(GamesListItem item)
 		{
 			// Required for Windows Form Designer support
 			InitializeComponent();
-			
+
 			// Keep item
 			this.item = item;
 			UpdateSettings();
 		}
-		
+
 		// Clean up any resources being used.
 		protected override void Dispose(bool disposing)
 		{
 			// Destroy references
 			item = null;
-			
+
 			// Check if disposing
 			if(disposing)
 			{
 				// Dispose components, if any
 				if(components != null) components.Dispose();
 			}
-			
+
 			// Let superior class know about the dispose
 			base.Dispose(disposing);
 		}
-		
+
 		#region Windows Form Designer generated code
 		/// <summary>
 		/// Required method for Designer support - do not modify
@@ -152,10 +151,10 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.pnlProtocol.SuspendLayout();
 			this.pnlLocked.SuspendLayout();
 			this.SuspendLayout();
-			// 
+			//
 			// lblTitle
-			// 
-			this.lblTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			//
+			this.lblTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.lblTitle.BackColor = System.Drawing.Color.Transparent;
 			this.lblTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -166,18 +165,18 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblTitle.TabIndex = 0;
 			this.lblTitle.Text = "Title";
 			this.lblTitle.UseMnemonic = false;
-			// 
+			//
 			// label1
-			// 
+			//
 			this.label1.Location = new System.Drawing.Point(180, 148);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(48, 16);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Players:";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
+			//
 			// lblPlayers
-			// 
+			//
 			this.lblPlayers.AutoSize = true;
 			this.lblPlayers.Location = new System.Drawing.Point(228, 148);
 			this.lblPlayers.Name = "lblPlayers";
@@ -185,18 +184,18 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblPlayers.TabIndex = 2;
 			this.lblPlayers.Text = "0";
 			this.lblPlayers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
+			//
 			// label2
-			// 
+			//
 			this.label2.Location = new System.Drawing.Point(256, 148);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(56, 16);
 			this.label2.TabIndex = 3;
 			this.label2.Text = "Maximum:";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
+			//
 			// lblMaxPlayers
-			// 
+			//
 			this.lblMaxPlayers.AutoSize = true;
 			this.lblMaxPlayers.Location = new System.Drawing.Point(312, 148);
 			this.lblMaxPlayers.Name = "lblMaxPlayers";
@@ -204,9 +203,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblMaxPlayers.TabIndex = 4;
 			this.lblMaxPlayers.Text = "0";
 			this.lblMaxPlayers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
+			//
 			// lblMaxClients
-			// 
+			//
 			this.lblMaxClients.AutoSize = true;
 			this.lblMaxClients.Location = new System.Drawing.Point(312, 124);
 			this.lblMaxClients.Name = "lblMaxClients";
@@ -214,18 +213,18 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblMaxClients.TabIndex = 8;
 			this.lblMaxClients.Text = "0";
 			this.lblMaxClients.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
+			//
 			// label4
-			// 
+			//
 			this.label4.Location = new System.Drawing.Point(256, 124);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(56, 16);
 			this.label4.TabIndex = 7;
 			this.label4.Text = "Maximum:";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
+			//
 			// lblClients
-			// 
+			//
 			this.lblClients.AutoSize = true;
 			this.lblClients.Location = new System.Drawing.Point(228, 124);
 			this.lblClients.Name = "lblClients";
@@ -233,18 +232,18 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblClients.TabIndex = 6;
 			this.lblClients.Text = "0";
 			this.lblClients.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
+			//
 			// label6
-			// 
+			//
 			this.label6.Location = new System.Drawing.Point(180, 124);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(48, 16);
 			this.label6.TabIndex = 5;
 			this.label6.Text = "Clients:";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
+			//
 			// btnClose
-			// 
+			//
 			this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -255,19 +254,19 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.btnClose.TabIndex = 1;
 			this.btnClose.Text = "Close";
 			this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-			// 
+			//
 			// groupBox1
-			// 
-			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			//
+			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox1.Location = new System.Drawing.Point(12, 36);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(356, 7);
 			this.groupBox1.TabIndex = 10;
 			this.groupBox1.TabStop = false;
-			// 
+			//
 			// lblFraglimit
-			// 
+			//
 			this.lblFraglimit.AutoSize = true;
 			this.lblFraglimit.Location = new System.Drawing.Point(60, 4);
 			this.lblFraglimit.Name = "lblFraglimit";
@@ -275,18 +274,18 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblFraglimit.TabIndex = 12;
 			this.lblFraglimit.Text = "0";
 			this.lblFraglimit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
+			//
 			// label5
-			// 
+			//
 			this.label5.Location = new System.Drawing.Point(0, 4);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(60, 16);
 			this.label5.TabIndex = 11;
 			this.label5.Text = "Scorelimit:";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
+			//
 			// lblTimelimit
-			// 
+			//
 			this.lblTimelimit.AutoSize = true;
 			this.lblTimelimit.Location = new System.Drawing.Point(60, 28);
 			this.lblTimelimit.Name = "lblTimelimit";
@@ -294,18 +293,18 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblTimelimit.TabIndex = 14;
 			this.lblTimelimit.Text = "0";
 			this.lblTimelimit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
+			//
 			// label7
-			// 
+			//
 			this.label7.Location = new System.Drawing.Point(4, 28);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(56, 16);
 			this.label7.TabIndex = 13;
 			this.label7.Text = "Timelimit:";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
+			//
 			// lblGameType
-			// 
+			//
 			this.lblGameType.AutoSize = true;
 			this.lblGameType.Location = new System.Drawing.Point(68, 124);
 			this.lblGameType.Name = "lblGameType";
@@ -313,18 +312,18 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblGameType.TabIndex = 18;
 			this.lblGameType.Text = "Deathmatch";
 			this.lblGameType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
+			//
 			// label9
-			// 
+			//
 			this.label9.Location = new System.Drawing.Point(24, 124);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(44, 16);
 			this.label9.TabIndex = 17;
 			this.label9.Text = "Game:";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
+			//
 			// lblMap
-			// 
+			//
 			this.lblMap.AutoSize = true;
 			this.lblMap.Location = new System.Drawing.Point(68, 148);
 			this.lblMap.Name = "lblMap";
@@ -332,18 +331,18 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblMap.TabIndex = 20;
 			this.lblMap.Text = "Test";
 			this.lblMap.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
+			//
 			// label10
-			// 
+			//
 			this.label10.Location = new System.Drawing.Point(24, 148);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(44, 16);
 			this.label10.TabIndex = 19;
 			this.label10.Text = "Map:";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
+			//
 			// lblJoinSmallest
-			// 
+			//
 			this.lblJoinSmallest.AutoSize = true;
 			this.lblJoinSmallest.Location = new System.Drawing.Point(304, 28);
 			this.lblJoinSmallest.Name = "lblJoinSmallest";
@@ -351,29 +350,29 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblJoinSmallest.TabIndex = 24;
 			this.lblJoinSmallest.Text = "0";
 			this.lblJoinSmallest.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
+			//
 			// label11
-			// 
+			//
 			this.label11.Location = new System.Drawing.Point(164, 28);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(140, 16);
 			this.label11.TabIndex = 23;
 			this.label11.Text = "Always join smallest team:";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
+			//
 			// groupBox2
-			// 
-			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			//
+			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox2.Location = new System.Drawing.Point(4, 56);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(356, 7);
 			this.groupBox2.TabIndex = 25;
 			this.groupBox2.TabStop = false;
-			// 
+			//
 			// lstPlayers
-			// 
-			this.lstPlayers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			//
+			this.lstPlayers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.lstPlayers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 																						 this.clmPLayerName,
@@ -387,40 +386,40 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lstPlayers.Size = new System.Drawing.Size(356, 156);
 			this.lstPlayers.TabIndex = 3;
 			this.lstPlayers.View = System.Windows.Forms.View.Details;
-			// 
+			//
 			// clmPLayerName
-			// 
+			//
 			this.clmPLayerName.Text = "Name";
 			this.clmPLayerName.Width = 124;
-			// 
+			//
 			// clmPlayerTeam
-			// 
+			//
 			this.clmPlayerTeam.Text = "Team";
 			this.clmPlayerTeam.Width = 64;
-			// 
+			//
 			// clmPlayerSpect
-			// 
+			//
 			this.clmPlayerSpect.Text = "Mode";
 			this.clmPlayerSpect.Width = 86;
-			// 
+			//
 			// clmPlayerPing
-			// 
+			//
 			this.clmPlayerPing.Text = "Ping";
 			this.clmPlayerPing.Width = 50;
-			// 
+			//
 			// label12
-			// 
+			//
 			this.label12.Location = new System.Drawing.Point(16, 76);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(52, 16);
 			this.label12.TabIndex = 27;
 			this.label12.Text = "Website:";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
+			//
 			// lblWebsite
-			// 
+			//
 			this.lblWebsite.ActiveLinkColor = System.Drawing.Color.Blue;
-			this.lblWebsite.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.lblWebsite.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.lblWebsite.AutoSize = true;
 			this.lblWebsite.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -436,10 +435,10 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblWebsite.UseMnemonic = false;
 			this.lblWebsite.VisitedLinkColor = System.Drawing.Color.Purple;
 			this.lblWebsite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblWebsite_LinkClicked);
-			// 
+			//
 			// pnlExtended
-			// 
-			this.pnlExtended.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			//
+			this.pnlExtended.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.pnlExtended.Controls.Add(this.lblJoinSmallest);
 			this.pnlExtended.Controls.Add(this.label11);
@@ -453,9 +452,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.pnlExtended.Name = "pnlExtended";
 			this.pnlExtended.Size = new System.Drawing.Size(364, 232);
 			this.pnlExtended.TabIndex = 30;
-			// 
+			//
 			// pnlProtocol
-			// 
+			//
 			this.pnlProtocol.BackColor = System.Drawing.SystemColors.Info;
 			this.pnlProtocol.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlProtocol.Controls.Add(this.lblProtocol);
@@ -465,18 +464,18 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.pnlProtocol.Size = new System.Drawing.Size(356, 24);
 			this.pnlProtocol.TabIndex = 31;
 			this.pnlProtocol.Visible = false;
-			// 
+			//
 			// lblProtocol
-			// 
+			//
 			this.lblProtocol.ForeColor = System.Drawing.SystemColors.InfoText;
 			this.lblProtocol.Location = new System.Drawing.Point(24, 4);
 			this.lblProtocol.Name = "lblProtocol";
 			this.lblProtocol.Size = new System.Drawing.Size(336, 16);
 			this.lblProtocol.TabIndex = 1;
 			this.lblProtocol.Text = "Protocol error";
-			// 
+			//
 			// pictureBox1
-			// 
+			//
 			this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
 			this.pictureBox1.Location = new System.Drawing.Point(0, 0);
 			this.pictureBox1.Name = "pictureBox1";
@@ -484,9 +483,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
 			this.pictureBox1.TabIndex = 0;
 			this.pictureBox1.TabStop = false;
-			// 
+			//
 			// pnlLocked
-			// 
+			//
 			this.pnlLocked.BackColor = System.Drawing.SystemColors.Info;
 			this.pnlLocked.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlLocked.Controls.Add(this.lblLocked);
@@ -496,18 +495,18 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.pnlLocked.Size = new System.Drawing.Size(356, 24);
 			this.pnlLocked.TabIndex = 32;
 			this.pnlLocked.Visible = false;
-			// 
+			//
 			// lblLocked
-			// 
+			//
 			this.lblLocked.ForeColor = System.Drawing.SystemColors.InfoText;
 			this.lblLocked.Location = new System.Drawing.Point(24, 4);
 			this.lblLocked.Name = "lblLocked";
 			this.lblLocked.Size = new System.Drawing.Size(336, 16);
 			this.lblLocked.TabIndex = 1;
 			this.lblLocked.Text = "This server is locked with a password.";
-			// 
+			//
 			// pictureBox2
-			// 
+			//
 			this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
 			this.pictureBox2.Location = new System.Drawing.Point(0, 1);
 			this.pictureBox2.Name = "pictureBox2";
@@ -515,9 +514,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
 			this.pictureBox2.TabIndex = 0;
 			this.pictureBox2.TabStop = false;
-			// 
+			//
 			// chkRefresh
-			// 
+			//
 			this.chkRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.chkRefresh.Appearance = System.Windows.Forms.Appearance.Button;
 			this.chkRefresh.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -529,19 +528,19 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.chkRefresh.Text = "Auto Refresh";
 			this.chkRefresh.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.chkRefresh.CheckedChanged += new System.EventHandler(this.chkRefresh_CheckedChanged);
-			// 
+			//
 			// tmrRefresh
-			// 
+			//
 			this.tmrRefresh.Interval = 3000;
 			this.tmrRefresh.Tick += new System.EventHandler(this.tmrRefresh_Tick);
-			// 
+			//
 			// tmrUpdate
-			// 
+			//
 			this.tmrUpdate.Interval = 600;
 			this.tmrUpdate.Tick += new System.EventHandler(this.tmrUpdate_Tick);
-			// 
+			//
 			// btnJoin
-			// 
+			//
 			this.btnJoin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnJoin.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnJoin.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -552,18 +551,18 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.btnJoin.TabIndex = 0;
 			this.btnJoin.Text = "Join";
 			this.btnJoin.Click += new System.EventHandler(this.btnJoin_Click);
-			// 
+			//
 			// label3
-			// 
+			//
 			this.label3.Location = new System.Drawing.Point(16, 100);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(52, 16);
 			this.label3.TabIndex = 33;
 			this.label3.Text = "Location:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
+			//
 			// lblLocation
-			// 
+			//
 			this.lblLocation.AutoSize = true;
 			this.lblLocation.Location = new System.Drawing.Point(68, 100);
 			this.lblLocation.Name = "lblLocation";
@@ -571,18 +570,18 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblLocation.TabIndex = 34;
 			this.lblLocation.Text = "Location unknown";
 			this.lblLocation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
+			//
 			// picLocation
-			// 
+			//
 			this.picLocation.BackColor = System.Drawing.Color.Transparent;
 			this.picLocation.Location = new System.Drawing.Point(70, 100);
 			this.picLocation.Name = "picLocation";
 			this.picLocation.Size = new System.Drawing.Size(16, 16);
 			this.picLocation.TabIndex = 35;
 			this.picLocation.TabStop = false;
-			// 
+			//
 			// lblBuildDescription
-			// 
+			//
 			this.lblBuildDescription.AutoSize = true;
 			this.lblBuildDescription.Location = new System.Drawing.Point(16, 48);
 			this.lblBuildDescription.Name = "lblBuildDescription";
@@ -590,9 +589,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			this.lblBuildDescription.TabIndex = 36;
 			this.lblBuildDescription.Text = "Unknown server type or version";
 			this.lblBuildDescription.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
+			//
 			// FormGameInfo
-			// 
+			//
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.CancelButton = this.btnClose;
 			this.ClientSize = new System.Drawing.Size(378, 443);
@@ -637,13 +636,13 @@ namespace CodeImp.Bloodmasters.Launcher
 
 		}
 		#endregion
-		
+
 		// This updates the components to match with the game information
 		public void UpdateSettings()
 		{
 			// Lookup country information
 			IPRangeInfo cinfo = General.ip2country.LookupIP(item.Address.Address.ToString());
-			
+
 			// Setup interface with game item information
 			lastrevision = item.Revision;
 			lblTitle.Text = item.Title;
@@ -656,13 +655,13 @@ namespace CodeImp.Bloodmasters.Launcher
 			lblMaxClients.Text = item.MaxClients.ToString();
 			pnlLocked.Visible = item.Locked;
 			if(item.Locked && (pnlLocked.Bottom > btnClose.Top)) this.Height += pnlLocked.Height;
-			
+
 			// Set flag icon and location
 			//try { picLocation.Image = formmain.GetFlagIcon(cinfo.ccode1); } catch(Exception) { }
 			picLocation.Image = General.mainwindow.GetFlagIcon(cinfo.ccode1);
 			if(picLocation.Image != null) lblLocation.Left = picLocation.Right + 2;
 			lblLocation.Text = cinfo.country;
-			
+
 			// Check if protocol matches
 			if(item.Protocol == Gateway.PROTOCOL_VERSION)
 			{
@@ -670,7 +669,7 @@ namespace CodeImp.Bloodmasters.Launcher
 				lblFraglimit.Text = item.Fraglimit.ToString();
 				lblTimelimit.Text = item.Timelimit.ToString();
 				lblJoinSmallest.Text = YesNo(item.JoinSmallest);
-				
+
 				// Go for player information
 				lstPlayers.Items.Clear();
 				for(int i = 0; i < item.Clients; i++)
@@ -683,11 +682,11 @@ namespace CodeImp.Bloodmasters.Launcher
 					else itm.SubItems.Add("Playing");
 					itm.SubItems.Add(item.PlayerPing[i] + "ms");
 					itm.SubItems[3].ForeColor = GamesListItem.MakePingColor(item.PlayerPing[i]);
-					
+
 					// Add the item to list
 					lstPlayers.Items.Add(itm);
 				}
-				
+
 				// Show build description
 				if(item.BuildDescription != null) lblBuildDescription.Text = item.BuildDescription;
 			}
@@ -708,13 +707,13 @@ namespace CodeImp.Bloodmasters.Launcher
 				lblProtocol.Text = "This server is running a newer version of Bloodmasters.";
 			}
 		}
-		
+
 		// This returns Yes for true, No for false
 		private string YesNo(bool opt)
 		{
 			if(opt) return "Yes"; else return "No";
 		}
-		
+
 		// Website link clicked
 		private void lblWebsite_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
 		{
@@ -727,7 +726,7 @@ namespace CodeImp.Bloodmasters.Launcher
 				this.Cursor = Cursors.Default;
 			}
 		}
-		
+
 		// Auto refresh changed
 		private void chkRefresh_CheckedChanged(object sender, System.EventArgs e)
 		{
@@ -735,7 +734,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			tmrRefresh.Enabled = chkRefresh.Checked;
 			tmrUpdate.Enabled = chkRefresh.Checked;
 		}
-		
+
 		// Close dialog
 		private void btnClose_Click(object sender, System.EventArgs e)
 		{
@@ -743,28 +742,28 @@ namespace CodeImp.Bloodmasters.Launcher
 			tmrRefresh.Enabled = false;
 			tmrUpdate.Enabled = false;
 		}
-		
+
 		// Refresh time
 		private void tmrRefresh_Tick(object sender, System.EventArgs e)
 		{
 			// Refresh now
 			item.Refresh();
 		}
-		
+
 		// Check for item updates
 		private void tmrUpdate_Tick(object sender, System.EventArgs e)
 		{
 			// Item changed?
 			if(item.Revision > lastrevision) UpdateSettings();
 		}
-		
+
 		// Join clicked
 		private void btnJoin_Click(object sender, System.EventArgs e)
 		{
 			// Stop auto refresh
 			tmrRefresh.Enabled = false;
 			tmrUpdate.Enabled = false;
-			
+
 			// Close with OK as dialog result
 			this.DialogResult = DialogResult.OK;
 			this.Close();

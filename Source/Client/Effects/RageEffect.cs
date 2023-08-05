@@ -7,7 +7,6 @@
 
 using System;
 using System.Drawing;
-using System.Collections;
 using CodeImp.Bloodmasters;
 using CodeImp;
 using SharpDX.Direct3D9;

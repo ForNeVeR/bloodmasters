@@ -5,40 +5,30 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
-
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
 namespace CodeImp.Bloodmasters.Server
 {
 	[ServerItem(2005, RespawnTime=10000)]
 	public class Armor50 : Item
 	{
 		#region ================== Constants
-		
+
 		#endregion
-		
+
 		#region ================== Variables
-		
+
 		#endregion
-		
+
 		#region ================== Constructor / Destructor
-		
+
 		// Constructor
 		public Armor50(Thing t) : base(t)
 		{
 		}
-		
+
 		#endregion
-		
+
 		#region ================== Control
-		
+
 		// This is calledwhen the item is being touched by a player
 		public override void Pickup(Client c)
 		{
@@ -47,16 +37,16 @@ namespace CodeImp.Bloodmasters.Server
 			{
 				// Do what you have to do
 				base.Pickup(c);
-				
+
 				// Take the item
 				this.Take(c);
-				
+
 				// Add 50% armor to the client
 				c.AddToStatus(0, 100, 50, 100);
 			}
 		}
 
-		
+
 		#endregion
 	}
 }

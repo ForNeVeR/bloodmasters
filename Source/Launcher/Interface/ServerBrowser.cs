@@ -6,7 +6,7 @@
 \********************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -33,7 +33,7 @@ namespace CodeImp.Bloodmasters.Launcher
 
 		// Networking
 		private Gateway gateway;
-		private ArrayList addresses = new ArrayList();
+		private List<IPEndPoint> addresses = new();
 		private int nextaddress;
 		private int nexttime;
 		private int queryinterval;
@@ -45,7 +45,7 @@ namespace CodeImp.Bloodmasters.Launcher
 										"http://server.codeimp.com/bloodmasterslist.php"};
 
 		// Servers
-		private Hashtable allitems = new Hashtable();
+		private Dictionary<string, GamesListItem> allitems = new();
 
 		#endregion
 
@@ -101,7 +101,7 @@ namespace CodeImp.Bloodmasters.Launcher
 		// Get an item by address
 		public GamesListItem GetItemByAddress(string addr)
 		{
-			return (GamesListItem)allitems[addr];
+			return allitems[addr];
 		}
 
 		// This tests if the given item passes the filter
@@ -139,21 +139,18 @@ namespace CodeImp.Bloodmasters.Launcher
 		}
 
 		// This returns a list of filtered servers
-		public Hashtable GetFilteredList()
+		public Dictionary<string, GamesListItem> GetFilteredList()
 		{
 			// Any items at all?
 			if(allitems != null)
 			{
 				// Make arraylist
-				Hashtable filtered = new Hashtable(allitems.Count);
+                Dictionary<string, GamesListItem> filtered = new Dictionary<string, GamesListItem>(allitems.Count);
 
 				// Go for all items
-				foreach(DictionaryEntry de in allitems)
+				foreach(GamesListItem item in allitems.Values)
 				{
-					// Get the item
-					GamesListItem item = (GamesListItem)de.Value;
-
-					// Not filtered out, then add to the list
+                    // Not filtered out, then add to the list
 					if((item != null) && (item.Address != null) && VisibleFilteredItem(item))
 						filtered.Add(item.Address.ToString(), item);
 				}
@@ -164,7 +161,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			else
 			{
 				// No items
-				return new Hashtable();
+				return new Dictionary<string, GamesListItem>();
 			}
 		}
 
@@ -324,11 +321,10 @@ namespace CodeImp.Bloodmasters.Launcher
 					if(msg.Command == MsgCmd.ServerInfo)
 					{
 						// Already listed?
-						if(allitems.Contains(msg.Address.ToString()))
+						if(allitems.TryGetValue(msg.Address.ToString(), out item))
 						{
 							// Update this item
-							item = (GamesListItem)allitems[msg.Address.ToString()];
-							item.Update(msg);
+                            item.Update(msg);
 						}
 						else
 						{
@@ -356,7 +352,7 @@ namespace CodeImp.Bloodmasters.Launcher
 					try
 					{
 						// Get the address
-						addr = (IPEndPoint)addresses[nextaddress];
+						addr = addresses[nextaddress];
 
 						// Send query message
 						QueryServer(addr);

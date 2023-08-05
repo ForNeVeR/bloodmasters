@@ -9,11 +9,11 @@
 // functionality which are used throughout this engine. Bla.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using SharpDX;
 using SharpDX.Direct3D9;
@@ -35,7 +35,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		#region ================== Variables
 
-        private static SharpDX.Direct3D9.Direct3D _direct3D;
+        private static Direct3DEx _direct3D;
 
 		// Devices
 		public static Device d3dd;
@@ -45,7 +45,7 @@ namespace CodeImp.Bloodmasters.Client
 		private static AdapterInformation adapter;
 
 		// Current settings
-		private static DisplayMode displaymode;
+		private static DisplayModeEx displaymode;
 		private static bool displaywindowed;
 		private static bool displaysyncrefresh;
 		private static int displayfsaa;
@@ -57,8 +57,8 @@ namespace CodeImp.Bloodmasters.Client
 		private static Rectangle screencliprect;
 
 		// Resources
-		private static Hashtable resources;
-		private static Hashtable textures;
+		private static Dictionary<string, Resource> resources;
+		private static Dictionary<string, TextureResource> textures;
 		private static int resourceid = 0;
 
 		// Stateblocks
@@ -81,17 +81,15 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Display mode settings
 		public static int DisplayAdapter { get { return adapter.Adapter; } }
-		// TODO[#14]: Fix resolution
-        public static int DisplayWidth { get { return 1024; } set { displaymode.Width = 1024; } }
-		public static int DisplayHeight { get { return 768; } set { displaymode.Height = 768; } }
+        public static int DisplayWidth { get { return displaymode.Width; } set { displaymode.Width = value; } }
+		public static int DisplayHeight { get { return displaymode.Height; } set { displaymode.Height = value; } }
 		public static int DisplayFormat { get { return (int)displaymode.Format; } set { displaymode.Format = (Format)value; } }
 		public static int DisplayRefreshRate { get { return displaymode.RefreshRate; } set { displaymode.RefreshRate = value; } }
-		// TODO[#14]: Fix fullscreen mode
-        public static bool DisplayWindowed { get { return true; } set { displaywindowed = true; } }
+        public static bool DisplayWindowed { get { return displaywindowed; } set { displaywindowed = value; } }
 		public static bool DisplaySyncRefresh { get { return displaysyncrefresh; } set { displaysyncrefresh = value; } }
 		public static int DisplayFSAA { get { return displayfsaa; } set { displayfsaa = value; } }
 		public static int DisplayGamma { get { return displaygamma; } set { displaygamma = value; } }
-		public static DisplayMode DisplayMode { get { return displaymode; } set { displaymode = value; } }
+		public static DisplayModeEx DisplayMode { get { return displaymode; } set { displaymode = value; } }
 		public static Format LightmapFormat { get { return lightmapformat; } }
 		public static RawViewport DisplayViewport { get { return displayviewport; } }
 		public static Rectangle ScreenClipRectangle { get { return screencliprect; } }
@@ -206,12 +204,12 @@ namespace CodeImp.Bloodmasters.Client
         }
 
         // This returns a specific display mode
-        public static DisplayMode GetDisplayMode(int index)
+        public static DisplayModeEx GetDisplayMode(int index)
         {
             int counter = 0;
 
             // Enumerate all display modes
-            foreach(DisplayMode d in GetAdapterDisplayModes(adapter))
+            foreach(DisplayModeEx d in GetAdapterDisplayModes(adapter))
             {
                 // Return settings if this the mode to use
                 if(index == counter) return d;
@@ -221,14 +219,14 @@ namespace CodeImp.Bloodmasters.Client
             }
 
             // Nothing
-            return new DisplayMode();
+            return new DisplayModeEx();
         }
 		#endregion
 
 		#region ================== Capabilities Validation
 
 		// This finds the closest matching display mode
-		private static bool FindDisplayMode(ref DisplayMode mode, bool windowed, int fsaa)
+		private static bool FindDisplayMode(DisplayModeEx mode, bool windowed, int fsaa)
 		{
 			// In case windowed is true, the display format
 			// must be set to the current format
@@ -236,7 +234,7 @@ namespace CodeImp.Bloodmasters.Client
 
 			// Go for all display modes to find the one specified
             var allmodes = GetAdapterDisplayModes(adapter);
-			foreach(DisplayMode dm in allmodes)
+			foreach(DisplayModeEx dm in allmodes)
 			{
 				// Check if this is the same mode
 				if((dm.Width == mode.Width) &&
@@ -258,7 +256,7 @@ namespace CodeImp.Bloodmasters.Client
 			// try searching again, but disregard the refreshrate.
 			// Go for all display modes to find a matching mode
             allmodes = GetAdapterDisplayModes(adapter);
-			foreach(DisplayMode dm in allmodes)
+			foreach(DisplayModeEx dm in allmodes)
 			{
 				// Check if this is the same mode
 				if((dm.Width == mode.Width) &&
@@ -279,7 +277,7 @@ namespace CodeImp.Bloodmasters.Client
 			// try searching again, but disregard refreshrate and format.
 			// Go for all display modes to find a matching mode
             allmodes = GetAdapterDisplayModes(adapter);
-			foreach(DisplayMode dm in allmodes)
+			foreach(DisplayModeEx dm in allmodes)
 			{
 				// Check if this is the same mode
 				if((dm.Width == mode.Width) &&
@@ -299,7 +297,7 @@ namespace CodeImp.Bloodmasters.Client
 			// Then just pick the first valid one.
 			// Go for all display modes to find the first valid mode
             allmodes = GetAdapterDisplayModes(adapter);
-			foreach(DisplayMode dm in allmodes)
+			foreach(DisplayModeEx dm in allmodes)
 			{
 				// Check if this format is supported
 				if(ValidateDisplayMode(dm, windowed))
@@ -316,7 +314,7 @@ namespace CodeImp.Bloodmasters.Client
 
         // This tests if the given display mode is supported and
         // if it supports everything this engine needs
-        public static bool ValidateDisplayMode(DisplayMode mode, bool windowed)
+        public static bool ValidateDisplayMode(DisplayModeEx mode, bool windowed)
         {
             // The resolution must be at least 640x480
             if((mode.Width < 640) || (mode.Height < 480)) return false;
@@ -455,9 +453,9 @@ namespace CodeImp.Bloodmasters.Client
         public static void InitDX()
         {
             // Initialize variables
-            _direct3D = new SharpDX.Direct3D9.Direct3D();
+            _direct3D = new Direct3DEx();
             adapter = _direct3D.Adapters[0];
-            displaymode = new DisplayMode();
+            displaymode = new DisplayModeEx();
         }
 
         public static void DeinitDirectX()
@@ -1112,71 +1110,7 @@ namespace CodeImp.Bloodmasters.Client
 			GC.Collect();
 		}
 
-		// This resets the device
-		public static bool Reset()
-		{
-			// The desktop resolution may have changed, which
-			// also changes our mode restrictions for windowed mode.
-			// We must find the closest mode match again.
-
-			// Find the exact or closest matching display mode.
-			// This also sets the format to the current
-			// display format for windowed mode.
-			if(FindDisplayMode(ref displaymode, displaywindowed, displayfsaa))
-			{
-				// Trash the backbuffer
-				backbuffer.Dispose();
-				backbuffer = null;
-				depthbuffer.Dispose();
-				depthbuffer = null;
-
-				// Trash stateblocks
-				try { sb_nalpha.Dispose(); } catch(Exception) {} sb_nalpha = null;
-				try { sb_nadditivealpha.Dispose(); } catch(Exception) {} sb_nadditivealpha = null;
-				try { sb_tlmodalpha.Dispose(); } catch(Exception) {} sb_tlmodalpha = null;
-				try { sb_nlightmap.Dispose(); } catch(Exception) {} sb_nlightmap = null;
-				try { sb_nlightmapalpha.Dispose(); } catch(Exception) {} sb_nlightmapalpha = null;
-				try { sb_tllightdraw.Dispose(); } catch(Exception) {} sb_tllightdraw = null;
-				try { sb_tllightblend.Dispose(); } catch(Exception) {} sb_tllightblend = null;
-				try { sb_nlines.Dispose(); } catch(Exception) {} sb_nlines = null;
-				try { sb_pnormal.Dispose(); } catch(Exception) {} sb_pnormal = null;
-				try { sb_padditive.Dispose(); } catch(Exception) {} sb_padditive = null;
-				try { sb_nlightblend.Dispose(); } catch(Exception) {} sb_nlightblend = null;
-
-				// Choose most appropriate lightmap format
-				ChooseLightmapFormat();
-
-				// Create presentation parameters
-				displaypp = CreatePresentParameters(displaymode, displaywindowed, displaysyncrefresh, displayfsaa);
-
-				// Adjust rendertarget to display mode
-				AdjustRenderTarget(adapter, displaymode, displaywindowed);
-
-				// Reset the device
-				try { d3dd.Reset(displaypp); }
-				catch(Exception) { return false; }
-
-				// Get the new backbuffer
-				backbuffer = d3dd.GetBackBuffer(0, 0);
-				depthbuffer = d3dd.DepthStencilSurface;
-
-				// Setup renderstates
-				SetupRenderstates();
-
-				// Clear the screen
-				ClearScreen();
-
-				// Success
-				return true;
-			}
-			else
-			{
-				// Failed
-				return false;
-			}
-		}
-
-		// This will initialize the Direct3D device
+        // This will initialize the Direct3D device
 		public static bool Initialize(Form target)
 		{
 			DeviceType devtype;
@@ -1184,9 +1118,9 @@ namespace CodeImp.Bloodmasters.Client
 			// Indicate that we will manage objects ourself
 			//Device.IsUsingEventHandlers = false;
 
-			// Make arrays for resources
-			resources = new Hashtable();
-			textures = new Hashtable();
+			// Make dictionaries for resources
+			resources = new Dictionary<string, Resource>();
+			textures = new Dictionary<string, TextureResource>();
 
 			// Set the render target
 			rendertarget = target;
@@ -1197,7 +1131,7 @@ namespace CodeImp.Bloodmasters.Client
 			// Find the exact or closest matching display mode.
 			// This also sets the format to the current
 			// display format for windowed mode.
-			if(FindDisplayMode(ref displaymode, displaywindowed, displayfsaa))
+			if(FindDisplayMode(displaymode, displaywindowed, displayfsaa))
 			{
 				// Choose most appropriate lightmap format
 				ChooseLightmapFormat();
@@ -1271,7 +1205,7 @@ namespace CodeImp.Bloodmasters.Client
 		}
 
 		// This creates presentation parameters for the requested mode
-		private static PresentParameters CreatePresentParameters(DisplayMode mode, bool windowed, bool syncrefresh, int fsaa)
+		private static PresentParameters CreatePresentParameters(DisplayModeEx mode, bool windowed, bool syncrefresh, int fsaa)
 		{
 			// Create the presentation parameters
 			PresentParameters d3dpp = new PresentParameters();
@@ -1289,6 +1223,7 @@ namespace CodeImp.Bloodmasters.Client
 			d3dpp.BackBufferHeight = mode.Height;
 			d3dpp.EnableAutoDepthStencil = true;
 			d3dpp.AutoDepthStencilFormat = Format.D16;
+            d3dpp.FullScreenRefreshRateInHz = windowed ? 0 : mode.RefreshRate;
 
 			// Check if using fullscreen antialiasing
 			if(fsaa > -1)
@@ -1318,7 +1253,7 @@ namespace CodeImp.Bloodmasters.Client
 		}
 
 		// Adjust the rendertarget to match with the display mode
-		private static void AdjustRenderTarget(AdapterInformation ad, DisplayMode mode, bool windowed)
+		private static void AdjustRenderTarget(AdapterInformation ad, DisplayModeEx mode, bool windowed)
 		{
 			// Get device caps
 			var dc = _direct3D.GetDeviceCaps(ad.Adapter, DeviceType.Hardware);
@@ -1425,34 +1360,11 @@ namespace CodeImp.Bloodmasters.Client
 				var coopresult = d3dd.TestCooperativeLevel();
 
 				// Check if device must be reset
-				if(coopresult == (int)ResultCode.DeviceNotReset)
-				{
-					// Device is lost and must be reset now
-
-					// Release all Direct3D resources
-					UnloadAllResources();
-
-					// Reset the device
-					if(Direct3D.Reset())
-					{
-						// Reload all Direct3D resources
-						ReloadAllResources();
-
-						// Success
-						return true;
-					}
-					else
-					{
-						// Failed
-						return false;
-					}
-				}
-				// Check if device is lost
-				else if(coopresult == (int)ResultCode.DeviceLost)
-				{
-					// Device is lost and cannot be reset now
-					return false;
-				}
+                if(coopresult == (int)ResultCode.DeviceLost)
+                {
+                    // Device is lost and cannot be reset now
+                    return false;
+                }
 
 				// Clear the screen
 				d3dd.Clear(ClearFlags.Target | ClearFlags.ZBuffer, new(), 1f, 0);
@@ -1495,7 +1407,7 @@ namespace CodeImp.Bloodmasters.Client
 		public static SurfaceResource LoadSurfaceResource(string filename, Pool memorypool)
 		{
 			// Continue making reference names until an unused one is found
-			while(resources.Contains(resourceid.ToString())) resourceid = (resourceid + 1) % (int.MaxValue - 1);
+			while(resources.ContainsKey(resourceid.ToString())) resourceid = (resourceid + 1) % (int.MaxValue - 1);
 
 			// Load the resource with this as reference name
 			return LoadSurfaceResource(filename, resourceid.ToString(), memorypool);
@@ -1535,19 +1447,19 @@ namespace CodeImp.Bloodmasters.Client
 			if(mipmap) mipmaplevels = 2;
 
 			// Check if the file exists
-			if(File.Exists(Path.Combine(General.apppath, filename)))
+			if(File.Exists(Path.Combine(Paths.BundledResourceDir, filename)))
 			{
 				// Check if already loaded
-				if((textures.Contains(filename) == true) && (usecache == true))
+				if((textures.TryGetValue(filename, out TextureResource textureResource)) && (usecache == true))
 				{
 					// Return resource
-					return (TextureResource)textures[filename];
+					return textureResource;
 				}
 				else
 				{
 					// Load texture file
-					t =  Texture.FromFile(d3dd, Path.Combine(General.apppath, filename), width, height, mipmaplevels, Usage.None, Format.Unknown,
-												Pool.Managed, Filter.Linear | Filter.MirrorU | Filter.MirrorV | Filter.Dither,
+					t =  Texture.FromFile(d3dd, Path.Combine(Paths.BundledResourceDir, filename), width, height, mipmaplevels, Usage.None, Format.Unknown,
+												Pool.Default, Filter.Linear | Filter.MirrorU | Filter.MirrorV | Filter.Dither,
 												Filter.Triangle, 0, out i);
 
 					// Make resource
@@ -1578,7 +1490,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(mipmap) mipmaplevels = 2;
 
 			// Create texture
-			t = new Texture(d3dd, width, height, mipmaplevels, Usage.None, format, Pool.Managed);
+			t = new Texture(d3dd, width, height, mipmaplevels, Usage.None, format, Pool.Default);
 
 			// Create texture information
 			i.Format = format;
@@ -1598,13 +1510,9 @@ namespace CodeImp.Bloodmasters.Client
 		// This removes a specific texture resource from cache
 		public static void RemoveTextureCache(string filename)
 		{
-			// Does this exist?
-			if(textures.Contains(filename))
-			{
-				// Remove from cache
-				textures.Remove(filename);
-			}
-		}
+            // Remove from cache
+            textures.Remove(filename);
+        }
 
 		// This removes all textures from cache
 		public static void FlushTextures()
@@ -1617,7 +1525,7 @@ namespace CodeImp.Bloodmasters.Client
 		public static TextResource CreateTextResource(CharSet charset)
 		{
 			// Continue making reference names until an unused one is found
-			while(resources.Contains(resourceid.ToString())) resourceid = (resourceid + 1) % (int.MaxValue - 1);
+			while(resources.ContainsKey(resourceid.ToString())) resourceid = (resourceid + 1) % (int.MaxValue - 1);
 
 			// Load the resource with this as reference name
 			return CreateTextResource(charset, resourceid.ToString());
@@ -1640,12 +1548,9 @@ namespace CodeImp.Bloodmasters.Client
 		public static void DestroyResource(string referencename)
 		{
 			// Check if this resource exists
-			if(resources.Contains(referencename))
+			if(resources.TryGetValue(referencename, out Resource res))
 			{
-				// Get the resource object
-				Resource res = (Resource)resources[referencename];
-
-				// Unload the resource
+                // Unload the resource
 				res.Unload();
 
 				// Remove resource from collection
@@ -1657,10 +1562,10 @@ namespace CodeImp.Bloodmasters.Client
 		public static Resource GetResource(string referencename)
 		{
 			// Check if this resource exists
-			if(resources.Contains(referencename))
+			if(resources.TryGetValue(referencename, out Resource res))
 			{
 				// Return the resource object
-				return (Resource)resources[referencename];
+				return res;
 			}
 			else
 			{
@@ -1681,17 +1586,11 @@ namespace CodeImp.Bloodmasters.Client
 			if(General.gamemenu != null) General.gamemenu.UnloadResources();
 
 			// Go for all resources
-			foreach(DictionaryEntry item in resources)
+			foreach(Resource res in resources.Values)
 			{
-				// Get the resource object
-				Resource res = (Resource)item.Value;
-
-				// Unload this resource
+                // Unload this resource
 				res.Unload();
-
-				// Clean up
-				res = null;
-			}
+            }
 
 			// Clean up memory
 			GC.Collect();
@@ -1701,17 +1600,11 @@ namespace CodeImp.Bloodmasters.Client
 		private static void ReloadAllResources()
 		{
 			// Go for all resources
-			foreach(DictionaryEntry item in resources)
+			foreach(Resource res in resources.Values)
 			{
-				// Get the resource object
-				Resource res = (Resource)item.Value;
-
-				// Reload this resource
+                // Reload this resource
 				res.Reload();
-
-				// Clean up
-				res = null;
-			}
+            }
 
 			// Let the arena rebuild its resources
 			if(General.arena != null) General.arena.ReloadResources();
@@ -1726,16 +1619,22 @@ namespace CodeImp.Bloodmasters.Client
 
 		#region ================== Tools
 
-        private static List<DisplayMode> GetAdapterDisplayModes(AdapterInformation a)
+        private static List<DisplayModeEx> GetAdapterDisplayModes(AdapterInformation a)
         {
             var direct3d = _direct3D;
-            var displayModes = new List<DisplayMode>();
+            var displayModes = new List<DisplayModeEx>();
             foreach (var format in Enum.GetValues<Format>())
             {
-                var count = direct3d.GetAdapterModeCount(a.Adapter, format);
+                var displayModeFilter = new DisplayModeFilter
+                {
+                    Format = format,
+                    Size = Unsafe.SizeOf<DisplayModeFilter>(),
+                };
+
+                var count = direct3d.GetAdapterModeCountEx(a.Adapter, displayModeFilter);
                 for (var i = 0; i < count; ++i)
                 {
-                    var mode = direct3d.EnumAdapterModes(adapter.Adapter, format, i);
+                    var mode = direct3d.EnumerateAdapterModesEx(adapter.Adapter, displayModeFilter, i);
                     displayModes.Add(mode);
                 }
             }
@@ -1763,7 +1662,7 @@ namespace CodeImp.Bloodmasters.Client
 			// Copy data from S to T
 			var gs = Texture.ToStream(s, ImageFileFormat.Bmp);
 			Texture t = Texture.FromStream(Direct3D.d3dd, gs, info.Width, info.Height,
-												1, Usage.None, info.Format, Pool.Managed,
+												1, Usage.None, info.Format, Pool.Default,
 												Filter.Linear, Filter.Linear, 0);
 
 			// Clean up
@@ -2004,11 +1903,11 @@ namespace CodeImp.Bloodmasters.Client
 	}
 
 	// MVertex
-	public struct MVertex
+    public struct MVertex
 	{
 		// Vertex format
 		public static readonly VertexFormat Format = VertexFormat.Position | VertexFormat.Texture3 | VertexFormat.Diffuse;
-		public static readonly int Stride = 10 * 4;
+		public static readonly unsafe int Stride = sizeof(MVertex);
 
 		// Members
 		public float x;
@@ -2028,7 +1927,7 @@ namespace CodeImp.Bloodmasters.Client
 	{
 		// Vertex format
 		public static readonly VertexFormat Format = VertexFormat.Position | VertexFormat.Diffuse;
-		public static readonly int Stride = 4 * 4;
+		public static readonly unsafe int Stride = sizeof(LVertex);
 
 		// Members
 		public float x;
@@ -2042,7 +1941,7 @@ namespace CodeImp.Bloodmasters.Client
 	{
 		// Vertex format
 		public static readonly VertexFormat Format = VertexFormat.PositionRhw | VertexFormat.Texture1 | VertexFormat.Diffuse;
-		public static readonly int Stride = 7 * 4;
+		public static readonly unsafe int Stride = sizeof(TLVertex);
 
 		// Members
 		public float x;
@@ -2059,7 +1958,7 @@ namespace CodeImp.Bloodmasters.Client
 	{
 		// Vertex format
 		public static readonly VertexFormat Format = VertexFormat.Position | VertexFormat.PointSize | VertexFormat.Diffuse;
-		public static readonly int Stride = 5 * 4;
+		public static readonly unsafe int Stride = sizeof(PVertex);
 
 		// Members
 		public float x;
