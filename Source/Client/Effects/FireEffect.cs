@@ -62,7 +62,7 @@ namespace CodeImp.Bloodmasters.Client
             //sound.Position = this.actor.Position;
             //sound.Play(0f, true);
 
-            string snd = DirectSound.GetSound("playerfire.wav", false);
+            var snd = DirectSound.GetSound("playerfire.wav", false);
             var сachedSound = new CachedSound(snd);
             AudioPlaybackEngine.Instance.PlaySound(сachedSound);
 

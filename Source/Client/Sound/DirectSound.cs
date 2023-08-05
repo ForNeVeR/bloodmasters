@@ -47,7 +47,7 @@ namespace CodeImp.Bloodmasters.Client
 		// TODO[#16]: private static Microsoft.DirectX.DirectSound.Buffer dspb;
 
 		// Resources
-		private static Dictionary<string, string> sounds = new();
+		private static Dictionary<string, ISound> sounds = new();
 
 		// Settings
 		public static bool playeffects;
@@ -56,12 +56,6 @@ namespace CodeImp.Bloodmasters.Client
 		// 3D Sound
 		private static Vector2D listenpos;
 		private static List<ISound> playingsounds = new();
-
-        // TODO: Why do we need this?
-        public static Dictionary<string, string> AllSounds
-        {
-            get { return sounds; }
-        }
 
         #endregion
 
@@ -234,29 +228,26 @@ namespace CodeImp.Bloodmasters.Client
 		}
 
 		// This returns a sound object by filename
-		public static string GetSound(string filename, bool positional) //ISound
+		public static ISound GetSound(string filename, bool positional)
         {
 			// Not playing sounds?
 			//if(!DirectSound.playeffects) return new NullSound();
 
-			// Return sound object if it exists
-			if(!sounds.TryGetValue(filename, out var snd))
-			{
-				// Error, sound not loaded
-				if(General.console != null) General.console.AddMessage("Sound file \"" + filename + "\" is not loaded.", true);
-				return null;//new NullSound()
+            if (!sounds.TryGetValue(filename, out var snd))
+            {
+                // Error, sound not loaded
+                if(General.console != null) General.console.AddMessage("Sound file \"" + filename + "\" is not loaded.", true);
+                return new NullSound();
             }
 
-            // Return sound
-            string newsnd = (string)sounds[filename];// TODO[#16]: ISound newsnd = new Sound(snd, positional);
-            return newsnd;
+            return new Sound(snd, positional);
 		}
 
 		// Plays a sound
 		public static void PlaySound(string filename)
 		{
             // Get the sound object and play it
-            string snd = GetSound(filename, false);
+            var snd = GetSound(filename, false);
             var сachedSound = new CachedSound(snd);
             AudioPlaybackEngine.Instance.PlaySound(сachedSound);
 
@@ -268,7 +259,7 @@ namespace CodeImp.Bloodmasters.Client
 		// Plays a sound at a fixed location
 		public static void PlaySound(string filename, Vector2D pos)
 		{
-            string snd = GetSound(filename, false);
+            var snd = GetSound(filename, false);
             var сachedSound = new CachedSound(snd);
             AudioPlaybackEngine.Instance.PlaySound(сachedSound);
             // Get the sound object and play it
@@ -281,7 +272,7 @@ namespace CodeImp.Bloodmasters.Client
 		// Plays a sound at a fixed location with specified volume
 		public static void PlaySound(string filename, Vector2D pos, float volume)
 		{
-            string snd = GetSound(filename, false);
+            var snd = GetSound(filename, false);
             var сachedSound = new CachedSound(snd);
             AudioPlaybackEngine.Instance.PlaySound(сachedSound);
             // Get the sound object and play it
@@ -311,7 +302,7 @@ namespace CodeImp.Bloodmasters.Client
 		// This creates a new sound
 		public static void CreateSound(string filename, string fullfilename)
 		{
-            string s; // TODO[#16]: ISound s
+            ISound s;
 
             // Check if not already exists
             if (sounds.ContainsKey(filename) == false)
@@ -320,12 +311,12 @@ namespace CodeImp.Bloodmasters.Client
 				if(!DirectSound.playeffects)
 				{
 					// No sound
-					s = null;// TODO[#16]: new NullSound()
+                    s = new NullSound();
                 }
 				else
 				{
 					// Load the sound
-					s =  fullfilename; //TODO[#16]: Old: new Sound(filename, fullfilename);
+					s = new Sound(filename, fullfilename);
                 }
 
 				// Add to collection

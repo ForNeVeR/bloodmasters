@@ -922,7 +922,7 @@ namespace CodeImp.Bloodmasters.Client
 			// Make bleep sound
 			//DirectSound.PlaySound("messagebeep.wav");
 
-            string snd = DirectSound.GetSound("messagebeep.wav", false);
+            var snd = DirectSound.GetSound("messagebeep.wav", false);
             var сachedSound = new CachedSound(snd);
             AudioPlaybackEngine.Instance.PlaySound(сachedSound);
         }
@@ -1093,7 +1093,7 @@ namespace CodeImp.Bloodmasters.Client
 		private static void hDamageGiven(NetMessage msg)
 		{
             // Play hit sound
-            string snd = DirectSound.GetSound("hitplayer.wav", false);
+            var snd = DirectSound.GetSound("hitplayer.wav", false);
             var сachedSound = new CachedSound(snd);
             AudioPlaybackEngine.Instance.PlaySound(сachedSound);
             //DirectSound.PlaySound("hitplayer.wav");
@@ -1314,7 +1314,7 @@ namespace CodeImp.Bloodmasters.Client
 				// Show FIGHT!
 				hud.ShowBigMessage("FIGHT!", 1000);
                 //DirectSound.PlaySound("voc_fight.wav");
-                string snd = DirectSound.GetSound("voc_fight.wav", false);
+                var snd = DirectSound.GetSound("voc_fight.wav", false);
                 var сachedSound = new CachedSound(snd);
                 AudioPlaybackEngine.Instance.PlaySound(сachedSound);
 

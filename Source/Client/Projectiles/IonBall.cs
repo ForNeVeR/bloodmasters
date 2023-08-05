@@ -60,7 +60,7 @@ namespace CodeImp.Bloodmasters.Client
             //flying = new NullSound();
             //flying.Position = start;
             //flying.Play(true);
-            string snd = DirectSound.GetSound("plasmafly.wav", false);
+            var snd = DirectSound.GetSound("plasmafly.wav", false);
             var сachedSound = new CachedSound(snd);
             AudioPlaybackEngine.Instance.PlaySound(сachedSound);
         }
@@ -175,7 +175,7 @@ namespace CodeImp.Bloodmasters.Client
 				// Kill flying sound
 				flying.Stop();
 
-                string snd = DirectSound.GetSound("playerfire.wav", false);
+                var snd = DirectSound.GetSound("playerfire.wav", false);
                 var сachedSound = new CachedSound(snd);
 
                 // Make hit sound

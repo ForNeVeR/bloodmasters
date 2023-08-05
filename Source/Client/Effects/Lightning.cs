@@ -5,8 +5,8 @@
 *                                                                   *
 \********************************************************************/
 
-using FireAndForgetAudioSample;
 using System;
+using FireAndForgetAudioSample;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -71,7 +71,7 @@ namespace CodeImp.Bloodmasters.Client
 				fadechange = FADE_CHANGE_BIG;
 
 
-                string snd = DirectSound.GetSound("SND_FILE_START", false);
+                var snd = DirectSound.GetSound("SND_FILE_START", false);
                 var сachedSound = new CachedSound(snd);
 
                 // Play blast sound
@@ -97,7 +97,7 @@ namespace CodeImp.Bloodmasters.Client
             // Play the ending sound
             //DirectSound.PlaySound(SND_FILE_END, MakeMiddlePosition());
 
-            string snd = DirectSound.GetSound(SND_FILE_END, false);
+            var snd = DirectSound.GetSound(SND_FILE_END, false);
             var сachedSound = new CachedSound(snd);
             AudioPlaybackEngine.Instance.PlaySound(сachedSound);
 

@@ -84,7 +84,7 @@ namespace CodeImp.Bloodmasters.Client
                 //loader = DirectSound.GetSound("ioncannon_load.wav", true);
                 //if(client.Actor != null) loader.Position = client.Actor.Position;
                 //loader.Play(false);
-                string snd = DirectSound.GetSound("ioncannon_load.wav", false);
+                var snd = DirectSound.GetSound("ioncannon_load.wav", false);
                 var сachedSound = new CachedSound(snd);
                 AudioPlaybackEngine.Instance.PlaySound(сachedSound);
 

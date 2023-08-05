@@ -1,6 +1,5 @@
-using FireAndForgetAudioSample;
-using System.Globalization;
 using System.IO;
+using FireAndForgetAudioSample;
 
 namespace CodeImp.Bloodmasters.Client;
 
@@ -46,7 +45,7 @@ public class ClientSector : Sector
             //sound = DirectSound.GetSound(SOUND_START, true);
             //sound.Position = new Vector2D(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
             //sound.Play();
-            string snd = DirectSound.GetSound(SOUND_START, false);
+            var snd = DirectSound.GetSound(SOUND_START, false);
             var сachedSound = new CachedSound(snd);
             AudioPlaybackEngine.Instance.PlaySound(сachedSound);
         }
@@ -84,7 +83,7 @@ public class ClientSector : Sector
             //sound = DirectSound.GetSound(SOUND_RUN, true);
             //sound.Position = new Vector2D(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
             //sound.Play(true);
-            string snd = DirectSound.GetSound(SOUND_RUN, false);
+            var snd = DirectSound.GetSound(SOUND_RUN, false);
             var сachedSound = new CachedSound(snd);
             AudioPlaybackEngine.Instance.PlaySound(сachedSound);
 
@@ -125,7 +124,7 @@ public class ClientSector : Sector
             //sound.Position = new Vector2D(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
             //sound.Play();
 
-            string snd = DirectSound.GetSound(SOUND_RUN, false);
+            var snd = DirectSound.GetSound(SOUND_RUN, false);
             var сachedSound = new CachedSound(snd);
             AudioPlaybackEngine.Instance.PlaySound(сachedSound);
         }

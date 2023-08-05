@@ -5,12 +5,11 @@
 *                                                                   *
 \********************************************************************/
 
-using FireAndForgetAudioSample;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
+using FireAndForgetAudioSample;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -401,7 +400,7 @@ namespace CodeImp.Bloodmasters.Client
 			   (powerupfired == false) && (fired == true))
 			{
                 // Play the nuke countdown sound
-                string snd = DirectSound.GetSound("countdownnuke.wav", false);
+                var snd = DirectSound.GetSound("countdownnuke.wav", false);
                 var сachedSound = new CachedSound(snd);
                 AudioPlaybackEngine.Instance.PlaySound(сachedSound);
                 //DirectSound.PlaySound("countdownnuke.wav");
@@ -503,7 +502,7 @@ namespace CodeImp.Bloodmasters.Client
 				// Spawn shock around player
 				//DirectSound.PlaySound("lightning_e.wav", actor.Position);
 
-                string snd = DirectSound.GetSound("lightning_e.wav", false);
+                var snd = DirectSound.GetSound("lightning_e.wav", false);
                 var сachedSound = new CachedSound(snd);
                 AudioPlaybackEngine.Instance.PlaySound(сachedSound);
 
@@ -629,7 +628,7 @@ namespace CodeImp.Bloodmasters.Client
 						int var = General.random.Next(variations);
 
                         string death_variant = "death" + (int)method + "var" + var + ".wav";
-                        string snd = DirectSound.GetSound(death_variant, false);
+                        var snd = DirectSound.GetSound(death_variant, false);
                         var сachedSound = new CachedSound(snd);
                         AudioPlaybackEngine.Instance.PlaySound(сachedSound);
 
@@ -673,7 +672,7 @@ namespace CodeImp.Bloodmasters.Client
 				{
                     // Play leave sound here
                     //DirectSound.PlaySound("playerleave.wav", actor.Position);
-                    string snd = DirectSound.GetSound("playerleave.wav", false);
+                    var snd = DirectSound.GetSound("playerleave.wav", false);
                     var сachedSound = new CachedSound(snd);
                     AudioPlaybackEngine.Instance.PlaySound(сachedSound);
 
@@ -764,7 +763,7 @@ namespace CodeImp.Bloodmasters.Client
                 // Play spawn sound here
                 // For local client, always play at full volume
                 // because the view screen may not be at this location yet
-                string snd = DirectSound.GetSound("playerspawn.wav", false);
+                var snd = DirectSound.GetSound("playerspawn.wav", false);
                 var сachedSound = new CachedSound(snd);
 
                 if (this.IsLocal)
@@ -832,7 +831,7 @@ namespace CodeImp.Bloodmasters.Client
 			//DirectSound.PlaySound("teleport.wav", oldpos);
 			//DirectSound.PlaySound("teleport.wav", newpos);
 
-            string snd = DirectSound.GetSound("teleport.wav", false);
+            var snd = DirectSound.GetSound("teleport.wav", false);
             var сachedSound = new CachedSound(snd);
             AudioPlaybackEngine.Instance.PlaySound(сachedSound);
 
@@ -885,7 +884,7 @@ namespace CodeImp.Bloodmasters.Client
                         //hurtsound = DirectSound.GetSound("hurt" + hurtlevel.ToString(CultureInfo.InvariantCulture) + ".wav", true);
                         //hurtsound.Position = this.actor.Position;
                         //hurtsound.Play();
-                        string snd = DirectSound.GetSound("hurt" + hurtlevel.ToString(CultureInfo.InvariantCulture)+ ".wav", false);
+                        var snd = DirectSound.GetSound("hurt" + hurtlevel.ToString(CultureInfo.InvariantCulture)+ ".wav", false);
                         var сachedSound = new CachedSound(snd);
                         AudioPlaybackEngine.Instance.PlaySound(сachedSound);
                     }

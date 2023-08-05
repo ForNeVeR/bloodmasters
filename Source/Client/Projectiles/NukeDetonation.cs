@@ -58,7 +58,7 @@ namespace CodeImp.Bloodmasters.Client
 			// Make explosion sound
 			//DirectSound.PlaySound("nukeexplode.wav", pos, 2f);
 
-            string snd = DirectSound.GetSound("nukeexplode.wav", false);
+            var snd = DirectSound.GetSound("nukeexplode.wav", false);
             var сachedSound = new CachedSound(snd);
             AudioPlaybackEngine.Instance.PlaySound(сachedSound);
 

@@ -5,9 +5,9 @@
 *                                                                   *
 \********************************************************************/
 
-using FireAndForgetAudioSample;
 using System;
 using System.Globalization;
+using FireAndForgetAudioSample;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -78,7 +78,7 @@ namespace CodeImp.Bloodmasters.Client
 				//DirectSound.PlaySound("bloodsplat" + var.ToString(CultureInfo.InvariantCulture) + ".wav", pos);
                 string bloodsplat_variant = "bloodsplat" + variant.ToString(CultureInfo.InvariantCulture) + ".wav";
 
-                string snd = DirectSound.GetSound(bloodsplat_variant, false);
+                var snd = DirectSound.GetSound(bloodsplat_variant, false);
                 var сachedSound = new CachedSound(snd);
                 AudioPlaybackEngine.Instance.PlaySound(сachedSound);
             }

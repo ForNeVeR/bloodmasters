@@ -86,7 +86,7 @@ namespace CodeImp.Bloodmasters.Client
                 //if(client.Actor != null) rotor.Position = client.Actor.Position;
                 //rotor.Play(repeat);
 
-                string _snd = DirectSound.GetSound(filename, false);
+                var _snd = DirectSound.GetSound(filename, false);
                 var сachedSound = new CachedSound(_snd);
                 AudioPlaybackEngine.Instance.PlaySound(сachedSound);
             }

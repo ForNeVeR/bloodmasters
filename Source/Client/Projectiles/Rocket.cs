@@ -64,7 +64,7 @@ namespace CodeImp.Bloodmasters.Client
             //flying.Position = start;
             //flying.Play(true);
 
-            string snd = DirectSound.GetSound("rocketfly.wav", false);
+            var snd = DirectSound.GetSound("rocketfly.wav", false);
             var сachedSound = new CachedSound(snd);
             AudioPlaybackEngine.Instance.PlaySound(сachedSound);
         }

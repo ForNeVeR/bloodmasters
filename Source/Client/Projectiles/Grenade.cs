@@ -84,7 +84,7 @@ namespace CodeImp.Bloodmasters.Client
 			base.Update(newpos, newvel);
 
             // Make bounce sound
-            string snd = DirectSound.GetSound("grenadebounce.wav", false);
+            var snd = DirectSound.GetSound("grenadebounce.wav", false);
             var сachedSound = new CachedSound(snd);
 
             if ((sector != null) && sector.VisualSector.InScreen)
@@ -140,9 +140,9 @@ namespace CodeImp.Bloodmasters.Client
 					}
 				}
 
-                string snd = DirectSound.GetSound("rockethit.wav", false);
+                var snd = DirectSound.GetSound("rockethit.wav", false);
                 var сachedSound = new CachedSound(snd);
-               
+
                 // Make hit sound
                 if (sector.VisualSector.InScreen)
                     AudioPlaybackEngine.Instance.PlaySound(сachedSound);//DirectSound.PlaySound("rockethit.wav", atpos);
@@ -158,9 +158,9 @@ namespace CodeImp.Bloodmasters.Client
 				{
                     // Make splash sound
 
-                    string snd = DirectSound.GetSound("dropwater.wav", false);
+                    var snd = DirectSound.GetSound("dropwater.wav", false);
                     var сachedSound = new CachedSound(snd);
-                    
+
                     if (sector.VisualSector.InScreen)
                         AudioPlaybackEngine.Instance.PlaySound(сachedSound); //DirectSound.PlaySound("dropwater.wav", atpos);
 

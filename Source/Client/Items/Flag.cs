@@ -5,9 +5,9 @@
 *                                                                   *
 \********************************************************************/
 
-using FireAndForgetAudioSample;
 using System;
 using System.Globalization;
+using FireAndForgetAudioSample;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -113,7 +113,7 @@ namespace CodeImp.Bloodmasters.Client
 				General.console.AddMessage(clnt.Name + "^7 has taken the " + thisteamname + " flag");
 				General.hud.ShowBigMessage(thisteamcolor + thisteamname.ToUpper() + " FLAG TAKEN!", 2000);
 
-                string snd = DirectSound.GetSound("flagtaken.wav", false);
+                var snd = DirectSound.GetSound("flagtaken.wav", false);
                 var сachedSound = new CachedSound(snd);
                 AudioPlaybackEngine.Instance.PlaySound(сachedSound);
                 //DirectSound.PlaySound("flagtaken.wav");
@@ -160,7 +160,7 @@ namespace CodeImp.Bloodmasters.Client
 				General.console.AddMessage(clnt.Name + "^7 scored for the " + otherteamname + " team");
 				General.hud.ShowBigMessage(otherteamcolor + otherteamname.ToUpper() + " TEAM SCORES", 2000);
 
-                string snd = DirectSound.GetSound("flagcapture.wav", false);
+                var snd = DirectSound.GetSound("flagcapture.wav", false);
                 var сachedSound = new CachedSound(snd);
                 AudioPlaybackEngine.Instance.PlaySound(сachedSound);
                 //DirectSound.PlaySound("flagcapture.wav");
@@ -180,7 +180,7 @@ namespace CodeImp.Bloodmasters.Client
 				// Flag returned
 				General.hud.ShowBigMessage(thisteamcolor + thisteamname.ToUpper() + " FLAG RETURNED", 2000);
 
-                string snd = DirectSound.GetSound("flagreturn.wav", false);
+                var snd = DirectSound.GetSound("flagreturn.wav", false);
                 var сachedSound = new CachedSound(snd);
                 AudioPlaybackEngine.Instance.PlaySound(сachedSound);
                 //DirectSound.PlaySound("flagreturn.wav");
@@ -239,7 +239,7 @@ namespace CodeImp.Bloodmasters.Client
 				// Flag dropped
 				General.console.AddMessage(this.Owner.Name + "^7 dropped the " + thisteamname + " flag");
 
-                string snd = DirectSound.GetSound("flagdropped.wav", false);
+                var snd = DirectSound.GetSound("flagdropped.wav", false);
                 var сachedSound = new CachedSound(snd);
                 AudioPlaybackEngine.Instance.PlaySound(сachedSound);
                 //DirectSound.PlaySound("flagdropped.wav");

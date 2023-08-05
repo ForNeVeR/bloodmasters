@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using CodeImp.Bloodmasters.Client;
 using NAudio.Wave;
 
 namespace FireAndForgetAudioSample
@@ -8,6 +9,7 @@ namespace FireAndForgetAudioSample
     {
         public float[] AudioData { get; private set; }
         public WaveFormat WaveFormat { get; private set; }
+        public CachedSound(ISound sound) : this(sound.Filename) {} // TODO: Get rid of this, move everything into Sound
         public CachedSound(string audioFileName)
         {
             using (var audioFileReader = new AudioFileReader(audioFileName))

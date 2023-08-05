@@ -53,9 +53,9 @@ namespace CodeImp.Bloodmasters.Client
 			this.fadeout = fadeout;
 			this.lightcolor = General.ARGB(1f, 0.2f, 0.5f, 0.1f);
 
-            string snd = DirectSound.GetSound("shieldhit.wav", false);
+            var snd = DirectSound.GetSound("shieldhit.wav", false);
             var сachedSound = new CachedSound(snd);
-           
+
             // Play the shield hit sound when in screen
             if (actor.Sector.VisualSector.InScreen)
                 AudioPlaybackEngine.Instance.PlaySound(сachedSound);//DirectSound.PlaySound("shieldhit.wav", actor.Position);

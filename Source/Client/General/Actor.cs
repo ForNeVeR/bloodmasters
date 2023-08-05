@@ -906,7 +906,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Make a random step sound on this sectors material
 				string sound = "fallmat" + highestsector.Material.ToString(CultureInfo.InvariantCulture) + ".wav";
-                string snd = DirectSound.GetSound(sound, false);
+                var snd = DirectSound.GetSound(sound, false);
                 var сachedSound = new CachedSound(snd);
                 AudioPlaybackEngine.Instance.PlaySound(сachedSound);
                 //DirectSound.PlaySound(sound, state.pos, 0.5f);

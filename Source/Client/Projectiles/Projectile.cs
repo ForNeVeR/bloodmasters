@@ -5,9 +5,9 @@
 *                                                                   *
 \********************************************************************/
 
-using FireAndForgetAudioSample;
 using System;
 using System.Reflection;
+using FireAndForgetAudioSample;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -151,7 +151,7 @@ namespace CodeImp.Bloodmasters.Client
             // Play teleport sound at both locations
             //DirectSound.PlaySound("teleportsmall.wav", oldpos);
             //DirectSound.PlaySound("teleportsmall.wav", newpos);
-            string snd = DirectSound.GetSound("teleportsmall.wav", false);
+            var snd = DirectSound.GetSound("teleportsmall.wav", false);
             var сachedSound = new CachedSound(snd);
             AudioPlaybackEngine.Instance.PlaySound(сachedSound);
 

@@ -289,7 +289,7 @@ namespace CodeImp.Bloodmasters.Client
 		public virtual void Respawn(bool playsound)
 		{
             // Play item respawn sound
-            string snd = DirectSound.GetSound("itemrespawn.wav", false);
+            var snd = DirectSound.GetSound("itemrespawn.wav", false);
             var сachedSound = new CachedSound(snd);
 
             if (playsound && sector.VisualSector.InScreen) AudioPlaybackEngine.Instance.PlaySound(сachedSound);//DirectSound.PlaySound("itemrespawn.wav", pos);

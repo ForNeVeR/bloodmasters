@@ -5,8 +5,8 @@
 *                                                                   *
 \********************************************************************/
 
-using FireAndForgetAudioSample;
 using System;
+using FireAndForgetAudioSample;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -71,7 +71,7 @@ namespace CodeImp.Bloodmasters.Client
             //firesound.Volume = 0f;
             //firesound.SetRandomOffset();
             //firesound.Play(true);
-            string snd = DirectSound.GetSound("playerfire.wav", false);
+            var snd = DirectSound.GetSound("playerfire.wav", false);
             var сachedSound = new CachedSound(snd);
             AudioPlaybackEngine.Instance.PlaySound(сachedSound);
         }
