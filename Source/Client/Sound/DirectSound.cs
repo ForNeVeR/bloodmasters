@@ -47,7 +47,7 @@ namespace CodeImp.Bloodmasters.Client
 		// TODO[#16]: private static Microsoft.DirectX.DirectSound.Buffer dspb;
 
 		// Resources
-		private static Dictionary<string, ISound> sounds = new();
+		private static Dictionary<string, string> sounds = new();
 
 		// Settings
 		public static bool playeffects;
@@ -58,7 +58,7 @@ namespace CodeImp.Bloodmasters.Client
 		private static List<ISound> playingsounds = new();
 
         // TODO: Why do we need this?
-        public static Dictionary<string, ISound> AllSounds
+        public static Dictionary<string, string> AllSounds
         {
             get { return sounds; }
         }
@@ -240,7 +240,7 @@ namespace CodeImp.Bloodmasters.Client
 			//if(!DirectSound.playeffects) return new NullSound();
 
 			// Return sound object if it exists
-			if(!sounds.TryGetValue(filename, out ISound snd))
+			if(!sounds.TryGetValue(filename, out var snd))
 			{
 				// Error, sound not loaded
 				if(General.console != null) General.console.AddMessage("Sound file \"" + filename + "\" is not loaded.", true);
