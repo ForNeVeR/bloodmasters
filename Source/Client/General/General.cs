@@ -327,8 +327,8 @@ namespace CodeImp.Bloodmasters.Client
 			ArchiveManager.Dispose();
 
 			// Delete the temporary directory
-			if(!string.IsNullOrEmpty(Paths.TempDirPath))
-				try { Directory.Delete(Paths.TempDirPath, true); } catch(Exception) { }
+			if(!string.IsNullOrEmpty(Paths.TempDir))
+				try { Directory.Delete(Paths.TempDir, true); } catch(Exception) { }
 
 			// End of program
 			Application.Exit();
@@ -1982,7 +1982,7 @@ namespace CodeImp.Bloodmasters.Client
 			clients[localclientid] = General.localclient;
 
 			// Load the map
-			try { map = new ClientMap(mapname, false, Paths.TempDirPath); }
+			try { map = new ClientMap(mapname, false, Paths.TempDir); }
 			catch(FileNotFoundException) { return "You do not have the map \"" + mapname + "\"."; }
 
 			// Load the arena

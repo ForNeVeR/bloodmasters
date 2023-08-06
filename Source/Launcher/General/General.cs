@@ -253,8 +253,8 @@ namespace CodeImp.Bloodmasters.Launcher
 			ArchiveManager.Dispose();
 
 			// Delete the temporary directory
-			if(!string.IsNullOrEmpty(Paths.TempDirPath))
-				try { Directory.Delete(Paths.TempDirPath, true); } catch(Exception) { }
+			if(!string.IsNullOrEmpty(Paths.TempDir))
+				try { Directory.Delete(Paths.TempDir, true); } catch(Exception) { }
 
 			// End of program
 			Application.Exit();

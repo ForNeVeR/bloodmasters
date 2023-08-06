@@ -585,7 +585,7 @@ namespace CodeImp.Bloodmasters.Server
 			Write("Server is loading map \"" + nextmapname + "\"...", true);
 
 			// Load the map title
-			Bloodmasters.Map mapcfg = new ServerMap(nextmapname, true, Paths.TempDirPath);
+			Bloodmasters.Map mapcfg = new ServerMap(nextmapname, true, Paths.TempDir);
 			string maptitle = mapcfg.Title;
 			mapcfg.Dispose();
 
@@ -609,7 +609,7 @@ namespace CodeImp.Bloodmasters.Server
 			LoadLocalBans();
 
 			// Load the map
-			map = new ServerMap(nextmapname, false, Paths.TempDirPath);
+			map = new ServerMap(nextmapname, false, Paths.TempDir);
 
 			// New items
 			items = new Dictionary<string, Item>();

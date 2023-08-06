@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace CodeImp.Bloodmasters;
 
@@ -100,9 +99,12 @@ public static class Paths
     public static readonly string LogDirPath = AppBaseDir;
 
     /// <summary>Directory for screenshots. Write access.</summary>
-    // TODO[#93]: Write screenshots to the user documents folder
-    public static readonly string ScreenshotsDirPath = Path.Combine(AppBaseDir, "Screenshots");
+    public static readonly string ScreenshotsDir = Directory.CreateDirectory(
+        Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
+            "Bloodmasters"
+        )).FullName;
 
     /// <summary>Directory for temporary data. Read + write access.</summary>
-    public static readonly string TempDirPath = Directory.CreateTempSubdirectory(prefix: "Bloodmasters").FullName;
+    public static readonly string TempDir = Directory.CreateTempSubdirectory(prefix: "Bloodmasters").FullName;
 }

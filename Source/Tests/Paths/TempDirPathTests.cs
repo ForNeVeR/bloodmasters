@@ -7,7 +7,7 @@ public sealed class TempDirPathTests
     public void TemporaryDirectoryShouldContainSuffixBloodmasters()
     {
         // Arrange
-        var dirName = Path.GetFileName(CodeImp.Bloodmasters.Paths.TempDirPath);
+        var dirName = Path.GetFileName(CodeImp.Bloodmasters.Paths.TempDir);
 
         // Assert
         Assert.StartsWith("Bloodmasters", dirName);

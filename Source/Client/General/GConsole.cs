@@ -664,7 +664,7 @@ namespace CodeImp.Bloodmasters.Client
 		{
 			// Make path and filename
 			string filename = General.mapname + "_" + DateTime.Now.ToString("MM\\_dd\\_yyyy\\_HH\\_mm\\_ss") + ".png";
-			string pathname = Path.Combine(Paths.ScreenshotsDirPath);
+			string pathname = Path.Combine(Paths.ScreenshotsDir);
 			string filepathname = Path.Combine(pathname, filename);
 
 			// Ensure screenshots directory exists

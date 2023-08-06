@@ -79,7 +79,7 @@ namespace CodeImp.Bloodmasters.Server
 			ArchiveManager.Dispose();
 
 			// Delete the temporary directory
-			if(!string.IsNullOrEmpty(Paths.TempDirPath)) Directory.Delete(Paths.TempDirPath, true);
+			if(!string.IsNullOrEmpty(Paths.TempDir)) Directory.Delete(Paths.TempDir, true);
 
 			// End of program
 			//Application.Exit();
