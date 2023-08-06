@@ -16,7 +16,7 @@ public class PathsFixture : IDisposable
         {
             foreach (string dir in GetAllDirPaths().SelectMany(x => x))
             {
-                Directory.Delete(dir);
+                Directory.Delete(dir, true);
             }
         }
     }
