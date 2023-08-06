@@ -25,7 +25,7 @@ public static class Paths
         return Path.GetDirectoryName(modulePath) ?? Environment.CurrentDirectory;
     }
 
-    private static readonly bool IsDevModeBuild =
+    internal static readonly bool IsDevModeBuild =
         File.Exists(Path.Combine(AppBaseDir, DevModeMarkerFileName));
 
     private static readonly string? SolutionRootPath =

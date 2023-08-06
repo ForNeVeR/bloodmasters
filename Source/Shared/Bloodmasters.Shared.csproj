@@ -12,4 +12,8 @@
       <PackageReference Include="SharpCompress" Version="0.33.0" />
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="Bloodmasters.Tests" />
+    </ItemGroup>
+
 </Project>
