@@ -6,6 +6,7 @@ public class PathsFixture : IDisposable
     {
         yield return new object[] { CodeImp.Bloodmasters.Paths.TempDirPath };
         yield return new object[] { CodeImp.Bloodmasters.Paths.DownloadedResourceDir };
+        yield return new object[] { CodeImp.Bloodmasters.Paths.ConfigDirPath };
     }
 
     public void Dispose()

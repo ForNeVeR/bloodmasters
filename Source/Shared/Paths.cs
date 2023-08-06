@@ -89,7 +89,11 @@ public static class Paths
     public static readonly string ConfigDirPath =
         IsDevModeBuild
             ? Path.Combine(SolutionRootPath!, "Source", "Config", "Debug")
-            : Path.Combine(AppBaseDir); // TODO[#93]: Better path for r+w files in release, like AppData
+            : Directory.CreateDirectory(
+                Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    "Bloodmasters"
+                )).FullName;
 
     /// <summary>Directory for the log files. Write access.</summary>
     // TODO[#93]: Logs in production should be moved to another place
