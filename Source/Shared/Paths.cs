@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace CodeImp.Bloodmasters;
 
@@ -78,8 +79,11 @@ public static class Paths
     public static readonly string BundledResourceDir = ContentDirPath;
 
     /// <summary>Directory for the downloaded resources. Read + write access.</summary>
-    // TODO[#93]: Better download path, like the user Downloads folder or AppData
-    public static readonly string DownloadedResourceDir = ContentDirPath;
+    public static readonly string DownloadedResourceDir = Directory.CreateDirectory(
+        Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "Bloodmasters"
+        )).FullName;
 
     /// <summary>Directory with the game configuration files. Read + write access.</summary>
     public static readonly string ConfigDirPath =
