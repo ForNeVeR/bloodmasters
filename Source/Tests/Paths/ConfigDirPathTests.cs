@@ -1,17 +1,27 @@
 namespace Bloodmasters.Tests.Paths;
 
-[Collection(TestCollections.Paths)]
 public class ConfigDirPathTests
 {
-    [Fact(DisplayName = "ConfigDirPath should be named 'Debug' in dev mode and 'Bloodmasters' otherwise")]
-    public void ConfigDirPathShouldBeNamedDebugInDevModeAndBloodmastersOtherwise()
+    [Fact(DisplayName = "ConfigDirPath should be named 'Debug' in dev mode and 'Config' otherwise")]
+    public void ConfigDirPathShouldBeNamedDebugInDevModeAndConfigOtherwise()
     {
         // Arrange
         var dirName = Path.GetFileName(CodeImp.Bloodmasters.Paths.ConfigDirPath);
 
         // Assert
         Assert.Equal(
-            CodeImp.Bloodmasters.Paths.IsDevModeBuild ? "Debug" : "Bloodmasters",
+            CodeImp.Bloodmasters.Paths.IsDevModeBuild ? "Debug" : "Config",
             dirName);
+    }
+
+    [Fact(DisplayName = "ConfigDirPath should be subdirectory of the 'Bloodmasters' directory")]
+    public void DownloadedResourceDirShouldBeSubdirectoryOfBloodmasters()
+    {
+        // Arrange
+        var dirPath = CodeImp.Bloodmasters.Paths.ConfigDirPath;
+        var bloodmastersDirPath = Path.GetDirectoryName(dirPath);
+
+        // Assert
+        Assert.Equal("Bloodmasters", Path.GetFileName(bloodmastersDirPath));
     }
 }

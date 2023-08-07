@@ -81,7 +81,8 @@ public static class Paths
     public static readonly string DownloadedResourceDir = Directory.CreateDirectory(
         Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "Bloodmasters"
+            "Bloodmasters",
+            "Downloads"
         )).FullName;
 
     /// <summary>Directory with the game configuration files. Read + write access.</summary>
@@ -91,7 +92,8 @@ public static class Paths
             : Directory.CreateDirectory(
                 Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    "Bloodmasters"
+                    "Bloodmasters",
+                    "Config"
                 )).FullName;
 
     /// <summary>Directory for the log files. Write access.</summary>

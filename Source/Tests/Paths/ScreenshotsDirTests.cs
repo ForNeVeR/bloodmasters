@@ -1,6 +1,5 @@
 namespace Bloodmasters.Tests.Paths;
 
-[Collection(TestCollections.Paths)]
 public class ScreenshotsDirTests
 {
     [Fact(DisplayName = "ScreenshotsDir should be named 'Bloodmasters'")]
