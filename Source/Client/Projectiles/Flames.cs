@@ -6,7 +6,6 @@
 \********************************************************************/
 
 using System;
-using FireAndForgetAudioSample;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -32,7 +31,7 @@ namespace CodeImp.Bloodmasters.Client
 		private int fadeouttime;
 		private int spawntime = 0;
 		private float intensity = 1f;
-		private Sound firesound = null;
+		private ISound firesound = null;
 		private DynamicLight light;
 		private int smoketime = 0;
 		private int fluxoffset;
@@ -66,14 +65,11 @@ namespace CodeImp.Bloodmasters.Client
 			fluxoffset = General.random.Next(1000);
 
             // Create sound
-            //firesound = DirectSound.GetSound("playerfire.wav", true);
-            //firesound.Position = start;
-            //firesound.Volume = 0f;
-            //firesound.SetRandomOffset();
-            //firesound.Play(true);
-            var snd = DirectSound.GetSound("playerfire.wav", false);
-            var сachedSound = new CachedSound(snd);
-            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+            firesound = DirectSound.GetSound("playerfire.wav", true);
+            firesound.Position = start;
+            firesound.Volume = 0f;
+            firesound.SetRandomOffset();
+            firesound.Play(true);
         }
 
 		// Dispose

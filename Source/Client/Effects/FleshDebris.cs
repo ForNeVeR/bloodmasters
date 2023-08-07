@@ -7,7 +7,6 @@
 
 using System;
 using System.Globalization;
-using FireAndForgetAudioSample;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -75,12 +74,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Make sound
 				int variant = General.random.Next(SOUND_VARIATIONS) + 1;
-				//DirectSound.PlaySound("bloodsplat" + var.ToString(CultureInfo.InvariantCulture) + ".wav", pos);
-                string bloodsplat_variant = "bloodsplat" + variant.ToString(CultureInfo.InvariantCulture) + ".wav";
-
-                var snd = DirectSound.GetSound(bloodsplat_variant, false);
-                var сachedSound = new CachedSound(snd);
-                AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+				DirectSound.PlaySound("bloodsplat" + variant.ToString(CultureInfo.InvariantCulture) + ".wav", pos);
             }
 		}
 

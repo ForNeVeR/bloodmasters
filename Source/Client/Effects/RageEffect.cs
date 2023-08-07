@@ -6,7 +6,6 @@
 \********************************************************************/
 
 using System;
-using FireAndForgetAudioSample;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -50,12 +49,9 @@ namespace CodeImp.Bloodmasters.Client
 			this.pos = actor.Position;
 
             // Get the sound
-            //sound = DirectSound.GetSound("rage.wav", true);
-            //sound.Position = actor.Position;
-            //sound.Play(true);
-            var snd = DirectSound.GetSound("rage.wav", false);
-            var сachedSound = new CachedSound(snd);
-            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+            sound = DirectSound.GetSound("rage.wav", true);
+            sound.Position = actor.Position;
+            sound.Play(true);
 
             // Make light
             light = new DynamicLight(actor.Position, 12f, General.ARGB(1f, 1f, 0.2f, 0.1f), 2);

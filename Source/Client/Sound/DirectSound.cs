@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using FireAndForgetAudioSample;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -84,10 +83,10 @@ namespace CodeImp.Bloodmasters.Client
 			WaveFormat bufferformat;
 			int soundfreq;
 			int soundbits;
-
+            */
 			// Init log table
 			BuildLog10Table();
-
+/* TODO[#16]:
 			// Get settings from configuration
 
 			effectsvolume = CalcVolumeScale((float)General.config.ReadSetting("soundsvolume", 100) / 100f);
@@ -247,39 +246,29 @@ namespace CodeImp.Bloodmasters.Client
 		public static void PlaySound(string filename)
 		{
             // Get the sound object and play it
-            var snd = GetSound(filename, false);
-            var сachedSound = new CachedSound(snd);
-            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
-
-            //ISound snd = GetSound(filename, false);
-            //snd.AutoDispose = true;
-            //snd.Play();
+            ISound snd = GetSound(filename, false);
+            snd.AutoDispose = true;
+            snd.Play();
         }
 
 		// Plays a sound at a fixed location
 		public static void PlaySound(string filename, Vector2D pos)
 		{
-            var snd = GetSound(filename, false);
-            var сachedSound = new CachedSound(snd);
-            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
             // Get the sound object and play it
-            //ISound snd = GetSound(filename, true);
-            //snd.AutoDispose = true;
-            //snd.Position = pos;
-            //snd.Play();
+            ISound snd = GetSound(filename, true);
+            snd.AutoDispose = true;
+            snd.Position = pos;
+            snd.Play();
         }
 
 		// Plays a sound at a fixed location with specified volume
 		public static void PlaySound(string filename, Vector2D pos, float volume)
 		{
-            var snd = GetSound(filename, false);
-            var сachedSound = new CachedSound(snd);
-            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
             // Get the sound object and play it
-            //ISound snd = GetSound(filename, true);
-            //snd.AutoDispose = true;
-            //snd.Position = pos;
-            //snd.Play(volume, false);
+            ISound snd = GetSound(filename, true);
+            snd.AutoDispose = true;
+            snd.Position = pos;
+            snd.Play(volume, false);
         }
 
 		#endregion

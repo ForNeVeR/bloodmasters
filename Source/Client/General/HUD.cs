@@ -11,7 +11,6 @@
 using System;
 using System.Drawing;
 using System.Globalization;
-using FireAndForgetAudioSample;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -548,9 +547,7 @@ namespace CodeImp.Bloodmasters.Client
 					// Change countdown number
 					lastcountdown = thiscountdown;
 					ShowBigMessage(thiscountdown.ToString(), 400);
-                    //if(thiscountdown < 4) DirectSound.PlaySound("voc_" + thiscountdown + ".wav");
-                    if (thiscountdown < 4) AudioPlaybackEngine.Instance.PlaySound(new CachedSound("voc_" + thiscountdown + ".wav"));
-
+                    if(thiscountdown < 4) DirectSound.PlaySound("voc_" + thiscountdown + ".wav");
                 }
 			}
 

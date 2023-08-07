@@ -15,7 +15,7 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Variables
 
 		// Variables
-		private SecondarySoundBuffer snd;
+		private readonly SimpleSampleProvider _soundSample;
 		private bool repeat = false;
 		private bool autodispose = false;
 		private string filename;
@@ -37,7 +37,7 @@ namespace CodeImp.Bloodmasters.Client
 		public bool AutoDispose { get { return autodispose; } set { autodispose = value; } }
 		public string Filename { get { return filename; } }
 		public float Volume { get { return volume; } set { newvolume = value; update = true; } }
-		public bool Playing { get { if(snd != null) return ((BufferStatus)snd.Status).HasFlag(BufferStatus.Playing); else return false; } }
+        public bool Playing => _soundSample.IsPlaying;
 		public bool Positional { get { return positional; } }
 		public Vector2D Position { get { return pos; } set { pos = value; update = true; } }
 		public bool Disposed { get { return disposed; } }
@@ -53,13 +53,8 @@ namespace CodeImp.Bloodmasters.Client
 			this.filename = filename;
             this.fullfilename = fullfilename;
 
-            // Set the sounds caps
-            SoundBufferDescription bufferdesc = new SoundBufferDescription();
-			bufferdesc.Flags = BufferFlags.ControlVolume | BufferFlags.ControlPan;
-
 			// Load the sound
-			snd = new(DirectSound.dsd, bufferdesc);
-            // TODO[#16]: Load the actual sound from fullfilename
+            _soundSample = SimpleSampleProvider.ReadFromFile(fullfilename);
 
 			// Done
 		}
@@ -70,8 +65,8 @@ namespace CodeImp.Bloodmasters.Client
 			// Keep the filename
 			this.filename = clonesnd.Filename;
 
-			// TODO[#16]: Clone the sound
-			// snd = clonesnd.snd.Clone(DirectSound.dsd);
+			// Clone the sound
+			_soundSample = ((Sound)clonesnd)._soundSample.Clone();
 
 			// Add to sounds collection
 			DirectSound.AddPlayingSound(this);
@@ -89,12 +84,10 @@ namespace CodeImp.Bloodmasters.Client
 				DirectSound.RemovePlayingSound(this);
 
 				// Dispose sound
-				if(snd != null)
+				if(_soundSample != null)
 				{
-					snd.Stop();
-					snd.Dispose();
+					_soundSample.Stop();
 				}
-				snd = null;
 				disposed = true;
 				GC.SuppressFinalize(this);
 			}
@@ -111,8 +104,9 @@ namespace CodeImp.Bloodmasters.Client
 			if(disposed) return;
 
 			// Reset volume/pan
-			snd.Volume = 0;
-			snd.Volume = -10000;
+            // TODO[#16]: Volume control
+			// _soundSample.Volume = 0;
+			// _soundSample.Volume = -10000;
 		}
 
 		// Called when its time to apply changes
@@ -148,13 +142,15 @@ namespace CodeImp.Bloodmasters.Client
 					if(pan > 10000) pan = 10000; else if(pan < -10000) pan = -10000;
 
 					// Apply final volume
-					snd.Volume = vol;
-					snd.Pan = pan;
+                    // TODO[#16]: Volume, pan
+					// _soundSample.Volume = vol;
+					// _soundSample.Pan = pan;
 				}
 				else
 				{
 					// Apply volume
-					snd.Volume = DirectSound.effectsvolume + absvolume;
+                    // TODO[#16]: Volume, pan
+					//_soundSample.Volume = DirectSound.effectsvolume + absvolume;
 				}
 
 				// Set next update time
@@ -166,7 +162,7 @@ namespace CodeImp.Bloodmasters.Client
 		public void SetRandomOffset()
 		{
 			// Seek to a random position
-			if(snd != null) snd.CurrentPosition = General.random.Next(snd.Capabilities.BufferBytes);
+			if(_soundSample != null) _soundSample.CurrentPosition = General.random.Next(_soundSample.Length);
 		}
 
 		// Play sound
@@ -179,12 +175,11 @@ namespace CodeImp.Bloodmasters.Client
 			// Leave when disposed
 			if(disposed) return;
 
-			// Repeat?
-			if(repeat) flags = PlayFlags.Looping;
+            if (Playing) Stop();
 
-			// Stop if playing
-			snd.Stop();
-			snd.CurrentPosition = 0;
+			// Repeat?
+            _soundSample.ShouldRepeat = repeat;
+			_soundSample.CurrentPosition = 0;
 
 			// Apply new settings
 			this.newvolume = volume;
@@ -192,19 +187,15 @@ namespace CodeImp.Bloodmasters.Client
 			this.Update();
 
 			// Play the sound
-			snd.Play(0, flags);
+            NAudioPlaybackEngine.Instance.PlaySound(_soundSample);
 		}
 
 		// Stops all instances
 		public void Stop()
-		{
-			// Leave when disposed
-			if(disposed) return;
-
-			// Stop sound
-			snd.Stop();
-			this.repeat = false;
-		}
+        {
+            _soundSample.Stop();
+            NAudioPlaybackEngine.Instance.StopSound(_soundSample);
+        }
 
 		#endregion
 	}

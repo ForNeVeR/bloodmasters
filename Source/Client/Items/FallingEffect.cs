@@ -5,8 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using FireAndForgetAudioSample;
-
 namespace CodeImp.Bloodmasters.Client
 {
 	[ClientItem(9002, Visible=false, OnFloor=false)]
@@ -51,10 +49,7 @@ namespace CodeImp.Bloodmasters.Client
 						if((a < 1f) && !c.Actor.FallSoundPlayed)
 						{
                             // Scream for me baby
-                            var snd = DirectSound.GetSound("falling.wav", false);
-                            var сachedSound = new CachedSound(snd);
-                            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
-                            //DirectSound.PlaySound("falling.wav", c.Actor.Position);
+                            DirectSound.PlaySound("falling.wav", c.Actor.Position);
 							c.Actor.FallSoundPlayed = true;
 						}
 

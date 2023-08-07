@@ -6,7 +6,6 @@
 \********************************************************************/
 
 using System;
-using FireAndForgetAudioSample;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -71,11 +70,8 @@ namespace CodeImp.Bloodmasters.Client
 				fadechange = FADE_CHANGE_BIG;
 
 
-                var snd = DirectSound.GetSound("SND_FILE_START", false);
-                var сachedSound = new CachedSound(snd);
-
                 // Play blast sound
-                if (blastsound) AudioPlaybackEngine.Instance.PlaySound(сachedSound);//DirectSound.PlaySound(SND_FILE_START, MakeMiddlePosition());
+                if(blastsound) DirectSound.PlaySound(SND_FILE_START, MakeMiddlePosition());
             }
 			else
 			{
@@ -95,11 +91,7 @@ namespace CodeImp.Bloodmasters.Client
 		public void Dispose()
 		{
             // Play the ending sound
-            //DirectSound.PlaySound(SND_FILE_END, MakeMiddlePosition());
-
-            var snd = DirectSound.GetSound(SND_FILE_END, false);
-            var сachedSound = new CachedSound(snd);
-            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+            DirectSound.PlaySound(SND_FILE_END, MakeMiddlePosition());
 
             // Remove from both objects
             source.RemoveLightning(this);

@@ -6,7 +6,6 @@
 \********************************************************************/
 
 using System;
-using FireAndForgetAudioSample;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -81,12 +80,9 @@ namespace CodeImp.Bloodmasters.Client
 				if(loader != null) loader.Dispose();
 
                 // Change the sound
-                //loader = DirectSound.GetSound("ioncannon_load.wav", true);
-                //if(client.Actor != null) loader.Position = client.Actor.Position;
-                //loader.Play(false);
-                var snd = DirectSound.GetSound("ioncannon_load.wav", false);
-                var сachedSound = new CachedSound(snd);
-                AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+                loader = DirectSound.GetSound("ioncannon_load.wav", true);
+                if(client.Actor != null) loader.Position = client.Actor.Position;
+                loader.Play(false);
 
                 return;
 			}

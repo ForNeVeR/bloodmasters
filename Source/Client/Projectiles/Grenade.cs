@@ -6,7 +6,6 @@
 \********************************************************************/
 
 using System;
-using FireAndForgetAudioSample;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -84,11 +83,8 @@ namespace CodeImp.Bloodmasters.Client
 			base.Update(newpos, newvel);
 
             // Make bounce sound
-            var snd = DirectSound.GetSound("grenadebounce.wav", false);
-            var сachedSound = new CachedSound(snd);
-
-            if ((sector != null) && sector.VisualSector.InScreen)
-                AudioPlaybackEngine.Instance.PlaySound(сachedSound);//DirectSound.PlaySound("grenadebounce.wav", newpos);
+            if((sector != null) && sector.VisualSector.InScreen)
+                DirectSound.PlaySound("grenadebounce.wav", newpos);
         }
 
 		// When destroyed
@@ -140,12 +136,9 @@ namespace CodeImp.Bloodmasters.Client
 					}
 				}
 
-                var snd = DirectSound.GetSound("rockethit.wav", false);
-                var сachedSound = new CachedSound(snd);
-
                 // Make hit sound
-                if (sector.VisualSector.InScreen)
-                    AudioPlaybackEngine.Instance.PlaySound(сachedSound);//DirectSound.PlaySound("rockethit.wav", atpos);
+                if(sector.VisualSector.InScreen)
+                    DirectSound.PlaySound("rockethit.wav", atpos);
 
                 // Spawn explosion effect
                 new RocketExplodeEffect(decalpos);
@@ -157,12 +150,8 @@ namespace CodeImp.Bloodmasters.Client
 				if((SECTORMATERIAL)sector.Material == SECTORMATERIAL.LIQUID)
 				{
                     // Make splash sound
-
-                    var snd = DirectSound.GetSound("dropwater.wav", false);
-                    var сachedSound = new CachedSound(snd);
-
-                    if (sector.VisualSector.InScreen)
-                        AudioPlaybackEngine.Instance.PlaySound(сachedSound); //DirectSound.PlaySound("dropwater.wav", atpos);
+                    if(sector.VisualSector.InScreen)
+                        DirectSound.PlaySound("dropwater.wav", atpos);
 
 					// Check if on screen
 					if(sector.VisualSector.InScreen)

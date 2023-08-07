@@ -7,7 +7,6 @@
 
 using System;
 using CodeImp.Bloodmasters.Client.Graphics;
-using FireAndForgetAudioSample;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -58,13 +57,9 @@ namespace CodeImp.Bloodmasters.Client
 			light = new DynamicLight(actor.Position, 15f, 0, 3);
 
             // Create sound
-            //sound = DirectSound.GetSound("playerfire.wav", true);
-            //sound.Position = this.actor.Position;
-            //sound.Play(0f, true);
-
-            var snd = DirectSound.GetSound("playerfire.wav", false);
-            var сachedSound = new CachedSound(snd);
-            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+            sound = DirectSound.GetSound("playerfire.wav", true);
+            sound.Position = this.actor.Position;
+            sound.Play(0f, true);
 
             // Random flux offset
             fluxoffset = General.random.Next(1000);

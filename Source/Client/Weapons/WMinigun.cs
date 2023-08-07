@@ -6,7 +6,6 @@
 \********************************************************************/
 
 using System;
-using FireAndForgetAudioSample;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -82,13 +81,9 @@ namespace CodeImp.Bloodmasters.Client
 				if(rotor != null) rotor.Dispose();
 
                 // Change the sound
-                //rotor = DirectSound.GetSound(filename, true);
-                //if(client.Actor != null) rotor.Position = client.Actor.Position;
-                //rotor.Play(repeat);
-
-                var _snd = DirectSound.GetSound(filename, false);
-                var сachedSound = new CachedSound(_snd);
-                AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+                rotor = DirectSound.GetSound(filename, true);
+                if(client.Actor != null) rotor.Position = client.Actor.Position;
+                rotor.Play(repeat);
             }
 		}
 

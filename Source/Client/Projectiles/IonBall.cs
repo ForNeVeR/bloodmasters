@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using FireAndForgetAudioSample;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -56,13 +55,10 @@ namespace CodeImp.Bloodmasters.Client
 			light = new DynamicLight(start, 16f, General.ARGB(1f, 0.4f, 0.5f, 1f), 3);
 
             // Create flying sound
-            //flying = DirectSound.GetSound("plasmafly.wav", true);
-            //flying = new NullSound();
-            //flying.Position = start;
-            //flying.Play(true);
-            var snd = DirectSound.GetSound("plasmafly.wav", false);
-            var сachedSound = new CachedSound(snd);
-            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+            flying = DirectSound.GetSound("plasmafly.wav", true);
+            flying = new NullSound();
+            flying.Position = start;
+            flying.Play(true);
         }
 
 		// Dispose
@@ -175,12 +171,9 @@ namespace CodeImp.Bloodmasters.Client
 				// Kill flying sound
 				flying.Stop();
 
-                var snd = DirectSound.GetSound("playerfire.wav", false);
-                var сachedSound = new CachedSound(snd);
-
                 // Make hit sound
                 if (sector.VisualSector.InScreen)
-                    AudioPlaybackEngine.Instance.PlaySound(сachedSound);//DirectSound.PlaySound("ionexplode.wav", atpos);
+                    DirectSound.PlaySound("ionexplode.wav", atpos);
 
                 // Spawn explosion effect
                 new IonExplodeEffect(decalpos, SourceID, Team);

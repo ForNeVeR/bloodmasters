@@ -6,7 +6,6 @@
 \********************************************************************/
 
 using System;
-using FireAndForgetAudioSample;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client
@@ -59,14 +58,10 @@ namespace CodeImp.Bloodmasters.Client
 			light = new DynamicLight(start, 15f, General.ARGB(0.2f, 1f, 0.9f, 0.6f), 3);
 
             // Create flying sound
-            //flying = DirectSound.GetSound("rocketfly.wav", true);
-            //flying = new NullSound();
-            //flying.Position = start;
-            //flying.Play(true);
-
-            var snd = DirectSound.GetSound("rocketfly.wav", false);
-            var сachedSound = new CachedSound(snd);
-            AudioPlaybackEngine.Instance.PlaySound(сachedSound);
+            flying = DirectSound.GetSound("rocketfly.wav", true);
+            flying = new NullSound();
+            flying.Position = start;
+            flying.Play(true);
         }
 
 		// Dispose

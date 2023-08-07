@@ -5,8 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using FireAndForgetAudioSample;
-using NAudio.Wave;
 using System.IO;
 
 namespace CodeImp.Bloodmasters.Client
@@ -40,10 +38,7 @@ namespace CodeImp.Bloodmasters.Client
 				if(archive != "")
 				{
                     // Extract and load the file
-                    //DirectSound.CreateSound(filename, ArchiveManager.ExtractFile(archive + "/" + filename));
-                    var сachedAmbientSound = new CachedSound(ArchiveManager.ExtractFile(archive + "/" + filename));
-                    AudioPlaybackEngine.Instance.PlaySound(сachedAmbientSound);
-
+                    DirectSound.CreateSound(filename, ArchiveManager.ExtractFile(archive + "/" + filename));
                 }
                 else
 				{
