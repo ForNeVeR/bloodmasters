@@ -94,7 +94,7 @@ namespace CodeImp.Bloodmasters.Client
 				this.pos = actor.Position + new Vector3D(0f, 0f, OFFSET_Z);
 				sprite.Position = this.Position;
 				light.Position = this.Position;
-				//sound.Position = this.Position;
+				sound.Position = this.Position;
 
 				// Process animation
 				ani.Process();

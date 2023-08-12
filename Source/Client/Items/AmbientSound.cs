@@ -47,26 +47,26 @@ namespace CodeImp.Bloodmasters.Client
 				}
 			}
 
-			//// Make the sound
-			//sound = DirectSound.GetSound(filename, true);
-			//sound.Position = this.pos;
-			//sound.Volume = (float)volume / 255f;
-			//sound.Play(true);
+			// Make the sound
+			sound = DirectSound.GetSound(filename, true);
+			sound.Position = this.pos;
+			sound.Volume = (float)volume / 255f;
+			sound.Play(true);
 
-			//// Change to random offset
-			//sound.SetRandomOffset();
+			// Change to random offset
+			sound.SetRandomOffset();
 		}
 
         // When disposed
-        //public override void Dispose()
-        //{
-        //	// Clean up
-        //	sound.Dispose();
-        //	sound = null;
+        public override void Dispose()
+        {
+        	// Clean up
+        	sound.Dispose();
+        	sound = null;
 
-        //	// Dispose base
-        //	base.Dispose();
-        //}
+        	// Dispose base
+        	base.Dispose();
+        }
 
         #endregion
 

@@ -230,7 +230,7 @@ namespace CodeImp.Bloodmasters.Client
 		public static ISound GetSound(string filename, bool positional)
         {
 			// Not playing sounds?
-			//if(!DirectSound.playeffects) return new NullSound();
+			if(!DirectSound.playeffects) return new NullSound();
 
             if (!sounds.TryGetValue(filename, out var snd))
             {
@@ -321,35 +321,35 @@ namespace CodeImp.Bloodmasters.Client
 		// This destroys a sound
 		public static void DestroySound(string filename)
 		{
-			//// Remove from collection if sound exists
-			//if(sounds.Remove(filename, out ISound s))
-			//{
-			//	// Dispose it
-            //    s.Dispose();
-            //}
+			// Remove from collection if sound exists
+			if(sounds.Remove(filename, out ISound s))
+			{
+				// Dispose it
+                s.Dispose();
+            }
 		}
 
 		// This destroys all resources
 		public static void DestroyAllResources()
 		{
-			//// Go for all playing sounds
-			//for(int i = playingsounds.Count - 1; i >= 0; i--)
-			//{
-			//	// Get the sound
-			//	ISound s = playingsounds[i];
+			// Go for all playing sounds
+			for(int i = playingsounds.Count - 1; i >= 0; i--)
+			{
+				// Get the sound
+				ISound s = playingsounds[i];
 
-			//	// Dispose it
-			//	s.Dispose();
-			//}
-			//playingsounds.Clear();
+				// Dispose it
+				s.Dispose();
+			}
+			playingsounds.Clear();
 
-			//// Go for all sounds
-			//foreach(ISound s in sounds.Values)
-			//{
-			//	// Dispose it
-            //    s.Dispose();
-			//}
-			//sounds.Clear();
+			// Go for all sounds
+			foreach(ISound s in sounds.Values)
+			{
+				// Dispose it
+                s.Dispose();
+			}
+			sounds.Clear();
 		}
 
 		#endregion

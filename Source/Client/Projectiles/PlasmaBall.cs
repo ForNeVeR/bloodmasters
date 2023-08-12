@@ -48,7 +48,7 @@ namespace CodeImp.Bloodmasters.Client
 			light = new DynamicLight(start, 10f, General.ARGB(0.3f, 0.4f, 0.8f, 1f), 3);
 
             // Create flying sound
-            flying = DirectSound.GetSound("plasmafly.wav", true);
+            // flying = DirectSound.GetSound("plasmafly.wav", true);
             flying = new NullSound();
             flying.Position = start;
             flying.Play(true);
@@ -58,7 +58,7 @@ namespace CodeImp.Bloodmasters.Client
 		public override void Dispose()
 		{
 			// Clean up
-			//flying.Dispose();
+			flying.Dispose();
 			sprite = null;
 			flying = null;
 			light.Dispose();
@@ -218,7 +218,7 @@ namespace CodeImp.Bloodmasters.Client
 			light.Position = this.state.pos;
 
 			// Update sound coodinates
-			//flying.Position = state.pos;
+			flying.Position = state.pos;
 		}
 
 		// Render the projectile

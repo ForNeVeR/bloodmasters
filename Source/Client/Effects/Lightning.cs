@@ -80,11 +80,11 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Make running sound
-			//snd = DirectSound.GetSound(SND_FILE_RUN, true);
-			//snd.Position = MakeMiddlePosition();
+			snd = DirectSound.GetSound(SND_FILE_RUN, true);
+			snd.Position = MakeMiddlePosition();
 
-			//// Play it
-			//snd.Play(true);
+			// Play it
+			snd.Play(true);
 		}
 
 		// Dispose
@@ -101,7 +101,7 @@ namespace CodeImp.Bloodmasters.Client
 			foreach(DynamicLight d in lights) if(d != null) d.Dispose();
 
 			// Dispose sound
-			//snd.Dispose();
+			snd.Dispose();
 			snd = null;
 			source = null;
 			target = null;

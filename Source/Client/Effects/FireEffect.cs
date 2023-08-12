@@ -114,8 +114,8 @@ namespace CodeImp.Bloodmasters.Client
 				light.Position = actor.Position + lightoffset;
 
 				// Mouse sound to match actor position
-				//sound.Volume = startalpha;
-				//sound.Position = actor.Position;
+				sound.Volume = startalpha;
+				sound.Position = actor.Position;
 
 				// Time to spawn smoke?
 				if(SharedGeneral.currenttime >= smoketime)

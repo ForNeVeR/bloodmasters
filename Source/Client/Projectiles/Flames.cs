@@ -65,11 +65,11 @@ namespace CodeImp.Bloodmasters.Client
 			fluxoffset = General.random.Next(1000);
 
             // Create sound
-            firesound = DirectSound.GetSound("playerfire.wav", true);
-            firesound.Position = start;
-            firesound.Volume = 0f;
-            firesound.SetRandomOffset();
-            firesound.Play(true);
+            // firesound = DirectSound.GetSound("playerfire.wav", true);
+            // firesound.Position = start;
+            // firesound.Volume = 0f;
+            // firesound.SetRandomOffset();
+            // firesound.Play(true);
         }
 
 		// Dispose
