@@ -11,10 +11,10 @@ class NAudioPlaybackEngine : IDisposable
 
     public WaveFormat WaveFormat => _mixer.WaveFormat;
 
-    public NAudioPlaybackEngine(int sampleRate = 44100, int channelCount = 2)
+    public NAudioPlaybackEngine(WaveFormat waveFormat)
     {
         _outputDevice = new WaveOutEvent();
-        _mixer = new MixingSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, channelCount))
+        _mixer = new MixingSampleProvider(waveFormat)
         {
             ReadFully = true
         };

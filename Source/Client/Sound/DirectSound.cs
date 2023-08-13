@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using NAudio.Wave;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -42,7 +43,6 @@ namespace CodeImp.Bloodmasters.Client
 		private static float[] logtable;
 
 		// Devices
-        // TODO: Convert to a normal class with DI, make this non-nullable, dispose on termination
         private static NAudioPlaybackEngine? _playbackEngine;
 
 		// Resources
@@ -74,21 +74,14 @@ namespace CodeImp.Bloodmasters.Client
 		// Initializes DirectSound
 		public static bool Initialize(Form target)
         {
-            playeffects = General.config.ReadSetting("sounds", true);
-
-            /* TODO[#16]:
-			Microsoft.DirectX.DirectSound.Buffer dspb;
-			BufferDescription bufferdesc;
-			WaveFormat bufferformat;
 			int soundfreq;
 			int soundbits;
-            */
-			// Init log table
-			BuildLog10Table();
-            _playbackEngine = new();
-/* TODO[#16]:
-			// Get settings from configuration
 
+            // Init log table
+			BuildLog10Table();
+
+            // Get settings from configuration
+            playeffects = General.config.ReadSetting("sounds", true);
 			effectsvolume = CalcVolumeScale((float)General.config.ReadSetting("soundsvolume", 100) / 100f);
 			soundfreq = General.config.ReadSetting("soundfrequency", 0);
 			soundbits = General.config.ReadSetting("soundbits", 0);
@@ -96,34 +89,11 @@ namespace CodeImp.Bloodmasters.Client
 			// Playing sounds?
 			if(DirectSound.playeffects)
 			{
-				// Create default DirectSound device
-				dsd = new DirectSound();
-
-				// Set cooperative level
-				dsd.SetCooperativeLevel(target, CooperativeLevel.Priority);
-
 				// Set the primary buffer format?
 				if((soundfreq > 0) && (soundbits > 0))
 				{
-					// Get the primary buffer
-					bufferdesc = new BufferDescription();
-					bufferdesc.PrimaryBuffer = true;
-					dspb = new Microsoft.DirectX.DirectSound.Buffer(bufferdesc, dsd);
-
-					// Make format info
-					bufferformat = new WaveFormat();
-					bufferformat.FormatTag = WaveFormatTag.Pcm;
-					bufferformat.Channels = 2;
-					bufferformat.SamplesPerSecond = soundfreq;
-					bufferformat.BitsPerSample = (short)soundbits;
-					bufferformat.BlockAlign = (short)(2 * soundbits / 8);
-					bufferformat.AverageBytesPerSecond = soundfreq * bufferformat.BlockAlign;
-
-					// Set the buffer format
-					dspb.Format = bufferformat;
-
-					// Done
-					bufferdesc.Dispose();
+                    var waveFormat = new WaveFormat(soundfreq, soundbits, 2);
+                    _playbackEngine = new NAudioPlaybackEngine(waveFormat);
 				}
 
 				// Go for all files in the sounds archive
@@ -133,13 +103,7 @@ namespace CodeImp.Bloodmasters.Client
 					// Load this sound
 					CreateSound(filename, ArchiveManager.ExtractFile("sounds.rar/" + filename));
 				}
-			}*/
-            Archive soundsrar = ArchiveManager.GetArchive("sounds.rar");
-            foreach (string filename in soundsrar.FileNames)
-            {
-                // Load this sound
-                CreateSound(filename, ArchiveManager.ExtractFile("sounds.rar/" + filename));
-            }
+			}
 
             // No problems
             return true;
