@@ -6,5 +6,6 @@
     </PropertyGroup>
     <PropertyGroup>
         <LangVersion>11</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 </Project>

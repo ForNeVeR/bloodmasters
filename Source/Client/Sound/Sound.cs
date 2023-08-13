@@ -10,12 +10,13 @@ using SharpDX.DirectSound;
 
 namespace CodeImp.Bloodmasters.Client
 {
-	public class Sound : ISound
+	internal class Sound : ISound
 	{
 		#region ================== Variables
 
 		// Variables
-		private readonly SimpleSampleProvider _soundSample;
+        private readonly NAudioPlaybackEngine _playbackEngine;
+        private readonly SimpleSampleProvider _soundSample;
 		private bool repeat = false;
 		private bool autodispose = false;
 		private string filename;
@@ -47,8 +48,10 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Constructor / Destructor / Dispose
 
 		// Constructor
-		public Sound(string filename, string fullfilename)
-		{
+		public Sound(NAudioPlaybackEngine playbackEngine, string filename, string fullfilename)
+        {
+            _playbackEngine = playbackEngine;
+
 			// Keep the filename
 			this.filename = filename;
             this.fullfilename = fullfilename;
@@ -104,7 +107,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(disposed) return;
 
 			// Reset volume/pan
-            // TODO[#16]: Volume control
+            // TODO: Volume control
 			// _soundSample.Volume = 0;
 			// _soundSample.Volume = -10000;
 		}
@@ -142,14 +145,14 @@ namespace CodeImp.Bloodmasters.Client
 					if(pan > 10000) pan = 10000; else if(pan < -10000) pan = -10000;
 
 					// Apply final volume
-                    // TODO[#16]: Volume, pan
+                    // TODO: Volume, pan
 					// _soundSample.Volume = vol;
 					// _soundSample.Pan = pan;
 				}
 				else
 				{
 					// Apply volume
-                    // TODO[#16]: Volume, pan
+                    // TODO: Volume, pan
 					//_soundSample.Volume = DirectSound.effectsvolume + absvolume;
 				}
 
@@ -187,14 +190,14 @@ namespace CodeImp.Bloodmasters.Client
 			this.Update();
 
 			// Play the sound
-            NAudioPlaybackEngine.Instance.PlaySound(_soundSample);
+            _playbackEngine.PlaySound(_soundSample);
 		}
 
 		// Stops all instances
 		public void Stop()
         {
             _soundSample.Stop();
-            NAudioPlaybackEngine.Instance.StopSound(_soundSample);
+            _playbackEngine.StopSound(_soundSample);
         }
 
 		#endregion

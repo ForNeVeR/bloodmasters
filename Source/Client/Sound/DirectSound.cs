@@ -42,8 +42,8 @@ namespace CodeImp.Bloodmasters.Client
 		private static float[] logtable;
 
 		// Devices
-		public static SharpDX.DirectSound.DirectSound dsd;
-		// TODO[#16]: private static Microsoft.DirectX.DirectSound.Buffer dspb;
+        // TODO: Convert to a normal class with DI, make this non-nullable, dispose on termination
+        private static NAudioPlaybackEngine? _playbackEngine;
 
 		// Resources
 		private static Dictionary<string, ISound> sounds = new();
@@ -67,16 +67,15 @@ namespace CodeImp.Bloodmasters.Client
 			DestroyAllResources();
 
 			// Kill it
-			// TODO[#16]: try { dspb.Dispose(); } catch(Exception) { }
-			// TODO[#16]: try { dsd.Dispose(); } catch(Exception) { }
-			// TODO[#16]: dspb = null;
-			// TODO[#16]: dsd = null;
-		}
+            _playbackEngine?.Dispose();
+            _playbackEngine = null;
+        }
 
 		// Initializes DirectSound
 		public static bool Initialize(Form target)
-		{
+        {
             playeffects = General.config.ReadSetting("sounds", true);
+
             /* TODO[#16]:
 			Microsoft.DirectX.DirectSound.Buffer dspb;
 			BufferDescription bufferdesc;
@@ -86,6 +85,7 @@ namespace CodeImp.Bloodmasters.Client
             */
 			// Init log table
 			BuildLog10Table();
+            _playbackEngine = new();
 /* TODO[#16]:
 			// Get settings from configuration
 
@@ -305,7 +305,7 @@ namespace CodeImp.Bloodmasters.Client
 				else
 				{
 					// Load the sound
-					s = new Sound(filename, fullfilename);
+					s = new Sound(_playbackEngine!, filename, fullfilename);
                 }
 
 				// Add to collection
