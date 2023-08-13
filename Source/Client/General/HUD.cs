@@ -547,7 +547,7 @@ namespace CodeImp.Bloodmasters.Client
 					// Change countdown number
 					lastcountdown = thiscountdown;
 					ShowBigMessage(thiscountdown.ToString(), 400);
-                    if(thiscountdown < 4) DirectSound.PlaySound("voc_" + thiscountdown + ".wav");
+                    if(thiscountdown < 4) SoundSystem.PlaySound("voc_" + thiscountdown + ".wav");
                 }
 			}
 

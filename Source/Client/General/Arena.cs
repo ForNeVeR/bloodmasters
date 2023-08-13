@@ -1099,7 +1099,7 @@ namespace CodeImp.Bloodmasters.Client
 
 			// Set the coordinates for sound listener
 			Vector2 listenpos = Vector2.Add(c_pos, new Vector2(c_offset.X, c_offset.Y));
-			DirectSound.SetListenCoordinates(new Vector2D(listenpos.X, listenpos.Y));
+			SoundSystem.SetListenCoordinates(new Vector2D(listenpos.X, listenpos.Y));
 
 			// Determine visible map portion
 			DetermineScreenArea();

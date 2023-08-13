@@ -49,7 +49,7 @@ namespace CodeImp.Bloodmasters.Client
 			this.pos = actor.Position;
 
             // Get the sound
-            sound = DirectSound.GetSound("rage.wav", true);
+            sound = SoundSystem.GetSound("rage.wav", true);
             sound.Position = actor.Position;
             sound.Play(true);
 

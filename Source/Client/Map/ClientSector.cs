@@ -41,7 +41,7 @@ public class ClientSector : Sector
             if(sound != null) sound.Dispose();
 
             // Play start sound
-            sound = DirectSound.GetSound(SOUND_START, true);
+            sound = SoundSystem.GetSound(SOUND_START, true);
             sound.Position = new Vector2D(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
             sound.Play();
         }
@@ -76,7 +76,7 @@ public class ClientSector : Sector
             sound.Dispose();
 
             // Play moving sound
-            sound = DirectSound.GetSound(SOUND_RUN, true);
+            sound = SoundSystem.GetSound(SOUND_RUN, true);
             sound.Position = new Vector2D(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
             sound.Play(true);
         }
@@ -110,7 +110,7 @@ public class ClientSector : Sector
             if(sound != null) sound.Dispose();
 
             // Play stop sound
-            sound = DirectSound.GetSound(SOUND_END, true);
+            sound = SoundSystem.GetSound(SOUND_END, true);
             sound.Position = new Vector2D(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
             sound.Play();
         }

@@ -890,7 +890,7 @@ namespace CodeImp.Bloodmasters.Client
 				// Make a random step sound on this sectors material
 				int stepsnd = General.random.Next(WALK_STEP_SOUNDS);
 				string sound = "step" + stepsnd.ToString(CultureInfo.InvariantCulture) + "mat" + highestsector.Material.ToString(CultureInfo.InvariantCulture) + ".wav";
-				DirectSound.PlaySound(sound, state.pos, 0.3f);
+				SoundSystem.PlaySound(sound, state.pos, 0.3f);
 
 				// Update step time
 				stepsoundtime = SharedGeneral.currenttime + nextsounddelay;
@@ -905,7 +905,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Make a random step sound on this sectors material
 				string sound = "fallmat" + highestsector.Material.ToString(CultureInfo.InvariantCulture) + ".wav";
-                DirectSound.PlaySound(sound, state.pos, 0.5f);
+                SoundSystem.PlaySound(sound, state.pos, 0.5f);
 
 				// Update step time
 				stepsoundtime = SharedGeneral.currenttime + nextsounddelay;

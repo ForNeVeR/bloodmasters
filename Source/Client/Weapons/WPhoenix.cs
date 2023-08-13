@@ -81,7 +81,7 @@ namespace CodeImp.Bloodmasters.Client
 				if(firesound != null) firesound.Dispose();
 
 				// Change the sound
-				firesound = DirectSound.GetSound(filename, true);
+				firesound = SoundSystem.GetSound(filename, true);
 				if(client.Actor != null) firesound.Position = client.Actor.Position;
 				firesound.Play(repeat);
 			}

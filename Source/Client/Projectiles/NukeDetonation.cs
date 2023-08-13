@@ -55,7 +55,7 @@ namespace CodeImp.Bloodmasters.Client
 			smoketime = SharedGeneral.currenttime + SMOKE_DELAY;
 
 			// Make explosion sound
-			DirectSound.PlaySound("nukeexplode.wav", pos, 2f);
+			SoundSystem.PlaySound("nukeexplode.wav", pos, 2f);
 
             // Rendering options
             this.renderpass = 2;

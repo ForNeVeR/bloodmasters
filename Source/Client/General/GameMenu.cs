@@ -194,7 +194,7 @@ namespace CodeImp.Bloodmasters.Client
 					if(state[0] == 1)
 					{
 						// Join game
-						DirectSound.PlaySound("weaponswitch.wav");
+						SoundSystem.PlaySound("weaponswitch.wav");
 						General.console.ProcessInput("/join game");
 						this.visible = false;
 					}
@@ -203,7 +203,7 @@ namespace CodeImp.Bloodmasters.Client
 					if(state[1] == 1)
 					{
 						// Join game
-						DirectSound.PlaySound("weaponswitch.wav");
+						SoundSystem.PlaySound("weaponswitch.wav");
 						General.console.ProcessInput("/join red");
 						this.visible = false;
 					}
@@ -212,7 +212,7 @@ namespace CodeImp.Bloodmasters.Client
 					if(state[2] == 1)
 					{
 						// Join game
-						DirectSound.PlaySound("weaponswitch.wav");
+						SoundSystem.PlaySound("weaponswitch.wav");
 						General.console.ProcessInput("/join blue");
 						this.visible = false;
 					}
@@ -221,7 +221,7 @@ namespace CodeImp.Bloodmasters.Client
 					if(state[3] == 1)
 					{
 						// Join game
-						DirectSound.PlaySound("weaponswitch.wav");
+						SoundSystem.PlaySound("weaponswitch.wav");
 						General.console.ProcessInput("/join spectators");
 						this.visible = false;
 					}
@@ -230,7 +230,7 @@ namespace CodeImp.Bloodmasters.Client
 					if(state[4] == 1)
 					{
 						// Join game
-						DirectSound.PlaySound("weaponswitch.wav");
+						SoundSystem.PlaySound("weaponswitch.wav");
 						General.console.ProcessInput("/exit");
 						this.visible = false;
 					}

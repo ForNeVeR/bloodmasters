@@ -57,7 +57,7 @@ namespace CodeImp.Bloodmasters.Client
 			light = new DynamicLight(actor.Position, 15f, 0, 3);
 
             // Create sound
-            sound = DirectSound.GetSound("playerfire.wav", true);
+            sound = SoundSystem.GetSound("playerfire.wav", true);
             sound.Position = this.actor.Position;
             sound.Play(0f, true);
 

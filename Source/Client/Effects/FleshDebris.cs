@@ -74,7 +74,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Make sound
 				int variant = General.random.Next(SOUND_VARIATIONS) + 1;
-				DirectSound.PlaySound("bloodsplat" + variant.ToString(CultureInfo.InvariantCulture) + ".wav", pos);
+				SoundSystem.PlaySound("bloodsplat" + variant.ToString(CultureInfo.InvariantCulture) + ".wav", pos);
             }
 		}
 
@@ -194,7 +194,7 @@ namespace CodeImp.Bloodmasters.Client
 							if(sector.VisualSector.InScreen)
 							{
 								// Make splash sound
-								DirectSound.PlaySound("dropwater.wav", pos, 0.5f);
+								SoundSystem.PlaySound("dropwater.wav", pos, 0.5f);
 
 								// Determine type of splash to make
 								switch(sector.LiquidType)

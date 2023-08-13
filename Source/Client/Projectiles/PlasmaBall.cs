@@ -166,7 +166,7 @@ namespace CodeImp.Bloodmasters.Client
 
                 // Make hit sound
                 if (sector.VisualSector.InScreen)
-                    DirectSound.PlaySound("plasmahit.wav", atpos);
+                    SoundSystem.PlaySound("plasmahit.wav", atpos);
 
                 // Check if on screen
                 if (sector.VisualSector.InScreen)
@@ -186,7 +186,7 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Make splash sound
 					if(sector.VisualSector.InScreen)
-						DirectSound.PlaySound("dropwater.wav", atpos);
+						SoundSystem.PlaySound("dropwater.wav", atpos);
 
 					// Check if on screen
 					if(sector.VisualSector.InScreen)

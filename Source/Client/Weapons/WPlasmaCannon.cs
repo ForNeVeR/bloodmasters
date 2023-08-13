@@ -66,7 +66,7 @@ namespace CodeImp.Bloodmasters.Client
 		{
 			// Play the shooting sound
 			if(client.Actor.Sector.VisualSector.InScreen)
-				DirectSound.PlaySound(sound, client.Actor.Position);
+				SoundSystem.PlaySound(sound, client.Actor.Position);
 
 			// Make the actor play the shooting animation
 			client.Actor.PlayShootingAnimation(2, 0);

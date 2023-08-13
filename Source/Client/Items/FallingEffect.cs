@@ -49,7 +49,7 @@ namespace CodeImp.Bloodmasters.Client
 						if((a < 1f) && !c.Actor.FallSoundPlayed)
 						{
                             // Scream for me baby
-                            DirectSound.PlaySound("falling.wav", c.Actor.Position);
+                            SoundSystem.PlaySound("falling.wav", c.Actor.Position);
 							c.Actor.FallSoundPlayed = true;
 						}
 

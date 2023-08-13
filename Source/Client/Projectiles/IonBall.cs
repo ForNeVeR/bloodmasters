@@ -173,7 +173,7 @@ namespace CodeImp.Bloodmasters.Client
 
                 // Make hit sound
                 if (sector.VisualSector.InScreen)
-                    DirectSound.PlaySound("ionexplode.wav", atpos);
+                    SoundSystem.PlaySound("ionexplode.wav", atpos);
 
                 // Spawn explosion effect
                 new IonExplodeEffect(decalpos, SourceID, Team);
@@ -186,7 +186,7 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Make splash sound
 					if(sector.VisualSector.InScreen)
-						DirectSound.PlaySound("dropwater.wav", atpos);
+						SoundSystem.PlaySound("dropwater.wav", atpos);
 
 					// Check if on screen
 					if(sector.VisualSector.InScreen)

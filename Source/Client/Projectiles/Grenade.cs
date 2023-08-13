@@ -84,7 +84,7 @@ namespace CodeImp.Bloodmasters.Client
 
             // Make bounce sound
             if((sector != null) && sector.VisualSector.InScreen)
-                DirectSound.PlaySound("grenadebounce.wav", newpos);
+                SoundSystem.PlaySound("grenadebounce.wav", newpos);
         }
 
 		// When destroyed
@@ -138,7 +138,7 @@ namespace CodeImp.Bloodmasters.Client
 
                 // Make hit sound
                 if(sector.VisualSector.InScreen)
-                    DirectSound.PlaySound("rockethit.wav", atpos);
+                    SoundSystem.PlaySound("rockethit.wav", atpos);
 
                 // Spawn explosion effect
                 new RocketExplodeEffect(decalpos);
@@ -151,7 +151,7 @@ namespace CodeImp.Bloodmasters.Client
 				{
                     // Make splash sound
                     if(sector.VisualSector.InScreen)
-                        DirectSound.PlaySound("dropwater.wav", atpos);
+                        SoundSystem.PlaySound("dropwater.wav", atpos);
 
 					// Check if on screen
 					if(sector.VisualSector.InScreen)

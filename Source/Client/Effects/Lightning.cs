@@ -71,7 +71,7 @@ namespace CodeImp.Bloodmasters.Client
 
 
                 // Play blast sound
-                if(blastsound) DirectSound.PlaySound(SND_FILE_START, MakeMiddlePosition());
+                if(blastsound) SoundSystem.PlaySound(SND_FILE_START, MakeMiddlePosition());
             }
 			else
 			{
@@ -80,7 +80,7 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Make running sound
-			snd = DirectSound.GetSound(SND_FILE_RUN, true);
+			snd = SoundSystem.GetSound(SND_FILE_RUN, true);
 			snd.Position = MakeMiddlePosition();
 
 			// Play it
@@ -91,7 +91,7 @@ namespace CodeImp.Bloodmasters.Client
 		public void Dispose()
 		{
             // Play the ending sound
-            DirectSound.PlaySound(SND_FILE_END, MakeMiddlePosition());
+            SoundSystem.PlaySound(SND_FILE_END, MakeMiddlePosition());
 
             // Remove from both objects
             source.RemoveLightning(this);

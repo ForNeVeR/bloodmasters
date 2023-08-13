@@ -265,7 +265,7 @@ namespace CodeImp.Bloodmasters.Client
 		protected override void OnActivated(EventArgs e)
 		{
 			// Reset sounds
-			DirectSound.ResetPositionalSounds();
+			SoundSystem.ResetPositionalSounds();
 
 			// Capture mouse cursor
 			if(Direct3D.DisplayWindowed)

@@ -171,7 +171,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(remaining == 0)
 			{
 				// Play capture sound
-				DirectSound.PlaySound("flagcapture.wav");
+				SoundSystem.PlaySound("flagcapture.wav");
 
 				// Show message?
 				if(thisteam != TEAM.NONE)

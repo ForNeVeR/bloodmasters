@@ -148,8 +148,8 @@ namespace CodeImp.Bloodmasters.Client
 			new TeleportEffect(newpos, TEAM.NONE, true);
 
             // Play teleport sound at both locations
-            DirectSound.PlaySound("teleportsmall.wav", oldpos);
-            DirectSound.PlaySound("teleportsmall.wav", newpos);
+            SoundSystem.PlaySound("teleportsmall.wav", oldpos);
+            SoundSystem.PlaySound("teleportsmall.wav", newpos);
 
             // Apply position and velocity
             state.pos = newpos;

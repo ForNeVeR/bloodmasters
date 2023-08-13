@@ -81,7 +81,7 @@ namespace CodeImp.Bloodmasters.Client
 				if(rotor != null) rotor.Dispose();
 
                 // Change the sound
-                rotor = DirectSound.GetSound(filename, true);
+                rotor = SoundSystem.GetSound(filename, true);
                 if(client.Actor != null) rotor.Position = client.Actor.Position;
                 rotor.Play(repeat);
             }
@@ -141,7 +141,7 @@ namespace CodeImp.Bloodmasters.Client
 		{
 			// Play the shooting sound
 			if(client.Actor.Sector.VisualSector.InScreen)
-				DirectSound.PlaySound(sound, client.Actor.Position);
+				SoundSystem.PlaySound(sound, client.Actor.Position);
 
 			// Make the actor play the shooting animation
 			client.Actor.PlayShootingAnimation(2, -1);

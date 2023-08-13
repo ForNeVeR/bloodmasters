@@ -31,14 +31,14 @@ namespace CodeImp.Bloodmasters.Client
 			string filename = General.map.GetSoundFilename(index);
 
 			// Check if the sound must be loaded
-			if(!DirectSound.SoundExists(filename))
+			if(!SoundSystem.SoundExists(filename))
 			{
 				// Find out where this sound file is
 				string archive = ArchiveManager.FindFileArchive(filename);
 				if(archive != "")
 				{
                     // Extract and load the file
-                    DirectSound.CreateSound(filename, ArchiveManager.ExtractFile(archive + "/" + filename));
+                    SoundSystem.CreateSound(filename, ArchiveManager.ExtractFile(archive + "/" + filename));
                 }
                 else
 				{
@@ -48,7 +48,7 @@ namespace CodeImp.Bloodmasters.Client
 			}
 
 			// Make the sound
-			sound = DirectSound.GetSound(filename, true);
+			sound = SoundSystem.GetSound(filename, true);
 			sound.Position = this.pos;
 			sound.Volume = (float)volume / 255f;
 			sound.Play(true);

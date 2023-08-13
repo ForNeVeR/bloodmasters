@@ -54,7 +54,7 @@ namespace CodeImp.Bloodmasters.Client
 
             // Play the shield hit sound when in screen
             if(actor.Sector.VisualSector.InScreen)
-                DirectSound.PlaySound("shieldhit.wav", actor.Position);
+                SoundSystem.PlaySound("shieldhit.wav", actor.Position);
 
             // Make dynamic light
             light = new DynamicLight(this.pos, 16f, lightcolor, 3);

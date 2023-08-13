@@ -261,7 +261,7 @@ namespace CodeImp.Bloodmasters.Client
 			respawndelay = delay;
 
 			// Play pickup sound if any is assigned
-			if((sound != "") && !silent && sector.VisualSector.InScreen) DirectSound.PlaySound(sound, pos);
+			if((sound != "") && !silent && sector.VisualSector.InScreen) SoundSystem.PlaySound(sound, pos);
 
 			// Call corresponding method
 			if(attach)
@@ -288,7 +288,7 @@ namespace CodeImp.Bloodmasters.Client
 		public virtual void Respawn(bool playsound)
 		{
             // Play item respawn sound
-            if(playsound && sector.VisualSector.InScreen) DirectSound.PlaySound("itemrespawn.wav", pos);
+            if(playsound && sector.VisualSector.InScreen) SoundSystem.PlaySound("itemrespawn.wav", pos);
 
             // Make respawn effect
             if (attached || taken) RespawnEffect();

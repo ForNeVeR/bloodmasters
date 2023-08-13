@@ -72,7 +72,7 @@ namespace CodeImp.Bloodmasters.Client
 			_soundSample = ((Sound)clonesnd)._soundSample.Clone();
 
 			// Add to sounds collection
-			DirectSound.AddPlayingSound(this);
+			SoundSystem.AddPlayingSound(this);
 
 			// Position
 			this.positional = positional;
@@ -84,7 +84,7 @@ namespace CodeImp.Bloodmasters.Client
 			if(!disposed)
 			{
 				// Remove from collection
-				DirectSound.RemovePlayingSound(this);
+				SoundSystem.RemovePlayingSound(this);
 
 				// Dispose sound
 				if(_soundSample != null)
@@ -129,18 +129,18 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Recalculate volume
 					volume = newvolume;
-					absvolume = DirectSound.CalcVolumeScale(volume);
+					absvolume = SoundSystem.CalcVolumeScale(volume);
 				}
 
 				// Positional?
 				if(positional)
 				{
 					// Get positional settings
-					DirectSound.GetPositionalEffect(pos, out posvol, out pospan);
+					SoundSystem.GetPositionalEffect(pos, out posvol, out pospan);
 
 					// Calculate and clip final volume
 					pan = pospan;
-					vol = DirectSound.effectsvolume - posvol + absvolume;
+					vol = SoundSystem.effectsvolume - posvol + absvolume;
 					if(vol > 0) vol = 0; else if(vol < -10000) vol = -10000;
 					if(pan > 10000) pan = 10000; else if(pan < -10000) pan = -10000;
 
@@ -157,7 +157,7 @@ namespace CodeImp.Bloodmasters.Client
 				}
 
 				// Set next update time
-				nextupdatetime = General.realtime + DirectSound.UPDATE_INTERVAL;
+				nextupdatetime = General.realtime + SoundSystem.UPDATE_INTERVAL;
 			}
 		}
 

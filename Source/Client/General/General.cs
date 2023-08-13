@@ -919,7 +919,7 @@ namespace CodeImp.Bloodmasters.Client
 			General.hud.CallVoteDescription = desc;
 
 			// Make bleep sound
-			DirectSound.PlaySound("messagebeep.wav");
+			SoundSystem.PlaySound("messagebeep.wav");
         }
 
 		// Call vote ended
@@ -1088,7 +1088,7 @@ namespace CodeImp.Bloodmasters.Client
 		private static void hDamageGiven(NetMessage msg)
 		{
             // Play hit sound
-            DirectSound.PlaySound("hitplayer.wav");
+            SoundSystem.PlaySound("hitplayer.wav");
 		}
 
 		// Shield Hit
@@ -1305,7 +1305,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Show FIGHT!
 				hud.ShowBigMessage("FIGHT!", 1000);
-                DirectSound.PlaySound("voc_fight.wav");
+                SoundSystem.PlaySound("voc_fight.wav");
 
                 // Remove all actors
                 arena.RespawnAllItems();
@@ -1682,7 +1682,7 @@ namespace CodeImp.Bloodmasters.Client
 			console.AddMessage(message, true);
 
 			// Make message sound
-			DirectSound.PlaySound("messagebeep.wav");
+			SoundSystem.PlaySound("messagebeep.wav");
 		}
 
 		// Handle Disconnect
@@ -1756,7 +1756,7 @@ namespace CodeImp.Bloodmasters.Client
 					if(clientrunning)
 					{
 						ProcessNetworking();
-						DirectSound.Process();
+						SoundSystem.Process();
 						arena.Process();
 						hud.Process();
 						scoreboard.Process();
@@ -1870,7 +1870,7 @@ namespace CodeImp.Bloodmasters.Client
 			DoOneFrame(false, true, false);
 
 			// Initialize DirectSound
-			if(!DirectSound.Initialize(gamewindow)) return false;
+			if(!SoundSystem.Initialize(gamewindow)) return false;
 
 			// Show loading screen (hud message)
 			hud.ShowSmallMessage("Loading graphics...", 0);
@@ -1958,7 +1958,7 @@ namespace CodeImp.Bloodmasters.Client
 			Animation.UnloadAll();
 
 			// Terminate DirectSound
-			DirectSound.Terminate();
+			SoundSystem.Terminate();
 		}
 
 		// This starts the map

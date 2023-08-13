@@ -80,7 +80,7 @@ namespace CodeImp.Bloodmasters.Client
 				if(loader != null) loader.Dispose();
 
                 // Change the sound
-                loader = DirectSound.GetSound("ioncannon_load.wav", true);
+                loader = SoundSystem.GetSound("ioncannon_load.wav", true);
                 if(client.Actor != null) loader.Position = client.Actor.Position;
                 loader.Play(false);
 
@@ -123,7 +123,7 @@ namespace CodeImp.Bloodmasters.Client
 		{
 			// Play the shooting sound
 			if(client.Actor.Sector.VisualSector.InScreen)
-				DirectSound.PlaySound(sound, client.Actor.Position);
+				SoundSystem.PlaySound(sound, client.Actor.Position);
 
 			// Make the actor play the shooting animation
 			client.Actor.PlayShootingAnimation(1, 0);
