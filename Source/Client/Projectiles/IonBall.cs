@@ -55,7 +55,8 @@ namespace CodeImp.Bloodmasters.Client
 			light = new DynamicLight(start, 16f, General.ARGB(1f, 0.4f, 0.5f, 1f), 3);
 
             // Create flying sound
-            // flying = DirectSound.GetSound("plasmafly.wav", true);
+            // TODO: Figure this out
+            // flying = SoundSystem.GetSound("plasmafly.wav", true);
             flying = new NullSound();
             flying.Position = start;
             flying.Play(true);
@@ -186,7 +187,7 @@ namespace CodeImp.Bloodmasters.Client
 				{
 					// Make splash sound
 					if(sector.VisualSector.InScreen)
-						SoundSystem.PlaySound("dropwater.wav", atpos);
+                        SoundSystem.PlaySound("dropwater.wav", atpos);
 
 					// Check if on screen
 					if(sector.VisualSector.InScreen)

@@ -57,7 +57,7 @@ public static class SoundSystem
 
     #region ================== Initialization, Reset and Termination
 
-    // Terminates DirectSound
+    // Terminates the sound system
     public static void Terminate()
     {
         // Trash all sounds
@@ -68,7 +68,7 @@ public static class SoundSystem
         _playbackEngine = null;
     }
 
-    // Initializes DirectSound
+    // Initializes the sound system
     public static bool Initialize(Form target)
     {
         int soundfreq;

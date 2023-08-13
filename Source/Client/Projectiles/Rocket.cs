@@ -58,7 +58,8 @@ namespace CodeImp.Bloodmasters.Client
 			light = new DynamicLight(start, 15f, General.ARGB(0.2f, 1f, 0.9f, 0.6f), 3);
 
             // Create flying sound
-            // flying = DirectSound.GetSound("rocketfly.wav", true);
+            // TODO: Figure this out
+            // flying = SoundSystem.GetSound("rocketfly.wav", true);
             flying = new NullSound();
             flying.Position = start;
             flying.Play(true);

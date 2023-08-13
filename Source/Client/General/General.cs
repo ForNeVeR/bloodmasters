@@ -1869,7 +1869,7 @@ namespace CodeImp.Bloodmasters.Client
 			hud.ShowBigMessage("", 0);
 			DoOneFrame(false, true, false);
 
-			// Initialize DirectSound
+			// Initialize the sound system
 			if(!SoundSystem.Initialize(gamewindow)) return false;
 
 			// Show loading screen (hud message)
@@ -1957,7 +1957,7 @@ namespace CodeImp.Bloodmasters.Client
 			// Clear animations
 			Animation.UnloadAll();
 
-			// Terminate DirectSound
+			// Terminate the sound system
 			SoundSystem.Terminate();
 		}
 

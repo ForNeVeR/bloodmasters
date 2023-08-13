@@ -6,7 +6,6 @@
 \********************************************************************/
 
 using System;
-using SharpDX.DirectSound;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -173,8 +172,6 @@ namespace CodeImp.Bloodmasters.Client
 		public void Play(bool repeat) { Play(1f, repeat); }
 		public void Play(float volume, bool repeat)
 		{
-			PlayFlags flags = 0;
-
 			// Leave when disposed
 			if(disposed) return;
 
