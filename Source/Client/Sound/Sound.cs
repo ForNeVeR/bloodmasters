@@ -15,7 +15,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Variables
         private readonly NAudioPlaybackEngine _playbackEngine;
-        private readonly SimpleSampleProvider _soundSample;
+        private readonly AudioSampleProvider _soundSample;
 		private bool repeat = false;
 		private bool autodispose = false;
 		private string filename;
@@ -56,19 +56,21 @@ namespace CodeImp.Bloodmasters.Client
             this.fullfilename = fullfilename;
 
 			// Load the sound
-            _soundSample = SimpleSampleProvider.ReadFromFile(fullfilename);
+            _soundSample = AudioSampleProvider.ReadFromFile(fullfilename);
 
 			// Done
 		}
 
 		// Clone constructor for positional sound
-		public Sound(ISound clonesnd, bool positional)
-		{
+		public Sound(Sound clonesnd, bool positional)
+        {
+            _playbackEngine = clonesnd._playbackEngine;
+
 			// Keep the filename
 			this.filename = clonesnd.Filename;
 
 			// Clone the sound
-			_soundSample = ((Sound)clonesnd)._soundSample.Clone();
+			_soundSample = clonesnd._soundSample.Clone();
 
 			// Add to sounds collection
 			SoundSystem.AddPlayingSound(this);
@@ -106,9 +108,9 @@ namespace CodeImp.Bloodmasters.Client
 			if(disposed) return;
 
 			// Reset volume/pan
-            // TODO: Volume control
-			// _soundSample.Volume = 0;
-			// _soundSample.Volume = -10000;
+			_soundSample.VolumeDb = 0;
+            // TODO: Was it always Volume here? Should it be Pan?
+			_soundSample.VolumeDb = -10000;
 		}
 
 		// Called when its time to apply changes
@@ -144,15 +146,14 @@ namespace CodeImp.Bloodmasters.Client
 					if(pan > 10000) pan = 10000; else if(pan < -10000) pan = -10000;
 
 					// Apply final volume
-                    // TODO: Volume, pan
-					// _soundSample.Volume = vol;
+					_soundSample.VolumeDb = vol;
+                    // TODO: Pan
 					// _soundSample.Pan = pan;
 				}
 				else
 				{
 					// Apply volume
-                    // TODO: Volume, pan
-					//_soundSample.Volume = DirectSound.effectsvolume + absvolume;
+					_soundSample.VolumeDb = SoundSystem.effectsvolume + absvolume;
 				}
 
 				// Set next update time

@@ -6,7 +6,7 @@ using NAudio.Wave;
 
 namespace CodeImp.Bloodmasters.Client;
 
-public class SimpleSampleProvider : ISampleProvider
+public class AudioSampleProvider : ISampleProvider
 {
     private readonly object _stateLock = new();
     private readonly float[] _audioData;
@@ -14,6 +14,7 @@ public class SimpleSampleProvider : ISampleProvider
     private bool _stopped;
     private int _position;
     private bool _shouldRepeat;
+    private float _volumeDb;
 
     public WaveFormat WaveFormat { get; }
 
@@ -44,22 +45,28 @@ public class SimpleSampleProvider : ISampleProvider
         set { lock (_stateLock) _shouldRepeat = value; }
     }
 
-    public SimpleSampleProvider Clone()
+    public float VolumeDb
     {
-        return new SimpleSampleProvider(WaveFormat, _audioData)
+        get { lock (_stateLock) return _volumeDb; }
+        set { lock (_stateLock) _volumeDb = value; }
+    }
+
+    public AudioSampleProvider Clone()
+    {
+        return new AudioSampleProvider(WaveFormat, _audioData)
         {
             CurrentPosition = CurrentPosition,
             ShouldRepeat = ShouldRepeat
         };
     }
 
-    private SimpleSampleProvider(WaveFormat waveFormat, float[] audioData)
+    private AudioSampleProvider(WaveFormat waveFormat, float[] audioData)
     {
         WaveFormat = waveFormat;
         _audioData = audioData;
     }
 
-    public static SimpleSampleProvider ReadFromFile(string audioFilePath)
+    public static AudioSampleProvider ReadFromFile(string audioFilePath)
     {
         using var audioFileReader = new AudioFileReader(audioFilePath);
         var wholeFile = new List<float>((int)(audioFileReader.Length / 4));
@@ -69,7 +76,7 @@ public class SimpleSampleProvider : ISampleProvider
         {
             wholeFile.AddRange(readBuffer.Take(samplesRead));
         }
-        return new SimpleSampleProvider(audioFileReader.WaveFormat, wholeFile.ToArray());
+        return new AudioSampleProvider(audioFileReader.WaveFormat, wholeFile.ToArray());
     }
 
     public int Read(float[] buffer, int offset, int count)
@@ -97,6 +104,13 @@ public class SimpleSampleProvider : ISampleProvider
         if (!_playing) return 0;
 
         Array.Copy(_audioData, _position, buffer, offset, samplesToCopy);
+        var volumeDb = Math.Clamp(VolumeDb, 0f, 10f);
+        var multiplier = MathF.Pow(10, volumeDb / 20);
+        for (var i = 0; i < count; ++i)
+        {
+            buffer[i] *= multiplier;
+        }
+
         Interlocked.Add(ref _position, samplesToCopy);
         return samplesToCopy;
     }

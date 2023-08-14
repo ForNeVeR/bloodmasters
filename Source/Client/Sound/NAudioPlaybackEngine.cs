@@ -37,7 +37,7 @@ class NAudioPlaybackEngine : IDisposable
         throw new NotImplementedException("Not yet implemented this channel count conversion");
     }
 
-    public void PlaySound(SimpleSampleProvider sound)
+    public void PlaySound(AudioSampleProvider sound)
     {
         _mixer.AddMixerInput(ConvertToRightChannelCount(sound));
     }

@@ -86,12 +86,10 @@ public static class SoundSystem
         // Playing sounds?
         if(SoundSystem.playeffects)
         {
-            // Set the primary buffer format?
-            if((soundfreq > 0) && (soundbits > 0))
-            {
-                var waveFormat = new WaveFormat(soundfreq, soundbits, 2);
-                _playbackEngine = new NAudioPlaybackEngine(waveFormat);
-            }
+            var waveFormat = soundfreq > 0 && soundbits > 0
+                ? new WaveFormat(soundfreq, soundbits, 2)
+                : WaveFormat.CreateIeeeFloatWaveFormat(44100, 2);
+            _playbackEngine = new NAudioPlaybackEngine(waveFormat);
 
             // Go for all files in the sounds archive
             Archive soundsrar = ArchiveManager.GetArchive("sounds.rar");
@@ -200,7 +198,13 @@ public static class SoundSystem
             return new NullSound();
         }
 
-        return new Sound(snd, positional);
+        return snd switch
+        {
+            NullSound ns => ns,
+            Sound s => new Sound(s, positional),
+            _ => throw new NotSupportedException(
+                $"Sound type {snd.GetType()} of sound \"{filename}\" is not supported for clone.")
+        };
     }
 
     // Plays a sound
