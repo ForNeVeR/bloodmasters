@@ -108,9 +108,9 @@ namespace CodeImp.Bloodmasters.Client
 			if(disposed) return;
 
 			// Reset volume/pan
-			_soundSample.VolumeDb = 0;
             // TODO: Was it always Volume here? Should it be Pan?
-			_soundSample.VolumeDb = -10000;
+			_soundSample.VolumeHundredthsOfDb = 0;
+			_soundSample.VolumeHundredthsOfDb = -10000;
 		}
 
 		// Called when its time to apply changes
@@ -146,14 +146,14 @@ namespace CodeImp.Bloodmasters.Client
 					if(pan > 10000) pan = 10000; else if(pan < -10000) pan = -10000;
 
 					// Apply final volume
-					_soundSample.VolumeDb = vol;
+					_soundSample.VolumeHundredthsOfDb = vol;
                     // TODO: Pan
 					// _soundSample.Pan = pan;
 				}
 				else
 				{
 					// Apply volume
-					_soundSample.VolumeDb = SoundSystem.effectsvolume + absvolume;
+					_soundSample.VolumeHundredthsOfDb = SoundSystem.effectsvolume + absvolume;
 				}
 
 				// Set next update time

@@ -8,13 +8,18 @@ namespace CodeImp.Bloodmasters.Client;
 
 public class AudioSampleProvider : ISampleProvider
 {
+    /// <summary>Should be completely silent.</summary>
+    private const float MinVolumeHundredthsOfDb = -10000f;
+    /// <summary>Unadjusted original volume.</summary>
+    private const float MaxVolumeHundredthsOfDb = 0f;
+
     private readonly object _stateLock = new();
     private readonly float[] _audioData;
     private bool _playing;
     private bool _stopped;
     private int _position;
     private bool _shouldRepeat;
-    private float _volumeDb;
+    private float _volumeHundredthsOfDb = MinVolumeHundredthsOfDb;
 
     public WaveFormat WaveFormat { get; }
 
@@ -45,10 +50,11 @@ public class AudioSampleProvider : ISampleProvider
         set { lock (_stateLock) _shouldRepeat = value; }
     }
 
-    public float VolumeDb
+    /// <summary>The volume is measured in 1/100 of decibel, same as it was back in DirectSound.</summary>
+    public float VolumeHundredthsOfDb
     {
-        get { lock (_stateLock) return _volumeDb; }
-        set { lock (_stateLock) _volumeDb = value; }
+        get { lock (_stateLock) return _volumeHundredthsOfDb; }
+        set { lock (_stateLock) _volumeHundredthsOfDb = Math.Clamp(value, MinVolumeHundredthsOfDb, MaxVolumeHundredthsOfDb); }
     }
 
     public AudioSampleProvider Clone()
@@ -104,8 +110,8 @@ public class AudioSampleProvider : ISampleProvider
         if (!_playing) return 0;
 
         Array.Copy(_audioData, _position, buffer, offset, samplesToCopy);
-        var volumeDb = Math.Clamp(VolumeDb, 0f, 10f);
-        var multiplier = MathF.Pow(10, volumeDb / 20);
+
+        var multiplier = MathF.Pow(10, _volumeHundredthsOfDb / 2000);
         for (var i = 0; i < count; ++i)
         {
             buffer[i] *= multiplier;
