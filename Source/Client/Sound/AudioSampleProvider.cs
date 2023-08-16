@@ -111,10 +111,10 @@ public class AudioSampleProvider : ISampleProvider
 
         Array.Copy(_audioData, _position, buffer, offset, samplesToCopy);
 
-        var multiplier = MathF.Pow(10, _volumeHundredthsOfDb / 2000);
-        for (var i = 0; i < count; ++i)
+        var multiplier = MathF.Pow(10, _volumeHundredthsOfDb / 2000f);
+        for (var i = 0; i < samplesToCopy; ++i)
         {
-            buffer[i] *= multiplier;
+            buffer[offset + i] *= multiplier;
         }
 
         Interlocked.Add(ref _position, samplesToCopy);

@@ -35,6 +35,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Server", "Server\Bloodmasters.Server.csproj", "{34A2FA5F-08A5-4464-82AD-BEC71C200352}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{93A7155B-8CB8-4471-B5A9-D311B3814763}"
+	ProjectSection(SolutionItems) = preProject
+		Config\bmserver.cfg = Config\bmserver.cfg
+		Config\Bloodmasters.cfg = Config\Bloodmasters.cfg
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AnyCPU = Debug|AnyCPU
