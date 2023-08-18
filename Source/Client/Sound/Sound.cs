@@ -37,7 +37,7 @@ namespace CodeImp.Bloodmasters.Client
 		public bool AutoDispose { get { return autodispose; } set { autodispose = value; } }
 		public string Filename { get { return filename; } }
 		public float Volume { get { return volume; } set { newvolume = value; update = true; } }
-        public bool Playing => _soundSample.IsPlaying;
+        public bool Playing => _soundSample.State == SoundState.Playing;
 		public bool Positional { get { return positional; } }
 		public Vector2D Position { get { return pos; } set { pos = value; update = true; } }
 		public bool Disposed { get { return disposed; } }
@@ -176,7 +176,7 @@ namespace CodeImp.Bloodmasters.Client
 			// Leave when disposed
 			if(disposed) return;
 
-            if (Playing) Stop();
+            _soundSample.State = SoundState.Playing;
 
 			// Repeat?
             _soundSample.ShouldRepeat = repeat;
