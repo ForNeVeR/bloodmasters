@@ -13,7 +13,7 @@ class NAudioPlaybackEngine : IDisposable
 
     public NAudioPlaybackEngine(WaveFormat waveFormat)
     {
-        _outputDevice = new WaveOutEvent();
+        _outputDevice = new DirectSoundOut();
         _mixer = new MixingSampleProvider(waveFormat)
         {
             ReadFully = true
