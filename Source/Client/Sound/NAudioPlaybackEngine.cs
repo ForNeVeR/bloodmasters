@@ -24,7 +24,14 @@ class NAudioPlaybackEngine : IDisposable
 
     private ISampleProvider ConvertToRightChannelCount(ISampleProvider input)
     {
-        // TODO: Convert the sound to 44khz if it isn't already
+        if (input.WaveFormat.SampleRate != 44100)
+        {
+            var outFormat = WaveFormat.CreateIeeeFloatWaveFormat(44100, input.WaveFormat.Channels);
+            using var resampler = new MediaFoundationResampler(input.ToWaveProvider(), outFormat);
+
+            input = resampler.ToSampleProvider();
+        }
+
         if (input.WaveFormat.Channels == _mixer.WaveFormat.Channels)
         {
             return input;

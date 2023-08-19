@@ -120,7 +120,7 @@ internal class AudioSampleProvider : ISampleProvider
         var samplesToCopy = Math.Min(availableSamples, count);
         if (samplesToCopy == 0) return 0;
 
-        Array.Copy(_audioData, _position, buffer, offset, samplesToCopy);
+        Buffer.BlockCopy(_audioData, _position * sizeof(float), buffer, offset * sizeof(float), samplesToCopy * sizeof(float));
 
         var multiplier = MathF.Pow(10, _volumeHundredthsOfDb / 2000f);
         for (var i = 0; i < samplesToCopy; ++i)
