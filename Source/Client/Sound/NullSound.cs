@@ -103,6 +103,9 @@ namespace CodeImp.Bloodmasters.Client
 			}
 		}
 
+        public int Length => 0;
+        public int CurrentPosition => 0;
+
 		public bool Disposed
 		{
 			get

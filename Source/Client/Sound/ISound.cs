@@ -27,6 +27,7 @@ namespace CodeImp.Bloodmasters.Client
 		bool Positional { get; }
 		Vector2D Position { get; set; }
 		bool Disposed { get; }
-
+        int Length { get; }
+        int CurrentPosition { get; }
 	}
 }

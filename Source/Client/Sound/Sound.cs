@@ -41,6 +41,8 @@ namespace CodeImp.Bloodmasters.Client
 		public bool Positional { get { return positional; } }
 		public Vector2D Position { get { return pos; } set { pos = value; update = true; } }
 		public bool Disposed { get { return disposed; } }
+        public int Length => _soundSample.Length;
+        public int CurrentPosition => _soundSample.CurrentPosition;
 
 		#endregion
 

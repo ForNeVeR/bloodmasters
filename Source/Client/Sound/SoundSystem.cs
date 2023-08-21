@@ -254,7 +254,7 @@ public static class SoundSystem
     }
 
     // This creates a new sound
-    public static void CreateSound(string filename, string fullfilename)
+    public static ISound CreateSound(string filename, string fullfilename, bool store = true)
     {
         ISound s;
 
@@ -274,7 +274,12 @@ public static class SoundSystem
             }
 
             // Add to collection
-            sounds.Add(filename, s);
+            if (store)
+            {
+                sounds.Add(filename, s);
+            }
+
+            return s;
         }
         else
         {

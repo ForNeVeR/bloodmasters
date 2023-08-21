@@ -11,24 +11,10 @@ namespace CodeImp.Bloodmasters.Client
 {
 	public class Track
 	{
-		#region ================== Constants
-
-		private const float DEFAULT_FADE_SPEED = 0.1f;
-
-		#endregion
-
 		#region ================== Variables
 
 		// Variables
-        // TODO: Restore the music
-		// private Audio snd;
-		private bool repeat = false;
-		private bool paused = false;
-		private bool playing = false;
-		private bool playafterpauze = false;
-		private string filename;
-		private float targetvolume = 0;
-		private float fadespeed = 0;
+		private ISound snd;
 		private float volume;
 		private float pan;
 
@@ -36,23 +22,7 @@ namespace CodeImp.Bloodmasters.Client
 
 		#region ================== Properties
 
-		public bool Repeat { get { return repeat; } }
-		public bool Playing { get { return playing; } }
-		public bool PlayAfterPauze { get { return playafterpauze; } }
-		public string Filename { get { return filename; } }
-		public float Volume { get { return volume; } set { volume = value; ApplySettings(); } }
-		public float Pan { get { return pan; } set { pan = value; ApplySettings(); } }
-		// public double Duration { get { return snd.Duration; } }
-		// public double Position { get { return snd.CurrentPosition; } }
-        // TODO: Restore the music
-        public bool Ended => false;
-		// public bool Ended { get { return (snd.State == StateFlags.Stopped) || (snd.CurrentPosition == snd.Duration); } }
-
-		public int Instances
-		{
-			get { return 1; }
-			set { throw(new Exception("Multiple instances not supported for sounds of AudioSound type.")); }
-		}
+        public bool Ended => !snd.Playing || snd.CurrentPosition == snd.Length;
 
 		#endregion
 
@@ -61,21 +31,16 @@ namespace CodeImp.Bloodmasters.Client
 		// Constructor
 		public Track(string filename, string fullfilename)
 		{
-			// Keep the filename
-			this.filename = filename;
-
-			// TODO: Load the sound
-			// snd = new Audio(fullfilename, false);
+			snd = SoundSystem.CreateSound(filename, fullfilename, store: false);
 		}
 
 		// Dispose
 		public void Dispose()
 		{
-			// TODO: Dispose the sound
-			// snd.Stop();
-			// snd.Dispose();
-			// snd = null;
-		}
+			snd.Stop();
+			snd.Dispose();
+            snd = null;
+        }
 
 		#endregion
 
@@ -91,12 +56,12 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Calculate dB
 				db = 20f * (float)Math.Log10(volume);
-				// TODO: snd.Volume = (int)(100f * db);
+				snd.Volume = (int)(100f * db);
 			}
 			else
 			{
 				// Silent
-				// TODO: snd.Volume = -10000;
+				snd.Volume = -10000;
 			}
 
 			// Completely left or right?
@@ -117,99 +82,14 @@ namespace CodeImp.Bloodmasters.Client
 
 		#region ================== Public Methods
 
-		// Pauze
-		public void Pauze(bool playafterpauze)
-		{
-			// NOTE: Dont set the pause variable,
-			// it is only for the source control!
-
-			// Pauze the track
-			// TODO: snd.Pause();
-			this.playafterpauze = playafterpauze;
-		}
-
-		// Resume
-		public void Resume()
-		{
-			// Pauze the track
-			// TOOD: if(!paused) snd.Play();
-			this.playafterpauze = false;
-		}
-
-		// Fade
-		public void FadeVolume(float targetvolume) { FadeVolume(targetvolume, DEFAULT_FADE_SPEED); }
-		public void FadeVolume(float targetvolume, float fadespeed)
-		{
-			// Set the fade settings
-			this.targetvolume = targetvolume;
-			this.fadespeed = fadespeed;
-		}
-
 		// Play sound
-		public void Play() { Play(1f, 0f, false); }
-		public void Play(float volume, float pan, bool repeat)
+		public void Play(float volume, float pan)
 		{
-			// TODO: snd.Stop();
-			this.targetvolume = volume;
+			snd.Stop();
 			this.volume = volume;
 			this.pan = pan;
-			this.repeat = repeat;
-			this.paused = false;
-			this.playing = true;
 			ApplySettings();
-			// TODO: snd.Play();
-		}
-
-		// Stops
-		public void Stop()
-		{
-			// Stop now
-			this.repeat = false;
-			this.paused = false;
-			this.playing = false;
-			// TODO: snd.Stop();
-		}
-
-		#endregion
-
-		#region ================== Processing
-
-		// Process track
-		public void Process()
-		{
-			// TODO: Did the track end?
-			//if((snd.State == StateFlags.Stopped) ||
-			//   (snd.CurrentPosition == snd.Duration))
-			//{
-			//	// Repeat the track?
-			//	if(repeat)
-			//	{
-			//		// Restart
-			//		snd.Stop();
-			//		snd.Play();
-			//	}
-			//}
-
-			// Fade?
-			if(volume != targetvolume)
-			{
-				// Fade in or out?
-				if(volume < targetvolume)
-				{
-					// Fade in to target
-					volume += fadespeed * SharedGeneral.currenttime;
-					if(volume > targetvolume) volume = targetvolume;
-				}
-				else
-				{
-					// Fade out to target
-					volume -= fadespeed * SharedGeneral.currenttime;
-					if(volume < targetvolume) volume = targetvolume;
-				}
-
-				// Apply new volume
-				ApplySettings();
-			}
+			snd.Play();
 		}
 
 		#endregion

@@ -245,7 +245,7 @@ namespace CodeImp.Bloodmasters.Client
 				scoreboard = new Scoreboard();
 
 				// Make the jukebox
-				if(config.ReadSetting("music", true)) jukebox = new Jukebox();
+                if(config.ReadSetting("music", true)) jukebox = new Jukebox();
 			}
 
 			// Return success
@@ -1865,14 +1865,6 @@ namespace CodeImp.Bloodmasters.Client
 		private static bool LoadGenericResources()
 		{
 			// Show loading screen (hud message)
-			hud.ShowSmallMessage("Loading sounds...", 0);
-			hud.ShowBigMessage("", 0);
-			DoOneFrame(false, true, false);
-
-			// Initialize the sound system
-			if(!SoundSystem.Initialize(gamewindow)) return false;
-
-			// Show loading screen (hud message)
 			hud.ShowSmallMessage("Loading graphics...", 0);
 			hud.ShowBigMessage("", 0);
 			DoOneFrame(false, true, false);
@@ -2318,6 +2310,9 @@ namespace CodeImp.Bloodmasters.Client
 
 				// Initialize Direct3D
 				if(!Direct3D.Initialize(gamewindow)) return;
+
+                // Initialize the sound system
+                if (!SoundSystem.Initialize(gamewindow)) return;
 
 				// Setup defaults and load standard components
 				if(!LoadStandardComponents()) return;

@@ -59,10 +59,8 @@ namespace CodeImp.Bloodmasters.Client
 						int b = General.random.Next(playlist.Length);
 
 						// Swap items
-						string temp = playlist[a];
-						playlist[a] = playlist[b];
-						playlist[b] = temp;
-					}
+						(playlist[a], playlist[b]) = (playlist[b], playlist[a]);
+                    }
 				}
 			}
 			else
@@ -76,7 +74,7 @@ namespace CodeImp.Bloodmasters.Client
 			{
 				// Load the MP3 and play it
 				currenttrack =  new Track(playlist[currentitem], playlist[currentitem]);
-				currenttrack.Play(volume, 0f, false);
+				currenttrack.Play(volume, 0f);
 			}
 		}
 
@@ -110,7 +108,7 @@ namespace CodeImp.Bloodmasters.Client
 					currentitem++;
 					if(currentitem == playlist.Length) currentitem = 0;
 					currenttrack = new Track(playlist[currentitem], playlist[currentitem]);
-					currenttrack.Play(volume, 0f, false);
+					currenttrack.Play(volume, 0f);
 				}
 			}
 		}
