@@ -17,6 +17,8 @@ namespace CodeImp.Bloodmasters
 		// Temporary path
 		private static string tempPath = Paths.TempDir;
 
+        private static readonly Paths Paths = new();
+
 		#endregion
 
 		#region ================== Methods
