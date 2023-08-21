@@ -13,7 +13,6 @@ internal enum SoundState
     Stopped, Playing
 }
 
-[DebuggerDisplay("{" + nameof(_fileName) + "}")]
 internal class AudioSampleProvider : ISampleProvider
 {
     /// <summary>Should be completely silent.</summary>
@@ -24,6 +23,8 @@ internal class AudioSampleProvider : ISampleProvider
     private readonly string _fileName;
     private readonly object _stateLock = new();
     private readonly float[] _audioData;
+
+    public override string ToString() => _fileName;
 
     private SoundState _state;
     private int _position;
@@ -103,11 +104,17 @@ internal class AudioSampleProvider : ISampleProvider
             if (State == SoundState.Stopped) return 0;
             if (!_shouldRepeat || Length <= 0) return ReadNoLock(buffer, offset, count);
 
-            while (count > 0)
+            var remaining = count;
+            while (remaining > 0)
             {
-                var samplesRead = ReadNoLock(buffer, offset, count);
+                var samplesRead = ReadNoLock(buffer, offset, remaining);
                 offset += samplesRead;
-                count -= samplesRead;
+                remaining -= samplesRead;
+                if (_position >= _audioData.Length)
+                {
+                    Debug.Assert(_shouldRepeat);
+                    _position = 0;
+                }
             }
 
             return count;
