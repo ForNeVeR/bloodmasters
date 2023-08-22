@@ -11,52 +11,51 @@
 
 using SharpDX.Direct3D9;
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+public class TextureResource : ITextureResource
 {
-	public class TextureResource : ITextureResource
-	{
-		#region ================== Variables
+    #region ================== Variables
 
-		// Texture and info
-		private string filename;
-		public Texture texture = null;
-		public ImageInformation info;
+    // Texture and info
+    private string filename;
+    public Texture texture = null;
+    public ImageInformation info;
 
-		#endregion
+    #endregion
 
-		#region ================== Properties
+    #region ================== Properties
 
-		public ImageInformation Info { get { return info; } }
-		public Texture Texture { get { return texture; } }
+    public ImageInformation Info { get { return info; } }
+    public Texture Texture { get { return texture; } }
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public TextureResource(string f, Texture t, ImageInformation i)
-		{
-			// Set the filename and load resource
-			filename = f;
-			info = i;
-			texture = t;
-		}
+    // Constructor
+    public TextureResource(string f, Texture t, ImageInformation i)
+    {
+        // Set the filename and load resource
+        filename = f;
+        info = i;
+        texture = t;
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Methods
+    #region ================== Methods
 
-		// This unloads the resource
-		public void Dispose()
-		{
-			// Remove from cache
-			Direct3D.RemoveTextureCache(filename);
+    // This unloads the resource
+    public void Dispose()
+    {
+        // Remove from cache
+        Direct3D.RemoveTextureCache(filename);
 
-			// Clean up
-			if(texture != null) texture.Dispose();
-			texture = null;
-		}
+        // Clean up
+        if(texture != null) texture.Dispose();
+        texture = null;
+    }
 
-		#endregion
-	}
+    #endregion
 }

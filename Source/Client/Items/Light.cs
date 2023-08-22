@@ -5,28 +5,27 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+[ClientItem(6001, Temporary=true, OnFloor=false)]
+public class Light : Item
 {
-	[ClientItem(6001, Temporary=true, OnFloor=false)]
-	public class Light : Item
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public Light(Thing t) : base(t)
-		{
-			// Create the light
-			new StaticLight(t, General.arena.VisualSectors, true);
-		}
+    // Constructor
+    public Light(Thing t) : base(t)
+    {
+        // Create the light
+        new StaticLight(t, General.arena.VisualSectors, true);
+    }
 
-		#endregion
-	}
+    #endregion
 }

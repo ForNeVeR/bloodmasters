@@ -5,34 +5,33 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+[ClientItem(4003, Sprite="sc_white.tga",
+    Bob = true,
+    Description="Scavenger Item",
+    Sound="pickuphealth.wav")]
+public class WhiteScavengerItem : ScavengerItem
 {
-	[ClientItem(4003, Sprite="sc_white.tga",
-					  Bob = true,
-					  Description="Scavenger Item",
-					  Sound="pickuphealth.wav")]
-	public class WhiteScavengerItem : ScavengerItem
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public WhiteScavengerItem(Thing t) : base(t)
-		{
-			// Set team
-			SetTeam(TEAM.NONE);
+    // Constructor
+    public WhiteScavengerItem(Thing t) : base(t)
+    {
+        // Set team
+        SetTeam(TEAM.NONE);
 
-			// If this is not a Scavenger game, remove the item
-			if(General.gametype != GAMETYPE.SC) this.Temporary = true;
-		}
+        // If this is not a Scavenger game, remove the item
+        if(General.gametype != GAMETYPE.SC) this.Temporary = true;
+    }
 
-		#endregion
-	}
+    #endregion
 }

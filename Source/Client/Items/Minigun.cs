@@ -5,45 +5,44 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+[ClientItem(1002, Sprite="chaingun.tga",
+    Bob = true,
+    Description="Minigun",
+    SpriteOffset=-0.6f,
+    Sound="weaponpickup.wav")]
+public class Minigun : Item
 {
-	[ClientItem(1002, Sprite="chaingun.tga",
-					  Bob = true,
-					  Description="Minigun",
-					  SpriteOffset=-0.6f,
-					  Sound="weaponpickup.wav")]
-	public class Minigun : Item
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public Minigun(Thing t) : base(t)
-		{
-		}
+    // Constructor
+    public Minigun(Thing t) : base(t)
+    {
+    }
 
-		#endregion
+    #endregion
 
-		// When picked up / taken
-		public override void Take(Client clnt)
-		{
-			// Taken by me?
-			if(General.localclient == clnt)
-			{
-				// Display item description
-				General.hud.ShowItemMessage(this.Description);
+    // When picked up / taken
+    public override void Take(Client clnt)
+    {
+        // Taken by me?
+        if(General.localclient == clnt)
+        {
+            // Display item description
+            General.hud.ShowItemMessage(this.Description);
 
-				// Lock current weapon when automatically switching
-				if(General.autoswitchweapon && !General.localclient.IsShooting)
-					clnt.RequestSwitchWeaponTo(WEAPON.MINIGUN, false);
-			}
-		}
-	}
+            // Lock current weapon when automatically switching
+            if(General.autoswitchweapon && !General.localclient.IsShooting)
+                clnt.RequestSwitchWeaponTo(WEAPON.MINIGUN, false);
+        }
+    }
 }

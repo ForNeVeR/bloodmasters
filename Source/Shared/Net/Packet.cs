@@ -24,87 +24,86 @@ using System.Net;
 using System.Net.Sockets;
 using CodeImp;
 
-namespace CodeImp.Bloodmasters
+namespace CodeImp.Bloodmasters;
+
+public class Packet
 {
-	public class Packet
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		// Maximum optimal size in bytes
-		private const int MAX_OPTIMAL_SIZE = 300;
+    // Maximum optimal size in bytes
+    private const int MAX_OPTIMAL_SIZE = 300;
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		// Target/source address
-		private IPEndPoint address;
+    // Target/source address
+    private IPEndPoint address;
 
-		// Packet data
-		private MemoryStream data = null;
+    // Packet data
+    private MemoryStream data = null;
 
-		#endregion
+    #endregion
 
-		#region ================== Properties
+    #region ================== Properties
 
-		public IPEndPoint Address { get { return address; } }
-		public int Length { get { return (int)data.Length; } }
-		public int OptimalSpaceLeft { get { return MAX_OPTIMAL_SIZE - (int)data.Length; } }
+    public IPEndPoint Address { get { return address; } }
+    public int Length { get { return (int)data.Length; } }
+    public int OptimalSpaceLeft { get { return MAX_OPTIMAL_SIZE - (int)data.Length; } }
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor
+    #region ================== Constructor
 
-		// Constructor for new packet
-		public Packet(IPEndPoint addr)
-		{
-			// Set the address
-			this.address = addr;
+    // Constructor for new packet
+    public Packet(IPEndPoint addr)
+    {
+        // Set the address
+        this.address = addr;
 
-			// Make data stream
-			data = new MemoryStream(MAX_OPTIMAL_SIZE);
-		}
+        // Make data stream
+        data = new MemoryStream(MAX_OPTIMAL_SIZE);
+    }
 
-		// Constructor for new packet
-		public Packet(IPEndPoint addr, byte[] newdata)
-		{
-			// Set the address
-			this.address = addr;
+    // Constructor for new packet
+    public Packet(IPEndPoint addr, byte[] newdata)
+    {
+        // Set the address
+        this.address = addr;
 
-			// Make data stream
-			data = new MemoryStream(MAX_OPTIMAL_SIZE);
+        // Make data stream
+        data = new MemoryStream(MAX_OPTIMAL_SIZE);
 
-			// Append the new data
-			AppendData(newdata);
-		}
+        // Append the new data
+        AppendData(newdata);
+    }
 
-		// Disposer
-		public void Dispose()
-		{
-			// Clean up
-			if(data != null) data.Close();
-			data = null;
-			GC.SuppressFinalize(this);
-		}
+    // Disposer
+    public void Dispose()
+    {
+        // Clean up
+        if(data != null) data.Close();
+        data = null;
+        GC.SuppressFinalize(this);
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Methods
+    #region ================== Methods
 
-		// This appends data to the stream
-		public void AppendData(byte[] newdata)
-		{
-			// Write data to stream
-			data.Write(newdata, 0, newdata.Length);
-		}
+    // This appends data to the stream
+    public void AppendData(byte[] newdata)
+    {
+        // Write data to stream
+        data.Write(newdata, 0, newdata.Length);
+    }
 
-		// This returns all stream data
-		public byte[] GetData()
-		{
-			// Return stream data
-			return data.ToArray();
-		}
+    // This returns all stream data
+    public byte[] GetData()
+    {
+        // Return stream data
+        return data.ToArray();
+    }
 
-		#endregion
-	}
+    #endregion
 }

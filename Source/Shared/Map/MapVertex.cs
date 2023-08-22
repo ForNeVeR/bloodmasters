@@ -7,12 +7,11 @@
 
 using System;
 
-namespace CodeImp.Bloodmasters
+namespace CodeImp.Bloodmasters;
+
+public struct MapVertex
 {
-	public struct MapVertex
-	{
-		// Coordinates
-		public float x;
-		public float y;
-	}
+    // Coordinates
+    public float x;
+    public float y;
 }

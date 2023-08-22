@@ -5,50 +5,49 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Server
+namespace CodeImp.Bloodmasters.Server;
+
+[ServerItem(1002, RespawnTime=5000)]
+public class Minigun : Item
 {
-	[ServerItem(1002, RespawnTime=5000)]
-	public class Minigun : Item
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		private const WEAPON weaponid = WEAPON.MINIGUN;
+    private const WEAPON weaponid = WEAPON.MINIGUN;
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public Minigun(Thing t) : base(t)
-		{
-		}
+    // Constructor
+    public Minigun(Thing t) : base(t)
+    {
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Control
+    #region ================== Control
 
-		// This is called when the item is being touched by a player
-		public override void Pickup(Client c)
-		{
-			// Check if the client does not have this weapon yet
-			if(!c.HasWeapon(weaponid))
-			{
-				// Do what you have to do
-				base.Pickup(c);
+    // This is called when the item is being touched by a player
+    public override void Pickup(Client c)
+    {
+        // Check if the client does not have this weapon yet
+        if(!c.HasWeapon(weaponid))
+        {
+            // Do what you have to do
+            base.Pickup(c);
 
-				// Take the item
-				this.Take(c);
+            // Take the item
+            this.Take(c);
 
-				// Give the weapon
-				c.GiveWeapon(weaponid);
-			}
-		}
+            // Give the weapon
+            c.GiveWeapon(weaponid);
+        }
+    }
 
 
-		#endregion
-	}
+    #endregion
 }

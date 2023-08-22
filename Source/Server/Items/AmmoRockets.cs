@@ -5,44 +5,43 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Server
+namespace CodeImp.Bloodmasters.Server;
+
+[ServerItem(8003, RespawnTime=5000)]
+public class AmmoRockets : Item
 {
-	[ServerItem(8003, RespawnTime=5000)]
-	public class AmmoRockets : Item
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public AmmoRockets(Thing t) : base(t)
-		{
-		}
+    // Constructor
+    public AmmoRockets(Thing t) : base(t)
+    {
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Control
+    #region ================== Control
 
-		// This is called when the item is being touched by a player
-		public override void Pickup(Client c)
-		{
-			// Give clietn ammo if possible
-			if(c.AddAmmo(AMMO.ROCKETS, 5))
-			{
-				// Do what you have to do
-				base.Pickup(c);
+    // This is called when the item is being touched by a player
+    public override void Pickup(Client c)
+    {
+        // Give clietn ammo if possible
+        if(c.AddAmmo(AMMO.ROCKETS, 5))
+        {
+            // Do what you have to do
+            base.Pickup(c);
 
-				// Take the item
-				this.Take(c);
-			}
-		}
+            // Take the item
+            this.Take(c);
+        }
+    }
 
-		#endregion
-	}
+    #endregion
 }

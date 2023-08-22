@@ -5,40 +5,39 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Server
+namespace CodeImp.Bloodmasters.Server;
+
+[ServerItem(4004, RespawnTime=0)]
+public class RedScavengerItem : ScavengerItem
 {
-	[ServerItem(4004, RespawnTime=0)]
-	public class RedScavengerItem : ScavengerItem
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public RedScavengerItem(Thing t) : base(t)
-		{
-			// Set teams
-			this.thisteam = TEAM.RED;
-			this.otherteam = TEAM.BLUE;
+    // Constructor
+    public RedScavengerItem(Thing t) : base(t)
+    {
+        // Set teams
+        this.thisteam = TEAM.RED;
+        this.otherteam = TEAM.BLUE;
 
-			// For normal Scavenger game, place a White item instead
-			if(Host.Instance.Server.GameType == GAMETYPE.SC)
-			{
-				// Make white item
-				Item white = new WhiteScavengerItem(t);
-				Host.Instance.Server.items.Add(white.Key, white);
-			}
+        // For normal Scavenger game, place a White item instead
+        if(Host.Instance.Server.GameType == GAMETYPE.SC)
+        {
+            // Make white item
+            Item white = new WhiteScavengerItem(t);
+            Host.Instance.Server.items.Add(white.Key, white);
+        }
 
-			// If this is not a Team Scavenger game, remove the item
-			if(Host.Instance.Server.GameType != GAMETYPE.TSC) this.Temporary = true;
-		}
+        // If this is not a Team Scavenger game, remove the item
+        if(Host.Instance.Server.GameType != GAMETYPE.TSC) this.Temporary = true;
+    }
 
-		#endregion
-	}
+    #endregion
 }

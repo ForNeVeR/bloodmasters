@@ -7,116 +7,115 @@
 
 using System.IO;
 
-namespace CodeImp.Bloodmasters
+namespace CodeImp.Bloodmasters;
+
+public class Node
 {
-	public class Node
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		private const uint ISSUBSECTOR = 1u << 31;
+    private const uint ISSUBSECTOR = 1u << 31;
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		// References
-		Map map;
+    // References
+    Map map;
 
-		// Split line
-		private float x1;
-		private float y1;
-		private float x2;
-		private float y2;
-		private float dx;
-		private float dy;
+    // Split line
+    private float x1;
+    private float y1;
+    private float x2;
+    private float y2;
+    private float dx;
+    private float dy;
 
-		// Sides
-		private int leftnode = -1;
-		private int rightnode = -1;
+    // Sides
+    private int leftnode = -1;
+    private int rightnode = -1;
 
-		// SubSectors
-		private SubSector leftssec = null;
-		private SubSector rightssec = null;
+    // SubSectors
+    private SubSector leftssec = null;
+    private SubSector rightssec = null;
 
-		#endregion
+    #endregion
 
-		#region ================== Properties
+    #region ================== Properties
 
-		public Node LeftNode { get { if(leftnode > -1) return map.Nodes[leftnode]; else return null; } }
-		public Node RightNode { get { if(rightnode > -1) return map.Nodes[rightnode]; else return null; } }
-		public SubSector LeftSubSector { get { return leftssec; } }
-		public SubSector RightSubSector { get { return rightssec; } }
+    public Node LeftNode { get { if(leftnode > -1) return map.Nodes[leftnode]; else return null; } }
+    public Node RightNode { get { if(rightnode > -1) return map.Nodes[rightnode]; else return null; } }
+    public SubSector LeftSubSector { get { return leftssec; } }
+    public SubSector RightSubSector { get { return rightssec; } }
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public Node(BinaryReader data, SubSector[] subsectors, Map map)
-		{
-			// Keep references
-			this.map = map;
+    // Constructor
+    public Node(BinaryReader data, SubSector[] subsectors, Map map)
+    {
+        // Keep references
+        this.map = map;
 
-			// Read node
-			x1 = (float)data.ReadInt16() * Map.MAP_SCALE_XY;
-			y1 = (float)data.ReadInt16() * Map.MAP_SCALE_XY;
-			dx = (float)data.ReadInt16() * Map.MAP_SCALE_XY;
-			dy = (float)data.ReadInt16() * Map.MAP_SCALE_XY;
+        // Read node
+        x1 = (float)data.ReadInt16() * Map.MAP_SCALE_XY;
+        y1 = (float)data.ReadInt16() * Map.MAP_SCALE_XY;
+        dx = (float)data.ReadInt16() * Map.MAP_SCALE_XY;
+        dy = (float)data.ReadInt16() * Map.MAP_SCALE_XY;
 
-			// Skip the left bounding box
-			data.ReadInt16();
-			data.ReadInt16();
-			data.ReadInt16();
-			data.ReadInt16();
+        // Skip the left bounding box
+        data.ReadInt16();
+        data.ReadInt16();
+        data.ReadInt16();
+        data.ReadInt16();
 
-			// Skip the right bounding box
-			data.ReadInt16();
-			data.ReadInt16();
-			data.ReadInt16();
-			data.ReadInt16();
+        // Skip the right bounding box
+        data.ReadInt16();
+        data.ReadInt16();
+        data.ReadInt16();
+        data.ReadInt16();
 
-			// Read the sides
-			uint left = data.ReadUInt32();
-			uint right = data.ReadUInt32();
+        // Read the sides
+        uint left = data.ReadUInt32();
+        uint right = data.ReadUInt32();
 
-			// Determine split line end
-			x2 = x1 + dx;
-			y2 = y1 + dy;
+        // Determine split line end
+        x2 = x1 + dx;
+        y2 = y1 + dy;
 
-			// Set up left side
-			if((left & ISSUBSECTOR) == ISSUBSECTOR)
-				leftssec = subsectors[left & ~ISSUBSECTOR];
-			else
-				leftnode = (int)left;
+        // Set up left side
+        if((left & ISSUBSECTOR) == ISSUBSECTOR)
+            leftssec = subsectors[left & ~ISSUBSECTOR];
+        else
+            leftnode = (int)left;
 
-			// Set up right side
-			if((right & ISSUBSECTOR) == ISSUBSECTOR)
-				rightssec = subsectors[right & ~ISSUBSECTOR];
-			else
-				rightnode = (int)right;
-		}
+        // Set up right side
+        if((right & ISSUBSECTOR) == ISSUBSECTOR)
+            rightssec = subsectors[right & ~ISSUBSECTOR];
+        else
+            rightnode = (int)right;
+    }
 
-		// Destructor
-		public void Dispose()
-		{
-			// Release references
-			map = null;
-			leftssec = null;
-			rightssec = null;
-		}
+    // Destructor
+    public void Dispose()
+    {
+        // Release references
+        map = null;
+        leftssec = null;
+        rightssec = null;
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Methods
+    #region ================== Methods
 
-		// This tests on which side of the split line the given coordinates are
-		// returns < 0 for front (right) side, > 0 for back (left) side and 0 if on the line
-		public float SideOfLine(float x, float y)
-		{
-			// Calculate and return side information
-			return (y - y1) * dx - (x - x1) * dy;
-		}
+    // This tests on which side of the split line the given coordinates are
+    // returns < 0 for front (right) side, > 0 for back (left) side and 0 if on the line
+    public float SideOfLine(float x, float y)
+    {
+        // Calculate and return side information
+        return (y - y1) * dx - (x - x1) * dy;
+    }
 
-		#endregion
-	}
+    #endregion
 }

@@ -5,28 +5,27 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+[ClientItem(8001, Sprite="ammo_bullets.tga",
+    Description="Chaingun Ammo",
+    Sound="pickuphealth.wav")]
+public class AmmoBullets : Item
 {
-	[ClientItem(8001, Sprite="ammo_bullets.tga",
-					  Description="Chaingun Ammo",
-					  Sound="pickuphealth.wav")]
-	public class AmmoBullets : Item
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public AmmoBullets(Thing t) : base(t)
-		{
-		}
+    // Constructor
+    public AmmoBullets(Thing t) : base(t)
+    {
+    }
 
-		#endregion
-	}
+    #endregion
 }

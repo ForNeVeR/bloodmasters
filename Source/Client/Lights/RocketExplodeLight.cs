@@ -7,72 +7,71 @@
 
 using CodeImp.Bloodmasters.Client.Graphics;
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+public class RocketExplodeLight : DynamicLight
 {
-	public class RocketExplodeLight : DynamicLight
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		private const int CHANGE_INTERVAL = 50;
-		private const float CHANGE_BRIGHT_SCALE = 0.9f;
-		private const float START_BRIGHTNESS = 2f;
-		private const float END_BRIGHTNESS = 0.01f;
+    private const int CHANGE_INTERVAL = 50;
+    private const float CHANGE_BRIGHT_SCALE = 0.9f;
+    private const float START_BRIGHTNESS = 2f;
+    private const float END_BRIGHTNESS = 0.01f;
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		private int nextchangetime;
-		private float brightness;
+    private int nextchangetime;
+    private float brightness;
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public RocketExplodeLight(Vector3D spawnpos) :
-			base(spawnpos, 20f, General.ARGB(1f, 1f, 0.8f, 0.4f), 2)
-		{
-			// Start
-			brightness = START_BRIGHTNESS;
-			nextchangetime = SharedGeneral.currenttime + General.random.Next(CHANGE_INTERVAL);
-			Position = spawnpos + new Vector3D(0f, 0f, 3f);
-		}
+    // Constructor
+    public RocketExplodeLight(Vector3D spawnpos) :
+        base(spawnpos, 20f, General.ARGB(1f, 1f, 0.8f, 0.4f), 2)
+    {
+        // Start
+        brightness = START_BRIGHTNESS;
+        nextchangetime = SharedGeneral.currenttime + General.random.Next(CHANGE_INTERVAL);
+        Position = spawnpos + new Vector3D(0f, 0f, 3f);
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Processing
+    #region ================== Processing
 
-		// Processing
-		public override void Process()
-		{
-			// Do not go here when disposed
-			if(base.Disposed) return;
+    // Processing
+    public override void Process()
+    {
+        // Do not go here when disposed
+        if(base.Disposed) return;
 
-			// Check if time to change
-			if(nextchangetime <= SharedGeneral.currenttime)
-			{
-				// Change light color
-				brightness *= CHANGE_BRIGHT_SCALE;
-				if(brightness <= END_BRIGHTNESS)
-				{
-					// Destroy the light
-					this.Dispose();
-				}
-				else
-				{
-					// Change color
-					this.Color = ColorOperator.Scale(this.BaseColor, brightness);
+        // Check if time to change
+        if(nextchangetime <= SharedGeneral.currenttime)
+        {
+            // Change light color
+            brightness *= CHANGE_BRIGHT_SCALE;
+            if(brightness <= END_BRIGHTNESS)
+            {
+                // Destroy the light
+                this.Dispose();
+            }
+            else
+            {
+                // Change color
+                this.Color = ColorOperator.Scale(this.BaseColor, brightness);
 
-					// Make next change time
-					nextchangetime += CHANGE_INTERVAL;
-				}
-			}
+                // Make next change time
+                nextchangetime += CHANGE_INTERVAL;
+            }
+        }
 
-			// Process base light
-			base.Process();
-		}
+        // Process base light
+        base.Process();
+    }
 
-		#endregion
-	}
+    #endregion
 }

@@ -5,49 +5,48 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Server
+namespace CodeImp.Bloodmasters.Server;
+
+[WeaponInfo(WEAPON.SMG, RefireDelay=100, Description="SMG",
+    AmmoType=AMMO.BULLETS, InitialAmmo=100, UseAmmo=1)]
+public class WLightChaingun : Weapon
 {
-	[WeaponInfo(WEAPON.SMG, RefireDelay=100, Description="SMG",
-				AmmoType=AMMO.BULLETS, InitialAmmo=100, UseAmmo=1)]
-	public class WLightChaingun : Weapon
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		private const float BULLET_SPREAD = 6f;
-		private const int BULLET_DAMAGE = 5;
-		private const float BULLET_PUSH = 0.02f;
+    private const float BULLET_SPREAD = 6f;
+    private const int BULLET_DAMAGE = 5;
+    private const float BULLET_PUSH = 0.02f;
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public WLightChaingun(Client client) : base(client)
-		{
-		}
+    // Constructor
+    public WLightChaingun(Client client) : base(client)
+    {
+    }
 
-		// Disposer
-		public override void Dispose()
-		{
-			// Dispose base
-			base.Dispose();
-		}
+    // Disposer
+    public override void Dispose()
+    {
+        // Dispose base
+        base.Dispose();
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Methods
+    #region ================== Methods
 
-		// This is called when the weapon is shooting
-		protected override void ShootOnce()
-		{
-			// Fire a bullet
-			new Bullet(this.client, BULLET_SPREAD, Client.DEATH_SMG, BULLET_DAMAGE, BULLET_PUSH);
-		}
+    // This is called when the weapon is shooting
+    protected override void ShootOnce()
+    {
+        // Fire a bullet
+        new Bullet(this.client, BULLET_SPREAD, Client.DEATH_SMG, BULLET_DAMAGE, BULLET_PUSH);
+    }
 
-		#endregion
-	}
+    #endregion
 }

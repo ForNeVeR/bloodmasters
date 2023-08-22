@@ -5,29 +5,28 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Server
+namespace CodeImp.Bloodmasters.Server;
+
+[ServerItem(4002, RespawnTime=0)]
+public class RedFlag : Flag
 {
-	[ServerItem(4002, RespawnTime=0)]
-	public class RedFlag : Flag
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public RedFlag(Thing t) : base(t)
-		{
-			// Set teams
-			this.thisteam = TEAM.RED;
-			this.otherteam = TEAM.BLUE;
-		}
+    // Constructor
+    public RedFlag(Thing t) : base(t)
+    {
+        // Set teams
+        this.thisteam = TEAM.RED;
+        this.otherteam = TEAM.BLUE;
+    }
 
-		#endregion
-	}
+    #endregion
 }

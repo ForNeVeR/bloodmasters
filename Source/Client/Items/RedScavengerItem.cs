@@ -5,42 +5,41 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+[ClientItem(4004, Sprite="sc_red.tga",
+    Bob = true,
+    Description="Scavenger Item",
+    Sound="pickuphealth.wav")]
+public class RedScavengerItem : ScavengerItem
 {
-	[ClientItem(4004, Sprite="sc_red.tga",
-					  Bob = true,
-					  Description="Scavenger Item",
-					  Sound="pickuphealth.wav")]
-	public class RedScavengerItem : ScavengerItem
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public RedScavengerItem(Thing t) : base(t)
-		{
-			// Set team
-			SetTeam(TEAM.RED);
+    // Constructor
+    public RedScavengerItem(Thing t) : base(t)
+    {
+        // Set team
+        SetTeam(TEAM.RED);
 
-			// For normal Scavenger game, place a White item instead
-			if(General.gametype == GAMETYPE.SC)
-			{
-				// Make white item
-				Item white = new WhiteScavengerItem(t);
-				General.arena.Items.Add(white.Key, white);
-			}
+        // For normal Scavenger game, place a White item instead
+        if(General.gametype == GAMETYPE.SC)
+        {
+            // Make white item
+            Item white = new WhiteScavengerItem(t);
+            General.arena.Items.Add(white.Key, white);
+        }
 
-			// If this is not a Team Scavenger game, remove the item
-			if(General.gametype != GAMETYPE.TSC) this.Temporary = true;
-		}
+        // If this is not a Team Scavenger game, remove the item
+        if(General.gametype != GAMETYPE.TSC) this.Temporary = true;
+    }
 
-		#endregion
-	}
+    #endregion
 }

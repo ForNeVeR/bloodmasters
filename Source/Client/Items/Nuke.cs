@@ -5,44 +5,43 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+[ClientItem(3005, Sprite="nuke.cfg",
+    Bob = true,
+    Description="Nuke",
+    Sound="pickuppowerup.wav")]
+[PowerupItem(R=0.4f, G=0.4f, B=0.2f)]
+public class Nuke : Powerup
 {
-	[ClientItem(3005, Sprite="nuke.cfg",
-					  Bob = true,
-					  Description="Nuke",
-					  Sound="pickuppowerup.wav")]
-	[PowerupItem(R=0.4f, G=0.4f, B=0.2f)]
-	public class Nuke : Powerup
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public Nuke(Thing t) : base(t)
-		{
-		}
+    // Constructor
+    public Nuke(Thing t) : base(t)
+    {
+    }
 
-		#endregion
+    #endregion
 
-		// When picked up / taken
-		public override void Take(Client clnt)
-		{
-			// Taken by me?
-			if(General.localclient == clnt)
-			{
-				// Set the powerup countdown
-				clnt.SetPowerupCountdown(Consts.POWERUP_NUKE_COUNT, false);
-			}
+    // When picked up / taken
+    public override void Take(Client clnt)
+    {
+        // Taken by me?
+        if(General.localclient == clnt)
+        {
+            // Set the powerup countdown
+            clnt.SetPowerupCountdown(Consts.POWERUP_NUKE_COUNT, false);
+        }
 
-			// Call the base class
-			base.Take(clnt);
-		}
-	}
+        // Call the base class
+        base.Take(clnt);
+    }
 }

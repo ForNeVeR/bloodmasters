@@ -12,37 +12,36 @@ using System.Net;
 using System.Net.Sockets;
 using CodeImp;
 
-namespace CodeImp.Bloodmasters
+namespace CodeImp.Bloodmasters;
+
+public class NetMessageComparer : IComparer<NetMessage>
 {
-	public class NetMessageComparer : IComparer<NetMessage>
-	{
-		bool reversed = false;
+    bool reversed = false;
 
-		// Constructor
-		public NetMessageComparer(bool reversed)
-		{
-			// Apply settings
-			this.reversed = reversed;
-		}
+    // Constructor
+    public NetMessageComparer(bool reversed)
+    {
+        // Apply settings
+        this.reversed = reversed;
+    }
 
-		// Compare two NetMessages
-		public int Compare(NetMessage m1, NetMessage m2)
-		{
-            // Check if sorting reversed
-			if(reversed)
-			{
-				// Compare difference in size
-				if(m1.Length < m2.Length) return 1;
-				else if(m1.Length == m2.Length) return 0;
-				else return -1;
-			}
-			else
-			{
-				// Compare difference in size
-				if(m1.Length > m2.Length) return 1;
-				else if(m1.Length == m2.Length) return 0;
-				else return -1;
-			}
-		}
-	}
+    // Compare two NetMessages
+    public int Compare(NetMessage m1, NetMessage m2)
+    {
+        // Check if sorting reversed
+        if(reversed)
+        {
+            // Compare difference in size
+            if(m1.Length < m2.Length) return 1;
+            else if(m1.Length == m2.Length) return 0;
+            else return -1;
+        }
+        else
+        {
+            // Compare difference in size
+            if(m1.Length > m2.Length) return 1;
+            else if(m1.Length == m2.Length) return 0;
+            else return -1;
+        }
+    }
 }
