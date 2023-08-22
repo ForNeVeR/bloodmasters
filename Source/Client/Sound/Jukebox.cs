@@ -107,6 +107,7 @@ namespace CodeImp.Bloodmasters.Client
 					// Go to next track
 					currentitem++;
 					if(currentitem == playlist.Length) currentitem = 0;
+                    // TODO: Load this asynchronously
 					currenttrack = new Track(playlist[currentitem], playlist[currentitem]);
 					currenttrack.Play(volume, 0f);
 				}
