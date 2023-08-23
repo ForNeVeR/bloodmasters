@@ -69,9 +69,9 @@ namespace CodeImp.Bloodmasters.Launcher
 			appname = Assembly.GetExecutingAssembly().GetName().Name;
 
             // Setup filenames
-			configfilename = Path.Combine(Paths.ConfigDirPath, configfilename);
-			logfilename = Path.Combine(Paths.LogDirPath, appname + ".log");
-			ip2countryfilename = Path.Combine(Paths.BundledResourceDir, ip2countryfilename);
+			configfilename = Path.Combine(Paths.Instance.ConfigDirPath, configfilename);
+			logfilename = Path.Combine(Paths.Instance.LogDirPath, appname + ".log");
+			ip2countryfilename = Path.Combine(Paths.Instance.BundledResourceDir, ip2countryfilename);
 
 			// Initialize DirectX
 			try { Direct3D.InitDX(); }
@@ -152,7 +152,7 @@ namespace CodeImp.Bloodmasters.Launcher
 
                         // Open all archives with archivemanager
                         mainwindow.ShowStatus("Loading data archives...");
-                        ArchiveManager.Initialize(Paths.BundledResourceDir);
+                        ArchiveManager.Initialize(Paths.Instance.BundledResourceDir);
 
                         // Refrehs maps in list
                         mainwindow.RefreshMapsLists();
@@ -253,8 +253,8 @@ namespace CodeImp.Bloodmasters.Launcher
 			ArchiveManager.Dispose();
 
 			// Delete the temporary directory
-			if(!string.IsNullOrEmpty(Paths.TempDir))
-				try { Directory.Delete(Paths.TempDir, true); } catch(Exception) { }
+			if(!string.IsNullOrEmpty(Paths.Instance.TempDir))
+				try { Directory.Delete(Paths.Instance.TempDir, true); } catch(Exception) { }
 
 			// End of program
 			Application.Exit();
@@ -391,7 +391,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			mainwindow.ShowStatus("Launching game...");
 
 			// Determine launch filename
-			string launchfile = MakeUniqueFilename(Paths.ConfigDirPath, "launch_", ".cfg");
+			string launchfile = MakeUniqueFilename(Paths.Instance.ConfigDirPath, "launch_", ".cfg");
 			serverfile = servfile;
 
 			// Write launch file
@@ -399,8 +399,8 @@ namespace CodeImp.Bloodmasters.Launcher
 
 			// Make the process
 			bmproc = new Process();
-			bmproc.StartInfo.FileName = Paths.ClientExecutablePath;
-			bmproc.StartInfo.WorkingDirectory = Path.GetDirectoryName(Paths.ClientExecutablePath);
+			bmproc.StartInfo.FileName = Paths.Instance.ClientExecutablePath;
+			bmproc.StartInfo.WorkingDirectory = Path.GetDirectoryName(Paths.Instance.ClientExecutablePath) ?? string.Empty;
 			bmproc.StartInfo.Arguments = launchfile;
 			bmproc.StartInfo.CreateNoWindow = false;
 			bmproc.StartInfo.ErrorDialog = false;

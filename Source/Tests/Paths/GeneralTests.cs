@@ -18,9 +18,9 @@ public class GeneralTests
 
     public static IEnumerable<object[]> GetAllDirPaths()
     {
-        yield return new object[] { CodeImp.Bloodmasters.Paths.TempDir };
-        yield return new object[] { CodeImp.Bloodmasters.Paths.DownloadedResourceDir };
-        yield return new object[] { CodeImp.Bloodmasters.Paths.ConfigDirPath };
-        yield return new object[] { CodeImp.Bloodmasters.Paths.ScreenshotsDir };
+        yield return new object[] { CodeImp.Bloodmasters.Paths.Instance.TempDir };
+        yield return new object[] { CodeImp.Bloodmasters.Paths.Instance.DownloadedResourceDir };
+        yield return new object[] { CodeImp.Bloodmasters.Paths.Instance.ConfigDirPath };
+        yield return new object[] { CodeImp.Bloodmasters.Paths.Instance.ScreenshotsDir };
     }
 }

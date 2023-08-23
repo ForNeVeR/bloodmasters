@@ -8,7 +8,7 @@ public class Paths
     private const string DevModeMarkerFileName = ".bloodmasters.dev.marker";
     private const string DevSolutionRootMarkerFileName = ".bloodmasters.solution-root.marker";
     private const string TargetFrameworkForExecutables = "net7.0-windows";
-    private readonly string _buildConfiguration =
+    private const string _buildConfiguration =
 #if DEBUG
         "Debug";
 #else
@@ -17,9 +17,10 @@ public class Paths
 
     public Paths(bool isDev = false)
     {
-        if (isDev)
-            _buildConfiguration = "Debug";
+        IsDevModeBuild = File.Exists(Path.Combine(AppBaseDir, DevModeMarkerFileName)) || isDev;
     }
+
+    public static Paths Instance { get; } = new ();
 
     /// <summary>Directory of the entry binary.</summary>
     /// <remarks>In dev mode, it looks like <c>Source/Client/bin/Debug/net7.0-windows</c>.</remarks>
@@ -31,8 +32,7 @@ public class Paths
         return Path.GetDirectoryName(modulePath) ?? Environment.CurrentDirectory;
     }
 
-    internal bool IsDevModeBuild =>
-        File.Exists(Path.Combine(AppBaseDir, DevModeMarkerFileName));
+    internal readonly bool IsDevModeBuild;
 
     private string? SolutionRootPath =>
         IsDevModeBuild

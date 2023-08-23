@@ -300,7 +300,7 @@ namespace CodeImp.Bloodmasters.Launcher
 			if(contentlength > 0) prgStatus.Maximum = contentlength;
 
 			// Make the file
-			filename = Path.Combine(Paths.DownloadedResourceDir, server.MapName + ".rar");
+			filename = Path.Combine(Paths.Instance.DownloadedResourceDir, server.MapName + ".rar");
 			file = File.Open(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.None);
 
 			// Get the http download

@@ -1291,7 +1291,7 @@ namespace CodeImp.Bloodmasters.Launcher
                     string mname = wfparts[1].Substring(0, wfparts[1].Length - 4);
 
                     // Load the map information
-                    Map wadmap = new LauncherMap(mname, true, Paths.TempDir);
+                    Map wadmap = new LauncherMap(mname, true, Paths.Instance.TempDir);
 
                     // Check if game type is supported
                     if (((cmbServerType.SelectedIndex == 0) && wadmap.SupportsDM) ||
@@ -1519,7 +1519,7 @@ namespace CodeImp.Bloodmasters.Launcher
             General.SaveConfiguration();
 
             // Make the server configuration file
-            string scfgfile = General.MakeUniqueFilename(Paths.ConfigDirPath, "server_", ".cfg");
+            string scfgfile = General.MakeUniqueFilename(Paths.Instance.ConfigDirPath, "server_", ".cfg");
             Configuration scfg = MakeServerConfig(true);
             scfg.SaveConfiguration(scfgfile);
 
@@ -1661,7 +1661,7 @@ namespace CodeImp.Bloodmasters.Launcher
                 try
                 {
                     // Load the map information
-                    Map wadmap = new LauncherMap(lstMaps.SelectedItem.ToString(), true, Paths.TempDir);
+                    Map wadmap = new LauncherMap(lstMaps.SelectedItem.ToString(), true, Paths.Instance.TempDir);
 
                     // Display map information
                     lblMapTitle.Text = wadmap.Title;
@@ -1802,7 +1802,7 @@ namespace CodeImp.Bloodmasters.Launcher
                             download.Dispose();
 
                             // Check if new file exists
-                            filename = Path.Combine(Paths.DownloadedResourceDir, gitem.MapName + ".rar");
+                            filename = Path.Combine(Paths.Instance.DownloadedResourceDir, gitem.MapName + ".rar");
                             if (File.Exists(filename))
                             {
                                 // Busy!

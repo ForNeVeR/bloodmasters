@@ -15,9 +15,8 @@ namespace CodeImp.Bloodmasters
 		private static Dictionary<string, Archive> archives = new();
 
 		// Temporary path
-		private static string tempPath = Paths.TempDir;
+		private static string tempPath = Paths.Instance.TempDir;
 
-        private static readonly Paths Paths = new();
 
 		#endregion
 

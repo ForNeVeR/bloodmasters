@@ -664,7 +664,7 @@ namespace CodeImp.Bloodmasters.Client
 		{
 			// Make path and filename
 			string filename = General.mapname + "_" + DateTime.Now.ToString("MM\\_dd\\_yyyy\\_HH\\_mm\\_ss") + ".png";
-			string pathname = Path.Combine(Paths.ScreenshotsDir);
+			string pathname = Path.Combine(Paths.Instance.ScreenshotsDir);
 			string filepathname = Path.Combine(pathname, filename);
 
 			// Ensure screenshots directory exists
@@ -906,7 +906,7 @@ namespace CodeImp.Bloodmasters.Client
 				try
 				{
 					// When no path given, write to the log directory
-					Directory.SetCurrentDirectory(Paths.LogDirPath);
+					Directory.SetCurrentDirectory(Paths.Instance.LogDirPath);
 
 					// Open the log file
 					log = File.CreateText(args);
