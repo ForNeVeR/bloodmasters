@@ -26,7 +26,7 @@ namespace CodeImp.Bloodmasters.Client
 		private bool positional;
 		private bool disposed;
 		private Vector2D pos;
-		private bool update = false;
+		private bool update = true;
 		private int nextupdatetime = 0;
 
 		#endregion
@@ -160,7 +160,9 @@ namespace CodeImp.Bloodmasters.Client
 
 				// Set next update time
 				nextupdatetime = General.realtime + SoundSystem.UPDATE_INTERVAL;
-			}
+                // Stop updating until something changes
+                update = false;
+            }
 		}
 
 		// This sets the sound in a random playing position
