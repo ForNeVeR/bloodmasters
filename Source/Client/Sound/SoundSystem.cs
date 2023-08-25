@@ -17,9 +17,6 @@ public static class SoundSystem
 {
     #region ================== Constants
 
-    // Special sound files
-    public const string SOUND_SILENCE = "silence.wav";
-
     // Positional settings
     public const float PAN_CENTER_RANGE = 20f;
     public const float PAN_ROLLOFF_SCALE = 50f;
