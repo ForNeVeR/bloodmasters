@@ -7,7 +7,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using NAudio.Wave;
 
@@ -46,8 +46,9 @@ public static class SoundSystem
     private static Dictionary<string, ISound> sounds = new();
 
     // Settings
-    public static bool playeffects;
-    public static int effectsvolume;
+    private static bool playeffects;
+    private static int effectsvolume;
+    private static int musicvolume;
 
     // 3D Sound
     private static Vector2D listenpos;
@@ -79,7 +80,8 @@ public static class SoundSystem
 
         // Get settings from configuration
         playeffects = General.config.ReadSetting("sounds", true);
-        effectsvolume = CalcVolumeScale((float)General.config.ReadSetting("soundsvolume", 100) / 100f);
+        effectsvolume = CalcVolumeScale(General.config.ReadSetting("soundsvolume", 100) / 100f);
+        musicvolume = CalcVolumeScale(General.config.ReadSetting("musicvolume", 100) / 100f);
         soundfreq = General.config.ReadSetting("soundfrequency", 0);
         soundbits = General.config.ReadSetting("soundbits", 0);
 
@@ -96,7 +98,7 @@ public static class SoundSystem
             foreach(string filename in soundsrar.FileNames)
             {
                 // Load this sound
-                CreateSound(filename, ArchiveManager.ExtractFile("sounds.rar/" + filename));
+                CreateSound(filename, ArchiveManager.ExtractFile("sounds.rar/" + filename), SoundType.Sound);
             }
         }
 
@@ -247,14 +249,7 @@ public static class SoundSystem
     }
 
     // This creates a new sound
-    public static void CreateSound(string fullfilename)
-    {
-        // Make it so
-        CreateSound(Path.GetFileName(fullfilename), fullfilename);
-    }
-
-    // This creates a new sound
-    public static ISound CreateSound(string filename, string fullfilename, bool store = true)
+    public static ISound CreateSound(string filename, string fullfilename, SoundType soundType)
     {
         ISound s;
 
@@ -270,11 +265,11 @@ public static class SoundSystem
             else
             {
                 // Load the sound
-                s = new Sound(_playbackEngine!, filename, fullfilename);
+                s = new Sound(_playbackEngine!, filename, fullfilename, soundType);
             }
 
             // Add to collection
-            if (store)
+            if (soundType != SoundType.Music)
             {
                 sounds.Add(filename, s);
             }
@@ -407,6 +402,16 @@ public static class SoundSystem
 
         // Return panning
         if(scale > 0f) return -(int)(db * 100f); else return (int)(db * 100f);
+    }
+
+    public static int GetVolume(SoundType soundType)
+    {
+        return soundType switch
+        {
+            SoundType.Sound => effectsvolume,
+            SoundType.Music => musicvolume,
+            _ => throw new SwitchExpressionException(soundType)
+        };
     }
 
     #endregion

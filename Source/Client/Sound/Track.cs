@@ -31,7 +31,7 @@ namespace CodeImp.Bloodmasters.Client
 		// Constructor
 		public Track(string filename, string fullfilename)
 		{
-			snd = SoundSystem.CreateSound(filename, fullfilename, store: false);
+			snd = SoundSystem.CreateSound(filename, fullfilename, SoundType.Music);
 		}
 
 		// Dispose
