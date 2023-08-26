@@ -17,9 +17,6 @@ namespace CodeImp.Bloodmasters.Client
 		// Tracks to play
 		private string[] playlist;
 
-		// Music settings
-		private float volume;
-
 		// Current track
 		private int currentitem = 0;
 		private Track currenttrack = null;
@@ -31,9 +28,6 @@ namespace CodeImp.Bloodmasters.Client
 		// Constructor
 		public Jukebox()
 		{
-			// Determine volume
-			volume = (float)General.config.ReadSetting("musicvolume", 50) / 100f;
-
 			// Make playlist from directory
 			string musicdir = Path.Combine(Paths.BundledResourceDir, "Music");
 			playlist = Directory.GetFiles(musicdir, "*.mp3");
@@ -65,8 +59,9 @@ namespace CodeImp.Bloodmasters.Client
 			if(playlist.Length > 0)
 			{
 				// Load the MP3 and play it
+                // TODO: Load this asynchronously
 				currenttrack =  new Track(playlist[currentitem], playlist[currentitem]);
-				currenttrack.Play(volume, 0f);
+				currenttrack.Play(0f);
 			}
 		}
 
@@ -101,7 +96,7 @@ namespace CodeImp.Bloodmasters.Client
 					if(currentitem == playlist.Length) currentitem = 0;
                     // TODO: Load this asynchronously
 					currenttrack = new Track(playlist[currentitem], playlist[currentitem]);
-					currenttrack.Play(volume, 0f);
+					currenttrack.Play(0f);
 				}
 			}
 		}
