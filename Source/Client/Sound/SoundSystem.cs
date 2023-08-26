@@ -47,6 +47,7 @@ public static class SoundSystem
 
     // Settings
     private static bool playeffects;
+    private static bool playmusic;
     private static int effectsvolume;
     private static int musicvolume;
 
@@ -80,19 +81,24 @@ public static class SoundSystem
 
         // Get settings from configuration
         playeffects = General.config.ReadSetting("sounds", true);
+        playmusic = General.config.ReadSetting("music", true);
         effectsvolume = CalcVolumeScale(General.config.ReadSetting("soundsvolume", 100) / 100f);
         musicvolume = CalcVolumeScale(General.config.ReadSetting("musicvolume", 100) / 100f);
         soundfreq = General.config.ReadSetting("soundfrequency", 0);
         soundbits = General.config.ReadSetting("soundbits", 0);
 
-        // Playing sounds?
-        if(SoundSystem.playeffects)
+        if (playeffects || playmusic)
         {
             var waveFormat = soundfreq > 0 && soundbits > 0
                 ? new WaveFormat(soundfreq, soundbits, 2)
                 : WaveFormat.CreateIeeeFloatWaveFormat(44100, 2);
-            _playbackEngine = new NAudioPlaybackEngine(waveFormat);
 
+            _playbackEngine = new NAudioPlaybackEngine(waveFormat);
+        }
+
+        // Playing sounds?
+        if(SoundSystem.playeffects)
+        {
             // Go for all files in the sounds archive
             Archive soundsrar = ArchiveManager.GetArchive("sounds.rar");
             foreach(string filename in soundsrar.FileNames)
@@ -256,17 +262,14 @@ public static class SoundSystem
         // Check if not already exists
         if (sounds.ContainsKey(filename) == false)
         {
-            // Not playing sounds?
-            if(!SoundSystem.playeffects)
+            s = soundType switch
             {
-                // No sound
-                s = new NullSound();
-            }
-            else
-            {
+                // Not playing sounds?
+                SoundType.Sound when !playeffects => new NullSound(),
+                SoundType.Music when !playmusic => new NullSound(),
                 // Load the sound
-                s = new Sound(_playbackEngine!, filename, fullfilename, soundType);
-            }
+                _ => new Sound(_playbackEngine!, filename, fullfilename, soundType)
+            };
 
             // Add to collection
             if (soundType != SoundType.Music)

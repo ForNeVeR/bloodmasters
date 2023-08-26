@@ -15,7 +15,6 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Variables
 		private ISound snd;
-		private float volume;
 		private float pan;
 
 		#endregion
@@ -51,19 +50,6 @@ namespace CodeImp.Bloodmasters.Client
 		{
 			float db;
 
-			// Not silent?
-			if(volume > 0.00001f)
-			{
-				// Calculate dB
-				db = 20f * (float)Math.Log10(volume);
-				snd.Volume = (int)(100f * db);
-			}
-			else
-			{
-				// Silent
-				snd.Volume = -10000;
-			}
-
 			// Completely left or right?
 			if(Math.Abs(pan) > 0.9999f)
 			{
@@ -83,10 +69,9 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Public Methods
 
 		// Play sound
-		public void Play(float volume, float pan)
+		public void Play(float pan)
 		{
 			snd.Stop();
-			this.volume = volume;
 			this.pan = pan;
 			ApplySettings();
 			snd.Play();
