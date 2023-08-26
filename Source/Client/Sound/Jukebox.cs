@@ -12,10 +12,6 @@ namespace CodeImp.Bloodmasters.Client
 {
 	public class Jukebox
 	{
-		#region ================== Constants
-
-		#endregion
-
 		#region ================== Variables
 
 		// Tracks to play
@@ -27,10 +23,6 @@ namespace CodeImp.Bloodmasters.Client
 		// Current track
 		private int currentitem = 0;
 		private Track currenttrack = null;
-
-		#endregion
-
-		#region ================== Properties
 
 		#endregion
 

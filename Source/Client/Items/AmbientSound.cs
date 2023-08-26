@@ -38,7 +38,7 @@ namespace CodeImp.Bloodmasters.Client
 				if(archive != "")
 				{
                     // Extract and load the file
-                    SoundSystem.CreateSound(filename, ArchiveManager.ExtractFile(archive + "/" + filename));
+                    SoundSystem.CreateSound(filename, ArchiveManager.ExtractFile(archive + "/" + filename), SoundType.Sound);
                 }
                 else
 				{

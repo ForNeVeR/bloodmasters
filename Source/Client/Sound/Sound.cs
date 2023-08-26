@@ -16,6 +16,7 @@ namespace CodeImp.Bloodmasters.Client
 		// Variables
         private readonly NAudioPlaybackEngine _playbackEngine;
         private readonly AudioSampleProvider _soundSample;
+        private readonly SoundType _soundType;
 		private bool repeat = false;
 		private bool autodispose = false;
 		private string filename;
@@ -49,9 +50,10 @@ namespace CodeImp.Bloodmasters.Client
 		#region ================== Constructor / Destructor / Dispose
 
 		// Constructor
-		public Sound(NAudioPlaybackEngine playbackEngine, string filename, string fullfilename)
+		public Sound(NAudioPlaybackEngine playbackEngine, string filename, string fullfilename, SoundType soundType)
         {
             _playbackEngine = playbackEngine;
+            _soundType = soundType;
 
 			// Keep the filename
 			this.filename = filename;
@@ -73,6 +75,7 @@ namespace CodeImp.Bloodmasters.Client
 
 			// Clone the sound
 			_soundSample = clonesnd._soundSample.Clone();
+            _soundType = clonesnd._soundType;
 
 			// Add to sounds collection
 			SoundSystem.AddPlayingSound(this);
@@ -143,7 +146,7 @@ namespace CodeImp.Bloodmasters.Client
 
 					// Calculate and clip final volume
 					pan = pospan;
-					vol = SoundSystem.effectsvolume - posvol + absvolume;
+					vol = SoundSystem.GetVolume(_soundType) - posvol + absvolume;
 					if(vol > 0) vol = 0; else if(vol < -10000) vol = -10000;
 					if(pan > 10000) pan = 10000; else if(pan < -10000) pan = -10000;
 
@@ -155,7 +158,7 @@ namespace CodeImp.Bloodmasters.Client
 				else
 				{
 					// Apply volume
-					_soundSample.VolumeHundredthsOfDb = SoundSystem.effectsvolume + absvolume;
+					_soundSample.VolumeHundredthsOfDb = SoundSystem.GetVolume(_soundType) + absvolume;
 				}
 
 				// Set next update time
