@@ -61,7 +61,7 @@ namespace CodeImp.Bloodmasters.Client
 				// Load the MP3 and play it
                 // TODO: Load this asynchronously
 				currenttrack =  new Track(playlist[currentitem], playlist[currentitem]);
-				currenttrack.Play(0f);
+				currenttrack.Play();
 			}
 		}
 
@@ -96,7 +96,7 @@ namespace CodeImp.Bloodmasters.Client
 					if(currentitem == playlist.Length) currentitem = 0;
                     // TODO: Load this asynchronously
 					currenttrack = new Track(playlist[currentitem], playlist[currentitem]);
-					currenttrack.Play(0f);
+					currenttrack.Play();
 				}
 			}
 		}
