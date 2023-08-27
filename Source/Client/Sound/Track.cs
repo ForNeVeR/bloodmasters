@@ -5,8 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-
 namespace CodeImp.Bloodmasters.Client
 {
 	public class Track
@@ -15,7 +13,6 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Variables
 		private ISound snd;
-		private float pan;
 
 		#endregion
 
@@ -43,37 +40,12 @@ namespace CodeImp.Bloodmasters.Client
 
 		#endregion
 
-		#region ================== Private Methods
-
-		// Apply volume and pan
-		private void ApplySettings()
-		{
-			float db;
-
-			// Completely left or right?
-			if(Math.Abs(pan) > 0.9999f)
-			{
-				// Maximum
-				db = -100f;
-			}
-			else
-			{
-				// Calculate dB
-				db = 20f * (float)Math.Log10(1f - Math.Abs(pan));
-			}
-			// TODO: if(pan > 0f) snd.Balance = -(int)(db * 100f); else snd.Balance = (int)(db * 100f);
-		}
-
-		#endregion
-
 		#region ================== Public Methods
 
 		// Play sound
-		public void Play(float pan)
+		public void Play()
 		{
 			snd.Stop();
-			this.pan = pan;
-			ApplySettings();
 			snd.Play();
 		}
 
