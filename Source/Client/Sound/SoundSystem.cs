@@ -80,7 +80,7 @@ public static class SoundSystem
         playeffects = General.config.ReadSetting("sounds", true);
         playmusic = General.config.ReadSetting("music", true);
         effectsvolume = CalcVolumeScale(General.config.ReadSetting("soundsvolume", 100) / 100f);
-        musicvolume = CalcVolumeScale(General.config.ReadSetting("musicvolume", 100) / 100f);
+        musicvolume = CalcVolumeScale(General.config.ReadSetting("musicvolume", 50) / 100f);
         soundfreq = General.config.ReadSetting("soundfrequency", 0);
         soundbits = General.config.ReadSetting("soundbits", 0);
 
