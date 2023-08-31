@@ -39,7 +39,6 @@ class NAudioPlaybackEngine : IDisposable
         }
         if (input.WaveFormat.Channels == 1 && _mixer.WaveFormat.Channels == 2)
         {
-            // TODO: Figure out how to dispose of these providers correctly. They won't work for _mixer.RemoveMixerInput below
             return new MonoToStereoSampleProvider(input);
         }
         throw new NotImplementedException("Not yet implemented this channel count conversion");
@@ -47,6 +46,7 @@ class NAudioPlaybackEngine : IDisposable
 
     public void PlaySound(Lifetime lifetime, AudioSampleProvider sound)
     {
+        // TODO: The sounds should be converted on load, not on play
         var converted = ConvertToRightChannelCount(sound);
         lifetime.TryBracket(
             () => _mixer.AddMixerInput(converted),
