@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Lifetimes;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 
@@ -44,13 +45,13 @@ class NAudioPlaybackEngine : IDisposable
         throw new NotImplementedException("Not yet implemented this channel count conversion");
     }
 
-    public void PlaySound(AudioSampleProvider sound)
+    public void PlaySound(Lifetime lifetime, AudioSampleProvider sound)
     {
-        _mixer.AddMixerInput(ConvertToRightChannelCount(sound));
+        var converted = ConvertToRightChannelCount(sound);
+        lifetime.TryBracket(
+            () => _mixer.AddMixerInput(converted),
+            () => _mixer.RemoveMixerInput(converted));
     }
-
-    public void StopSound(ISampleProvider sound) =>
-        _mixer.RemoveMixerInput(sound);
 
     public void Dispose()
     {

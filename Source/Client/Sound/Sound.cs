@@ -6,6 +6,7 @@
 \********************************************************************/
 
 using System;
+using JetBrains.Lifetimes;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -176,6 +177,7 @@ namespace CodeImp.Bloodmasters.Client
 		}
 
 		// Play sound
+        private readonly SequentialLifetimes _playbackLifetimes = new(Lifetime.Eternal);
 		public void Play() { Play(1f, false); }
 		public void Play(bool repeat) { Play(1f, repeat); }
 		public void Play(float volume, bool repeat)
@@ -195,14 +197,15 @@ namespace CodeImp.Bloodmasters.Client
 			this.Update();
 
 			// Play the sound
-            _playbackEngine.PlaySound(_soundSample);
+            var nextPlaybackLifetime = _playbackLifetimes.Next();
+            _playbackEngine.PlaySound(nextPlaybackLifetime, _soundSample);
 		}
 
 		// Stops all instances
 		public void Stop()
         {
             _soundSample.Stop();
-            _playbackEngine.StopSound(_soundSample);
+            _playbackLifetimes.TerminateCurrent();
         }
 
 		#endregion
