@@ -5,28 +5,27 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+[ClientItem(7003, Temporary=true)]
+public class DecalFloor : Item
 {
-	[ClientItem(7003, Temporary=true)]
-	public class DecalFloor : Item
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public DecalFloor(Thing t) : base(t)
-		{
-			// Create the decal
-			FloorDecal.Spawn((ClientSector)t.Sector, t.X, t.Y, FloorDecal.blooddecals, true, false, false);
-		}
+    // Constructor
+    public DecalFloor(Thing t) : base(t)
+    {
+        // Create the decal
+        FloorDecal.Spawn((ClientSector)t.Sector, t.X, t.Y, FloorDecal.blooddecals, true, false, false);
+    }
 
-		#endregion
-	}
+    #endregion
 }

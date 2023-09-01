@@ -5,55 +5,54 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Server
+namespace CodeImp.Bloodmasters.Server;
+
+[WeaponInfo(WEAPON.PLASMA, RefireDelay=100, Description="Plasma Cannon",
+    AmmoType=AMMO.PLASMA, InitialAmmo=50, UseAmmo=1)]
+public class WPlasmaCannon : Weapon
 {
-	[WeaponInfo(WEAPON.PLASMA, RefireDelay=100, Description="Plasma Cannon",
-				AmmoType=AMMO.PLASMA, InitialAmmo=50, UseAmmo=1)]
-	public class WPlasmaCannon : Weapon
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		private const float PROJECTILE_VELOCITY = 1.5f;
-		private const float PROJECTILE_OFFSET = 4f;
-		private const float PROJECTILE_Z = 7f;
+    private const float PROJECTILE_VELOCITY = 1.5f;
+    private const float PROJECTILE_OFFSET = 4f;
+    private const float PROJECTILE_Z = 7f;
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public WPlasmaCannon(Client client) : base(client)
-		{
-		}
+    // Constructor
+    public WPlasmaCannon(Client client) : base(client)
+    {
+    }
 
-		// Disposer
-		public override void Dispose()
-		{
-			// Dispose base
-			base.Dispose();
-		}
+    // Disposer
+    public override void Dispose()
+    {
+        // Dispose base
+        base.Dispose();
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Methods
+    #region ================== Methods
 
-		// This is called when the weapon is shooting
-		protected override void ShootOnce()
-		{
-			// Determine projectile velocity
-			Vector3D vel = Vector3D.FromActorAngle(client.AimAngle, client.AimAngleZ, PROJECTILE_VELOCITY);
+    // This is called when the weapon is shooting
+    protected override void ShootOnce()
+    {
+        // Determine projectile velocity
+        Vector3D vel = Vector3D.FromActorAngle(client.AimAngle, client.AimAngleZ, PROJECTILE_VELOCITY);
 
-			// Move projectil somewhat forward
-			Vector3D pos = client.State.pos + Vector3D.FromActorAngle(client.AimAngle, client.AimAngleZ, PROJECTILE_OFFSET);
+        // Move projectil somewhat forward
+        Vector3D pos = client.State.pos + Vector3D.FromActorAngle(client.AimAngle, client.AimAngleZ, PROJECTILE_OFFSET);
 
-			// Spawn projectile
-			new PlasmaBall(pos + new Vector3D(0f, 0f, PROJECTILE_Z), vel, client);
-		}
+        // Spawn projectile
+        new PlasmaBall(pos + new Vector3D(0f, 0f, PROJECTILE_Z), vel, client);
+    }
 
-		#endregion
-	}
+    #endregion
 }

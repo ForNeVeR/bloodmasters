@@ -10,16 +10,15 @@ using System.Drawing;
 using CodeImp.Bloodmasters;
 using CodeImp;
 
-namespace CodeImp.Bloodmasters.Client
-{
-	public interface ILightningNode
-	{
-		// Required properties
-		Vector3D Position { get; }
-		Vector3D Velocity { get; }
+namespace CodeImp.Bloodmasters.Client;
 
-		// Required methods
-		void RemoveLightning(Lightning l);
-		void AddLightning(Lightning l);
-	}
+public interface ILightningNode
+{
+    // Required properties
+    Vector3D Position { get; }
+    Vector3D Velocity { get; }
+
+    // Required methods
+    void RemoveLightning(Lightning l);
+    void AddLightning(Lightning l);
 }

@@ -5,45 +5,44 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+[ClientItem(1004, Sprite="rocketl.tga",
+    Bob = true,
+    Description="Rocket Launcher",
+    SpriteOffset=-0.6f,
+    Sound="weaponpickup.wav")]
+public class RocketLauncher : Item
 {
-	[ClientItem(1004, Sprite="rocketl.tga",
-					  Bob = true,
-					  Description="Rocket Launcher",
-					  SpriteOffset=-0.6f,
-					  Sound="weaponpickup.wav")]
-	public class RocketLauncher : Item
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public RocketLauncher(Thing t) : base(t)
-		{
-		}
+    // Constructor
+    public RocketLauncher(Thing t) : base(t)
+    {
+    }
 
-		#endregion
+    #endregion
 
-		// When picked up / taken
-		public override void Take(Client clnt)
-		{
-			// Taken by me?
-			if(General.localclient == clnt)
-			{
-				// Display item description
-				General.hud.ShowItemMessage(this.Description);
+    // When picked up / taken
+    public override void Take(Client clnt)
+    {
+        // Taken by me?
+        if(General.localclient == clnt)
+        {
+            // Display item description
+            General.hud.ShowItemMessage(this.Description);
 
-				// Request switch weapon when automatically switching
-				if(General.autoswitchweapon && !General.localclient.IsShooting)
-					clnt.RequestSwitchWeaponTo(WEAPON.ROCKET_LAUNCHER, false);
-			}
-		}
-	}
+            // Request switch weapon when automatically switching
+            if(General.autoswitchweapon && !General.localclient.IsShooting)
+                clnt.RequestSwitchWeaponTo(WEAPON.ROCKET_LAUNCHER, false);
+        }
+    }
 }

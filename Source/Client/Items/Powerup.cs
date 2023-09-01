@@ -9,118 +9,117 @@ using System;
 using System.Drawing;
 using CodeImp.Bloodmasters.Client.Graphics;
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+public class Powerup : Item
 {
-	public class Powerup : Item
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		private const int LIGHT_TEMPLATE = 3;
-		private const float LIGHT_RANGE = 8f;
-		private const int PARTICLE_SPAWN_DELAY = 300;
+    private const int LIGHT_TEMPLATE = 3;
+    private const float LIGHT_RANGE = 8f;
+    private const int PARTICLE_SPAWN_DELAY = 300;
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		// Light
-		private DynamicLight light;
-		private int color;
-		private int particletime;
+    // Light
+    private DynamicLight light;
+    private int color;
+    private int particletime;
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public Powerup(Thing t) : base(t)
-		{
-			// Check if class has a PowerupItem attribute
-			if(Attribute.IsDefined(this.GetType(), typeof(PowerupItem), false))
-			{
-				// Get item attribute
-				PowerupItem attr = (PowerupItem)Attribute.GetCustomAttribute(this.GetType(), typeof(PowerupItem), false);
+    // Constructor
+    public Powerup(Thing t) : base(t)
+    {
+        // Check if class has a PowerupItem attribute
+        if(Attribute.IsDefined(this.GetType(), typeof(PowerupItem), false))
+        {
+            // Get item attribute
+            PowerupItem attr = (PowerupItem)Attribute.GetCustomAttribute(this.GetType(), typeof(PowerupItem), false);
 
-				// Set the color from attribute
-				color = General.ARGB(1f, attr.R, attr.G, attr.B);
-			}
+            // Set the color from attribute
+            color = General.ARGB(1f, attr.R, attr.G, attr.B);
+        }
 
-			// Make the light
-			int lcolor = ColorOperator.AdjustContrast(color, 0.6f);
-			light = new DynamicLight(pos, LIGHT_RANGE, lcolor, LIGHT_TEMPLATE);
+        // Make the light
+        int lcolor = ColorOperator.AdjustContrast(color, 0.6f);
+        light = new DynamicLight(pos, LIGHT_RANGE, lcolor, LIGHT_TEMPLATE);
 
-			// Set particle time
-			particletime = SharedGeneral.currenttime;
-		}
+        // Set particle time
+        particletime = SharedGeneral.currenttime;
+    }
 
-		// Diposer
-		public override void Dispose()
-		{
-			// Clean up
-			light.Dispose();
+    // Diposer
+    public override void Dispose()
+    {
+        // Clean up
+        light.Dispose();
 
-			// Dispose base class
-			base.Dispose ();
-		}
+        // Dispose base class
+        base.Dispose ();
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Methods
+    #region ================== Methods
 
-		// Process
-		public override void Process()
-		{
-			// Let the base class process
-			base.Process();
+    // Process
+    public override void Process()
+    {
+        // Let the base class process
+        base.Process();
 
-			// Spawn particles?
-			if((particletime < SharedGeneral.currenttime) && !this.IsTaken)
-			{
-				// Spawn particle
-				General.arena.p_magic.Add(this.pos + Vector3D.Random(General.random, 1f, 1f, 0f) + new Vector3D(0f, 0f, 2f),
-					Vector3D.Random(General.random, 0.02f, 0.02f, 0.4f), color);
+        // Spawn particles?
+        if((particletime < SharedGeneral.currenttime) && !this.IsTaken)
+        {
+            // Spawn particle
+            General.arena.p_magic.Add(this.pos + Vector3D.Random(General.random, 1f, 1f, 0f) + new Vector3D(0f, 0f, 2f),
+                Vector3D.Random(General.random, 0.02f, 0.02f, 0.4f), color);
 
-				// Set new particle time
-				particletime = SharedGeneral.currenttime + PARTICLE_SPAWN_DELAY;
-			}
-		}
+            // Set new particle time
+            particletime = SharedGeneral.currenttime + PARTICLE_SPAWN_DELAY;
+        }
+    }
 
-		// Item is taken
-		public override void Take(Client clnt)
-		{
-			// Raise event in base class
-			base.Take(clnt);
+    // Item is taken
+    public override void Take(Client clnt)
+    {
+        // Raise event in base class
+        base.Take(clnt);
 
-			// Display item description
-			General.hud.ShowItemMessage(this.Description);
+        // Display item description
+        General.hud.ShowItemMessage(this.Description);
 
-			// Make bright color for particles
-			int pcolor = ColorOperator.Scale(color, 2f);
+        // Make bright color for particles
+        int pcolor = ColorOperator.Scale(color, 2f);
 
-			// Spawn particles
-			for(int i = 0; i < 10; i++)
-				General.arena.p_magic.Add(this.pos + Vector3D.Random(General.random, 1f, 1f, 1f),
-					Vector3D.Random(General.random, 0.02f, 0.02f, 0.4f), pcolor);
+        // Spawn particles
+        for(int i = 0; i < 10; i++)
+            General.arena.p_magic.Add(this.pos + Vector3D.Random(General.random, 1f, 1f, 1f),
+                Vector3D.Random(General.random, 0.02f, 0.02f, 0.4f), pcolor);
 
-			// Spawn particles
-			for(int i = 0; i < 6; i++)
-				General.arena.p_magic.Add(this.pos + Vector3D.Random(General.random, 1f, 1f, 1f),
-					Vector3D.Random(General.random, 0.01f, 0.01f, 0.5f), Color.White.ToArgb());
+        // Spawn particles
+        for(int i = 0; i < 6; i++)
+            General.arena.p_magic.Add(this.pos + Vector3D.Random(General.random, 1f, 1f, 1f),
+                Vector3D.Random(General.random, 0.01f, 0.01f, 0.5f), Color.White.ToArgb());
 
-			// Turn the light off
-			light.Visible = false;
-		}
+        // Turn the light off
+        light.Visible = false;
+    }
 
-		// Item respawns
-		public override void Respawn(bool playsound)
-		{
-			// Raise event in base class
-			base.Respawn(playsound);
+    // Item respawns
+    public override void Respawn(bool playsound)
+    {
+        // Raise event in base class
+        base.Respawn(playsound);
 
-			// Turn the light on
-			light.Visible = true;
-		}
+        // Turn the light on
+        light.Visible = true;
+    }
 
-		#endregion
-	}
+    #endregion
 }

@@ -9,76 +9,75 @@
 // Direct3D resource that must be reloaded on device reset.
 // Different types of resources inherit from this class.
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+// Abstract resource class
+public abstract class Resource
 {
-	// Abstract resource class
-	public abstract class Resource
-	{
-		#region ================== Variables
+    #region ================== Variables
 
-		// This holds the file from which the resource is created
-		protected string resourcereferencename = "";
-		protected bool resourceloaded = false;
+    // This holds the file from which the resource is created
+    protected string resourcereferencename = "";
+    protected bool resourceloaded = false;
 
-		#endregion
+    #endregion
 
-		#region ================== Properties
+    #region ================== Properties
 
-		public string Referencename { get { return resourcereferencename; } }
-		public bool Loaded { get { return resourceloaded; } }
+    public string Referencename { get { return resourcereferencename; } }
+    public bool Loaded { get { return resourceloaded; } }
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor: Resource must be created from a file
-		public Resource(string referencename)
-		{
-			// Keep the reference name
-			resourcereferencename = referencename;
-		}
+    // Constructor: Resource must be created from a file
+    public Resource(string referencename)
+    {
+        // Keep the reference name
+        resourcereferencename = referencename;
+    }
 
-		// Destructor: Unload the resource if not already unloaded
-		~Resource()
-		{
-			// Reload the resource if not already loaded
-			if(resourceloaded) this.Unload();
-		}
+    // Destructor: Unload the resource if not already unloaded
+    ~Resource()
+    {
+        // Reload the resource if not already loaded
+        if(resourceloaded) this.Unload();
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Public Functions
+    #region ================== Public Functions
 
-		// This must be overridden with the code to load the resource
-		// and the overriding function must call this function
-		public virtual void Load()
-		{
-			// Resource is now loaded
-			resourceloaded = true;
-		}
+    // This must be overridden with the code to load the resource
+    // and the overriding function must call this function
+    public virtual void Load()
+    {
+        // Resource is now loaded
+        resourceloaded = true;
+    }
 
-		// This reloads the resource by calling the Load function
-		public void Reload()
-		{
-			// Reload the resource if not already loaded
-			if(!resourceloaded) this.Load();
-		}
+    // This reloads the resource by calling the Load function
+    public void Reload()
+    {
+        // Reload the resource if not already loaded
+        if(!resourceloaded) this.Load();
+    }
 
-		// This must be overridden with the code to unload the resource
-		// and the overriding function must call this function
-		public virtual void Unload()
-		{
-			// Resource is now unloaded
-			resourceloaded = false;
-		}
+    // This must be overridden with the code to unload the resource
+    // and the overriding function must call this function
+    public virtual void Unload()
+    {
+        // Resource is now unloaded
+        resourceloaded = false;
+    }
 
-		// This destroys the resource completely
-		public void Destroy()
-		{
-			// Call the destroy function to destroy me
-			Direct3D.DestroyResource(resourcereferencename);
-		}
+    // This destroys the resource completely
+    public void Destroy()
+    {
+        // Call the destroy function to destroy me
+        Direct3D.DestroyResource(resourcereferencename);
+    }
 
-		#endregion
-	}
+    #endregion
 }

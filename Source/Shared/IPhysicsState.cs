@@ -9,10 +9,9 @@ using System;
 using System.Drawing;
 using CodeImp;
 
-namespace CodeImp.Bloodmasters
+namespace CodeImp.Bloodmasters;
+
+public interface IPhysicsState
 {
-	public interface IPhysicsState
-	{
-		PhysicsState State { get; }
-	}
+    PhysicsState State { get; }
 }

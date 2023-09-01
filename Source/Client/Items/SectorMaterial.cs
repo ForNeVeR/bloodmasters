@@ -5,28 +5,27 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+[ClientItem(9001, Temporary=true)]
+public class SectorMaterial : Item
 {
-	[ClientItem(9001, Temporary=true)]
-	public class SectorMaterial : Item
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public SectorMaterial(Thing t) : base(t)
-		{
-			// Apply sector material
-			t.Sector.SetSurfaceMaterial(t.Arg[0]);
-		}
+    // Constructor
+    public SectorMaterial(Thing t) : base(t)
+    {
+        // Apply sector material
+        t.Sector.SetSurfaceMaterial(t.Arg[0]);
+    }
 
-		#endregion
-	}
+    #endregion
 }

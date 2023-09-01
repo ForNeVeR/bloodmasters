@@ -5,32 +5,31 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Server
+namespace CodeImp.Bloodmasters.Server;
+
+[ServerItem(4003, RespawnTime=0)]
+public class WhiteScavengerItem : ScavengerItem
 {
-	[ServerItem(4003, RespawnTime=0)]
-	public class WhiteScavengerItem : ScavengerItem
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public WhiteScavengerItem(Thing t) : base(t)
-		{
-			// Set teams
-			this.thisteam = TEAM.NONE;
-			this.otherteam = TEAM.NONE;
+    // Constructor
+    public WhiteScavengerItem(Thing t) : base(t)
+    {
+        // Set teams
+        this.thisteam = TEAM.NONE;
+        this.otherteam = TEAM.NONE;
 
-			// If this is not a Scavenger game, remove the item
-			if(Host.Instance.Server.GameType != GAMETYPE.SC) this.Temporary = true;
-		}
+        // If this is not a Scavenger game, remove the item
+        if(Host.Instance.Server.GameType != GAMETYPE.SC) this.Temporary = true;
+    }
 
-		#endregion
-	}
+    #endregion
 }

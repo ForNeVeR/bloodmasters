@@ -5,28 +5,27 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+[ClientItem(2002, Sprite="health2.tga",
+    Description="25% Health",
+    Sound="pickuphealth.wav")]
+public class Health25 : Item
 {
-	[ClientItem(2002, Sprite="health2.tga",
-					  Description="25% Health",
-					  Sound="pickuphealth.wav")]
-	public class Health25 : Item
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public Health25(Thing t) : base(t)
-		{
-		}
+    // Constructor
+    public Health25(Thing t) : base(t)
+    {
+    }
 
-		#endregion
-	}
+    #endregion
 }

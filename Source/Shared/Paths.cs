@@ -25,7 +25,7 @@ public static class Paths
         return Path.GetDirectoryName(modulePath) ?? Environment.CurrentDirectory;
     }
 
-    private static readonly bool IsDevModeBuild =
+    internal static readonly bool IsDevModeBuild =
         File.Exists(Path.Combine(AppBaseDir, DevModeMarkerFileName));
 
     private static readonly string? SolutionRootPath =
@@ -78,23 +78,35 @@ public static class Paths
     public static readonly string BundledResourceDir = ContentDirPath;
 
     /// <summary>Directory for the downloaded resources. Read + write access.</summary>
-    // TODO[#93]: Better download path, like the user Downloads folder or AppData
-    public static readonly string DownloadedResourceDir = ContentDirPath;
+    public static readonly string DownloadedResourceDir = Directory.CreateDirectory(
+        Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "Bloodmasters",
+            "Downloads"
+        )).FullName;
 
     /// <summary>Directory with the game configuration files. Read + write access.</summary>
     public static readonly string ConfigDirPath =
         IsDevModeBuild
             ? Path.Combine(SolutionRootPath!, "Source", "Config", "Debug")
-            : Path.Combine(AppBaseDir); // TODO[#93]: Better path for r+w files in release, like AppData
+            : Directory.CreateDirectory(
+                Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    "Bloodmasters",
+                    "Config"
+                )).FullName;
 
     /// <summary>Directory for the log files. Write access.</summary>
     // TODO[#93]: Logs in production should be moved to another place
     public static readonly string LogDirPath = AppBaseDir;
 
     /// <summary>Directory for screenshots. Write access.</summary>
-    // TODO[#93]: Write screenshots to the user documents folder
-    public static readonly string ScreenshotsDirPath = Path.Combine(AppBaseDir, "Screenshots");
+    public static readonly string ScreenshotsDir = Directory.CreateDirectory(
+        Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
+            "Bloodmasters"
+        )).FullName;
 
     /// <summary>Directory for temporary data. Read + write access.</summary>
-    public static readonly string TempDirPath = Directory.CreateTempSubdirectory(prefix: "Bloodmasters").FullName;
+    public static readonly string TempDir = Directory.CreateTempSubdirectory(prefix: "Bloodmasters").FullName;
 }

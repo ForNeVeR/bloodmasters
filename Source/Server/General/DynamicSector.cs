@@ -5,54 +5,53 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Server
+namespace CodeImp.Bloodmasters.Server;
+
+public abstract class DynamicSector
 {
-	public abstract class DynamicSector
-	{
-		// Static stuff
-		public static bool sendsectormovements = false;
+    // Static stuff
+    public static bool sendsectormovements = false;
 
-		// Members
-		private bool sendsectorupdate = false;
-		protected Sector sector;
+    // Members
+    private bool sendsectorupdate = false;
+    protected Sector sector;
 
-		// Properties
-		public bool SendSectorUpdate
-		{
-			get { return sendsectorupdate; }
-			set
-			{
-				DynamicSector.sendsectormovements |= value;
-				sendsectorupdate = value;
-			}
-		}
+    // Properties
+    public bool SendSectorUpdate
+    {
+        get { return sendsectorupdate; }
+        set
+        {
+            DynamicSector.sendsectormovements |= value;
+            sendsectorupdate = value;
+        }
+    }
 
-		// Constructor
-		public DynamicSector(Sector sector)
-		{
-			// Get references
-			this.sector = sector;
-		}
+    // Constructor
+    public DynamicSector(Sector sector)
+    {
+        // Get references
+        this.sector = sector;
+    }
 
-		// Disposer
-		public virtual void Dispose()
-		{
-			// Clean up
-			sector = null;
-		}
+    // Disposer
+    public virtual void Dispose()
+    {
+        // Clean up
+        sector = null;
+    }
 
-		// Processer
-		public virtual void Process()
-		{
-		}
+    // Processer
+    public virtual void Process()
+    {
+    }
 
-		// This adds information for a sector update
-		public void AddSectorMovement(NetMessage msg)
-		{
-			// Add movement info to message
-			msg.AddData((int)sector.Index);
-			msg.AddData((float)sector.TargetFloor);
-			msg.AddData((float)sector.ChangeSpeed);
-		}
-	}
+    // This adds information for a sector update
+    public void AddSectorMovement(NetMessage msg)
+    {
+        // Add movement info to message
+        msg.AddData((int)sector.Index);
+        msg.AddData((float)sector.TargetFloor);
+        msg.AddData((float)sector.ChangeSpeed);
+    }
 }

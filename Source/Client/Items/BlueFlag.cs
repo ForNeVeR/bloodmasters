@@ -5,34 +5,33 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+[ClientItem(4001, Sprite="blueflag.tga",
+    Bob = true,
+    Description="Blue Flag",
+    Sound="pickuppowerup.wav")]
+public class BlueFlag : Flag
 {
-	[ClientItem(4001, Sprite="blueflag.tga",
-					  Bob = true,
-					  Description="Blue Flag",
-					  Sound="pickuppowerup.wav")]
-	public class BlueFlag : Flag
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public BlueFlag(Thing t) : base(t)
-		{
-			// Create dynamic light
-			this.CreateLight(General.ARGB(1f, 0.2f, 0.4f, 1f));
+    // Constructor
+    public BlueFlag(Thing t) : base(t)
+    {
+        // Create dynamic light
+        this.CreateLight(General.ARGB(1f, 0.2f, 0.4f, 1f));
 
-			// Set team
-			SetTeam(TEAM.BLUE);
-		}
+        // Set team
+        SetTeam(TEAM.BLUE);
+    }
 
-		#endregion
-	}
+    #endregion
 }

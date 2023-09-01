@@ -7,129 +7,128 @@
 
 using System;
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+public abstract class Decal
 {
-	public abstract class Decal
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		// Timing
-		private const int RND_STAY_TIME = 5000;
-		private const int FADE_TIME = 5000;
+    // Timing
+    private const int RND_STAY_TIME = 5000;
+    private const int FADE_TIME = 5000;
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		// Settings
-		public static int decaltimeout;
-		public static bool showdecals;
+    // Settings
+    public static int decaltimeout;
+    public static bool showdecals;
 
-		// Position
-		protected float x = 0f;
-		protected float y = 0f;
-		protected float z = 0f;
+    // Position
+    protected float x = 0f;
+    protected float y = 0f;
+    protected float z = 0f;
 
-		// Timing
-		protected int fadetime;
-		protected int fadecolor;
-		protected bool permanent;
+    // Timing
+    protected int fadetime;
+    protected int fadecolor;
+    protected bool permanent;
 
-		// VisualSector
-		protected VisualSector sector;
+    // VisualSector
+    protected VisualSector sector;
 
-		#endregion
+    #endregion
 
-		#region ================== Properties
+    #region ================== Properties
 
-		public float X { get { return x; } }
-		public float Y { get { return y; } }
-		public float Z { get { return z; } }
-		public VisualSector VisualSector { get { return sector; } }
+    public float X { get { return x; } }
+    public float Y { get { return y; } }
+    public float Z { get { return z; } }
+    public VisualSector VisualSector { get { return sector; } }
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public Decal(bool permanent)
-		{
-			this.permanent = permanent;
+    // Constructor
+    public Decal(bool permanent)
+    {
+        this.permanent = permanent;
 
-			// Permanent decal?
-			if(permanent)
-			{
-				// Near infinite time
-				fadetime = int.MaxValue;
-			}
-			else
-			{
-				// Create random fade time
-				fadetime = SharedGeneral.currenttime + decaltimeout +
-							General.random.Next(RND_STAY_TIME);
-			}
+        // Permanent decal?
+        if(permanent)
+        {
+            // Near infinite time
+            fadetime = int.MaxValue;
+        }
+        else
+        {
+            // Create random fade time
+            fadetime = SharedGeneral.currenttime + decaltimeout +
+                       General.random.Next(RND_STAY_TIME);
+        }
 
-			// Start full bright
-			fadecolor = -1;
-		}
+        // Start full bright
+        fadecolor = -1;
+    }
 
-		// Dispose
-		// This can also be called by the decal itsself
-		// so it must remove itsself from any wall/floor completely
-		public virtual void Dispose()
-		{
-			GC.SuppressFinalize(this);
-		}
+    // Dispose
+    // This can also be called by the decal itsself
+    // so it must remove itsself from any wall/floor completely
+    public virtual void Dispose()
+    {
+        GC.SuppressFinalize(this);
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Resource Management
+    #region ================== Resource Management
 
-		// This unloads all unstable resources
-		public virtual void UnloadResources()
-		{
-		}
+    // This unloads all unstable resources
+    public virtual void UnloadResources()
+    {
+    }
 
-		// This rebuilds unstable resources
-		public virtual void ReloadResources()
-		{
-		}
+    // This rebuilds unstable resources
+    public virtual void ReloadResources()
+    {
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Processing
+    #region ================== Processing
 
-		// Process this decal
-		public virtual void Process()
-		{
-			if(!permanent)
-			{
-				// Time over?
-				if(SharedGeneral.currenttime > fadetime)
-				{
-					// Completely faded away?
-					if((SharedGeneral.currenttime - fadetime) > FADE_TIME)
-					{
-						// Destroy this decal
-						this.Dispose();
-					}
-					else
-					{
-						// Calculate fade
-						float fc = 1f - (float)(SharedGeneral.currenttime - fadetime) / (float)FADE_TIME;
-						fadecolor = General.ARGB(fc, 1f, 1f, 1f);
-					}
-				}
-			}
-		}
+    // Process this decal
+    public virtual void Process()
+    {
+        if(!permanent)
+        {
+            // Time over?
+            if(SharedGeneral.currenttime > fadetime)
+            {
+                // Completely faded away?
+                if((SharedGeneral.currenttime - fadetime) > FADE_TIME)
+                {
+                    // Destroy this decal
+                    this.Dispose();
+                }
+                else
+                {
+                    // Calculate fade
+                    float fc = 1f - (float)(SharedGeneral.currenttime - fadetime) / (float)FADE_TIME;
+                    fadecolor = General.ARGB(fc, 1f, 1f, 1f);
+                }
+            }
+        }
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Rendering
+    #region ================== Rendering
 
-		// Render the decal
-		public abstract void Render();
+    // Render the decal
+    public abstract void Render();
 
-		#endregion
-	}
+    #endregion
 }

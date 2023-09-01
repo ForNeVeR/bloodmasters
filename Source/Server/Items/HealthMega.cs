@@ -5,48 +5,47 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Server
+namespace CodeImp.Bloodmasters.Server;
+
+[ServerItem(2003, RespawnTime=30000)]
+public class HealthMega : Item
 {
-	[ServerItem(2003, RespawnTime=30000)]
-	public class HealthMega : Item
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public HealthMega(Thing t) : base(t)
-		{
-		}
+    // Constructor
+    public HealthMega(Thing t) : base(t)
+    {
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Control
+    #region ================== Control
 
-		// This is calledwhen the item is being touched by a player
-		public override void Pickup(Client c)
-		{
-			// Check if the client needs health
-			if(c.Health < 200)
-			{
-				// Do what you have to do
-				base.Pickup(c);
+    // This is calledwhen the item is being touched by a player
+    public override void Pickup(Client c)
+    {
+        // Check if the client needs health
+        if(c.Health < 200)
+        {
+            // Do what you have to do
+            base.Pickup(c);
 
-				// Take the item
-				this.Take(c);
+            // Take the item
+            this.Take(c);
 
-				// Add 25% health to the client
-				c.AddToStatus(100, 200, 0, 100);
-			}
-		}
+            // Add 25% health to the client
+            c.AddToStatus(100, 200, 0, 100);
+        }
+    }
 
 
-		#endregion
-	}
+    #endregion
 }

@@ -7,84 +7,84 @@
 
 using System.IO;
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+[ClientItem(9000)]
+public class AmbientSound : Item
 {
-	[ClientItem(9000)]
-	public class AmbientSound : Item
-	{
-		#region ================== Variables
+    #region ================== Variables
 
-		// The positional sound
-		private ISound sound;
-        #endregion
+    // The positional sound
+    private ISound sound;
 
-        #region ================== Constructor / Destructor
+    #endregion
 
-        // Constructor
-        public AmbientSound(Thing t) : base(t)
-		{
-			// Get arguments
-			int index = t.Arg[0];
-			int volume = t.Arg[1];
+    #region ================== Constructor / Destructor
 
-			// Find the sound filename
-			string filename = General.map.GetSoundFilename(index);
+    // Constructor
+    public AmbientSound(Thing t) : base(t)
+    {
+        // Get arguments
+        int index = t.Arg[0];
+        int volume = t.Arg[1];
 
-			// Check if the sound must be loaded
-			if(!SoundSystem.SoundExists(filename))
-			{
-				// Find out where this sound file is
-				string archive = ArchiveManager.FindFileArchive(filename);
-				if(archive != "")
-				{
-                    // Extract and load the file
-                    SoundSystem.CreateSound(filename, ArchiveManager.ExtractFile(archive + "/" + filename), SoundType.Sound);
-                }
-                else
-				{
-					// Problem!
-					throw(new FileNotFoundException("Unable to load the sound file \"" + filename + "\".", filename));
-				}
-			}
+        // Find the sound filename
+        string filename = General.map.GetSoundFilename(index);
 
-			// Make the sound
-			sound = SoundSystem.GetSound(filename, true);
-			sound.Position = this.pos;
-			sound.Volume = (float)volume / 255f;
-			sound.Play(true);
-
-			// Change to random offset
-			sound.SetRandomOffset();
-		}
-
-        // When disposed
-        public override void Dispose()
+        // Check if the sound must be loaded
+        if (!SoundSystem.SoundExists(filename))
         {
-        	// Clean up
-        	sound.Dispose();
-        	sound = null;
-
-        	// Dispose base
-        	base.Dispose();
+            // Find out where this sound file is
+            string archive = ArchiveManager.FindFileArchive(filename);
+            if (archive != "")
+            {
+                // Extract and load the file
+                SoundSystem.CreateSound(filename, ArchiveManager.ExtractFile(archive + "/" + filename),
+                    SoundType.Sound);
+            }
+            else
+            {
+                // Problem!
+                throw (new FileNotFoundException("Unable to load the sound file \"" + filename + "\".", filename));
+            }
         }
 
-        #endregion
+        // Make the sound
+        sound = SoundSystem.GetSound(filename, true);
+        sound.Position = this.pos;
+        sound.Volume = (float)volume / 255f;
+        sound.Play(true);
 
-        #region ================== Methods
+        // Change to random offset
+        sound.SetRandomOffset();
+    }
 
+    // When disposed
+    public override void Dispose()
+    {
+        // Clean up
+        sound.Dispose();
+        sound = null;
 
-        // Invisible item
-        public override void Render()
-		{
-			// Do nothing
-		}
+        // Dispose base
+        base.Dispose();
+    }
 
-		// Invisible item
-		public override void RenderShadow()
-		{
-			// Do nothing
-		}
+    #endregion
 
-		#endregion
-	}
+    #region ================== Methods
+
+    // Invisible item
+    public override void Render()
+    {
+        // Do nothing
+    }
+
+    // Invisible item
+    public override void RenderShadow()
+    {
+        // Do nothing
+    }
+
+    #endregion
 }

@@ -5,28 +5,27 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+[ClientItem(32000, Temporary=true)]
+public class CameraStart : Item
 {
-	[ClientItem(32000, Temporary=true)]
-	public class CameraStart : Item
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public CameraStart(Thing t) : base(t)
-		{
-			// Move the camera
-			General.arena.SetCamera(new Vector2D(t.X, t.Y));
-		}
+    // Constructor
+    public CameraStart(Thing t) : base(t)
+    {
+        // Move the camera
+        General.arena.SetCamera(new Vector2D(t.X, t.Y));
+    }
 
-		#endregion
-	}
+    #endregion
 }

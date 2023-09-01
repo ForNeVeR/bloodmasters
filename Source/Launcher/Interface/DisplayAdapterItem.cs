@@ -8,24 +8,23 @@
 
 using SharpDX.Direct3D9;
 
-namespace CodeImp.Bloodmasters.Launcher
+namespace CodeImp.Bloodmasters.Launcher;
+
+public struct DisplayAdapterItem
 {
-	public struct DisplayAdapterItem
-	{
-		public int ordinal;
-		public string description;
+    public int ordinal;
+    public string description;
 
-		// Constructor
-		public DisplayAdapterItem(int adapterIndex, AdapterDetails ai)
-		{
-			ordinal = adapterIndex;
-			description = ai.Description;
-		}
+    // Constructor
+    public DisplayAdapterItem(int adapterIndex, AdapterDetails ai)
+    {
+        ordinal = adapterIndex;
+        description = ai.Description;
+    }
 
-		// String representation
-		public override string ToString()
-		{
-			return description;
-		}
-	}
+    // String representation
+    public override string ToString()
+    {
+        return description;
+    }
 }

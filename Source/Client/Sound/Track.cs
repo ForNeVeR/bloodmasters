@@ -5,50 +5,49 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+public class Track
 {
-	public class Track
-	{
-		#region ================== Variables
+    #region ================== Variables
 
-		// Variables
-		private ISound snd;
+    // Variables
+    private ISound snd;
 
-		#endregion
+    #endregion
 
-		#region ================== Properties
+    #region ================== Properties
 
-        public bool Ended => !snd.Playing || snd.CurrentPosition == snd.Length;
+    public bool Ended => !snd.Playing || snd.CurrentPosition == snd.Length;
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor / Dispose
+    #region ================== Constructor / Destructor / Dispose
 
-		// Constructor
-		public Track(string filename, string fullfilename)
-		{
-			snd = SoundSystem.CreateSound(filename, fullfilename, SoundType.Music);
-		}
+    // Constructor
+    public Track(string filename, string fullfilename)
+    {
+        snd = SoundSystem.CreateSound(filename, fullfilename, SoundType.Music);
+    }
 
-		// Dispose
-		public void Dispose()
-		{
-			snd.Stop();
-			snd.Dispose();
-            snd = null;
-        }
+    // Dispose
+    public void Dispose()
+    {
+        snd.Stop();
+        snd.Dispose();
+        snd = null;
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Public Methods
+    #region ================== Public Methods
 
-		// Play sound
-		public void Play()
-		{
-			snd.Stop();
-			snd.Play();
-		}
+    // Play sound
+    public void Play()
+    {
+        snd.Stop();
+        snd.Play();
+    }
 
-		#endregion
-	}
+    #endregion
 }
