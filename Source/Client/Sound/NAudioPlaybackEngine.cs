@@ -7,11 +7,13 @@ namespace CodeImp.Bloodmasters.Client;
 
 internal class NAudioPlaybackEngine : IDisposable
 {
+    private readonly WaveFormat _waveFormat;
     private readonly IWavePlayer _outputDevice;
     private readonly MixingSampleProvider _mixer;
 
     public NAudioPlaybackEngine(WaveFormat waveFormat)
     {
+        _waveFormat = waveFormat;
         _outputDevice = new DirectSoundOut();
         _mixer = new MixingSampleProvider(waveFormat)
         {
@@ -23,9 +25,9 @@ internal class NAudioPlaybackEngine : IDisposable
 
     public ISampleProvider ConvertToRightChannelCount(ISampleProvider input)
     {
-        if (input.WaveFormat.SampleRate != 44100)
+        if (input.WaveFormat.SampleRate != _waveFormat.SampleRate)
         {
-            var outFormat = WaveFormat.CreateIeeeFloatWaveFormat(44100, input.WaveFormat.Channels);
+            var outFormat = WaveFormat.CreateIeeeFloatWaveFormat(_waveFormat.SampleRate, input.WaveFormat.Channels);
             using var resampler = new MediaFoundationResampler(input.ToWaveProvider(), outFormat);
 
             input = resampler.ToSampleProvider();
@@ -40,7 +42,9 @@ internal class NAudioPlaybackEngine : IDisposable
             return new MonoToStereoSampleProvider(input);
         }
 
-        throw new NotImplementedException("Not yet implemented this channel count conversion");
+        throw new NotSupportedException(
+            "Sound channel conversion not implemented. " +
+            $"Input wave format: {input.WaveFormat}, required wave format: {_waveFormat}.");
     }
 
     public void PlaySound(Lifetime lifetime, ISampleProvider sound)
