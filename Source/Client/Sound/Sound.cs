@@ -7,6 +7,7 @@
 
 using System;
 using JetBrains.Lifetimes;
+using NAudio.Wave;
 
 namespace CodeImp.Bloodmasters.Client
 {
@@ -16,7 +17,13 @@ namespace CodeImp.Bloodmasters.Client
 
 		// Variables
         private readonly NAudioPlaybackEngine _playbackEngine;
-        private readonly AudioSampleProvider _soundSample;
+
+        // This stores two sound sample providers: the controlled one is used to change the sound parameters, while the
+        // output gets actually passed to the playback engine. In a simple case, the playback is the same as the
+        // controlled one, but it may be different if we need to resample it to another frequency.
+        private readonly AudioSampleProvider _controlSample;
+        private readonly ISampleProvider _outputSample;
+
         private readonly SoundType _soundType;
 		private bool repeat = false;
 		private bool autodispose = false;
@@ -39,12 +46,12 @@ namespace CodeImp.Bloodmasters.Client
 		public bool AutoDispose { get { return autodispose; } set { autodispose = value; } }
 		public string Filename { get { return filename; } }
 		public float Volume { get { return volume; } set { newvolume = value; update = true; } }
-        public bool Playing => _soundSample.State == SoundState.Playing;
+        public bool Playing => _controlSample.State == SoundState.Playing;
 		public bool Positional { get { return positional; } }
 		public Vector2D Position { get { return pos; } set { pos = value; update = true; } }
 		public bool Disposed { get { return disposed; } }
-        public int Length => _soundSample.Length;
-        public int CurrentPosition => _soundSample.CurrentPosition;
+        public int Length => _controlSample.Length;
+        public int CurrentPosition => _controlSample.CurrentPosition;
 
 		#endregion
 
@@ -61,10 +68,11 @@ namespace CodeImp.Bloodmasters.Client
             this.fullfilename = fullfilename;
 
 			// Load the sound
-            _soundSample = AudioSampleProvider.ReadFromFile(fullfilename);
+            _controlSample = AudioSampleProvider.ReadFromFile(fullfilename);
+            _outputSample = playbackEngine.ConvertToRightChannelCount(_controlSample);
 
-			// Done
-		}
+            // Done
+        }
 
 		// Clone constructor for positional sound
 		public Sound(Sound clonesnd, bool positional)
@@ -75,7 +83,8 @@ namespace CodeImp.Bloodmasters.Client
 			this.filename = clonesnd.Filename;
 
 			// Clone the sound
-			_soundSample = clonesnd._soundSample.Clone();
+			_controlSample = clonesnd._controlSample.Clone();
+            _outputSample = _playbackEngine.ConvertToRightChannelCount(_controlSample);
             _soundType = clonesnd._soundType;
 
 			// Add to sounds collection
@@ -94,9 +103,9 @@ namespace CodeImp.Bloodmasters.Client
 				SoundSystem.RemovePlayingSound(this);
 
 				// Dispose sound
-				if(_soundSample != null)
+				if(_controlSample != null)
 				{
-					_soundSample.Stop();
+					_controlSample.Stop();
 				}
 				disposed = true;
 				GC.SuppressFinalize(this);
@@ -115,8 +124,8 @@ namespace CodeImp.Bloodmasters.Client
 
 			// Reset volume/pan
             // TODO: Was it always Volume here? Should it be Pan?
-			_soundSample.VolumeHundredthsOfDb = 0;
-			_soundSample.VolumeHundredthsOfDb = -10000;
+			_controlSample.VolumeHundredthsOfDb = 0;
+			_controlSample.VolumeHundredthsOfDb = -10000;
 		}
 
 		// Called when its time to apply changes
@@ -152,14 +161,14 @@ namespace CodeImp.Bloodmasters.Client
 					if(pan > 10000) pan = 10000; else if(pan < -10000) pan = -10000;
 
 					// Apply final volume
-					_soundSample.VolumeHundredthsOfDb = vol;
+					_controlSample.VolumeHundredthsOfDb = vol;
                     // TODO: Pan
 					// _soundSample.Pan = pan;
 				}
 				else
 				{
 					// Apply volume
-					_soundSample.VolumeHundredthsOfDb = SoundSystem.GetVolume(_soundType) + absvolume;
+					_controlSample.VolumeHundredthsOfDb = SoundSystem.GetVolume(_soundType) + absvolume;
 				}
 
 				// Set next update time
@@ -173,7 +182,7 @@ namespace CodeImp.Bloodmasters.Client
 		public void SetRandomOffset()
 		{
 			// Seek to a random position
-			if(_soundSample != null) _soundSample.CurrentPosition = General.random.Next(_soundSample.Length);
+			if(_controlSample != null) _controlSample.CurrentPosition = General.random.Next(_controlSample.Length);
 		}
 
 		// Play sound
@@ -185,11 +194,11 @@ namespace CodeImp.Bloodmasters.Client
 			// Leave when disposed
 			if(disposed) return;
 
-            _soundSample.State = SoundState.Playing;
+            _controlSample.State = SoundState.Playing;
 
 			// Repeat?
-            _soundSample.ShouldRepeat = repeat;
-			_soundSample.CurrentPosition = 0;
+            _controlSample.ShouldRepeat = repeat;
+			_controlSample.CurrentPosition = 0;
 
 			// Apply new settings
 			this.newvolume = volume;
@@ -198,13 +207,13 @@ namespace CodeImp.Bloodmasters.Client
 
 			// Play the sound
             var nextPlaybackLifetime = _playbackLifetimes.Next();
-            _playbackEngine.PlaySound(nextPlaybackLifetime, _soundSample);
+            _playbackEngine.PlaySound(nextPlaybackLifetime, _outputSample);
 		}
 
 		// Stops all instances
 		public void Stop()
         {
-            _soundSample.Stop();
+            _controlSample.Stop();
             _playbackLifetimes.TerminateCurrent();
         }
 

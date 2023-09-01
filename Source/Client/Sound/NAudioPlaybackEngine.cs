@@ -5,12 +5,10 @@ using NAudio.Wave.SampleProviders;
 
 namespace CodeImp.Bloodmasters.Client;
 
-class NAudioPlaybackEngine : IDisposable
+internal class NAudioPlaybackEngine : IDisposable
 {
     private readonly IWavePlayer _outputDevice;
     private readonly MixingSampleProvider _mixer;
-
-    public WaveFormat WaveFormat => _mixer.WaveFormat;
 
     public NAudioPlaybackEngine(WaveFormat waveFormat)
     {
@@ -23,7 +21,7 @@ class NAudioPlaybackEngine : IDisposable
         _outputDevice.Play();
     }
 
-    private ISampleProvider ConvertToRightChannelCount(ISampleProvider input)
+    public ISampleProvider ConvertToRightChannelCount(ISampleProvider input)
     {
         if (input.WaveFormat.SampleRate != 44100)
         {
@@ -41,16 +39,15 @@ class NAudioPlaybackEngine : IDisposable
         {
             return new MonoToStereoSampleProvider(input);
         }
+
         throw new NotImplementedException("Not yet implemented this channel count conversion");
     }
 
-    public void PlaySound(Lifetime lifetime, AudioSampleProvider sound)
+    public void PlaySound(Lifetime lifetime, ISampleProvider sound)
     {
-        // TODO: The sounds should be converted on load, not on play
-        var converted = ConvertToRightChannelCount(sound);
         lifetime.TryBracket(
-            () => _mixer.AddMixerInput(converted),
-            () => _mixer.RemoveMixerInput(converted));
+            () => _mixer.AddMixerInput(sound),
+            () => _mixer.RemoveMixerInput(sound));
     }
 
     public void Dispose()
