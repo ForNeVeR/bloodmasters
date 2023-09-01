@@ -125,7 +125,7 @@ internal class Sound : ISound
 
         // Reset volume/pan
         _controlSample.VolumeHundredthsOfDb = AudioSampleProvider.MaxVolumeHundredthsOfDb;
-        // TODO: Set pan to 0
+        // TODO[#113]: Set pan to 0
     }
 
     // Called when its time to apply changes
@@ -164,7 +164,7 @@ internal class Sound : ISound
 
                 // Apply final volume
                 _controlSample.VolumeHundredthsOfDb = vol;
-                // TODO: Pan
+                // TODO[#113]: Pan
                 // _soundSample.Pan = pan;
             }
             else

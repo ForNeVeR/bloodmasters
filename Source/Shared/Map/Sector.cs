@@ -216,7 +216,7 @@ public abstract class Sector
     // This tests if the given X/Y coordinate is within the sector
     public bool IntersectXY(float x, float y)
     {
-        // TODO: Use point-in-polygon algorithm for this?
+        // TODO[#114]: Use point-in-polygon algorithm for this?
         // See http://astronomy.swin.edu.au/~pbourke/geometry/insidepoly/
 
         // Check if the given coordinates are

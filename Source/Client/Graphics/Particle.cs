@@ -248,7 +248,7 @@ public class Particle //: VisualObject
             // Go for all actors
             foreach(Actor a in General.arena.Actors)
             {
-                // TODO: Implement height checking
+                // TODO[#110]: Implement height checking
 
                 // Check if the actor is near this particle
                 Vector3D delta = a.Position - state.pos;

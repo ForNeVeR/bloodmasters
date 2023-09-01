@@ -55,7 +55,7 @@ public class IonBall : Projectile, ILightningNode
         light = new DynamicLight(start, 16f, General.ARGB(1f, 0.4f, 0.5f, 1f), 3);
 
         // Create flying sound
-        // TODO: Figure this out
+        // TODO[#111]: Figure this out
         // flying = SoundSystem.GetSound("plasmafly.wav", true);
         flying = new NullSound();
         flying.Position = start;

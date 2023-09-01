@@ -188,7 +188,7 @@ public abstract class Gateway
     // This submits a message for sending
     public void SendMessage(NetMessage msg)
     {
-        // TODO: Implement packing algorythm
+        // TODO[#115]: Implement packing algorythm
         // to combine and sort messages into packets
 
         // DEBUG:
