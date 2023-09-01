@@ -123,9 +123,8 @@ namespace CodeImp.Bloodmasters.Client
 			if(disposed) return;
 
 			// Reset volume/pan
-            // TODO: Was it always Volume here? Should it be Pan?
-			_controlSample.VolumeHundredthsOfDb = 0;
-			_controlSample.VolumeHundredthsOfDb = -10000;
+			_controlSample.VolumeHundredthsOfDb = AudioSampleProvider.MaxVolumeHundredthsOfDb;
+			// TODO: Set pan to 0
 		}
 
 		// Called when its time to apply changes
