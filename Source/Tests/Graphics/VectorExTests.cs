@@ -5,6 +5,8 @@ namespace Bloodmasters.Tests.Graphics;
 
 public class VectorExTests
 {
+    private const float _tolerance = 0.000001f;
+
     private static Matrix GetEmptyMatrix() => new Matrix();
     private static Matrix GetMatrixWithNormalColumns1()
     {
@@ -115,35 +117,26 @@ public class VectorExTests
     [Fact]
     public void CorrectCalculationsWithNormalData_Success()
     {
-        const float tolerance = 0.000001f;
-
         var result = new Vector3(4f).Project(GetNormalViewport(), GetMatrixWithNormalColumns1(),
             GetMatrixWithNormalColumns2(), GetMatrixWithNormalColumns3());
 
-        Assert.Equal(6.634325f, result.X, tolerance);
-        Assert.Equal(6.068153f, result.Y, tolerance);
-        Assert.Equal(6.3136373f, result.Z, tolerance);
+        Assert.Equal(6.634325f, result.X, _tolerance);
+        Assert.Equal(6.068153f, result.Y, _tolerance);
+        Assert.Equal(6.3136373f, result.Z, _tolerance);
     }
 
     [Fact]
-    public async Task CorrectCalculationsWithNormalMatrixUnproject_Success()
+    public void UnprojectTest()
     {
-        //Act
-        var result = new Vector3(4f).Unproject(GetNormalViewport(), GetMatrixWithNormalColumns1(),
-            GetMatrixWithNormalColumns2(), GetMatrixWithNormalColumns3());
+        var result = new Vector3(4f).Unproject(
+            GetNormalViewport(),
+            GetMatrixWithNormalColumns1(),
+            GetMatrixWithNormalColumns2(),
+            GetMatrixWithNormalColumns3());
 
-        //Asssert
-        Assert.True(result.X == 1.7231272f && result.Y == -2.9434085f && result.Z == -0.50013363f);
-    }
-
-    [Fact]
-    public async Task IsMormalizeIsFalseWithCorrectMatrix_Success()
-    {
-        //Act
-        var result = new Vector3(4f).Unproject(GetNormalViewport(), GetMatrixWithNormalColumns1(),
-            GetMatrixWithNormalColumns2(), GetMatrixWithNormalColumns3());
-
-        //Assert
         Assert.False(result.IsNormalized);
+        Assert.Equal(1.7231272f, result.X, _tolerance);
+        Assert.Equal(-2.9434085f, result.Y, _tolerance);
+        Assert.Equal(-0.50013363f, result.Z, _tolerance);
     }
 }
