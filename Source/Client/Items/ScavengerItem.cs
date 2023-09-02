@@ -5,208 +5,196 @@
 *                                                                   *
 \********************************************************************/
 
-using System.Collections;
+namespace CodeImp.Bloodmasters.Client;
 
-namespace CodeImp.Bloodmasters.Client
+public class ScavengerItem : Item
 {
-	public class ScavengerItem : Item
-	{
-		#region ================== Variables
+    #region ================== Variables
 
-		// Team info
-		protected TEAM thisteam;
-		protected TEAM otherteam;
-		protected string otherteamname;
-		protected string otherteamcolor;
-		protected string thisteamname;
-		protected string thisteamcolor;
+    // Team info
+    protected TEAM thisteam;
+    protected TEAM otherteam;
+    protected string otherteamname;
+    protected string otherteamcolor;
+    protected string thisteamname;
+    protected string thisteamcolor;
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public ScavengerItem(Thing t) : base(t)
-		{
-		}
+    // Constructor
+    public ScavengerItem(Thing t) : base(t)
+    {
+    }
 
-		// Disposer
-		public override void Dispose()
-		{
-			// Dispose base
-			base.Dispose();
-		}
+    // Disposer
+    public override void Dispose()
+    {
+        // Dispose base
+        base.Dispose();
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Methods
+    #region ================== Methods
 
-		// This counts the total items for a team
-		public static int CountTotalItems(TEAM team)
-		{
-			int result = 0;
+    // This counts the total items for a team
+    public static int CountTotalItems(TEAM team)
+    {
+        int result = 0;
 
-			// Go for all items in the map
-			foreach(DictionaryEntry de in General.arena.Items)
-			{
-				// Is this a scavenger item?
-				if(de.Value is ScavengerItem)
-				{
-					// Get the object
-					ScavengerItem si = (ScavengerItem)de.Value;
+        // Go for all items in the map
+        foreach(Item item in General.arena.Items.Values)
+        {
+            // Is this a scavenger item?
+            if(item is ScavengerItem si)
+            {
+                // Count item when for this team
+                if(si.thisteam == team) result++;
+            }
+        }
 
-					// Count item when for this team
-					if(si.thisteam == team) result++;
-				}
-			}
+        // Return result
+        return result;
+    }
 
-			// Return result
-			return result;
-		}
+    // This counts the remaining items for a team
+    public static int CountRemainingItems(TEAM team)
+    {
+        int result = 0;
 
-		// This counts the remaining items for a team
-		public static int CountRemainingItems(TEAM team)
-		{
-			int result = 0;
+        // Go for all items in the map
+        foreach(Item item in General.arena.Items.Values)
+        {
+            // Is this a scavenger item?
+            if(item is ScavengerItem si)
+            {
+                // Item for this team?
+                if(si.thisteam == team)
+                {
+                    // Count when item is not taken yet
+                    if(si.IsTaken == false) result++;
+                }
+            }
+        }
 
-			// Go for all items in the map
-			foreach(DictionaryEntry de in General.arena.Items)
-			{
-				// Is this a scavenger item?
-				if(de.Value is ScavengerItem)
-				{
-					// Get the object
-					ScavengerItem si = (ScavengerItem)de.Value;
+        // Return result
+        return result;
+    }
 
-					// Item for this team?
-					if(si.thisteam == team)
-					{
-						// Count when item is not taken yet
-						if(si.IsTaken == false) result++;
-					}
-				}
-			}
+    // This respawns all items for a team
+    public static void RespawnItems(TEAM team)
+    {
+        // Go for all items in the map
+        foreach(Item item in General.arena.Items.Values)
+        {
+            // Is this a scavenger item?
+            if(item is ScavengerItem si)
+            {
+                // Item for this team?
+                if(si.thisteam == team)
+                {
+                    // Respawn the item now
+                    si.Respawn(false);
+                }
+            }
+        }
+    }
 
-			// Return result
-			return result;
-		}
+    // This sets team names and colors
+    protected void SetTeam(TEAM team)
+    {
+        // Check what team this item is on
+        if(team == TEAM.RED)
+        {
+            // Set variables
+            thisteam = TEAM.RED;
+            otherteam = TEAM.BLUE;
+            thisteamname = "red";
+            thisteamcolor = "^4";
+            otherteamname = "blue";
+            otherteamcolor = "^1";
+        }
+        else if(team == TEAM.BLUE)
+        {
+            // Set variables
+            thisteam = TEAM.BLUE;
+            otherteam = TEAM.RED;
+            thisteamname = "blue";
+            thisteamcolor = "^1";
+            otherteamname = "red";
+            otherteamcolor = "^4";
+        }
+        else
+        {
+            // Set variables
+            thisteam = TEAM.NONE;
+            otherteam = TEAM.NONE;
+            thisteamname = "white";
+            thisteamcolor = "^7";
+            otherteamname = "white";
+            otherteamcolor = "^7";
+        }
+    }
 
-		// This respawns all items for a team
-		public static void RespawnItems(TEAM team)
-		{
-			// Go for all items in the map
-			foreach(DictionaryEntry de in General.arena.Items)
-			{
-				// Is this a scavenger item?
-				if(de.Value is ScavengerItem)
-				{
-					// Get the object
-					ScavengerItem si = (ScavengerItem)de.Value;
+    #endregion
 
-					// Item for this team?
-					if(si.thisteam == team)
-					{
-						// Respawn the item now
-						si.Respawn(false);
-					}
-				}
-			}
-		}
+    #region ================== Control
 
-		// This sets team names and colors
-		protected void SetTeam(TEAM team)
-		{
-			// Check what team this item is on
-			if(team == TEAM.RED)
-			{
-				// Set variables
-				thisteam = TEAM.RED;
-				otherteam = TEAM.BLUE;
-				thisteamname = "red";
-				thisteamcolor = "^4";
-				otherteamname = "blue";
-				otherteamcolor = "^1";
-			}
-			else if(team == TEAM.BLUE)
-			{
-				// Set variables
-				thisteam = TEAM.BLUE;
-				otherteam = TEAM.RED;
-				thisteamname = "blue";
-				thisteamcolor = "^1";
-				otherteamname = "red";
-				otherteamcolor = "^4";
-			}
-			else
-			{
-				// Set variables
-				thisteam = TEAM.NONE;
-				otherteam = TEAM.NONE;
-				thisteamname = "white";
-				thisteamcolor = "^7";
-				otherteamname = "white";
-				otherteamcolor = "^7";
-			}
-		}
+    // When picked up / taken
+    public override void Take(Client clnt)
+    {
+        int remaining = 0;
 
-		#endregion
+        // Call the base class
+        base.Take(clnt);
 
-		#region ================== Control
+        // Item on same team as client?
+        if(thisteam == clnt.Team)
+        {
+            // Count score
+            clnt.Score++;
+            General.teamscore[(int)clnt.Team]++;
+        }
+        else
+        {
+            // Decrease score
+            clnt.Score--;
+            General.teamscore[(int)clnt.Team]--;
+        }
 
-		// When picked up / taken
-		public override void Take(Client clnt)
-		{
-			int remaining = 0;
+        // Count remaining items
+        remaining = CountRemainingItems(thisteam);
 
-			// Call the base class
-			base.Take(clnt);
+        // Last item for this team?
+        if(remaining == 0)
+        {
+            // Play capture sound
+            SoundSystem.PlaySound("flagcapture.wav");
 
-			// Item on same team as client?
-			if(thisteam == clnt.Team)
-			{
-				// Count score
-				clnt.Score++;
-				General.teamscore[(int)clnt.Team]++;
-			}
-			else
-			{
-				// Decrease score
-				clnt.Score--;
-				General.teamscore[(int)clnt.Team]--;
-			}
+            // Show message?
+            if(thisteam != TEAM.NONE)
+            {
+                // Show message
+                General.hud.ShowBigMessage(thisteamcolor + thisteamname.ToUpper() + " TEAM FINISHED A ROUND!", 3000);
+            }
 
-			// Count remaining items
-			remaining = CountRemainingItems(thisteam);
+            // Respawn them all!
+            RespawnItems(thisteam);
+        }
 
-			// Last item for this team?
-			if(remaining == 0)
-			{
-				// Play capture sound
-				DirectSound.PlaySound("flagcapture.wav");
+        // Update scoreboard and hud
+        General.scoreboard.Update();
+        General.hud.UpdateScore();
+    }
 
-				// Show message?
-				if(thisteam != TEAM.NONE)
-				{
-					// Show message
-					General.hud.ShowBigMessage(thisteamcolor + thisteamname.ToUpper() + " TEAM FINISHED A ROUND!", 3000);
-				}
+    // When processed
+    public override void Process()
+    {
+        // Process base class
+        base.Process();
+    }
 
-				// Respawn them all!
-				RespawnItems(thisteam);
-			}
-
-			// Update scoreboard and hud
-			General.scoreboard.Update();
-			General.hud.UpdateScore();
-		}
-
-		// When processed
-		public override void Process()
-		{
-			// Process base class
-			base.Process();
-		}
-
-		#endregion
-	}
+    #endregion
 }

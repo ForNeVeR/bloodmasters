@@ -5,39 +5,38 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+[ClientItem(7004, Sprite="rock1.tga", Description="Rock", Bob=false)]
+public class Rock1 : Item
 {
-	[ClientItem(7004, Sprite="rock1.tga", Description="Rock", Bob=false)]
-	public class Rock1 : Item
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public Rock1(Thing t) : base(t)
-		{
-			// Lower than everything else
-			renderbias = -30f;
-			renderpass = 0;
-		}
+    // Constructor
+    public Rock1(Thing t) : base(t)
+    {
+        // Lower than everything else
+        renderbias = -30f;
+        renderpass = 0;
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Override RenderShadow so no shadow is rendered
-		public override void RenderShadow()
-		{
-			// No shadow
-		}
+    // Override RenderShadow so no shadow is rendered
+    public override void RenderShadow()
+    {
+        // No shadow
+    }
 
-		#endregion
-	}
+    #endregion
 }

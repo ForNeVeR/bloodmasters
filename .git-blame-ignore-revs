@@ -1,0 +1,5 @@
+# Convert CRLF to LF and get rid of UTF-8 BOM
+d6b8d01e000d99a6b9e4e33779eb7ec2d0533785
+
+# Convert namespaces to file-scoped
+0c55cd8931a6af2e1ac1146e3ff908f5694b376f

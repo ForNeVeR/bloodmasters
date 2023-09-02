@@ -5,57 +5,56 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+[ClientItem(9005, Visible=false, OnFloor=false)]
+public class SteamParticles : Item
 {
-	[ClientItem(9005, Visible=false, OnFloor=false)]
-	public class SteamParticles : Item
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		private const int SPAWN_MIN_INTERVAL = 20;
-		private const int SPAWN_RND_INTERVAL = 60;
+    private const int SPAWN_MIN_INTERVAL = 20;
+    private const int SPAWN_RND_INTERVAL = 60;
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		private int nextspawntime;
+    private int nextspawntime;
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public SteamParticles(Thing t) : base(t)
-		{
-		}
+    // Constructor
+    public SteamParticles(Thing t) : base(t)
+    {
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Processing
+    #region ================== Processing
 
-		// Processing
-		public override void Process()
-		{
-			// Time to spawn a particle?
-			if(nextspawntime < General.currenttime)
-			{
-				// In screen?
-				if(Sector.VisualSector.InScreen)
-				{
-					// Spawn particle
-					General.arena.p_smoke.Add(pos + Vector3D.Random(General.random, 6f, 6f, 0f),
-						Vector3D.Random(General.random, 0.01f, 0.01f, 0.2f), General.ARGB(1f, 0.5f, 0.5f, 0.5f));
+    // Processing
+    public override void Process()
+    {
+        // Time to spawn a particle?
+        if(nextspawntime < SharedGeneral.currenttime)
+        {
+            // In screen?
+            if(Sector.VisualSector.InScreen)
+            {
+                // Spawn particle
+                General.arena.p_smoke.Add(pos + Vector3D.Random(General.random, 6f, 6f, 0f),
+                    Vector3D.Random(General.random, 0.01f, 0.01f, 0.2f), General.ARGB(1f, 0.5f, 0.5f, 0.5f));
 
-					// Make new spawn time
-					nextspawntime = General.currenttime + SPAWN_MIN_INTERVAL + General.random.Next(SPAWN_RND_INTERVAL);
-				}
-			}
+                // Make new spawn time
+                nextspawntime = SharedGeneral.currenttime + SPAWN_MIN_INTERVAL + General.random.Next(SPAWN_RND_INTERVAL);
+            }
+        }
 
-			// Pass control to base class
-			base.Process();
-		}
+        // Pass control to base class
+        base.Process();
+    }
 
-		#endregion
-	}
+    #endregion
 }

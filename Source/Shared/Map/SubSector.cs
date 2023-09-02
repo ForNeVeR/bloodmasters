@@ -5,116 +5,111 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
 using System.Drawing;
-using System.IO;
-#if CLIENT
-#endif
 
-namespace CodeImp.Bloodmasters
+namespace CodeImp.Bloodmasters;
+
+public class SubSector
 {
-	public class SubSector
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		// General
-		private Sector sector = null;	// Sector in which this subsector is
-		private Segment[] segs;			// Segments in subsector
+    // General
+    private Sector sector = null;	// Sector in which this subsector is
+    private Segment[] segs;			// Segments in subsector
 
-		// Boundaries
-		private RectangleF bounds;
+    // Boundaries
+    private RectangleF bounds;
 
-		#endregion
+    #endregion
 
-		#region ================== Properties
+    #region ================== Properties
 
-		public Sector Sector { get { return sector; } }
-		public Segment[] Segments { get { return segs; } }
+    public Sector Sector { get { return sector; } }
+    public Segment[] Segments { get { return segs; } }
 
-		// Boundaries
-		public RectangleF Bounds { get { return bounds; } }
-		public float X { get { return bounds.X; } }
-		public float Y { get { return bounds.Y; } }
-		public float Width { get { return bounds.Width; } }
-		public float Height { get { return bounds.Height; } }
-		public float Top { get { return bounds.Top; } }
-		public float Bottom { get { return bounds.Bottom; } }
+    // Boundaries
+    public RectangleF Bounds { get { return bounds; } }
+    public float X { get { return bounds.X; } }
+    public float Y { get { return bounds.Y; } }
+    public float Width { get { return bounds.Width; } }
+    public float Height { get { return bounds.Height; } }
+    public float Top { get { return bounds.Top; } }
+    public float Bottom { get { return bounds.Bottom; } }
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public SubSector(BinaryReader data, Segment[] segments, Vector2D[] vertices)
-		{
-			int numsegs;
-			int firstseg;
-			float bl = 0;
-			float bt = 0;
-			float br = 0;
-			float bb = 0;
+    // Constructor
+    public SubSector(BinaryReader data, Segment[] segments, Vector2D[] vertices)
+    {
+        int numsegs;
+        int firstseg;
+        float bl = 0;
+        float bt = 0;
+        float br = 0;
+        float bb = 0;
 
-			// Read subsector info from data
-			numsegs = (int)data.ReadUInt32();
-			firstseg = (int)data.ReadUInt32();
+        // Read subsector info from data
+        numsegs = (int)data.ReadUInt32();
+        firstseg = (int)data.ReadUInt32();
 
-			// Make segments array
-			segs = new Segment[numsegs];
+        // Make segments array
+        segs = new Segment[numsegs];
 
-			// Go for all segments
-			for(int i = 0; i < numsegs; i++)
-			{
-				// Make reference to segment
-				segs[i] = segments[firstseg + i];
+        // Go for all segments
+        for(int i = 0; i < numsegs; i++)
+        {
+            // Make reference to segment
+            segs[i] = segments[firstseg + i];
 
-				// Take sector from segment when along a linedef
-				if(segs[i].Sidedef != null) sector = segs[i].Sidedef.Sector;
+            // Take sector from segment when along a linedef
+            if(segs[i].Sidedef != null) sector = segs[i].Sidedef.Sector;
 
-				// Get the last vertex
-				Vector2D v = vertices[segs[i].v2];
+            // Get the last vertex
+            Vector2D v = vertices[segs[i].v2];
 
-				// First segment?
-				if(i == 0)
-				{
-					// Boundary from segment
-					bl = v.x;
-					br = v.x;
-					bt = v.y;
-					bb = v.y;
-				}
-				else
-				{
-					// Extend boundary with segment
-					bl = Math.Min(bl, v.x);
-					br = Math.Max(br, v.x);
-					bt = Math.Min(bt, v.y);
-					bb = Math.Max(bb, v.y);
-				}
-			}
+            // First segment?
+            if(i == 0)
+            {
+                // Boundary from segment
+                bl = v.x;
+                br = v.x;
+                bt = v.y;
+                bb = v.y;
+            }
+            else
+            {
+                // Extend boundary with segment
+                bl = Math.Min(bl, v.x);
+                br = Math.Max(br, v.x);
+                bt = Math.Min(bt, v.y);
+                bb = Math.Max(bb, v.y);
+            }
+        }
 
-			// Make boundary rectangle
-			bounds = new RectangleF(bl, bt, br - bl, bb - bt);
+        // Make boundary rectangle
+        bounds = new RectangleF(bl, bt, br - bl, bb - bt);
 
-			// Make subsector reference at sector if sector is know
-			if(sector != null) sector.AddSubSectorRef(this);
-		}
+        // Make subsector reference at sector if sector is know
+        if(sector != null) sector.AddSubSectorRef(this);
+    }
 
-		// Destructor
-		public void Dispose()
-		{
-			// Release references
-			sector = null;
-			segs = null;
-		}
+    // Destructor
+    public void Dispose()
+    {
+        // Release references
+        sector = null;
+        segs = null;
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Methods
+    #region ================== Methods
 
-		#endregion
-	}
+    #endregion
 }

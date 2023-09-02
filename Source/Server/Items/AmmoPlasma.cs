@@ -5,54 +5,43 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
+namespace CodeImp.Bloodmasters.Server;
 
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
-namespace CodeImp.Bloodmasters.Server
+[ServerItem(8002, RespawnTime=5000)]
+public class AmmoPlasma : Item
 {
-	[ServerItem(8002, RespawnTime=5000)]
-	public class AmmoPlasma : Item
-	{
-		#region ================== Constants
-		
-		#endregion
-		
-		#region ================== Variables
-		
-		#endregion
-		
-		#region ================== Constructor / Destructor
-		
-		// Constructor
-		public AmmoPlasma(Thing t) : base(t)
-		{
-		}
-		
-		#endregion
-		
-		#region ================== Control
-		
-		// This is called when the item is being touched by a player
-		public override void Pickup(Client c)
-		{
-			// Give clietn ammo if possible
-			if(c.AddAmmo(AMMO.PLASMA, 10))
-			{
-				// Do what you have to do
-				base.Pickup(c);
-				
-				// Take the item
-				this.Take(c);
-			}
-		}
-		
-		#endregion
-	}
+    #region ================== Constants
+
+    #endregion
+
+    #region ================== Variables
+
+    #endregion
+
+    #region ================== Constructor / Destructor
+
+    // Constructor
+    public AmmoPlasma(Thing t) : base(t)
+    {
+    }
+
+    #endregion
+
+    #region ================== Control
+
+    // This is called when the item is being touched by a player
+    public override void Pickup(Client c)
+    {
+        // Give clietn ammo if possible
+        if(c.AddAmmo(AMMO.PLASMA, 10))
+        {
+            // Do what you have to do
+            base.Pickup(c);
+
+            // Take the item
+            this.Take(c);
+        }
+    }
+
+    #endregion
 }

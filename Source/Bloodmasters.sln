@@ -2,37 +2,83 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters", "Client\Bloodmasters.csproj", "{406F2DC0-ED64-4D82-A75C-12DFC3300A66}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Client", "Client\Bloodmasters.Client.csproj", "{406F2DC0-ED64-4D82-A75C-12DFC3300A66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "Launcher\Launcher.csproj", "{0232A66E-1D9B-483C-88A3-432F4EE78D12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Launcher", "Launcher\Bloodmasters.Launcher.csproj", "{0232A66E-1D9B-483C-88A3-432F4EE78D12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Tests", "Bloodmasters.Tests\Bloodmasters.Tests.csproj", "{45784815-6BB5-47B0-A4EA-78E3B1A4E098}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Tests", "Tests\Bloodmasters.Tests.csproj", "{45784815-6BB5-47B0-A4EA-78E3B1A4E098}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{EB72F3E9-ECD2-4653-AE18-5D10614ADBAA}"
+	ProjectSection(SolutionItems) = preProject
+		..\Scripts\verify-encoding.ps1 = ..\Scripts\verify-encoding.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{FAC85DF4-623C-4872-9A90-1AD8E883EC4C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{1FA71E58-528D-4FF0-A00E-E535C0815317}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\main.yml = ..\.github\workflows\main.yml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Shared", "Shared\Bloodmasters.Shared.csproj", "{392D7C6F-B977-4507-A10E-12AD6F02A617}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DedicatedServer", "DedicatedServer\Bloodmasters.DedicatedServer.csproj", "{AC63F482-0715-48D4-8B14-EFF3F5BD4A61}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B3EDCFBA-0656-49DD-A70C-0EB061D46AF4}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		..\CONTRIBUTING.md = ..\CONTRIBUTING.md
+		..\.bloodmasters.dev.marker = ..\.bloodmasters.dev.marker
+		..\.bloodmasters.solution-root.marker = ..\.bloodmasters.solution-root.marker
+		..\.gitignore = ..\.gitignore
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Server", "Server\Bloodmasters.Server.csproj", "{34A2FA5F-08A5-4464-82AD-BEC71C200352}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{93A7155B-8CB8-4471-B5A9-D311B3814763}"
+	ProjectSection(SolutionItems) = preProject
+		Config\bmserver.cfg = Config\bmserver.cfg
+		Config\Bloodmasters.cfg = Config\Bloodmasters.cfg
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x86 = Debug|x86
-		Release|x86 = Release|x86
+		Debug|AnyCPU = Debug|AnyCPU
+		Release|AnyCPU = Release|AnyCPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug|x86.ActiveCfg = Debug|x86
-		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug|x86.Build.0 = Debug|x86
-		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release|x86.ActiveCfg = Release|x86
-		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release|x86.Build.0 = Release|x86
-		{0232A66E-1D9B-483C-88A3-432F4EE78D12}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0232A66E-1D9B-483C-88A3-432F4EE78D12}.Debug|x86.Build.0 = Debug|Any CPU
-		{0232A66E-1D9B-483C-88A3-432F4EE78D12}.Release|x86.ActiveCfg = Release|Any CPU
-		{0232A66E-1D9B-483C-88A3-432F4EE78D12}.Release|x86.Build.0 = Release|Any CPU
-		{45784815-6BB5-47B0-A4EA-78E3B1A4E098}.Debug|x86.ActiveCfg = Debug|x86
-		{45784815-6BB5-47B0-A4EA-78E3B1A4E098}.Debug|x86.Build.0 = Debug|x86
-		{45784815-6BB5-47B0-A4EA-78E3B1A4E098}.Release|x86.ActiveCfg = Release|x86
-		{45784815-6BB5-47B0-A4EA-78E3B1A4E098}.Release|x86.Build.0 = Release|x86
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug|AnyCPU.ActiveCfg = Debug|Any CPU
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Debug|AnyCPU.Build.0 = Debug|Any CPU
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release|AnyCPU.ActiveCfg = Release|Any CPU
+		{406F2DC0-ED64-4D82-A75C-12DFC3300A66}.Release|AnyCPU.Build.0 = Release|Any CPU
+		{AC63F482-0715-48D4-8B14-EFF3F5BD4A61}.Debug|AnyCPU.ActiveCfg = Debug|Any CPU
+		{AC63F482-0715-48D4-8B14-EFF3F5BD4A61}.Debug|AnyCPU.Build.0 = Debug|Any CPU
+		{AC63F482-0715-48D4-8B14-EFF3F5BD4A61}.Release|AnyCPU.ActiveCfg = Release|Any CPU
+		{AC63F482-0715-48D4-8B14-EFF3F5BD4A61}.Release|AnyCPU.Build.0 = Release|Any CPU
+		{0232A66E-1D9B-483C-88A3-432F4EE78D12}.Debug|AnyCPU.ActiveCfg = Debug|Any CPU
+		{0232A66E-1D9B-483C-88A3-432F4EE78D12}.Debug|AnyCPU.Build.0 = Debug|Any CPU
+		{0232A66E-1D9B-483C-88A3-432F4EE78D12}.Release|AnyCPU.ActiveCfg = Release|Any CPU
+		{0232A66E-1D9B-483C-88A3-432F4EE78D12}.Release|AnyCPU.Build.0 = Release|Any CPU
+		{34A2FA5F-08A5-4464-82AD-BEC71C200352}.Debug|AnyCPU.ActiveCfg = Debug|Any CPU
+		{34A2FA5F-08A5-4464-82AD-BEC71C200352}.Debug|AnyCPU.Build.0 = Debug|Any CPU
+		{34A2FA5F-08A5-4464-82AD-BEC71C200352}.Release|AnyCPU.ActiveCfg = Release|Any CPU
+		{34A2FA5F-08A5-4464-82AD-BEC71C200352}.Release|AnyCPU.Build.0 = Release|Any CPU
+		{392D7C6F-B977-4507-A10E-12AD6F02A617}.Debug|AnyCPU.ActiveCfg = Debug|Any CPU
+		{392D7C6F-B977-4507-A10E-12AD6F02A617}.Debug|AnyCPU.Build.0 = Debug|Any CPU
+		{392D7C6F-B977-4507-A10E-12AD6F02A617}.Release|AnyCPU.ActiveCfg = Release|Any CPU
+		{392D7C6F-B977-4507-A10E-12AD6F02A617}.Release|AnyCPU.Build.0 = Release|Any CPU
+		{45784815-6BB5-47B0-A4EA-78E3B1A4E098}.Debug|AnyCPU.ActiveCfg = Debug|Any CPU
+		{45784815-6BB5-47B0-A4EA-78E3B1A4E098}.Debug|AnyCPU.Build.0 = Debug|Any CPU
+		{45784815-6BB5-47B0-A4EA-78E3B1A4E098}.Release|AnyCPU.ActiveCfg = Release|Any CPU
+		{45784815-6BB5-47B0-A4EA-78E3B1A4E098}.Release|AnyCPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1FA71E58-528D-4FF0-A00E-E535C0815317} = {FAC85DF4-623C-4872-9A90-1AD8E883EC4C}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66039823-8100-4135-B36B-FBC13B4047E7}
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal

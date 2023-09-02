@@ -5,102 +5,96 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.IO;
-#if CLIENT
-#endif
+namespace CodeImp.Bloodmasters;
 
-namespace CodeImp.Bloodmasters
+public class Thing
 {
-	public class Thing
-	{
-		#region ================== Constants
+    #region ================== Constants
 
-		#endregion
+    #endregion
 
-		#region ================== Variables
+    #region ================== Variables
 
-		private int index;
-		private float x;
-		private float y;
-		private float z;
-		private int type;
-		private float angle;
-		private int tag;
-		private THINGFLAG flags;
-		private ACTION action;			// Thing action (usage depends on thing type)
-		private int[] arg;				// Thing arguments (usage depends on thing type or action)
-		private Sector sector = null;
-		private Map map;
+    private int index;
+    private float x;
+    private float y;
+    private float z;
+    private int type;
+    private float angle;
+    private int tag;
+    private THINGFLAG flags;
+    private ACTION action;			// Thing action (usage depends on thing type)
+    private int[] arg;				// Thing arguments (usage depends on thing type or action)
+    private Sector sector = null;
+    private Map map;
 
-		#endregion
+    #endregion
 
-		#region ================== Properties
+    #region ================== Properties
 
-		public int Index { get { return index; } }
-		public int Type { get { return type; } }
-		public float X { get { return x; } }
-		public float Y { get { return y; } }
-		public float Z { get { return z; } }
-		public float Angle { get { return angle; } }
-		public int Tag { get { return tag; } }
-		public THINGFLAG Flags { get { return flags; } }
-		public ACTION Action { get { return action; } }
-		public int[] Arg { get { return arg; } }
-		public Sector Sector{ get { return sector; } }
+    public int Index { get { return index; } }
+    public int Type { get { return type; } }
+    public float X { get { return x; } }
+    public float Y { get { return y; } }
+    public float Z { get { return z; } }
+    public float Angle { get { return angle; } }
+    public int Tag { get { return tag; } }
+    public THINGFLAG Flags { get { return flags; } }
+    public ACTION Action { get { return action; } }
+    public int[] Arg { get { return arg; } }
+    public Sector Sector{ get { return sector; } }
 
-		#endregion
+    #endregion
 
-		#region ================== Constructor / Destructor
+    #region ================== Constructor / Destructor
 
-		// Constructor
-		public Thing(BinaryReader data, int index, Map map)
-		{
-			// Read thing
-			this.map = map;
-			this.index = index;
-			tag = data.ReadInt16();
-			x = (float)data.ReadInt16() * Map.MAP_SCALE_XY;
-			y = (float)data.ReadInt16() * Map.MAP_SCALE_XY;
-			z = (float)data.ReadInt16() * Map.MAP_SCALE_Z;
-			angle = (float)data.ReadInt16() / (360f / ((float)Math.PI * 2f));
-			type = data.ReadInt16();
-			flags = (THINGFLAG)data.ReadUInt16();
-			action = (ACTION)data.ReadByte();
-			arg = new int[5];
-			for(int k = 0; k < 5; k++) arg[k] = data.ReadByte();
-		}
+    // Constructor
+    public Thing(BinaryReader data, int index, Map map)
+    {
+        // Read thing
+        this.map = map;
+        this.index = index;
+        tag = data.ReadInt16();
+        x = (float)data.ReadInt16() * Map.MAP_SCALE_XY;
+        y = (float)data.ReadInt16() * Map.MAP_SCALE_XY;
+        z = (float)data.ReadInt16() * Map.MAP_SCALE_Z;
+        angle = (float)data.ReadInt16() / (360f / ((float)Math.PI * 2f));
+        type = data.ReadInt16();
+        flags = (THINGFLAG)data.ReadUInt16();
+        action = (ACTION)data.ReadByte();
+        arg = new int[5];
+        for(int k = 0; k < 5; k++) arg[k] = data.ReadByte();
+    }
 
-		// Destructor
-		public void Dispose()
-		{
-			// Clean up
-			map = null;
-			sector = null;
-		}
+    // Destructor
+    public void Dispose()
+    {
+        // Clean up
+        map = null;
+        sector = null;
+    }
 
-		#endregion
+    #endregion
 
-		#region ================== Methods
+    #region ================== Methods
 
-		// This determines the sector where the thing is in
-		public void DetermineSector()
-		{
-			Sidedef s;
-			Linedef l;
+    // This determines the sector where the thing is in
+    public void DetermineSector()
+    {
+        Sidedef s;
+        Linedef l;
 
-			// Get nearest linedef
-			l = map.GetNearestLine(x, y);
+        // Get nearest linedef
+        l = map.GetNearestLine(x, y);
 
-			// Determine side of line
-			float side = l.SideOfLine(x, y);
-			if(side < 0) s = l.Front; else s = l.Back;
+        // Determine side of line
+        float side = l.SideOfLine(x, y);
+        if(side < 0) s = l.Front; else s = l.Back;
 
-			// Determine sector
-			if(s != null) sector = s.Sector;
-		}
+        // Determine sector
+        if(s != null) sector = s.Sector;
+    }
 
 
-		#endregion
-	}
+    #endregion
 }

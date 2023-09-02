@@ -5,16 +5,15 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+[ClientItem(9999, Temporary=true)]
+public class MovementSound : Item
 {
-	[ClientItem(9999, Temporary=true)]
-	public class MovementSound : Item
-	{
-		// Constructor
-		public MovementSound(Thing t) : base(t)
-		{
-			// Indicate that this sector must play movement sounds
-			t.Sector.PlayMovementSound = true;
-		}
-	}
+    // Constructor
+    public MovementSound(Thing t) : base(t)
+    {
+        // Indicate that this sector must play movement sounds
+        ((ClientSector)t.Sector).PlayMovementSound = true;
+    }
 }

@@ -1,137 +1,117 @@
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+/// <summary>
+/// Summary description for NullSound.
+/// </summary>
+public class NullSound : ISound
 {
-	/// <summary>
-	/// Summary description for NullSound.
-	/// </summary>
-	public class NullSound : ISound
-	{
-		// Constructor
-		public NullSound()
-		{
-		}
+    // Constructor
+    public NullSound()
+    {
+    }
 
-		public void ResetSettings()
-		{
-			// TODO:  Add NullSound.ResetSettings implementation
-		}
+    public void ResetSettings()
+    {
+    }
 
-		public void Update()
-		{
-			// TODO:  Add NullSound.Update implementation
-		}
+    public void Update()
+    {
+    }
 
-		public void SetRandomOffset()
-		{
-			// TODO:  Add NullSound.SetRandomOffset implementation
-		}
+    public void SetRandomOffset()
+    {
+    }
 
-		public void Play()
-		{
-			// TODO:  Add NullSound.Play implementation
-		}
+    public void Play()
+    {
+    }
 
-		void CodeImp.Bloodmasters.Client.ISound.Play(bool repeat)
-		{
-			// TODO:  Add NullSound.CodeImp.Bloodmasters.Client.ISound.Play implementation
-		}
+    void CodeImp.Bloodmasters.Client.ISound.Play(bool repeat)
+    {
+    }
 
-		void CodeImp.Bloodmasters.Client.ISound.Play(float volume, bool repeat)
-		{
-			// TODO:  Add NullSound.CodeImp.Bloodmasters.Client.ISound.Play implementation
-		}
+    void CodeImp.Bloodmasters.Client.ISound.Play(float volume, bool repeat)
+    {
+    }
 
-		public void Stop()
-		{
-			// TODO:  Add NullSound.Stop implementation
-		}
+    public void Stop()
+    {
+    }
 
-		public bool Repeat
-		{
-			get
-			{
-				// TODO:  Add NullSound.Repeat getter implementation
-				return false;
-			}
-		}
+    public bool Repeat
+    {
+        get
+        {
+            return false;
+        }
+    }
 
-		public bool AutoDispose
-		{
-			get
-			{
-				// TODO:  Add NullSound.AutoDispose getter implementation
-				return false;
-			}
-			set
-			{
-				// TODO:  Add NullSound.AutoDispose setter implementation
-			}
-		}
+    public bool AutoDispose
+    {
+        get
+        {
+            return false;
+        }
+        set
+        {
+        }
+    }
 
-		public string Filename
-		{
-			get
-			{
-				// TODO:  Add NullSound.Filename getter implementation
-				return null;
-			}
-		}
+    public string Filename
+    {
+        get
+        {
+            return null;
+        }
+    }
 
-		public float Volume
-		{
-			get
-			{
-				// TODO:  Add NullSound.Volume getter implementation
-				return 0;
-			}
-			set
-			{
-				// TODO:  Add NullSound.Volume setter implementation
-			}
-		}
+    public float Volume
+    {
+        get
+        {
+            return 0;
+        }
+        set
+        {
+        }
+    }
 
-		public bool Playing
-		{
-			get
-			{
-				// TODO:  Add NullSound.Playing getter implementation
-				return false;
-			}
-		}
+    public bool Playing
+    {
+        get
+        {
+            return false;
+        }
+    }
 
-		public bool Positional
-		{
-			get
-			{
-				// TODO:  Add NullSound.Positional getter implementation
-				return false;
-			}
-		}
+    public bool Positional
+    {
+        get
+        {
+            return false;
+        }
+    }
 
-		public Vector2D Position
-		{
-			get
-			{
-				// TODO:  Add NullSound.Position getter implementation
-				return new Vector2D ();
-			}
-			set
-			{
-				// TODO:  Add NullSound.Position setter implementation
-			}
-		}
+    public Vector2D Position
+    {
+        get
+        {
+            return new Vector2D ();
+        }
+        set
+        {
+        }
+    }
 
-		public bool Disposed
-		{
-			get
-			{
-				// TODO:  Add NullSound.Disposed getter implementation
-				return false;
-			}
-		}
+    public int Length => 0;
+    public int CurrentPosition => 0;
 
-		public void Dispose()
-		{
-			// TODO:  Add NullSound.Dispose implementation
-		}
-	}
+    public bool Disposed
+    {
+        get { return false; }
+    }
+
+    public void Dispose()
+    {
+    }
 }

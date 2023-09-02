@@ -1,13 +1,9 @@
+/Source/Config/Debug/
+
 .idea/
 .vs/
 
 bin/
 obj/
-
-/Build/**/*.dll
-/Build/**/*.exe
-/Build/**/*.json
-/Build/**/*.pdb
-/Build/*.debug.cfg
 
 *.user

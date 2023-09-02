@@ -7,11 +7,10 @@
 
 using SharpDX.Direct3D9;
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+public interface ITextureResource
 {
-	public interface ITextureResource
-	{
-		Texture Texture { get; }
-		ImageInformation Info { get; }
-	}
+    Texture Texture { get; }
+    ImageInformation Info { get; }
 }

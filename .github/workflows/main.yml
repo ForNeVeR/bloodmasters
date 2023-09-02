@@ -13,7 +13,7 @@ on:
 
 jobs:
   main:
-    name: 'main.windows'
+    name: 'test.windows'
     runs-on: 'windows-2022'
 
     env:
@@ -31,11 +31,19 @@ jobs:
           path: ${{ env.NUGET_PACKAGES }}
           key: ${{ runner.os }}.nuget.${{ hashFiles('**/*.csproj') }}
 
-      - name: Build server
-        run: dotnet build Source\DedicatedServer.sln
-
-      - name: Build client
+      - name: Build
         run: dotnet build Source\Bloodmasters.sln
 
       - name: Test
         run: dotnet test Source\Bloodmasters.sln
+
+  verify:
+    name: 'verify'
+    runs-on: 'ubuntu-22.04'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Verify
+        shell: pwsh
+        run: ./Scripts/verify-encoding.ps1

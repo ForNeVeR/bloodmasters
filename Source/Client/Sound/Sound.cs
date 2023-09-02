@@ -6,204 +6,220 @@
 \********************************************************************/
 
 using System;
-using SharpDX.DirectSound;
+using JetBrains.Lifetimes;
+using NAudio.Wave;
 
-namespace CodeImp.Bloodmasters.Client
+namespace CodeImp.Bloodmasters.Client;
+
+internal class Sound : ISound
 {
-	public class Sound : ISound
-	{
-		#region ================== Variables
+    #region ================== Variables
 
-		// Variables
-		private SecondarySoundBuffer snd;
-		private bool repeat = false;
-		private bool autodispose = false;
-		private string filename;
-		private float volume = 1f;
-		private float newvolume = 1f;
-		private int absvolume = 0;
-		private bool positional;
-		private bool disposed;
-		private Vector2D pos;
-		private bool update = false;
-		private int nextupdatetime = 0;
+    // Variables
+    private readonly NAudioPlaybackEngine _playbackEngine;
 
-		#endregion
+    // This stores two sound sample providers: the controlled one is used to change the sound parameters, while the
+    // output gets actually passed to the playback engine. In a simple case, the playback is the same as the
+    // controlled one, but it may be different if we need to resample it to another frequency.
+    private readonly AudioSampleProvider _controlSample;
+    private readonly ISampleProvider _outputSample;
 
-		#region ================== Properties
+    private readonly SoundType _soundType;
+    private bool repeat = false;
+    private bool autodispose = false;
+    private string filename;
+    private string fullfilename;
+    private float volume = 1f;
+    private float newvolume = 1f;
+    private int absvolume = 0;
+    private bool positional;
+    private bool disposed;
+    private Vector2D pos;
+    private bool update = true;
+    private int nextupdatetime = 0;
 
-		public bool Repeat { get { return repeat; } }
-		public bool AutoDispose { get { return autodispose; } set { autodispose = value; } }
-		public string Filename { get { return filename; } }
-		public float Volume { get { return volume; } set { newvolume = value; update = true; } }
-		public bool Playing { get { if(snd != null) return ((BufferStatus)snd.Status).HasFlag(BufferStatus.Playing); else return false; } }
-		public bool Positional { get { return positional; } }
-		public Vector2D Position { get { return pos; } set { pos = value; update = true; } }
-		public bool Disposed { get { return disposed; } }
+    #endregion
 
-		#endregion
+    #region ================== Properties
 
-		#region ================== Constructor / Destructor / Dispose
+    public bool Repeat { get { return repeat; } }
+    public bool AutoDispose { get { return autodispose; } set { autodispose = value; } }
+    public string Filename { get { return filename; } }
+    public float Volume { get { return volume; } set { newvolume = value; update = true; } }
+    public bool Playing => _controlSample.State == SoundState.Playing;
+    public bool Positional { get { return positional; } }
+    public Vector2D Position { get { return pos; } set { pos = value; update = true; } }
+    public bool Disposed { get { return disposed; } }
+    public int Length => _controlSample.Length;
+    public int CurrentPosition => _controlSample.CurrentPosition;
 
-		// Constructor
-		public Sound(string filename, string fullfilename)
-		{
-			// Keep the filename
-			this.filename = filename;
+    #endregion
 
-			// Set the sounds caps
-			SoundBufferDescription bufferdesc = new SoundBufferDescription();
-			bufferdesc.Flags = BufferFlags.ControlVolume | BufferFlags.ControlPan;
+    #region ================== Constructor / Destructor / Dispose
 
-			// Load the sound
-			snd = new(DirectSound.dsd, bufferdesc);
-            // TODO[#16]: Load the actual sound from fullfilename
+    // Constructor
+    public Sound(NAudioPlaybackEngine playbackEngine, string filename, string fullfilename, SoundType soundType)
+    {
+        _playbackEngine = playbackEngine;
+        _soundType = soundType;
 
-			// Done
-		}
+        // Keep the filename
+        this.filename = filename;
+        this.fullfilename = fullfilename;
 
-		// Clone constructor for positional sound
-		public Sound(Sound clonesnd, bool positional)
-		{
-			// Keep the filename
-			this.filename = clonesnd.filename;
+        // Load the sound
+        _controlSample = AudioSampleProvider.ReadFromFile(fullfilename);
+        _outputSample = playbackEngine.ConvertToRightChannelCount(_controlSample);
 
-			// TODO[#16]: Clone the sound
-			// snd = clonesnd.snd.Clone(DirectSound.dsd);
+        // Done
+    }
 
-			// Add to sounds collection
-			DirectSound.AddPlayingSound(this);
+    // Clone constructor for positional sound
+    public Sound(Sound clonesnd, bool positional)
+    {
+        _playbackEngine = clonesnd._playbackEngine;
 
-			// Position
-			this.positional = positional;
-		}
+        // Keep the filename
+        this.filename = clonesnd.Filename;
 
-		// Dispose
-		public void Dispose()
-		{
-			if(!disposed)
-			{
-				// Remove from collection
-				DirectSound.RemovePlayingSound(this);
+        // Clone the sound
+        _controlSample = clonesnd._controlSample.Clone();
+        _outputSample = _playbackEngine.ConvertToRightChannelCount(_controlSample);
+        _soundType = clonesnd._soundType;
 
-				// Dispose sound
-				if(snd != null)
-				{
-					snd.Stop();
-					snd.Dispose();
-				}
-				snd = null;
-				disposed = true;
-				GC.SuppressFinalize(this);
-			}
-		}
+        // Add to sounds collection
+        SoundSystem.AddPlayingSound(this);
 
-		#endregion
+        // Position
+        this.positional = positional;
+    }
 
-		#region ================== Methods
+    // Dispose
+    public void Dispose()
+    {
+        if (!disposed)
+        {
+            // Remove from collection
+            SoundSystem.RemovePlayingSound(this);
 
-		// This resets volume to silent
-		public void ResetSettings()
-		{
-			// Leave when disposed
-			if(disposed) return;
+            // Dispose sound
+            if (_controlSample != null)
+            {
+                _controlSample.Stop();
+            }
 
-			// Reset volume/pan
-			snd.Volume = 0;
-			snd.Volume = -10000;
-		}
+            disposed = true;
+            GC.SuppressFinalize(this);
+        }
+    }
 
-		// Called when its time to apply changes
-		public void Update()
-		{
-			int pospan, posvol;
-			int vol, pan;
+    #endregion
 
-			// Update needed?
-			if((update || positional) && (General.realtime > nextupdatetime))
-			{
-				// Leave when disposed
-				if(disposed) return;
+    #region ================== Methods
 
-				// Volume changed?
-				if(newvolume != volume)
-				{
-					// Recalculate volume
-					volume = newvolume;
-					absvolume = DirectSound.CalcVolumeScale(volume);
-				}
+    // This resets volume to silent
+    public void ResetSettings()
+    {
+        // Leave when disposed
+        if(disposed) return;
 
-				// Positional?
-				if(positional)
-				{
-					// Get positional settings
-					DirectSound.GetPositionalEffect(pos, out posvol, out pospan);
+        // Reset volume/pan
+        _controlSample.VolumeHundredthsOfDb = AudioSampleProvider.MaxVolumeHundredthsOfDb;
+        // TODO[#113]: Set pan to 0
+    }
 
-					// Calculate and clip final volume
-					pan = pospan;
-					vol = DirectSound.effectsvolume - posvol + absvolume;
-					if(vol > 0) vol = 0; else if(vol < -10000) vol = -10000;
-					if(pan > 10000) pan = 10000; else if(pan < -10000) pan = -10000;
+    // Called when its time to apply changes
+    public void Update()
+    {
+        int pospan, posvol;
+        int vol, pan;
 
-					// Apply final volume
-					snd.Volume = vol;
-					snd.Pan = pan;
-				}
-				else
-				{
-					// Apply volume
-					snd.Volume = DirectSound.effectsvolume + absvolume;
-				}
+        // Update needed?
+        if ((update || positional) && (General.realtime > nextupdatetime))
+        {
+            // Leave when disposed
+            if (disposed) return;
 
-				// Set next update time
-				nextupdatetime = General.realtime + DirectSound.UPDATE_INTERVAL;
-			}
-		}
+            // Volume changed?
+            if (newvolume != volume)
+            {
+                // Recalculate volume
+                volume = newvolume;
+                absvolume = SoundSystem.CalcVolumeScale(volume);
+            }
 
-		// This sets the sound in a random playing position
-		public void SetRandomOffset()
-		{
-			// Seek to a random position
-			if(snd != null) snd.CurrentPosition = General.random.Next(snd.Capabilities.BufferBytes);
-		}
+            // Positional?
+            if (positional)
+            {
+                // Get positional settings
+                SoundSystem.GetPositionalEffect(pos, out posvol, out pospan);
 
-		// Play sound
-		public void Play() { Play(1f, false); }
-		public void Play(bool repeat) { Play(1f, repeat); }
-		public void Play(float volume, bool repeat)
-		{
-			PlayFlags flags = 0;
+                // Calculate and clip final volume
+                pan = pospan;
+                vol = SoundSystem.GetVolume(_soundType) - posvol + absvolume;
+                if (vol > 0) vol = 0;
+                else if (vol < -10000) vol = -10000;
+                if (pan > 10000) pan = 10000;
+                else if (pan < -10000) pan = -10000;
 
-			// Leave when disposed
-			if(disposed) return;
+                // Apply final volume
+                _controlSample.VolumeHundredthsOfDb = vol;
+                // TODO[#113]: Pan
+                // _soundSample.Pan = pan;
+            }
+            else
+            {
+                // Apply volume
+                _controlSample.VolumeHundredthsOfDb = SoundSystem.GetVolume(_soundType) + absvolume;
+            }
 
-			// Repeat?
-			if(repeat) flags = PlayFlags.Looping;
+            // Set next update time
+            nextupdatetime = General.realtime + SoundSystem.UPDATE_INTERVAL;
+            // Stop updating until something changes
+            update = false;
+        }
+    }
 
-			// Stop if playing
-			snd.Stop();
-			snd.CurrentPosition = 0;
+    // This sets the sound in a random playing position
+    public void SetRandomOffset()
+    {
+        // Seek to a random position
+        if (_controlSample != null) _controlSample.CurrentPosition = General.random.Next(_controlSample.Length);
+    }
 
-			// Apply new settings
-			this.newvolume = volume;
-			this.repeat = repeat;
-			this.Update();
+    // Play sound
+    private readonly SequentialLifetimes _playbackLifetimes = new(Lifetime.Eternal);
+    public void Play() { Play(1f, false); }
+    public void Play(bool repeat) { Play(1f, repeat); }
 
-			// Play the sound
-			snd.Play(0, flags);
-		}
+    public void Play(float volume, bool repeat)
+    {
+        // Leave when disposed
+        if (disposed) return;
 
-		// Stops all instances
-		public void Stop()
-		{
-			// Leave when disposed
-			if(disposed) return;
+        _controlSample.State = SoundState.Playing;
 
-			// Stop sound
-			snd.Stop();
-			this.repeat = false;
-		}
+        // Repeat?
+        _controlSample.ShouldRepeat = repeat;
+        // TODO[#116] this will overwrite position even if it was set to random offset via SetRandomOffset()
+        _controlSample.CurrentPosition = 0;
 
-		#endregion
-	}
+        // Apply new settings
+        this.newvolume = volume;
+        this.repeat = repeat;
+        this.Update();
+
+        // Play the sound
+        var nextPlaybackLifetime = _playbackLifetimes.Next();
+        _playbackEngine.PlaySound(nextPlaybackLifetime, _outputSample);
+    }
+
+    // Stops all instances
+    public void Stop()
+    {
+        _controlSample.Stop();
+        _playbackLifetimes.TerminateCurrent();
+    }
+
+    #endregion
 }

@@ -5,58 +5,47 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
+namespace CodeImp.Bloodmasters.Server;
 
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
-namespace CodeImp.Bloodmasters.Server
+[ServerItem(2004, RespawnTime=10000)]
+public class Armor25 : Item
 {
-	[ServerItem(2004, RespawnTime=10000)]
-	public class Armor25 : Item
-	{
-		#region ================== Constants
-		
-		#endregion
-		
-		#region ================== Variables
-		
-		#endregion
-		
-		#region ================== Constructor / Destructor
-		
-		// Constructor
-		public Armor25(Thing t) : base(t)
-		{
-		}
-		
-		#endregion
-		
-		#region ================== Control
-		
-		// This is calledwhen the item is being touched by a player
-		public override void Pickup(Client c)
-		{
-			// Check if the client needs health
-			if(c.Armor < 100)
-			{
-				// Do what you have to do
-				base.Pickup(c);
-				
-				// Take the item
-				this.Take(c);
-				
-				// Add 25% armor to the client
-				c.AddToStatus(0, 100, 25, 100);
-			}
-		}
+    #region ================== Constants
 
-		
-		#endregion
-	}
+    #endregion
+
+    #region ================== Variables
+
+    #endregion
+
+    #region ================== Constructor / Destructor
+
+    // Constructor
+    public Armor25(Thing t) : base(t)
+    {
+    }
+
+    #endregion
+
+    #region ================== Control
+
+    // This is calledwhen the item is being touched by a player
+    public override void Pickup(Client c)
+    {
+        // Check if the client needs health
+        if(c.Armor < 100)
+        {
+            // Do what you have to do
+            base.Pickup(c);
+
+            // Take the item
+            this.Take(c);
+
+            // Add 25% armor to the client
+            c.AddToStatus(0, 100, 25, 100);
+        }
+    }
+
+
+    #endregion
 }

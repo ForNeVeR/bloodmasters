@@ -5,53 +5,42 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Collections;
-using CodeImp.Bloodmasters;
-using CodeImp;
+namespace CodeImp.Bloodmasters.Server;
 
-#if CLIENT
-using CodeImp.Bloodmasters.Client;
-#endif
-
-namespace CodeImp.Bloodmasters.Server
+[ServerItem(3005, RespawnTime=90000)]
+public class Nuke : Item
 {
-	[ServerItem(3005, RespawnTime=90000)]
-	public class Nuke : Item
-	{
-		#region ================== Constants
-		
-		#endregion
-		
-		#region ================== Variables
-		
-		#endregion
-		
-		#region ================== Constructor / Destructor
-		
-		// Constructor
-		public Nuke(Thing t) : base(t)
-		{
-		}
-		
-		#endregion
-		
-		#region ================== Control
-		
-		// This is calledwhen the item is being touched by a player
-		public override void Pickup(Client c)
-		{
-			// Do what you have to do
-			base.Pickup(c);
-			
-			// Take the item
-			this.Take(c);
-			
-			// Give powerup to player
-			c.GivePowerup(POWERUP.NUKE, Consts.POWERUP_NUKE_COUNT);
-		}
-		
-		#endregion
-	}
+    #region ================== Constants
+
+    #endregion
+
+    #region ================== Variables
+
+    #endregion
+
+    #region ================== Constructor / Destructor
+
+    // Constructor
+    public Nuke(Thing t) : base(t)
+    {
+    }
+
+    #endregion
+
+    #region ================== Control
+
+    // This is calledwhen the item is being touched by a player
+    public override void Pickup(Client c)
+    {
+        // Do what you have to do
+        base.Pickup(c);
+
+        // Take the item
+        this.Take(c);
+
+        // Give powerup to player
+        c.GivePowerup(POWERUP.NUKE, Consts.POWERUP_NUKE_COUNT);
+    }
+
+    #endregion
 }
