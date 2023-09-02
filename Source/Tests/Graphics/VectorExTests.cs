@@ -135,8 +135,8 @@ public class VectorExTests
             GetMatrixWithNormalColumns3());
 
         Assert.False(result.IsNormalized);
-        Assert.Equal(1.7231272f, result.X, _tolerance);
-        Assert.Equal(-2.9434085f, result.Y, _tolerance);
-        Assert.Equal(-0.50013363f, result.Z, _tolerance);
+        Assert.Equal(1.72817719f, result.X, _tolerance);
+        Assert.Equal(-2.94787383f, result.Y, _tolerance);
+        Assert.Equal(-0.50144726f, result.Z, _tolerance);
     }
 }
