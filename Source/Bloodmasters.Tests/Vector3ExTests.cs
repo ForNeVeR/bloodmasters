@@ -5,6 +5,8 @@ namespace Bloodmasters.Tests.Graphics;
 
 public class Vector3ExTests
 {
+    private const float _tolerance = 0.000001f;
+
     private static Matrix GetEmptyMatrix() => new Matrix();
     private static Matrix GetMatrixWithNormalColumns1()
     {
@@ -120,8 +122,24 @@ public class Vector3ExTests
         var result = Vector3.Project(new Vector3(4f, 4f, 4f), GetNormalViewport(), GetMatrixWithNormalColumns1(),
             GetMatrixWithNormalColumns2(), GetMatrixWithNormalColumns3());
 
-        Assert.Equal(6.634325f, result.X, tolerance);
-        Assert.Equal(6.068153f, result.Y, tolerance);
-        Assert.Equal(6.3136373f, result.Z, tolerance);
+        Assert.Equal(6.634325f, result.X, _tolerance);
+        Assert.Equal(6.068153f, result.Y, _tolerance);
+        Assert.Equal(6.3136373f, result.Z, _tolerance);
+    }
+
+    [Fact]
+    public void UnprojectTest()
+    {
+        var result = Vector3.Unproject(
+            new Vector3(4f, 4f, 4f),
+            GetNormalViewport(),
+            GetMatrixWithNormalColumns1(),
+            GetMatrixWithNormalColumns2(),
+            GetMatrixWithNormalColumns3());
+
+        Assert.NotEqual(1f, result.Length());
+        Assert.Equal(1.72817719f, result.X, _tolerance);
+        Assert.Equal(-2.94787383f, result.Y, _tolerance);
+        Assert.Equal(-0.50144726f, result.Z, _tolerance);
     }
 }
