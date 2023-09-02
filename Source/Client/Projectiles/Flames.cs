@@ -65,12 +65,10 @@ public class Flames : Projectile
         fluxoffset = General.random.Next(1000);
 
         // Create sound
-        // TODO[#111]: Figure this out
-        // firesound = SoundSystem.GetSound("playerfire.wav", true);
-        // firesound.Position = start;
-        // firesound.Volume = 0f;
-        // firesound.SetRandomOffset();
-        // firesound.Play(true);
+        firesound = SoundSystem.GetSound("playerfire.wav", true);
+        firesound.Position = start;
+        firesound.SetRandomOffset();
+        firesound.Play(true);
     }
 
     // Dispose

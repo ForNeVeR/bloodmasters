@@ -58,9 +58,7 @@ public class Rocket : Projectile
         light = new DynamicLight(start, 15f, General.ARGB(0.2f, 1f, 0.9f, 0.6f), 3);
 
         // Create flying sound
-        // TODO[#111]: Figure this out
-        // flying = SoundSystem.GetSound("rocketfly.wav", true);
-        flying = new NullSound();
+        flying = SoundSystem.GetSound("rocketfly.wav", true);
         flying.Position = start;
         flying.Play(true);
     }
@@ -241,7 +239,7 @@ public class Rocket : Projectile
             smoketime += SMOKE_INTERVAL;
         }
 
-        // Update sound coodinates
+        // Update sound coordinates
         flying.Position = state.pos;
     }
 

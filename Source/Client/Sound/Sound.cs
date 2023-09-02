@@ -201,6 +201,7 @@ internal class Sound : ISound
 
         // Repeat?
         _controlSample.ShouldRepeat = repeat;
+        // TODO[#116] this will overwrite position even if it was set to random offset via SetRandomOffset()
         _controlSample.CurrentPosition = 0;
 
         // Apply new settings
