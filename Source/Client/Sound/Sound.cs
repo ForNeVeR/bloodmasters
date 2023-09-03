@@ -124,7 +124,7 @@ internal class Sound : ISound
         if(disposed) return;
 
         // Reset volume/pan
-        _controlSample.VolumeHundredthsOfDb = AudioSampleProvider.MaxVolumeHundredthsOfDb;
+        _controlSample.VolumeHundredthsOfDb = AudioSampleProvider.MinVolumeHundredthsOfDb;
         // TODO[#113]: Set pan to 0
     }
 

@@ -16,9 +16,9 @@ internal enum SoundState
 internal class AudioSampleProvider : ISampleProvider
 {
     /// <summary>Should be completely silent.</summary>
-    private const float MinVolumeHundredthsOfDb = -10000f;
+    public const float MinVolumeHundredthsOfDb = -10000f;
     /// <summary>Unadjusted original volume.</summary>
-    public const float MaxVolumeHundredthsOfDb = 0f;
+    private const float MaxVolumeHundredthsOfDb = 0f;
 
     private readonly string _fileName;
     private readonly object _stateLock = new();
