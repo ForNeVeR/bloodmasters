@@ -29,7 +29,7 @@ internal class AudioSampleProvider : ISampleProvider
     private SoundState _state;
     private int _position;
     private bool _shouldRepeat;
-    private float _volumeHundredthsOfDb = MaxVolumeHundredthsOfDb;
+    private float _volumeHundredthsOfDb = MinVolumeHundredthsOfDb;
 
     public WaveFormat WaveFormat { get; }
 
