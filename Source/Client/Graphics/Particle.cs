@@ -241,14 +241,13 @@ public class Particle //: VisualObject
             spritescalerotate = Matrix.Multiply(spritescale, spriterotate);
         }
 
-        /*
         // Time to test for players?
-        if((playertesttime < SharedGeneral.currenttime) && !onfloor)
+        if(playertesttime < SharedGeneral.currenttime)
         {
             // Go for all actors
             foreach(Actor a in General.arena.Actors)
             {
-                // TODO[#110]: Implement height checking
+                if (state.pos.z < a.Position.z) continue;
 
                 // Check if the actor is near this particle
                 Vector3D delta = a.Position - state.pos;
@@ -262,7 +261,6 @@ public class Particle //: VisualObject
             // New player test time
             playertesttime += PLAYER_TEST_INTERVAL;
         }
-        */
 
         // Within the map?
         if(sector != null)
