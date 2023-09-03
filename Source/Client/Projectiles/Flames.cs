@@ -67,8 +67,8 @@ public class Flames : Projectile
         // Create sound
         firesound = SoundSystem.GetSound("playerfire.wav", true);
         firesound.Position = start;
-        firesound.SetRandomOffset();
         firesound.Play(true);
+        firesound.SetRandomOffset();
     }
 
     // Dispose
