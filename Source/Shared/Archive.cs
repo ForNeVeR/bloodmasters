@@ -9,6 +9,7 @@
 // archive (Directory or RAR file).
 
 using System.Diagnostics.CodeAnalysis;
+using System.IO.Compression;
 using SharpCompress.Archives;
 using SharpCompress.Archives.Rar;
 using SharpCompress.Common;
@@ -66,15 +67,32 @@ public sealed class Archive
             // Source is an archive
             isDirectory = false;
 
-            using var archive = RarArchive.Open(archiveName);
-
-            FileNames = new string[archive.Entries.Count];
-
-            int currentEntryIdx = 0;
-            foreach(var entry in archive.Entries)
+            switch (Path.GetExtension(pathname).ToLowerInvariant())
             {
-                FileNames[currentEntryIdx] = entry.Key;
-                currentEntryIdx++;
+                case ".rar":
+                {
+                    using var archive = RarArchive.Open(archiveName);
+
+                    FileNames = new string[archive.Entries.Count];
+
+                    int currentEntryIdx = 0;
+                    foreach(var entry in archive.Entries)
+                    {
+                        FileNames[currentEntryIdx] = entry.Key;
+                        currentEntryIdx++;
+                    }
+                    break;
+                }
+                case ".zip":
+                {
+                    using var zipArchive = new ZipArchive(File.OpenRead(archiveName));
+                    FileNames = zipArchive.Entries.Select(e => e.FullName).ToArray();
+                    break;
+                }
+                default:
+                {
+                    throw new Exception($"Unknown file type: \"{pathname}\".");
+                }
             }
         }
         // Check if a directory exists
@@ -155,14 +173,38 @@ public sealed class Archive
         }
         else
         {
-            using var archive = RarArchive.Open(archiveName);
-
-            foreach(var entry in archive.Entries)
+            switch (Path.GetExtension(archiveName).ToLowerInvariant())
             {
-                if (entry.Key == filename)
+                case ".rar":
                 {
-                    entry.WriteToDirectory(targetPath, new ExtractionOptions { ExtractFullPath = true, Overwrite = true });
+                    using var archive = RarArchive.Open(archiveName);
+
+                    foreach(var entry in archive.Entries)
+                    {
+                        if (entry.Key == filename)
+                        {
+                            entry.WriteToDirectory(targetPath, new ExtractionOptions { ExtractFullPath = true, Overwrite = true });
+                            break;
+                        }
+                    }
                     break;
+                }
+                case ".zip":
+                {
+                    using var zipArchive = new ZipArchive(File.OpenRead(archiveName));
+                    foreach(var entry in zipArchive.Entries)
+                    {
+                        if (entry.FullName == filename)
+                        {
+                            entry.ExtractToFile(targetFile, overwrite);
+                            break;
+                        }
+                    }
+                    break;
+                }
+                default:
+                {
+                    throw new Exception($"Unknown file type: \"{archiveName}\".");
                 }
             }
         }
@@ -199,12 +241,34 @@ public sealed class Archive
         }
         else
         {
-            using var archive = RarArchive.Open(archiveName);
-
-            foreach(var entry in archive.Entries)
+            switch (Path.GetExtension(archiveName).ToLowerInvariant())
             {
-                entry.WriteToDirectory(targetPath, new ExtractionOptions { ExtractFullPath = true, Overwrite = true });
+                case ".rar":
+                {
+                    using var archive = RarArchive.Open(archiveName);
+
+                    foreach(var entry in archive.Entries)
+                    {
+                        entry.WriteToDirectory(targetPath, new ExtractionOptions { ExtractFullPath = true, Overwrite = true });
+                    }
+                    break;
+                }
+                case ".zip":
+                {
+                    using var zipArchive = new ZipArchive(File.OpenRead(archiveName));
+                    foreach(var entry in zipArchive.Entries)
+                    {
+                        entry.ExtractToFile(Path.Combine(targetPath, entry.FullName), true);
+                    }
+                    break;
+                }
+                default:
+                {
+                    throw new Exception($"Unknown file type: \"{archiveName}\".");
+                }
             }
+
+
         }
     }
 
