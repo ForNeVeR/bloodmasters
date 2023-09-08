@@ -6,11 +6,14 @@
 \********************************************************************/
 
 using System;
+using System.Diagnostics;
+using CodeImp.Bloodmasters.Client.SampleProviders;
 using JetBrains.Lifetimes;
 using NAudio.Wave;
 
 namespace CodeImp.Bloodmasters.Client;
 
+[DebuggerDisplay("{filename}")]
 internal class Sound : ISound
 {
     #region ================== Variables
@@ -21,7 +24,7 @@ internal class Sound : ISound
     // This stores two sound sample providers: the controlled one is used to change the sound parameters, while the
     // output gets actually passed to the playback engine. In a simple case, the playback is the same as the
     // controlled one, but it may be different if we need to resample it to another frequency.
-    private readonly AudioSampleProvider _controlSample;
+    private readonly CombinedSampleProvider _controlSample;
     private readonly ISampleProvider _outputSample;
 
     private readonly SoundType _soundType;
@@ -31,7 +34,7 @@ internal class Sound : ISound
     private string fullfilename;
     private float volume = 1f;
     private float newvolume = 1f;
-    private int absvolume = 0;
+    private float absvolume = 0;
     private bool positional;
     private bool disposed;
     private Vector2D pos;
@@ -46,7 +49,7 @@ internal class Sound : ISound
     public bool AutoDispose { get { return autodispose; } set { autodispose = value; } }
     public string Filename { get { return filename; } }
     public float Volume { get { return volume; } set { newvolume = value; update = true; } }
-    public bool Playing => _controlSample.State == SoundState.Playing;
+    public bool Playing => _controlSample.Playing;
     public bool Positional { get { return positional; } }
     public Vector2D Position { get { return pos; } set { pos = value; update = true; } }
     public bool Disposed { get { return disposed; } }
@@ -68,7 +71,7 @@ internal class Sound : ISound
         this.fullfilename = fullfilename;
 
         // Load the sound
-        _controlSample = AudioSampleProvider.ReadFromFile(fullfilename);
+        _controlSample = CombinedSampleProvider.ReadFromFile(fullfilename);
         _outputSample = playbackEngine.ConvertToRightChannelCount(_controlSample);
 
         // Done
@@ -83,7 +86,7 @@ internal class Sound : ISound
         this.filename = clonesnd.Filename;
 
         // Clone the sound
-        _controlSample = clonesnd._controlSample.Clone();
+        _controlSample = clonesnd._controlSample.Clone(positional);
         _outputSample = _playbackEngine.ConvertToRightChannelCount(_controlSample);
         _soundType = clonesnd._soundType;
 
@@ -124,15 +127,15 @@ internal class Sound : ISound
         if(disposed) return;
 
         // Reset volume/pan
-        _controlSample.VolumeHundredthsOfDb = AudioSampleProvider.MinVolumeHundredthsOfDb;
-        // TODO[#113]: Set pan to 0
+        _controlSample.VolumeHundredthsOfDb = LogarithmicVolumeSampleProvider.MinVolumeHundredthsOfDb;
+        _controlSample.Pan = 0;
     }
 
     // Called when its time to apply changes
     public void Update()
     {
-        int pospan, posvol;
-        int vol, pan;
+        float pospan, posvol;
+        float vol, pan;
 
         // Update needed?
         if ((update || positional) && (General.realtime > nextupdatetime))
@@ -164,8 +167,7 @@ internal class Sound : ISound
 
                 // Apply final volume
                 _controlSample.VolumeHundredthsOfDb = vol;
-                // TODO[#113]: Pan
-                // _soundSample.Pan = pan;
+                _controlSample.Pan = pan / 10000f;
             }
             else
             {
@@ -197,11 +199,10 @@ internal class Sound : ISound
         // Leave when disposed
         if (disposed) return;
 
-        _controlSample.State = SoundState.Playing;
+        _controlSample.Play();
 
         // Repeat?
         _controlSample.ShouldRepeat = repeat;
-        // TODO[#116] this will overwrite position even if it was set to random offset via SetRandomOffset()
         _controlSample.CurrentPosition = 0;
 
         // Apply new settings

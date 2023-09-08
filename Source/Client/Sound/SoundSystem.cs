@@ -45,8 +45,8 @@ public static class SoundSystem
     // Settings
     private static bool playeffects;
     private static bool playmusic;
-    private static int effectsvolume;
-    private static int musicvolume;
+    private static float effectsvolume;
+    private static float musicvolume;
 
     // 3D Sound
     private static Vector2D listenpos;
@@ -129,7 +129,7 @@ public static class SoundSystem
     }
 
     // This sets the volume and panning for the given position
-    public static void GetPositionalEffect(Vector2D soundpos, out int volume, out int pan)
+    public static void GetPositionalEffect(Vector2D soundpos, out float volume, out float pan)
     {
         float deltalen, deltax;
 
@@ -404,7 +404,7 @@ public static class SoundSystem
         if(scale > 0f) return -(int)(db * 100f); else return (int)(db * 100f);
     }
 
-    public static int GetVolume(SoundType soundType)
+    public static float GetVolume(SoundType soundType)
     {
         return soundType switch
         {

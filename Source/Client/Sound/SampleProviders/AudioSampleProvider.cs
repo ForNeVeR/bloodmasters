@@ -6,38 +6,19 @@ using System.Linq;
 using System.Threading;
 using NAudio.Wave;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.SampleProviders;
 
-internal enum SoundState
+[DebuggerDisplay("{_fileName}")]
+public class AudioSampleProvider : ISampleProvider
 {
-    Stopped, Playing
-}
-
-internal class AudioSampleProvider : ISampleProvider
-{
-    /// <summary>Should be completely silent.</summary>
-    public const float MinVolumeHundredthsOfDb = -10000f;
-    /// <summary>Unadjusted original volume.</summary>
-    private const float MaxVolumeHundredthsOfDb = 0f;
-
     private readonly string _fileName;
-    private readonly object _stateLock = new();
+    private readonly object _stateLock;
     private readonly float[] _audioData;
 
-    public override string ToString() => _fileName;
-
-    private SoundState _state;
     private int _position;
     private bool _shouldRepeat;
-    private float _volumeHundredthsOfDb = MinVolumeHundredthsOfDb;
 
     public WaveFormat WaveFormat { get; }
-
-    public SoundState State
-    {
-        get { lock (_stateLock) return _state; }
-        set { lock (_stateLock) _state = value; }
-    }
 
     public int CurrentPosition
     {
@@ -50,38 +31,21 @@ internal class AudioSampleProvider : ISampleProvider
         get { lock (_stateLock) return _audioData.Length; }
     }
 
-    public void Stop() => State = SoundState.Stopped;
-
     public bool ShouldRepeat
     {
         get { lock (_stateLock) return _shouldRepeat; }
         set { lock (_stateLock) _shouldRepeat = value; }
     }
 
-    /// <summary>The volume is measured in 1/100 of decibel, same as it was back in DirectSound.</summary>
-    public float VolumeHundredthsOfDb
+    private AudioSampleProvider(WaveFormat waveFormat, float[] audioData, string fileName, object stateLock)
     {
-        get { lock (_stateLock) return _volumeHundredthsOfDb; }
-        set { lock (_stateLock) _volumeHundredthsOfDb = Math.Clamp(value, MinVolumeHundredthsOfDb, MaxVolumeHundredthsOfDb); }
-    }
-
-    public AudioSampleProvider Clone()
-    {
-        return new AudioSampleProvider(_fileName, WaveFormat, _audioData)
-        {
-            CurrentPosition = CurrentPosition,
-            ShouldRepeat = ShouldRepeat
-        };
-    }
-
-    private AudioSampleProvider(string fileName, WaveFormat waveFormat, float[] audioData)
-    {
-        _fileName = fileName;
         WaveFormat = waveFormat;
         _audioData = audioData;
+        _fileName = fileName;
+        _stateLock = stateLock;
     }
 
-    public static AudioSampleProvider ReadFromFile(string audioFilePath)
+    public static AudioSampleProvider ReadFromFile(string audioFilePath, object stateLock)
     {
         using var audioFileReader = new AudioFileReader(audioFilePath);
         var wholeFile = new List<float>((int)(audioFileReader.Length / 4));
@@ -92,16 +56,16 @@ internal class AudioSampleProvider : ISampleProvider
             wholeFile.AddRange(readBuffer.Take(samplesRead));
         }
         return new AudioSampleProvider(
-            Path.GetFileName(audioFilePath),
             audioFileReader.WaveFormat,
-            wholeFile.ToArray());
+            wholeFile.ToArray(),
+            Path.GetFileName(audioFilePath),
+            stateLock);
     }
 
     public int Read(float[] buffer, int offset, int count)
     {
         lock (_stateLock)
         {
-            if (State == SoundState.Stopped) return 0;
             if (!_shouldRepeat || Length <= 0) return ReadNoLock(buffer, offset, count);
 
             var remaining = count;
@@ -121,6 +85,15 @@ internal class AudioSampleProvider : ISampleProvider
         }
     }
 
+    public AudioSampleProvider Clone()
+    {
+        return new AudioSampleProvider(WaveFormat, _audioData, _fileName, _stateLock)
+        {
+            CurrentPosition = CurrentPosition,
+            ShouldRepeat = ShouldRepeat,
+        };
+    }
+
     private int ReadNoLock(float[] buffer, int offset, int count)
     {
         var availableSamples = _audioData.Length - _position;
@@ -128,12 +101,6 @@ internal class AudioSampleProvider : ISampleProvider
         if (samplesToCopy == 0) return 0;
 
         Buffer.BlockCopy(_audioData, _position * sizeof(float), buffer, offset * sizeof(float), samplesToCopy * sizeof(float));
-
-        var multiplier = MathF.Pow(10, _volumeHundredthsOfDb / 2000f);
-        for (var i = 0; i < samplesToCopy; ++i)
-        {
-            buffer[offset + i] *= multiplier;
-        }
 
         Interlocked.Add(ref _position, samplesToCopy);
         return samplesToCopy;
