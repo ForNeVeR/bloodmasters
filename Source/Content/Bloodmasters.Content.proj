@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.Build.NoTargets/3.5.6">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="*.zip\*"/>
+        <ZipContent Include="cemetery.zip" Visible="false"/>
+        <ZipContent Include="cornish.zip" Visible="false"/>
+        <ZipContent Include="cornishctf.zip" Visible="false"/>
+        <ZipContent Include="dampplace.zip" Visible="false"/>
+        <ZipContent Include="darktower.zip" Visible="false"/>
+        <ZipContent Include="dusk.zip" Visible="false"/>
+        <ZipContent Include="duskctf.zip" Visible="false"/>
+        <ZipContent Include="Flags.zip" Visible="false"/>
+        <ZipContent Include="General.zip" Visible="false"/>
+        <ZipContent Include="lavaruins.zip" Visible="false"/>
+        <ZipContent Include="mayan.zip" Visible="false"/>
+        <ZipContent Include="portalpest.zip" Visible="false"/>
+        <ZipContent Include="portalpestctf.zip" Visible="false"/>
+        <ZipContent Include="rockbottom.zip" Visible="false"/>
+        <ZipContent Include="Sounds.zip" Visible="false"/>
+        <ZipContent Include="Textures.zip" Visible="false"/>
+        <ZipContent Include="wastedwaters.zip" Visible="false"/>
+
+        <Content Include="Music\*" CopyToPublishDirectory="Always"/>
+        <Content Include="Sprites\*" CopyToPublishDirectory="Always"/>
+        <Content Include="ip-to-country.csv" CopyToPublishDirectory="Always"/>
+    </ItemGroup>
+
+    <Target Name="CompressArchives" BeforeTargets="Publish">
+        <ZipDirectory DestinationFile="@(ZipContent->'$(PublishDir)\%(Filename).zip')"
+                      SourceDirectory="%(ZipContent.Identity)"
+                      Overwrite="true"/>
+    </Target>
+
+</Project>

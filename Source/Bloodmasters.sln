@@ -41,6 +41,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{93A715
 		Config\Bloodmasters.cfg = Config\Bloodmasters.cfg
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloodmasters.Content", "Content\Bloodmasters.Content.proj", "{D4A19B3E-012E-47F4-BA69-C8AC5AFB03A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AnyCPU = Debug|AnyCPU
