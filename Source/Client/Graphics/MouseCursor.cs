@@ -68,7 +68,7 @@ internal sealed class MouseCursor
         cursorsize = size;
 
         // Create cursor texture
-        texture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.rar/" + texturename), false);
+        texture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/" + texturename), false);
     }
 
     // Destructor

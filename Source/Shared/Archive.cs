@@ -10,9 +10,6 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.IO.Compression;
-using SharpCompress.Archives;
-using SharpCompress.Archives.Rar;
-using SharpCompress.Common;
 
 namespace CodeImp.Bloodmasters;
 
@@ -69,20 +66,6 @@ public sealed class Archive
 
             switch (Path.GetExtension(pathname).ToLowerInvariant())
             {
-                case ".rar":
-                {
-                    using var archive = RarArchive.Open(archiveName);
-
-                    FileNames = new string[archive.Entries.Count];
-
-                    int currentEntryIdx = 0;
-                    foreach(var entry in archive.Entries)
-                    {
-                        FileNames[currentEntryIdx] = entry.Key;
-                        currentEntryIdx++;
-                    }
-                    break;
-                }
                 case ".zip":
                 {
                     using var zipArchive = new ZipArchive(File.OpenRead(archiveName));
@@ -175,20 +158,6 @@ public sealed class Archive
         {
             switch (Path.GetExtension(archiveName).ToLowerInvariant())
             {
-                case ".rar":
-                {
-                    using var archive = RarArchive.Open(archiveName);
-
-                    foreach(var entry in archive.Entries)
-                    {
-                        if (entry.Key == filename)
-                        {
-                            entry.WriteToDirectory(targetPath, new ExtractionOptions { ExtractFullPath = true, Overwrite = true });
-                            break;
-                        }
-                    }
-                    break;
-                }
                 case ".zip":
                 {
                     using var zipArchive = new ZipArchive(File.OpenRead(archiveName));
@@ -243,16 +212,6 @@ public sealed class Archive
         {
             switch (Path.GetExtension(archiveName).ToLowerInvariant())
             {
-                case ".rar":
-                {
-                    using var archive = RarArchive.Open(archiveName);
-
-                    foreach(var entry in archive.Entries)
-                    {
-                        entry.WriteToDirectory(targetPath, new ExtractionOptions { ExtractFullPath = true, Overwrite = true });
-                    }
-                    break;
-                }
                 case ".zip":
                 {
                     using var zipArchive = new ZipArchive(File.OpenRead(archiveName));

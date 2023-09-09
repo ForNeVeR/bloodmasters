@@ -97,11 +97,11 @@ public static class SoundSystem
         if(SoundSystem.playeffects)
         {
             // Go for all files in the sounds archive
-            Archive soundsrar = ArchiveManager.GetArchive("sounds.rar");
+            Archive soundsrar = ArchiveManager.GetArchive("sounds.zip");
             foreach(string filename in soundsrar.FileNames)
             {
                 // Load this sound
-                CreateSound(filename, ArchiveManager.ExtractFile("sounds.rar/" + filename), SoundType.Sound);
+                CreateSound(filename, ArchiveManager.ExtractFile("sounds.zip/" + filename), SoundType.Sound);
             }
         }
 

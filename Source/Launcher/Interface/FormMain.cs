@@ -1344,7 +1344,7 @@ public class FormMain : System.Windows.Forms.Form
         try
         {
             // Extract flag icons
-            Archive flagsarchive = ArchiveManager.GetArchive("flags.rar");
+            Archive flagsarchive = ArchiveManager.GetArchive("flags.zip");
             temppath = ArchiveManager.GetArchiveTempPath(flagsarchive);
             flagsarchive.ExtractAllFiles(temppath);
 
@@ -1802,7 +1802,7 @@ public class FormMain : System.Windows.Forms.Form
                         download.Dispose();
 
                         // Check if new file exists
-                        filename = Path.Combine(Paths.DownloadedResourceDir, gitem.MapName + ".rar");
+                        filename = Path.Combine(Paths.DownloadedResourceDir, gitem.MapName + ".zip");
                         if (File.Exists(filename))
                         {
                             // Busy!
@@ -1811,7 +1811,7 @@ public class FormMain : System.Windows.Forms.Form
 
                             // Open the map archive
                             try { ArchiveManager.OpenArchive(filename); }
-                            catch (Exception) { MessageBox.Show(this, "Unable to open the archive file " + gitem.MapName + ".rar. The file is not in the correct format.", "Downloading", MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }
+                            catch (Exception) { MessageBox.Show(this, "Unable to open the archive file " + gitem.MapName + ".zip. The file is not in the correct format.", "Downloading", MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }
 
                             // Refresh maps lists
                             RefreshMapsLists();

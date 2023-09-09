@@ -33,11 +33,11 @@ Source: Bloodmasters.exe; DestDir: {app}
 Source: BMLauncher.exe; DestDir: {app}
 Source: bmserver.exe; DestDir: {app}
 Source: ip-to-country.csv; DestDir: {app}
-Source: portalpestctf.rar; DestDir: {app}
-Source: cornish.rar; DestDir: {app}
-Source: cornishctf.rar; DestDir: {app}
-Source: dusk.rar; DestDir: {app}
-Source: duskctf.rar; DestDir: {app}
+Source: portalpestctf.zip; DestDir: {app}
+Source: cornish.zip; DestDir: {app}
+Source: cornishctf.zip; DestDir: {app}
+Source: dusk.zip; DestDir: {app}
+Source: duskctf.zip; DestDir: {app}
 
 [INI]
 

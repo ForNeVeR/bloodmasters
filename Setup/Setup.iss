@@ -35,22 +35,22 @@ Source: Bloodmasters.exe; DestDir: {app}
 Source: BMLauncher.exe; DestDir: {app}
 Source: bmserver.cfg; DestDir: {app}
 Source: bmserver.exe; DestDir: {app}
-Source: cemetery.rar; DestDir: {app}
-Source: darktower.rar; DestDir: {app}
-Source: Flags.rar; DestDir: {app}
-Source: General.rar; DestDir: {app}
+Source: cemetery.zip; DestDir: {app}
+Source: darktower.zip; DestDir: {app}
+Source: Flags.zip; DestDir: {app}
+Source: General.zip; DestDir: {app}
 Source: ip-to-country.csv; DestDir: {app}
-Source: lavaruins.rar; DestDir: {app}
+Source: lavaruins.zip; DestDir: {app}
 Source: Microsoft.DirectX.AudioVideoPlayback.dll; DestDir: {app}
 Source: Microsoft.DirectX.Direct3D.dll; DestDir: {app}
 Source: Microsoft.DirectX.Direct3DX.dll; DestDir: {app}
 Source: Microsoft.DirectX.DirectSound.dll; DestDir: {app}
 Source: Microsoft.DirectX.dll; DestDir: {app}
-Source: portalpest.rar; DestDir: {app}
-Source: rockbottom.rar; DestDir: {app}
-Source: Sounds.rar; DestDir: {app}
-Source: Textures.rar; DestDir: {app}
-Source: wastedwaters.rar; DestDir: {app}
+Source: portalpest.zip; DestDir: {app}
+Source: rockbottom.zip; DestDir: {app}
+Source: Sounds.zip; DestDir: {app}
+Source: Textures.zip; DestDir: {app}
+Source: wastedwaters.zip; DestDir: {app}
 Source: Music\Sylves R - Alchemey.mp3; DestDir: {app}\Music
 Source: Music\Sylves R - The Start.mp3; DestDir: {app}\Music
 Source: Sprites\ammo_bullets.tga; DestDir: {app}\Sprites
@@ -739,15 +739,15 @@ Source: Sprites\wallplasma2.tga; DestDir: {app}\Sprites
 Source: Sprites\wallplasma3.tga; DestDir: {app}\Sprites
 Source: Sprites\blueflag_hud.tga; DestDir: {app}\Sprites
 Source: Sprites\redflag_hud.tga; DestDir: {app}\Sprites
-Source: mayan.rar; DestDir: {app}
-Source: dampplace.rar; DestDir: {app}
+Source: mayan.zip; DestDir: {app}
+Source: dampplace.zip; DestDir: {app}
 Source: Music\Sylves R - Revenge of Seth.mp3; DestDir: {app}\Music
 Source: Music\Sylves R - Confronting Dreams.mp3; DestDir: {app}\Music
-Source: cornishctf.rar; DestDir: {app}
-Source: dusk.rar; DestDir: {app}
-Source: duskctf.rar; DestDir: {app}
-Source: portalpestctf.rar; DestDir: {app}
-Source: cornish.rar; DestDir: {app}
+Source: cornishctf.zip; DestDir: {app}
+Source: dusk.zip; DestDir: {app}
+Source: duskctf.zip; DestDir: {app}
+Source: portalpestctf.zip; DestDir: {app}
+Source: cornish.zip; DestDir: {app}
 
 [INI]
 

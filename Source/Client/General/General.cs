@@ -209,17 +209,17 @@ internal sealed class General : SharedGeneral
             TextResource.Initialize();
 
             // Load font charsets
-            charset_shaded = new CharSet(ArchiveManager.ExtractFile("general.rar/charset_shaded.cfg"));
+            charset_shaded = new CharSet(ArchiveManager.ExtractFile("general.zip/charset_shaded.cfg"));
             charset_shaded.SetColorCode(Consts.COLOR_CODE_SIGN);
 
             // Fonts
-            font_shaded = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.rar/font_shaded.tga"), false, true);
+            font_shaded = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/font_shaded.tga"), false, true);
 
             // Window
-            WindowBorder.texture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.rar/window.tga"), false, false);
+            WindowBorder.texture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/window.tga"), false, false);
 
             // Load the background
-            background = Direct3D.LoadSurfaceResource(ArchiveManager.ExtractFile("general.rar/background.bmp"), Pool.SystemMemory);
+            background = Direct3D.LoadSurfaceResource(ArchiveManager.ExtractFile("general.zip/background.bmp"), Pool.SystemMemory);
 
             // Make the console
             console = new GConsole();
@@ -1870,9 +1870,9 @@ internal sealed class General : SharedGeneral
         DoOneFrame(false, true, false);
 
         // Load generic images/textures
-        General.console_edge = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.rar/console.bmp"), false, true);
-        Shadow.texture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.rar/objshadow.tga"), false, true);
-        StaticLight.lightshadow = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.rar/lightshadow.tga"), true);
+        General.console_edge = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/console.bmp"), false, true);
+        Shadow.texture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/objshadow.tga"), false, true);
+        StaticLight.lightshadow = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/lightshadow.tga"), true);
         Bullet.bulletflash = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/bulletflash.bmp"), true);
         Laser.texture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/laser.tga"), true);
         Laser.dottexture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/laserdot.tga"), true);
@@ -1888,8 +1888,8 @@ internal sealed class General : SharedGeneral
         Grenade.texbody = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/grenadebody.tga"), true);
         IonBall.plasmaball = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/ionball.tga"), true);
         Shock.texture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/shock.tga"), true);
-        VisualSector.ceillightmap = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.rar/white.bmp"), true);
-        VisualSector.sectorshadowstexture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.rar/sectorshadow.tga"), true);
+        VisualSector.ceillightmap = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/white.bmp"), true);
+        VisualSector.sectorshadowstexture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/sectorshadow.tga"), true);
         ShieldEffect.shieldimage = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/effect_shield.tga"), true);
         NukeSign.texture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/effect_nuke.tga"), true);
         FleshDebris.LoadGibLimps();
@@ -1913,7 +1913,7 @@ internal sealed class General : SharedGeneral
         for(int i = 0; i < StaticLight.NUM_LIGHT_TEMPLATES; i++)
         {
             // Load light template
-            StaticLight.lightimages[i] = Direct3D.LoadSurfaceResource(ArchiveManager.ExtractFile("general.rar/lightimage" + i.ToString(CultureInfo.InvariantCulture) + ".bmp"), Pool.Default);
+            StaticLight.lightimages[i] = Direct3D.LoadSurfaceResource(ArchiveManager.ExtractFile("general.zip/lightimage" + i.ToString(CultureInfo.InvariantCulture) + ".bmp"), Pool.Default);
         }
 
         // Only when using dynamic lights
@@ -1923,7 +1923,7 @@ internal sealed class General : SharedGeneral
             for(int i = 0; i < StaticLight.NUM_LIGHT_TEMPLATES; i++)
             {
                 // Load light template
-                DynamicLight.lightimages[i] = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.rar/lightimage" + i.ToString(CultureInfo.InvariantCulture) + ".bmp"), true, false);
+                DynamicLight.lightimages[i] = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/lightimage" + i.ToString(CultureInfo.InvariantCulture) + ".bmp"), true, false);
             }
         }
 
@@ -2034,7 +2034,7 @@ internal sealed class General : SharedGeneral
         if(gotsnapshot)
         {
             // Hide the windows cursor
-            gamewindow.Cursor = new Cursor(ArchiveManager.ExtractFile("general.rar/cursor_none.cur"));
+            gamewindow.Cursor = new Cursor(ArchiveManager.ExtractFile("general.zip/cursor_none.cur"));
 
             // Catch up lag
             CatchLag();

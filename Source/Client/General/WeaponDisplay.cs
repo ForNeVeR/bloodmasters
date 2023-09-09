@@ -62,12 +62,12 @@ public class WeaponDisplay : IDisposable
         for(i = 0; i < (int)WEAPON.TOTAL_WEAPONS; i++)
         {
             int weaponnum = i + 1;
-            tempfile = ArchiveManager.ExtractFile("General.rar/weapon" + weaponnum.ToString(CultureInfo.InvariantCulture) + "icon.tga");
+            tempfile = ArchiveManager.ExtractFile("General.zip/weapon" + weaponnum.ToString(CultureInfo.InvariantCulture) + "icon.tga");
             weaponicons[i] = Direct3D.LoadTexture(tempfile, true);
         }
 
         // Selection texture
-        tempfile = ArchiveManager.ExtractFile("General.rar/white.bmp");
+        tempfile = ArchiveManager.ExtractFile("General.zip/white.bmp");
         seltexture = Direct3D.LoadTexture(tempfile, true);
     }
 
