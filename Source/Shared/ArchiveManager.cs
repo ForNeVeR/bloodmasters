@@ -86,7 +86,7 @@ public class ArchiveManager
     }
 
     // This returns the archive for a specific file
-    // The filepathname must be like this:  textures.rar/grass.bmp
+    // The filepathname must be like this:  textures.zip/grass.bmp
     public static Archive GetFileArchive(string filepathname)
     {
         // Split the filepathname
@@ -149,9 +149,9 @@ public class ArchiveManager
     // Will open all archives in the given directory and manages the files
     public static void Initialize(string archivespath)
     {
-        // Find all .rar files and directories
-        string[] archfiles = Directory.GetFiles(archivespath, "*.rar");
-        string[] archdirs = Directory.GetDirectories(archivespath, "*.rar");
+        // Find all .zip files and directories
+        string[] archfiles = Directory.GetFiles(archivespath, "*.zip");
+        string[] archdirs = Directory.GetDirectories(archivespath, "*.zip");
 
         // Merge the lists
         string[] archfilesdirs = new string[archfiles.Length + archdirs.Length];

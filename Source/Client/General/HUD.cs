@@ -142,18 +142,18 @@ public class HUD
         scorewnd = new WindowBorder(0.776f, BAR_TOP, 0.226f, BAR_HEIGHT, BORDER_SIZE);
 
         // Load textures
-        tempfile = ArchiveManager.ExtractFile("General.rar/healthicon.tga");
+        tempfile = ArchiveManager.ExtractFile("General.zip/healthicon.tga");
         healthicon = Direct3D.LoadTexture(tempfile, true);
-        tempfile = ArchiveManager.ExtractFile("General.rar/armoricon.tga");
+        tempfile = ArchiveManager.ExtractFile("General.zip/armoricon.tga");
         armoricon = Direct3D.LoadTexture(tempfile, true);
-        tempfile = ArchiveManager.ExtractFile("General.rar/red.bmp");
+        tempfile = ArchiveManager.ExtractFile("General.zip/red.bmp");
         flashtexture = Direct3D.LoadTexture(tempfile, true);
 
         // Weapon textures
         for(i = 0; i < (int)WEAPON.TOTAL_WEAPONS; i++)
         {
             int weaponnum = i + 1;
-            tempfile = ArchiveManager.ExtractFile("General.rar/weapon" + weaponnum.ToString(CultureInfo.InvariantCulture) + "icon.tga");
+            tempfile = ArchiveManager.ExtractFile("General.zip/weapon" + weaponnum.ToString(CultureInfo.InvariantCulture) + "icon.tga");
             weaponicons[i] = Direct3D.LoadTexture(tempfile, true);
         }
 
@@ -161,7 +161,7 @@ public class HUD
         for(i = 0; i < (int)POWERUP.TOTAL_POWERUPS; i++)
         {
             int powerupnum = i + 1;
-            tempfile = ArchiveManager.ExtractFile("General.rar/powerup" + powerupnum.ToString(CultureInfo.InvariantCulture) + "icon.tga");
+            tempfile = ArchiveManager.ExtractFile("General.zip/powerup" + powerupnum.ToString(CultureInfo.InvariantCulture) + "icon.tga");
             powerupicons[i] = Direct3D.LoadTexture(tempfile, true);
         }
 

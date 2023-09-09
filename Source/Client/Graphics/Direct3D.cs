@@ -1476,8 +1476,6 @@ internal sealed class Direct3D
         {
             // File not found
             throw(new FileNotFoundException("Cannot find the texture file \"" + filename + "\".", filename));
-            //if(General.console != null) General.console.AddMessage("Unable to load image \"" + filename + "\"", true);
-            //return LoadTexture("general.rar/white.bmp", true);
         }
     }
 

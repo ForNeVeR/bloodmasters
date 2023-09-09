@@ -4,7 +4,7 @@ config = "Bloodmasters";
 BMMAP
 {
 	addwad = "";
-	addtexdir = "E:\\Projects\\Bloodmasters\\Build\\Textures.rar\\";
+	addtexdir = "E:\\Projects\\Bloodmasters\\Build\\Textures.zip\\";
 	addflatdir = "";
 }
 

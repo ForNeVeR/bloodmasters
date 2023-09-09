@@ -171,7 +171,7 @@ public class Arena
         liquidlava = new LiquidGraphics(LIQUID_TEXFILE_LAVA, 8);
 
         // Create dust particle collections
-        p_dust = new ParticleCollection("general.rar/particle0.tga", DRAWMODE.PNORMAL);
+        p_dust = new ParticleCollection("general.zip/particle0.tga", DRAWMODE.PNORMAL);
         p_dust.Lightmapped = true;
         p_dust.Gravity = 0.006f;
         p_dust.MinimumSize = 0.2f;
@@ -184,7 +184,7 @@ public class Arena
         p_dust.FadeIn = false;
 
         // Create magical particle collections
-        p_magic = new ParticleCollection("general.rar/particle1.tga", DRAWMODE.PADDITIVE);
+        p_magic = new ParticleCollection("general.zip/particle1.tga", DRAWMODE.PADDITIVE);
         p_magic.Lightmapped = false;
         p_magic.Gravity = 0.005f;
         p_magic.MinimumSize = 2f;
@@ -197,7 +197,7 @@ public class Arena
         p_magic.FadeIn = false;
 
         // Create smoke particle collections
-        p_smoke = new ParticleCollection("general.rar/particle2.tga", DRAWMODE.PNORMAL);
+        p_smoke = new ParticleCollection("general.zip/particle2.tga", DRAWMODE.PNORMAL);
         p_smoke.Lightmapped = true;
         p_smoke.Gravity = -0.0001f;
         p_smoke.MinimumSize = 3f; //1f;
@@ -210,7 +210,7 @@ public class Arena
         p_smoke.FadeIn = true;
 
         // Create smoke particle collections
-        p_trail = new ParticleCollection("general.rar/particle4.tga", DRAWMODE.PNORMAL);
+        p_trail = new ParticleCollection("general.zip/particle4.tga", DRAWMODE.PNORMAL);
         p_trail.Lightmapped = true;
         p_trail.Gravity = -0.001f;
         p_trail.MinimumSize = 2f; //1.5f;
@@ -223,7 +223,7 @@ public class Arena
         p_trail.FadeIn = false;
 
         // Create blood particle collections
-        p_blood = new ParticleCollection("general.rar/particle3.tga", DRAWMODE.PNORMAL);
+        p_blood = new ParticleCollection("general.zip/particle3.tga", DRAWMODE.PNORMAL);
         p_blood.Lightmapped = true;
         p_blood.Gravity = 0.006f;
         p_blood.MinimumSize = 0.5f; //0.2f;

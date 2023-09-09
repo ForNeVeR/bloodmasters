@@ -122,11 +122,11 @@ public class FormDownload : System.Windows.Forms.Form
         string htmltext, htmltextlower;
 
         // Display status
-        lblStatus.Text = "Searching server website for " + server.MapName + ".rar...";
+        lblStatus.Text = "Searching server website for " + server.MapName + ".zip...";
         lblStatus.Update();
 
         // Server URL is what we are looking for?
-        if(server.Website.ToLower().EndsWith(server.MapName.ToLower() + ".rar"))
+        if(server.Website.ToLower().EndsWith(server.MapName.ToLower() + ".zip"))
         {
             if(server.Website.ToLower().StartsWith("http://"))
             {
@@ -241,7 +241,7 @@ public class FormDownload : System.Windows.Forms.Form
                 fileurl = fileurl.Replace("\'", "");
 
                 // URL we are looking for?
-                if(fileurl.ToLower().EndsWith(server.MapName.ToLower() + ".rar"))
+                if(fileurl.ToLower().EndsWith(server.MapName.ToLower() + ".zip"))
                 {
                     // Make the url absolute
                     if(!fileurl.ToLower().StartsWith("http://"))
@@ -255,7 +255,7 @@ public class FormDownload : System.Windows.Forms.Form
         while(newpos > -1);
 
         // Nothing found
-        MessageBox.Show(this, "The download link for the map " + server.MapName + ".rar could not be found on the website provided by the server.", "Downloading", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        MessageBox.Show(this, "The download link for the map " + server.MapName + ".zip could not be found on the website provided by the server.", "Downloading", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         return false;
     }
 
@@ -271,7 +271,7 @@ public class FormDownload : System.Windows.Forms.Form
         int contentlength, numread;
 
         // Display status
-        lblStatus.Text = "Downloading map " + server.MapName + ".rar...";
+        lblStatus.Text = "Downloading map " + server.MapName + ".zip...";
         lblStatus.Update();
 
         // Set progress bar
@@ -300,7 +300,7 @@ public class FormDownload : System.Windows.Forms.Form
         if(contentlength > 0) prgStatus.Maximum = contentlength;
 
         // Make the file
-        filename = Path.Combine(Paths.DownloadedResourceDir, server.MapName + ".rar");
+        filename = Path.Combine(Paths.DownloadedResourceDir, server.MapName + ".zip");
         file = File.Open(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.None);
 
         // Get the http download
