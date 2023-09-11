@@ -1,4 +1,5 @@
 using System;
+using CodeImp.Bloodmasters.Client.Extensions;
 using NAudio.Wave;
 
 namespace CodeImp.Bloodmasters.Client.SampleProviders;
@@ -16,11 +17,16 @@ public class LogarithmicVolumeSampleProvider : ISampleProvider
     public float VolumeHundredthsOfDb
     {
         get => _volumeHundredthsOfDb;
-        set => _volumeHundredthsOfDb = Math.Clamp(value, MinVolumeHundredthsOfDb, MaxVolumeHundredthsOfDb);
+        set
+        {
+            _volumeHundredthsOfDb = Math.Clamp(value, MinVolumeHundredthsOfDb, MaxVolumeHundredthsOfDb);
+            _multiplier = MathF.Pow(10, _volumeHundredthsOfDb / 2000f);
+        }
     }
 
     private readonly ISampleProvider source;
     private float _volumeHundredthsOfDb;
+    private float _multiplier;
 
     public LogarithmicVolumeSampleProvider(ISampleProvider source)
     {
@@ -32,12 +38,7 @@ public class LogarithmicVolumeSampleProvider : ISampleProvider
         int samplesRead = source.Read(buffer, offset, count);
         if (VolumeHundredthsOfDb != 0)
         {
-            var multiplier = MathF.Pow(10, _volumeHundredthsOfDb / 2000f);
-
-            for (int n = 0; n < count; n++)
-            {
-                buffer[offset + n] *= multiplier;
-            }
+            buffer.AsSpan(offset, count).MultiplyByScalar(_multiplier);
         }
         return samplesRead;
     }
