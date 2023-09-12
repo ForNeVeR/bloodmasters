@@ -9,15 +9,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="JetBrains.Lifetimes" Version="2023.3.1" />
-        <PackageReference Include="Microsoft.DXSDK.D3DX" Version="9.29.952.8" GeneratePathProperty="true" />
+        <PackageReference Include="JetBrains.Lifetimes" Version="2023.3.1"/>
+        <PackageReference Include="Microsoft.DXSDK.D3DX" Version="9.29.952.8" GeneratePathProperty="true"/>
     </ItemGroup>
 
     <Target Name="CopyConfigFile" BeforeTargets="Build"
-        Inputs="..\Config\Bloodmasters.cfg"
-        Outputs="..\Config\Debug\Bloodmasters.cfg">
+            Inputs="..\Config\Bloodmasters.cfg"
+            Outputs="..\Config\Debug\Bloodmasters.cfg">
         <Copy Condition="!Exists('..\Config\Debug\Bloodmasters.cfg')" SkipUnchangedFiles="true"
-              SourceFiles="..\Config\Bloodmasters.cfg" DestinationFolder="..\Config\Debug\" />
+              SourceFiles="..\Config\Bloodmasters.cfg" DestinationFolder="..\Config\Debug\"/>
     </Target>
 
     <PropertyGroup>
@@ -26,21 +26,21 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
     <ItemGroup>
-        <InternalsVisibleTo Include="Bloodmasters.Tests" />
+        <InternalsVisibleTo Include="Bloodmasters.Tests"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="SharpDX.Direct3D9" Version="4.2.0" />
-        <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
+        <PackageReference Include="SharpDX.Direct3D9" Version="4.2.0"/>
+        <PackageReference Include="SharpDX.Mathematics" Version="4.2.0"/>
     </ItemGroup>
     <ItemGroup>
-        <None Update="client-standalone.debug.cfg" CopyToOutputDirectory="PreserveNewest" />
-        <None Update="server.debug.cfg" CopyToOutputDirectory="PreserveNewest" />
+        <None Update="client-standalone.debug.cfg" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Never"/>
+        <None Update="server.debug.cfg" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Never"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Server\Bloodmasters.Server.csproj" />
-        <ProjectReference Include="..\Shared\Bloodmasters.Shared.csproj" />
+        <ProjectReference Include="..\Server\Bloodmasters.Server.csproj"/>
+        <ProjectReference Include="..\Shared\Bloodmasters.Shared.csproj"/>
     </ItemGroup>
     <ItemGroup>
-      <Content Include="..\..\.bloodmasters.dev.marker" CopyToOutputDirectory="Always"/>
+        <Content Include="..\..\.bloodmasters.dev.marker" CopyToOutputDirectory="Always" CopyToPublishDirectory="Never"/>
     </ItemGroup>
 </Project>
