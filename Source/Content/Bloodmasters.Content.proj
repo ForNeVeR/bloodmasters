@@ -31,9 +31,11 @@
     </ItemGroup>
 
     <Target Name="CompressArchives" BeforeTargets="Publish">
+        <MakeDir Directories="$(ClientPublishDir)" />
         <ZipDirectory DestinationFile="@(ZipContent->'$(ClientPublishDir)\%(Filename).zip')"
                       SourceDirectory="%(ZipContent.Identity)"
                       Overwrite="true"/>
+        <MakeDir Directories="$(ServerPublishDir)" />
         <ZipDirectory DestinationFile="@(ZipContent->'$(ServerPublishDir)\%(Filename).zip')"
                       SourceDirectory="%(ZipContent.Identity)"
                       Overwrite="true"/>
