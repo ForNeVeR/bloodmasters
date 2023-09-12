@@ -3,6 +3,7 @@
         <AssemblyName>BMDedicatedServer</AssemblyName>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net7.0</TargetFramework>
+        <PublishDir>$(ServerPublishDir)</PublishDir>
     </PropertyGroup>
 
 

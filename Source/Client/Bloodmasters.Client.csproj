@@ -5,6 +5,7 @@
         <OutputType>WinExe</OutputType>
         <TargetFramework>net7.0-windows</TargetFramework>
         <UseWindowsForms>true</UseWindowsForms>
+        <PublishDir>$(ClientPublishDir)</PublishDir>
     </PropertyGroup>
 
     <ItemGroup>

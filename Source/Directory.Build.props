@@ -1,11 +1,17 @@
 <Project>
-    <PropertyGroup>
+    <PropertyGroup Label="Versioning">
         <Version>1.3.0</Version>
         <ProductName>Bloodmasters</ProductName>
         <Copyright>Pascal vd Heiden, www.codeimp.com; Copyright © Bloodmasters contributors 2023</Copyright>
     </PropertyGroup>
-    <PropertyGroup>
+
+    <PropertyGroup Label="Language">
         <LangVersion>11</LangVersion>
         <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Directories">
+        <ClientPublishDir>$(MSBuildThisFileDirectory)\..\Publish\Client</ClientPublishDir>
+        <ServerPublishDir>$(MSBuildThisFileDirectory)\..\Publish\Server</ServerPublishDir>
     </PropertyGroup>
 </Project>

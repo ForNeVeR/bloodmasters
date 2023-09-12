@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
+        <IsPublishable>true</IsPublishable>
     </PropertyGroup>
 
     <ItemGroup>
@@ -30,7 +31,10 @@
     </ItemGroup>
 
     <Target Name="CompressArchives" BeforeTargets="Publish">
-        <ZipDirectory DestinationFile="@(ZipContent->'$(PublishDir)\%(Filename).zip')"
+        <ZipDirectory DestinationFile="@(ZipContent->'$(ClientPublishDir)\%(Filename).zip')"
+                      SourceDirectory="%(ZipContent.Identity)"
+                      Overwrite="true"/>
+        <ZipDirectory DestinationFile="@(ZipContent->'$(ServerPublishDir)\%(Filename).zip')"
                       SourceDirectory="%(ZipContent.Identity)"
                       Overwrite="true"/>
     </Target>
