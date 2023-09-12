@@ -34,6 +34,21 @@ jobs:
       - name: Build
         run: dotnet build Source\Bloodmasters.sln
 
+      - name: Publish
+        run: dotnet publish Source\Bloodmasters.sln --configuration Release
+
+      - name: Upload client
+        uses: actions/upload-artifact@v2
+        with:
+          name: Bloodmasters
+          path: Publish/Client
+
+      - name: Upload server
+        uses: actions/upload-artifact@v2
+        with:
+          name: Bloodmasters
+          path: Publish/Server
+
       - name: Test
         run: dotnet test Source\Bloodmasters.sln
 
