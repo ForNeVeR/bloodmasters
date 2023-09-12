@@ -35,7 +35,7 @@ jobs:
         run: dotnet build Source\Bloodmasters.sln
 
       - name: Publish
-        run: dotnet publish Source\Bloodmasters.sln --configuration Release
+        run: dotnet publish Source\Bloodmasters.sln --configuration Release --self-contained --runtime win-x64
 
       - name: Upload client
         uses: actions/upload-artifact@v2
