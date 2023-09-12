@@ -10,7 +10,7 @@ How to Play
 Download the latest installer from the [Releases section][releases].
 
 ### Development Version
-Download the game package (`Bloodmasters.zip`) from [the latest CI build][ci].
+Download the game package (`Bloodmasters.zip`) from [the latest CI build][ci]. Unpack, run with `Bloodmasters.exe`.
 
 Documentation
 -------------
