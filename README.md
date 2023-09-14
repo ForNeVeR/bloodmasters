@@ -21,12 +21,14 @@ Download the game package (`Bloodmasters.zip`) from [the latest CI build][ci]. U
 Documentation
 -------------
 - [Changelog][docs.changelog]
+- [Game Directories][docs.game-directories]
 - [Contributing][docs.contributing]
 - [License (GPLv2)][docs.license]
 
 [ci]: https://github.com/ForNeVeR/bloodmasters/actions/workflows/main.yml
 [docs.changelog]: CHANGELOG.md
 [docs.contributing]: CONTRIBUTING.md
+[docs.game-directories]: Docs/game-directories.md
 [docs.license]: GNU_GPL.txt
 [issue.cross-platform]: https://github.com/ForNeVeR/bloodmasters/issues/20
 [issues]: https://github.com/ForNeVeR/bloodmasters/issues
