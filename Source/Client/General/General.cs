@@ -164,7 +164,7 @@ internal sealed class General : SharedGeneral
 
         // Open all archives with archivemanager
         ArchiveManager.Initialize(Paths.BundledResourceDir);
-        ArchiveManager.OpenArchive(Path.Combine(Paths.BundledResourceDir, "sprites"));
+        ArchiveManager.OpenArchive(Path.Combine(Paths.BundledResourceDir, "Sprites"));
 
         // Get the high resolution clock frequency
         timefrequency = TimeProvider.System.TimestampFrequency;
