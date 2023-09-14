@@ -154,6 +154,10 @@ internal sealed class General : SharedGeneral
         // Setup application name
         appname = Assembly.GetExecutingAssembly().GetName().Name;
 
+        // Setup filenames
+        configfilename = Path.Combine(Paths.ConfigDirPath, configfilename);
+        logfilename = Path.Combine(Paths.LogDirPath, appname + ".log");
+
         // Ensure a Music directory exists
         string musicdir = Path.Combine(Paths.BundledResourceDir, "Music");
         if(!Directory.Exists(musicdir)) Directory.CreateDirectory(musicdir);
@@ -161,10 +165,6 @@ internal sealed class General : SharedGeneral
         // Open all archives with archivemanager
         ArchiveManager.Initialize(Paths.BundledResourceDir);
         ArchiveManager.OpenArchive(Path.Combine(Paths.BundledResourceDir, "sprites"));
-
-        // Setup filenames
-        configfilename = Path.Combine(Paths.ConfigDirPath, configfilename);
-        logfilename = Path.Combine(Paths.LogDirPath, appname + ".log");
 
         // Get the high resolution clock frequency
         timefrequency = TimeProvider.System.TimestampFrequency;
