@@ -25,20 +25,25 @@
         <ZipContent Include="Textures.zip" Visible="false"/>
         <ZipContent Include="wastedwaters.zip" Visible="false"/>
 
-        <Content Include="Music\*" CopyToPublishDirectory="Always"/>
-        <Content Include="Sprites\*" CopyToPublishDirectory="Always"/>
-        <Content Include="ip-to-country.csv" CopyToPublishDirectory="Always"/>
+        <Content Include="Music\*"/>
+        <Content Include="Sprites\*"/>
+        <Content Include="ip-to-country.csv"/>
     </ItemGroup>
 
-    <Target Name="CompressArchives" BeforeTargets="Publish">
-        <MakeDir Directories="$(ClientPublishDir)" />
+    <Target Name="CreateArchives" BeforeTargets="Publish">
+        <MakeDir Directories="$(ClientPublishDir)"/>
         <ZipDirectory DestinationFile="@(ZipContent->'$(ClientPublishDir)\%(Filename).zip')"
                       SourceDirectory="%(ZipContent.Identity)"
                       Overwrite="true"/>
-        <MakeDir Directories="$(ServerPublishDir)" />
+        <MakeDir Directories="$(ServerPublishDir)"/>
         <ZipDirectory DestinationFile="@(ZipContent->'$(ServerPublishDir)\%(Filename).zip')"
                       SourceDirectory="%(ZipContent.Identity)"
                       Overwrite="true"/>
+    </Target>
+    <Target Name="CopyClientContent" BeforeTargets="Publish">
+        <Copy SourceFiles="@(Content)"
+              DestinationFiles="$(ClientPublishDir)\%(Identity)"
+              SkipUnchangedFiles="true"/>
     </Target>
 
 </Project>
