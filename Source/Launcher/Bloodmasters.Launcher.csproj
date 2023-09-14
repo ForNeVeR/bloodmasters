@@ -23,5 +23,6 @@
     </ItemGroup>
     <ItemGroup>
         <Content Include="..\..\.bloodmasters.dev.marker" CopyToOutputDirectory="Always" CopyToPublishDirectory="Never"/>
+        <Content Include="..\Config\Bloodmasters.cfg" CopyToOutputDirectory="Never" CopyToPublishDirectory="Always"/>
     </ItemGroup>
 </Project>

@@ -33,7 +33,8 @@ public class General
     public static Configuration config;
 
     // Filenames
-    private static string configfilename = "Bloodmasters.cfg";
+    private const string DefaultConfigFileName = "Bloodmasters.cfg";
+    private static string configfilename = DefaultConfigFileName;
     private static string ip2countryfilename = "ip-to-country.csv";
     private static string logfilename = "";
 
@@ -73,6 +74,8 @@ public class General
         logfilename = Path.Combine(Paths.LogDirPath, appname + ".log");
         ip2countryfilename = Path.Combine(Paths.BundledResourceDir, ip2countryfilename);
 
+        DeployTemplateConfig();
+
         // Initialize DirectX
         try { Direct3D.InitDX(); }
         catch(Exception)
@@ -84,6 +87,18 @@ public class General
 
         // Return success
         return true;
+    }
+
+    private static void DeployTemplateConfig()
+    {
+        if (File.Exists(configfilename)) return;
+        var templateConfig = Path.Combine(Paths.BundledResourceDir, DefaultConfigFileName);
+        if (!File.Exists(templateConfig)) return;
+        var configDirectory = Path.GetDirectoryName(configfilename);
+        if (configDirectory != null)
+            Directory.CreateDirectory(configDirectory);
+
+        File.Copy(templateConfig, configfilename);
     }
 
     private static void Deinitialize()
