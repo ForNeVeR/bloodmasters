@@ -56,7 +56,7 @@ internal sealed class General : SharedGeneral
     public static string appname = "";
 
     // Filenames
-    private static string configfilename = "Bloodmasters.cfg";
+    private static string configfilename = Paths.DefaultConfigFileName;
     public static string logfilename = ""; // TODO[#45]: Only used in server code. Remove later.
 
     // Configuration

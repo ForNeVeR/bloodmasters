@@ -96,6 +96,8 @@ public static class Paths
                     "Config"
                 )).FullName;
 
+    public const string DefaultConfigFileName = "Bloodmasters.cfg";
+
     /// <summary>Directory for the log files. Write access.</summary>
     // TODO[#93]: Logs in production should be moved to another place
     public static readonly string LogDirPath = AppBaseDir;

@@ -34,7 +34,7 @@ public class General
 
     // Filenames
     private const string DefaultConfigFileName = "Bloodmasters.cfg";
-    private static string configfilename = DefaultConfigFileName;
+    private static string configfilename = Paths.DefaultConfigFileName;
     private static string ip2countryfilename = "ip-to-country.csv";
     private static string logfilename = "";
 
