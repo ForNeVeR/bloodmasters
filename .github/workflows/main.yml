@@ -32,7 +32,7 @@ jobs:
           key: ${{ runner.os }}.nuget.${{ hashFiles('**/*.csproj') }}
 
       - name: Build
-        run: dotnet build Source\Bloodmasters.sln
+        run: dotnet build Source\Bloodmasters.sln --configuration Release
 
       - name: Publish
         run: dotnet publish Source\Bloodmasters.sln --configuration Release --self-contained --runtime win-x64
@@ -50,7 +50,7 @@ jobs:
           path: Publish/Server
 
       - name: Test
-        run: dotnet test Source\Bloodmasters.sln
+        run: dotnet test Source\Bloodmasters.sln --configuration Release
 
   verify:
     name: 'verify'
