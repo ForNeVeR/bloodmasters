@@ -46,7 +46,7 @@ jobs:
       - name: Upload server
         uses: actions/upload-artifact@v3
         with:
-          name: Bloodmasters
+          name: BMServer
           path: Publish/Server
 
       - name: Test
