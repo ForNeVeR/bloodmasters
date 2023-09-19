@@ -7,8 +7,10 @@
 
 using System;
 using System.Globalization;
+using CodeImp.Bloodmasters.Client.Lights;
+using CodeImp.Bloodmasters.Map;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Items;
 
 public class Flag : Item
 {

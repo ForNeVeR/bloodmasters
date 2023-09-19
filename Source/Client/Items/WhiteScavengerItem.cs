@@ -5,7 +5,9 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client;
+using CodeImp.Bloodmasters.Map;
+
+namespace CodeImp.Bloodmasters.Client.Items;
 
 [ClientItem(4003, Sprite="sc_white.tga",
     Bob = true,

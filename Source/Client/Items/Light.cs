@@ -5,7 +5,10 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client;
+using CodeImp.Bloodmasters.Client.Lights;
+using CodeImp.Bloodmasters.Map;
+
+namespace CodeImp.Bloodmasters.Client.Items;
 
 [ClientItem(6001, Temporary=true, OnFloor=false)]
 public class Light : Item

@@ -6,9 +6,10 @@
 \********************************************************************/
 
 using System;
+using CodeImp.Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Graphics;
 
 public class Border
 {

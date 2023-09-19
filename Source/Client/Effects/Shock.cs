@@ -8,10 +8,12 @@
 using System;
 using System.Collections.Generic;
 using CodeImp.Bloodmasters.Client.Graphics;
+using CodeImp.Bloodmasters.Client.Resources;
 using SharpDX;
 using SharpDX.Direct3D9;
+using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Effects;
 
 public class Shock : VisualObject
 {

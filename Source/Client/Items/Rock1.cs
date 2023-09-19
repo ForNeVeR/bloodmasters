@@ -5,7 +5,9 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client;
+using CodeImp.Bloodmasters.Map;
+
+namespace CodeImp.Bloodmasters.Client.Items;
 
 [ClientItem(7004, Sprite="rock1.tga", Description="Rock", Bob=false)]
 public class Rock1 : Item

@@ -7,7 +7,7 @@
 
 using CodeImp.Bloodmasters.Client.Graphics;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Lights;
 
 public class TeleportSmallLight : DynamicLight
 {

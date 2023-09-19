@@ -8,8 +8,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using CodeImp.Bloodmasters.Client.Resources;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Graphics;
 
 public class Animation
 {

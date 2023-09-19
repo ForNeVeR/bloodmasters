@@ -5,6 +5,8 @@
 *                                                                   *
 \********************************************************************/
 
+using CodeImp.Bloodmasters.Map;
+
 namespace CodeImp.Bloodmasters;
 
 public abstract class WallCollision : Collision

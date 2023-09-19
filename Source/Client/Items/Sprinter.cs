@@ -5,7 +5,9 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client;
+using CodeImp.Bloodmasters.Map;
+
+namespace CodeImp.Bloodmasters.Client.Items;
 
 [ClientItem(3002, Sprite="speed.cfg",
     Bob = true,

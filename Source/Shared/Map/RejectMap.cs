@@ -5,11 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.IO;
-using CodeImp;
-
-namespace CodeImp.Bloodmasters;
+namespace CodeImp.Bloodmasters.Map;
 
 public class RejectMap
 {

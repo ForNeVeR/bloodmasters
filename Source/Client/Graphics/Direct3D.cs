@@ -15,13 +15,16 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using CodeImp.Bloodmasters.Client.Lights;
+using CodeImp.Bloodmasters.Client.Resources;
 using SharpDX;
 using SharpDX.Direct3D9;
 using SharpDX.Mathematics.Interop;
 using Color = System.Drawing.Color;
 using Rectangle = System.Drawing.Rectangle;
+using Resource = CodeImp.Bloodmasters.Client.Resources.Resource;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Graphics;
 
 internal sealed class Direct3D
 {

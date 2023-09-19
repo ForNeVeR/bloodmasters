@@ -7,11 +7,15 @@
 
 using System;
 using CodeImp.Bloodmasters.Client.Graphics;
+using CodeImp.Bloodmasters.Client.Items;
+using CodeImp.Bloodmasters.Client.Resources;
+using CodeImp.Bloodmasters.Map;
 using SharpDX;
 using SharpDX.Direct3D9;
 using Color = System.Drawing.Color;
+using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Weapons;
 
 public class Bullet : VisualObject
 {

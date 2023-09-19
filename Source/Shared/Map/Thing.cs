@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters;
+namespace CodeImp.Bloodmasters.Map;
 
 public class Thing
 {

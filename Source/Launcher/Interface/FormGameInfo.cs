@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using CodeImp.Bloodmasters;
 using CodeImp;
+using CodeImp.Bloodmasters.Net;
 
 namespace CodeImp.Bloodmasters.Launcher;
 

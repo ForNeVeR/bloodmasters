@@ -5,6 +5,8 @@
 *                                                                   *
 \********************************************************************/
 
+using CodeImp.Bloodmasters.Map;
+
 namespace CodeImp.Bloodmasters.Server;
 
 [ServerItem(2003, RespawnTime=30000)]

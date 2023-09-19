@@ -16,6 +16,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using CodeImp.Bloodmasters.Net;
 using CodeImp.Bloodmasters.Server;
 
 namespace CodeImp.Bloodmasters.DedicatedServer;

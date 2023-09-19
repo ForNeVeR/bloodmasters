@@ -5,7 +5,9 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client;
+using CodeImp.Bloodmasters.Map;
+
+namespace CodeImp.Bloodmasters.Client.Items;
 
 [ClientItem(8002, Sprite="ammo_plasma.tga",
     Description="Plasma",

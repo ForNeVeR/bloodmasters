@@ -1,8 +1,10 @@
+using CodeImp.Bloodmasters.Map;
+
 namespace CodeImp.Bloodmasters.Server.Map;
 
 public class ServerSector : Sector
 {
-    public ServerSector(BinaryReader data, int index, Bloodmasters.Map map) : base(data, index, map)
+    public ServerSector(BinaryReader data, int index, CodeImp.Bloodmasters.Map.Map map) : base(data, index, map)
     {
     }
 

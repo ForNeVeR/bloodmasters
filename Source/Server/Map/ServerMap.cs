@@ -1,8 +1,8 @@
-using CodeImp.Bloodmasters.Server.Map;
+using CodeImp.Bloodmasters.Map;
 
-namespace CodeImp.Bloodmasters.Server;
+namespace CodeImp.Bloodmasters.Server.Map;
 
-internal class ServerMap : Bloodmasters.Map
+internal class ServerMap : CodeImp.Bloodmasters.Map.Map
 {
     public ServerMap(string mapname, bool infoonly, string temppath) : base(mapname, infoonly, temppath)
     {

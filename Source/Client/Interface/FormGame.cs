@@ -8,12 +8,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
+using CodeImp.Bloodmasters.Client.Graphics;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Interface;
 
 internal sealed class FormGame : System.Windows.Forms.Form
 {

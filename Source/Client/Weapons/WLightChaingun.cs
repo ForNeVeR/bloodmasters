@@ -6,9 +6,12 @@
 \********************************************************************/
 
 using System;
+using CodeImp.Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;
+using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
+using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Weapons;
 
 [WeaponInfo(WEAPON.SMG, RefireDelay=100, Description="SMG",
     Sound="chain1fire.wav", AmmoType=AMMO.BULLETS, UseAmmo=1)]

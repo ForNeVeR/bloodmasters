@@ -15,10 +15,17 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using CodeImp.Bloodmasters.Client.Graphics;
+using CodeImp.Bloodmasters.Client.Items;
+using CodeImp.Bloodmasters.Client.Lights;
+using CodeImp.Bloodmasters.Client.Projectiles;
+using CodeImp.Bloodmasters.Client.Weapons;
+using CodeImp.Bloodmasters.Map;
 using SharpDX;
 using SharpDX.Direct3D9;
 using SharpDX.Mathematics.Interop;
 using Color = System.Drawing.Color;
+using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
+using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
 
 namespace CodeImp.Bloodmasters.Client;
 

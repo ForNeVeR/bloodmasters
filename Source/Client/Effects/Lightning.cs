@@ -6,8 +6,9 @@
 \********************************************************************/
 
 using System;
+using CodeImp.Bloodmasters.Client.Lights;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Effects;
 
 public class Lightning
 {

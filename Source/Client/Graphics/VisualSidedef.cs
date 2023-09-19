@@ -7,10 +7,12 @@
 
 using System;
 using System.Collections.Generic;
-using CodeImp.Bloodmasters.Client.Graphics;
+using CodeImp.Bloodmasters.Client.Lights;
+using CodeImp.Bloodmasters.Client.Resources;
+using CodeImp.Bloodmasters.Map;
 using SharpDX.Direct3D9;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Graphics;
 
 public class VisualSidedef
 {
@@ -301,13 +303,13 @@ public class VisualSidedef
             }
 
             // Determine texture delta height
-            tdelta = ((middletop - middlebottom) * Map.INV_MAP_SCALE_Z * TEXTURE_SCALE);
+            tdelta = ((middletop - middlebottom) * Map.Map.INV_MAP_SCALE_Z * TEXTURE_SCALE);
             if(tdelta > tmiddle.info.Height) tdelta = tmiddle.info.Height;
 
             // Texture coordinates
             tleft = sidedef.TextureX / tmiddle.info.Width;
             ttop = sidedef.TextureY / tmiddle.info.Height;
-            tright = tleft + (sidedef.Length * Map.INV_MAP_SCALE_XY * TEXTURE_SCALE) / tmiddle.info.Width;
+            tright = tleft + (sidedef.Length * Map.Map.INV_MAP_SCALE_XY * TEXTURE_SCALE) / tmiddle.info.Width;
             tbottom = ttop + tdelta / tmiddle.info.Height;
 
             // Make vertices and add them to the list
@@ -357,8 +359,8 @@ public class VisualSidedef
                 // Texture coordinates
                 tbottom = sidedef.TextureY / tlower.info.Height;
                 tleft = sidedef.TextureX / tlower.info.Width;
-                ttop = tbottom - ((lowertop - lowerbottom) * Map.INV_MAP_SCALE_Z * TEXTURE_SCALE) / tlower.info.Height;
-                tright = tleft + (sidedef.Length * Map.INV_MAP_SCALE_XY * TEXTURE_SCALE) / tlower.info.Width;
+                ttop = tbottom - ((lowertop - lowerbottom) * Map.Map.INV_MAP_SCALE_Z * TEXTURE_SCALE) / tlower.info.Height;
+                tright = tleft + (sidedef.Length * Map.Map.INV_MAP_SCALE_XY * TEXTURE_SCALE) / tlower.info.Width;
 
                 // Make vertices and add them to the list
                 AddVertexQuad(verts, vstart, vend, lowertop, lowerbottom,
@@ -395,10 +397,10 @@ public class VisualSidedef
             if((uppertop > upperbottom) && (sidedef.OtherSide.Sector.TextureCeil != Sector.NO_FLAT))
             {
                 // Texture coordinates
-                topdiff = (uppertop - upperbottom) * Map.INV_MAP_SCALE_Z * TEXTURE_SCALE;
+                topdiff = (uppertop - upperbottom) * Map.Map.INV_MAP_SCALE_Z * TEXTURE_SCALE;
                 tleft = sidedef.TextureX / tupper.info.Width;
                 ttop = (sidedef.TextureY - topdiff) / tupper.info.Height;
-                tright = tleft + (sidedef.Length * Map.INV_MAP_SCALE_XY * TEXTURE_SCALE) / tupper.info.Width;
+                tright = tleft + (sidedef.Length * Map.Map.INV_MAP_SCALE_XY * TEXTURE_SCALE) / tupper.info.Width;
                 tbottom = ttop + topdiff / tupper.info.Height;
 
                 // Make vertices and add them to the list

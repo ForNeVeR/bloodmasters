@@ -1,3 +1,5 @@
+using CodeImp.Bloodmasters.Map;
+
 namespace CodeImp.Bloodmasters.Server;
 
 public class ServerWallCollision : WallCollision

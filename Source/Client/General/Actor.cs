@@ -8,9 +8,15 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using CodeImp.Bloodmasters.Client.Effects;
+using CodeImp.Bloodmasters.Client.Graphics;
+using CodeImp.Bloodmasters.Client.Resources;
+using CodeImp.Bloodmasters.Map;
 using SharpDX;
 using SharpDX.Direct3D9;
+using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
 using RectangleF = System.Drawing.RectangleF;
+using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
 
 namespace CodeImp.Bloodmasters.Client;
 

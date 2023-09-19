@@ -9,6 +9,13 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using CodeImp.Bloodmasters.Client.Effects;
+using CodeImp.Bloodmasters.Client.Graphics;
+using CodeImp.Bloodmasters.Client.Items;
+using CodeImp.Bloodmasters.Client.Lights;
+using CodeImp.Bloodmasters.Client.Weapons;
+using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.Net;
 
 namespace CodeImp.Bloodmasters.Client;
 

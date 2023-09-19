@@ -6,11 +6,8 @@
 \********************************************************************/
 
 using System;
-using System.Drawing;
-using CodeImp.Bloodmasters;
-using CodeImp;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Projectiles;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple=true, Inherited=false)]
 public class ProjectileInfo : Attribute

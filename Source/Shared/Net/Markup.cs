@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace CodeImp.Bloodmasters;
+namespace CodeImp.Bloodmasters.Net;
 
 public static class Markup
 {

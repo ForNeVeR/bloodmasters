@@ -10,7 +10,7 @@ using SharpDX;
 using SharpDX.Direct3D9;
 using Color = System.Drawing.Color;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Graphics;
 
 public class Particle //: VisualObject
 {

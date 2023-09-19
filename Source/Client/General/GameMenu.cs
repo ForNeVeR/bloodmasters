@@ -14,6 +14,8 @@ using System.Reflection;
 using System.Windows.Forms;
 using CodeImp.Bloodmasters;
 using CodeImp;
+using CodeImp.Bloodmasters.Client.Graphics;
+using CodeImp.Bloodmasters.Client.Resources;
 
 namespace CodeImp.Bloodmasters.Client;
 

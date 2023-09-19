@@ -13,6 +13,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using CodeImp.Bloodmasters.Launcher.Net;
+using CodeImp.Bloodmasters.Net;
 
 namespace CodeImp.Bloodmasters.Launcher;
 
