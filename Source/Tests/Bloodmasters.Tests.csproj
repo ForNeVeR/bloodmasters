@@ -8,6 +8,7 @@
         <IsPackable>false</IsPackable>
         <IsPublishable>false</IsPublishable>
         <IsTestProject>true</IsTestProject>
+        <RootNamespace>CodeImp.Bloodmasters.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

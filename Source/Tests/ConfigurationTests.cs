@@ -1,7 +1,6 @@
 using System.Text;
-using CodeImp;
 
-namespace Bloodmasters.Tests;
+namespace CodeImp.Bloodmasters.Tests;
 
 public class ConfigurationTests
 {

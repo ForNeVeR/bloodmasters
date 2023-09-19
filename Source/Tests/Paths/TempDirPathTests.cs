@@ -1,4 +1,4 @@
-namespace Bloodmasters.Tests.Paths;
+namespace CodeImp.Bloodmasters.Tests.Paths;
 
 public sealed class TempDirPathTests
 {
