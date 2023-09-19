@@ -1,4 +1,6 @@
 using System.IO;
+using CodeImp.Bloodmasters.Client.Graphics;
+using CodeImp.Bloodmasters.Map;
 
 namespace CodeImp.Bloodmasters.Client;
 
@@ -19,7 +21,7 @@ public class ClientSector : Sector
     public int NumFaces { get { return numfaces; } set { numfaces = value; } }
     public bool PlayMovementSound { get { return playmovementsound; } set { playmovementsound = value; } }
 
-    public ClientSector(BinaryReader data, int index, Map map) : base(data, index, map)
+    public ClientSector(BinaryReader data, int index, Map.Map map) : base(data, index, map)
     {
     }
 

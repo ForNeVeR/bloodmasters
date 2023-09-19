@@ -5,17 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.IO;
-using System.Text;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using CodeImp.Bloodmasters;
-using CodeImp;
-
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Interface;
 
 public class FormServer : System.Windows.Forms.Form
 {

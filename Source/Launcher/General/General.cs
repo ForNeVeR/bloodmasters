@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using CodeImp.Bloodmasters.Net;
 using Microsoft.Win32;
 using SharpDX.Direct3D9;
 

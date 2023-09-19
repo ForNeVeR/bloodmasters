@@ -5,12 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using CodeImp.Bloodmasters;
-using CodeImp;
-
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Effects;
 
 public interface ILightningNode
 {

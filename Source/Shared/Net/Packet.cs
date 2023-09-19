@@ -17,14 +17,9 @@ stream, ready for transmitting over the network.
 
 */
 
-using System;
-using System.Text;
-using System.IO;
 using System.Net;
-using System.Net.Sockets;
-using CodeImp;
 
-namespace CodeImp.Bloodmasters;
+namespace CodeImp.Bloodmasters.Net;
 
 public class Packet
 {

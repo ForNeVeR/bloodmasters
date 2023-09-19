@@ -5,9 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-
-namespace CodeImp.Bloodmasters;
+namespace CodeImp.Bloodmasters.Map;
 
 public struct MapVertex
 {

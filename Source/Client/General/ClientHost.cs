@@ -1,4 +1,5 @@
 using System;
+using CodeImp.Bloodmasters.Net;
 using CodeImp.Bloodmasters.Server;
 
 namespace CodeImp.Bloodmasters.Client;

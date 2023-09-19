@@ -21,10 +21,33 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using CodeImp.Bloodmasters.Client.Effects;
+using CodeImp.Bloodmasters.Client.Graphics;
+using CodeImp.Bloodmasters.Client.Interface;
+using CodeImp.Bloodmasters.Client.Lights;
 using CodeImp.Bloodmasters.Client.Net;
+using CodeImp.Bloodmasters.Client.Resources;
+using CodeImp.Bloodmasters.Client.Weapons;
+using CodeImp.Bloodmasters.Net;
 using CodeImp.Bloodmasters.Server;
 using SharpDX;
 using SharpDX.Direct3D9;
+using Bullet = CodeImp.Bloodmasters.Client.Weapons.Bullet;
+using CharSet = CodeImp.Bloodmasters.Client.Graphics.CharSet;
+using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
+using Flag = CodeImp.Bloodmasters.Client.Items.Flag;
+using Grenade = CodeImp.Bloodmasters.Client.Projectiles.Grenade;
+using IonBall = CodeImp.Bloodmasters.Client.Projectiles.IonBall;
+using Item = CodeImp.Bloodmasters.Client.Items.Item;
+using PlasmaBall = CodeImp.Bloodmasters.Client.Projectiles.PlasmaBall;
+using Projectile = CodeImp.Bloodmasters.Client.Projectiles.Projectile;
+using Rocket = CodeImp.Bloodmasters.Client.Projectiles.Rocket;
+using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
+using WGrenadeLauncher = CodeImp.Bloodmasters.Client.Weapons.WGrenadeLauncher;
+using WLightChaingun = CodeImp.Bloodmasters.Client.Weapons.WLightChaingun;
+using WMinigun = CodeImp.Bloodmasters.Client.Weapons.WMinigun;
+using WPlasmaCannon = CodeImp.Bloodmasters.Client.Weapons.WPlasmaCannon;
+using WRocketLauncher = CodeImp.Bloodmasters.Client.Weapons.WRocketLauncher;
 
 #endregion
 
@@ -76,7 +99,7 @@ internal sealed class General : SharedGeneral
     public static bool connecting;
 
     // Game Client
-    public static Map map;
+    public static Map.Map map;
     public static Arena arena;
     public static HUD hud;
     public static Scoreboard scoreboard;

@@ -5,6 +5,9 @@
 *                                                                   *
 \********************************************************************/
 
+using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.Net;
+
 namespace CodeImp.Bloodmasters.Server;
 
 public abstract class DynamicSector

@@ -9,7 +9,9 @@
 // Direct3D resource that must be reloaded on device reset.
 // Different types of resources inherit from this class.
 
-namespace CodeImp.Bloodmasters.Client;
+using CodeImp.Bloodmasters.Client.Graphics;
+
+namespace CodeImp.Bloodmasters.Client.Resources;
 
 // Abstract resource class
 public abstract class Resource

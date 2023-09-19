@@ -7,8 +7,10 @@
 
 using System;
 using System.Reflection;
+using CodeImp.Bloodmasters.Client.Effects;
+using CodeImp.Bloodmasters.Client.Graphics;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Projectiles;
 
 public abstract class Projectile : VisualObject
 {

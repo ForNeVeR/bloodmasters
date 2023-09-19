@@ -15,7 +15,10 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using CodeImp.Bloodmasters.Client.Graphics;
+using CodeImp.Bloodmasters.Client.Resources;
+using CodeImp.Bloodmasters.Net;
 using SharpDX.Direct3D9;
+using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
 
 namespace CodeImp.Bloodmasters.Client;
 

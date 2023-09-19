@@ -13,7 +13,7 @@ using System.Collections;
 using System.Drawing;
 using System.Text;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Graphics;
 
 public sealed class CharSet
 {

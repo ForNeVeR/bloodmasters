@@ -36,14 +36,10 @@ Command 130 = Reliable message 2
 
 */
 
-using System;
-using System.Text;
-using System.IO;
 using System.Net;
-using System.Net.Sockets;
-using CodeImp;
+using System.Text;
 
-namespace CodeImp.Bloodmasters;
+namespace CodeImp.Bloodmasters.Net;
 
 public class NetMessage
 {

@@ -5,11 +5,10 @@
 *                                                                   *
 \********************************************************************/
 
-using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 
-namespace CodeImp.Bloodmasters;
+namespace CodeImp.Bloodmasters.Map;
 
 public abstract class Map
 {

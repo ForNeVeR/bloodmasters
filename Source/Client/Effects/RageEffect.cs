@@ -6,9 +6,13 @@
 \********************************************************************/
 
 using System;
+using CodeImp.Bloodmasters.Client.Graphics;
+using CodeImp.Bloodmasters.Client.Lights;
 using SharpDX.Direct3D9;
+using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
+using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Effects;
 
 public class RageEffect : VisualObject
 {

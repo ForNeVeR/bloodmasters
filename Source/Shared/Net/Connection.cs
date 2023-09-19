@@ -27,7 +27,7 @@ The Connection
 
 using System.Net;
 
-namespace CodeImp.Bloodmasters;
+namespace CodeImp.Bloodmasters.Net;
 
 public class Connection
 {

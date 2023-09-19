@@ -6,11 +6,15 @@
 \********************************************************************/
 
 using System;
+using CodeImp.Bloodmasters.Client.Graphics;
+using CodeImp.Bloodmasters.Map;
 using SharpDX;
 using SharpDX.Direct3D9;
 using Color = System.Drawing.Color;
+using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
+using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Items;
 
 public abstract class Item : VisualObject
 {

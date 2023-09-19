@@ -119,14 +119,12 @@
 #endregion
 
 
-using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Globalization;
-using System.IO;
 using System.Text;
 
-namespace CodeImp;
+namespace CodeImp.Bloodmasters;
 
 // Configuration interface
 public interface IConfiguration

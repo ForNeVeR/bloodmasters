@@ -11,9 +11,10 @@
 // different mouse cursors.
 
 using System.Drawing;
+using CodeImp.Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Graphics;
 
 internal sealed class MouseCursor
 {

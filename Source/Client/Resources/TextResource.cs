@@ -13,9 +13,11 @@
 using System.Drawing;
 using System.Text;
 using CodeImp.Bloodmasters.Client.Graphics;
+using CodeImp.Bloodmasters.Net;
 using SharpDX.Direct3D9;
+using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Resources;
 
 public sealed class TextResource : Resource
 {

@@ -6,10 +6,11 @@
 \********************************************************************/
 
 using System;
+using CodeImp.Bloodmasters.Client.Resources;
 using SharpDX;
 using SharpDX.Direct3D9;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Graphics;
 
 public class LiquidGraphics : ITextureResource
 {

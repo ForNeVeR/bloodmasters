@@ -1,4 +1,6 @@
 using System.IO;
+using CodeImp.Bloodmasters.Client.Graphics;
+using CodeImp.Bloodmasters.Map;
 
 namespace CodeImp.Bloodmasters.Client;
 

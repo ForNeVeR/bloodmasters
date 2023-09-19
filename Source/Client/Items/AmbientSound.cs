@@ -6,8 +6,9 @@
 \********************************************************************/
 
 using System.IO;
+using CodeImp.Bloodmasters.Map;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.Items;
 
 [ClientItem(9000)]
 public class AmbientSound : Item

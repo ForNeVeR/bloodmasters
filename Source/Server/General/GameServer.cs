@@ -11,6 +11,9 @@ using System.Globalization;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.Net;
+using CodeImp.Bloodmasters.Server.Map;
 using CodeImp.Bloodmasters.Server.Net;
 
 namespace CodeImp.Bloodmasters.Server;
@@ -67,7 +70,7 @@ public sealed class GameServer
     private int gamestateend;
 
     // The basic map data
-    public Bloodmasters.Map map;
+    public CodeImp.Bloodmasters.Map.Map map;
 
     // Items
     public Dictionary<string, Item> items;
@@ -585,7 +588,7 @@ public sealed class GameServer
         Write("Server is loading map \"" + nextmapname + "\"...", true);
 
         // Load the map title
-        Bloodmasters.Map mapcfg = new ServerMap(nextmapname, true, Paths.TempDir);
+        CodeImp.Bloodmasters.Map.Map mapcfg = new ServerMap(nextmapname, true, Paths.TempDir);
         string maptitle = mapcfg.Title;
         mapcfg.Dispose();
 
