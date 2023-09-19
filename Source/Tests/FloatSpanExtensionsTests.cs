@@ -1,6 +1,6 @@
 using CodeImp.Bloodmasters.Client.Extensions;
 
-namespace Bloodmasters.Tests;
+namespace CodeImp.Bloodmasters.Tests;
 
 public class FloatSpanExtensionsTests
 {

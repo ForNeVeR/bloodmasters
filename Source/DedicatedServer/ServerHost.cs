@@ -1,9 +1,8 @@
 using System;
 using System.IO;
-using CodeImp.Bloodmasters;
 using CodeImp.Bloodmasters.Server;
 
-namespace Bloodmasters.DedicatedServer;
+namespace CodeImp.Bloodmasters.DedicatedServer;
 
 public class ServerHost : IHost
 {

@@ -16,9 +16,9 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using Bloodmasters.DedicatedServer;
+using CodeImp.Bloodmasters.Server;
 
-namespace CodeImp.Bloodmasters.Server;
+namespace CodeImp.Bloodmasters.DedicatedServer;
 
 internal sealed class General : SharedGeneral
 {
