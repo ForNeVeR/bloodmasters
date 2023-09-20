@@ -9,8 +9,9 @@ using System;
 using System.Globalization;
 using CodeImp.Bloodmasters.Client.Graphics;
 using CodeImp.Bloodmasters.Client.Items;
+using CodeImp.Bloodmasters.Client.LevelMap;
 using CodeImp.Bloodmasters.Client.Resources;
-using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.LevelMap;
 
 namespace CodeImp.Bloodmasters.Client.Effects;
 

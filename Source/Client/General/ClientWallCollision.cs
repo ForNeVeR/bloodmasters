@@ -1,6 +1,6 @@
 using System;
 using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.LevelMap;
 using SharpDX;
 using SharpDX.Direct3D9;
 using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;

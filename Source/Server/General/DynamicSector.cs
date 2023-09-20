@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.LevelMap;
 using CodeImp.Bloodmasters.Net;
 
 namespace CodeImp.Bloodmasters.Server;

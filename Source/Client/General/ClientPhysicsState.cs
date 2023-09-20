@@ -1,11 +1,11 @@
 using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.LevelMap;
 
 namespace CodeImp.Bloodmasters.Client;
 
 public class ClientPhysicsState : PhysicsState
 {
-    public ClientPhysicsState(Map.Map map) : base(map)
+    public ClientPhysicsState(Map map) : base(map)
     {
     }
 

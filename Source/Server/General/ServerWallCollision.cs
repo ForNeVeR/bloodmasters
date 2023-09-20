@@ -1,4 +1,4 @@
-using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.LevelMap;
 
 namespace CodeImp.Bloodmasters.Server;
 

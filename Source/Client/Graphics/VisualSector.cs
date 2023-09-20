@@ -8,9 +8,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using CodeImp.Bloodmasters.Client.LevelMap;
 using CodeImp.Bloodmasters.Client.Lights;
 using CodeImp.Bloodmasters.Client.Resources;
-using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.LevelMap;
 using SharpDX;
 using SharpDX.Direct3D9;
 
@@ -784,8 +785,8 @@ public class VisualSector
         }
 
         // Texture coordinates
-        v.t1u = General.map.Vertices[mapvertex].x / (tex.Info.Width * Map.Map.MAP_SCALE_XY) * TEXTURE_SCALE;
-        v.t1v = -General.map.Vertices[mapvertex].y / (tex.Info.Height * Map.Map.MAP_SCALE_XY) * TEXTURE_SCALE;
+        v.t1u = General.map.Vertices[mapvertex].x / (tex.Info.Width * Map.MAP_SCALE_XY) * TEXTURE_SCALE;
+        v.t1v = -General.map.Vertices[mapvertex].y / (tex.Info.Height * Map.MAP_SCALE_XY) * TEXTURE_SCALE;
 
         // Lightmap coordinates
         v.t2u = LightmapScaledX(v.x + LIGHTMAP_OFFSET_X);

@@ -6,6 +6,7 @@
 \********************************************************************/
 
 using System;
+using CodeImp.Bloodmasters.Client.LevelMap;
 using SharpDX;
 using SharpDX.Direct3D9;
 using Color = System.Drawing.Color;

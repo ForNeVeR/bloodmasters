@@ -7,7 +7,7 @@
 
 using System.Drawing;
 
-namespace CodeImp.Bloodmasters.Map;
+namespace CodeImp.Bloodmasters.LevelMap;
 
 public abstract class Sector
 {

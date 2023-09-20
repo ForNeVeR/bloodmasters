@@ -8,7 +8,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace CodeImp.Bloodmasters.Map;
+namespace CodeImp.Bloodmasters.LevelMap;
 
 public abstract class Map
 {

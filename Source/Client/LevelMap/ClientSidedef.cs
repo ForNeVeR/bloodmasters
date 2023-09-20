@@ -1,8 +1,8 @@
 using System.IO;
 using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.LevelMap;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.LevelMap;
 
 public class ClientSidedef : Sidedef
 {
