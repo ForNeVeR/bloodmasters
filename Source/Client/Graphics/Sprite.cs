@@ -6,7 +6,8 @@
 \********************************************************************/
 
 using System;
-using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.Client.LevelMap;
+using CodeImp.Bloodmasters.LevelMap;
 using SharpDX;
 using SharpDX.Direct3D9;
 

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using CodeImp.Bloodmasters.Client.Effects;
 using CodeImp.Bloodmasters.Client.Graphics;
 using CodeImp.Bloodmasters.Client.Items;
+using CodeImp.Bloodmasters.Client.LevelMap;
 using CodeImp.Bloodmasters.Client.Lights;
 using CodeImp.Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;

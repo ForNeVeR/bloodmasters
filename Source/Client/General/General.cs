@@ -24,10 +24,12 @@ using System.Windows.Forms;
 using CodeImp.Bloodmasters.Client.Effects;
 using CodeImp.Bloodmasters.Client.Graphics;
 using CodeImp.Bloodmasters.Client.Interface;
+using CodeImp.Bloodmasters.Client.LevelMap;
 using CodeImp.Bloodmasters.Client.Lights;
 using CodeImp.Bloodmasters.Client.Net;
 using CodeImp.Bloodmasters.Client.Resources;
 using CodeImp.Bloodmasters.Client.Weapons;
+using CodeImp.Bloodmasters.LevelMap;
 using CodeImp.Bloodmasters.Net;
 using CodeImp.Bloodmasters.Server;
 using SharpDX;
@@ -99,7 +101,7 @@ internal sealed class General : SharedGeneral
     public static bool connecting;
 
     // Game Client
-    public static Map.Map map;
+    public static Map map;
     public static Arena arena;
     public static HUD hud;
     public static Scoreboard scoreboard;

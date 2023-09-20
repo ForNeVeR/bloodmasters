@@ -6,7 +6,7 @@
 \********************************************************************/
 
 using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.LevelMap;
 
 namespace CodeImp.Bloodmasters.Client.Items;
 

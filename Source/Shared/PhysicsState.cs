@@ -7,7 +7,7 @@
 
 // This controls the physics in the game
 
-using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.LevelMap;
 
 namespace CodeImp.Bloodmasters;
 
@@ -31,7 +31,7 @@ public abstract class PhysicsState
     public Vector3D vel;
 
     // Map
-    private Map.Map map;
+    private Map map;
 
     // Collision to render
     public Collision showcol;
@@ -58,7 +58,7 @@ public abstract class PhysicsState
     #region ================== Constructor / Destructor
 
     // Constructor
-    public PhysicsState(Map.Map map)
+    public PhysicsState(Map map)
     {
         // Keep reference
         this.map = map;

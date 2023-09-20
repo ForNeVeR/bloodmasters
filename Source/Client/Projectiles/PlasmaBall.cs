@@ -8,6 +8,7 @@
 using System;
 using CodeImp.Bloodmasters.Client.Graphics;
 using CodeImp.Bloodmasters.Client.Items;
+using CodeImp.Bloodmasters.Client.LevelMap;
 using CodeImp.Bloodmasters.Client.Lights;
 using CodeImp.Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;

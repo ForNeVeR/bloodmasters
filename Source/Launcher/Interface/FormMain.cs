@@ -13,6 +13,7 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
+using CodeImp.Bloodmasters.LevelMap;
 
 namespace CodeImp.Bloodmasters.Launcher;
 
@@ -1291,7 +1292,7 @@ public class FormMain : System.Windows.Forms.Form
                 string mname = wfparts[1].Substring(0, wfparts[1].Length - 4);
 
                 // Load the map information
-                Map.Map wadmap = new LauncherMap(mname, true, Paths.TempDir);
+                Map wadmap = new LauncherMap(mname, true, Paths.TempDir);
 
                 // Check if game type is supported
                 if (((cmbServerType.SelectedIndex == 0) && wadmap.SupportsDM) ||
@@ -1661,7 +1662,7 @@ public class FormMain : System.Windows.Forms.Form
             try
             {
                 // Load the map information
-                Map.Map wadmap = new LauncherMap(lstMaps.SelectedItem.ToString(), true, Paths.TempDir);
+                Map wadmap = new LauncherMap(lstMaps.SelectedItem.ToString(), true, Paths.TempDir);
 
                 // Display map information
                 lblMapTitle.Text = wadmap.Title;

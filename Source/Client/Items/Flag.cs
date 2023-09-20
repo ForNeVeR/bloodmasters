@@ -8,7 +8,7 @@
 using System;
 using System.Globalization;
 using CodeImp.Bloodmasters.Client.Lights;
-using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.LevelMap;
 
 namespace CodeImp.Bloodmasters.Client.Items;
 

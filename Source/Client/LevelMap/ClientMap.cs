@@ -1,9 +1,9 @@
 using System.IO;
-using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.LevelMap;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace CodeImp.Bloodmasters.Client.LevelMap;
 
-public class ClientMap : Map.Map
+public class ClientMap : Map
 {
     public ClientMap(string mapname, bool infoonly, string temppath) : base(mapname, infoonly, temppath)
     {

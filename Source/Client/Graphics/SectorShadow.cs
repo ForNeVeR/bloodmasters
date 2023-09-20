@@ -7,7 +7,7 @@
 
 using System;
 using System.Collections.Generic;
-using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.LevelMap;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Client.Graphics;

@@ -1,10 +1,10 @@
-using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.LevelMap;
 
 namespace CodeImp.Bloodmasters.Server;
 
 public class ServerPhysicsState : PhysicsState
 {
-    public ServerPhysicsState(CodeImp.Bloodmasters.Map.Map map) : base(map)
+    public ServerPhysicsState(Map map) : base(map)
     {
     }
 

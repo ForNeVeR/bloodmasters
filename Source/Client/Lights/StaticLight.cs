@@ -38,8 +38,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using CodeImp.Bloodmasters.Client.Graphics;
+using CodeImp.Bloodmasters.Client.LevelMap;
 using CodeImp.Bloodmasters.Client.Resources;
-using CodeImp.Bloodmasters.Map;
+using CodeImp.Bloodmasters.LevelMap;
 using SharpDX;
 using SharpDX.Direct3D9;
 using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
@@ -130,7 +131,7 @@ public class StaticLight
         this.shadows = shadows;
 
         // Get constructor arguments from thing
-        float trange = (float)t.Arg[0] * 10f * Map.Map.MAP_SCALE_XY;
+        float trange = (float)t.Arg[0] * 10f * Map.MAP_SCALE_XY;
         int tcolor = General.ARGB(1f, (float)t.Arg[1] / 255f,
             (float)t.Arg[2] / 255f,
             (float)t.Arg[3] / 255f);
