@@ -18,4 +18,8 @@
         <ProjectReference Include="..\Server\Bloodmasters.Server.csproj"/>
         <ProjectReference Include="..\Shared\Bloodmasters.Shared.csproj"/>
     </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="..\..\.bloodmasters.dev.marker" CopyToOutputDirectory="Always" CopyToPublishDirectory="Never"/>
+    </ItemGroup>
 </Project>
