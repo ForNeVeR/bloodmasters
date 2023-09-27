@@ -14,9 +14,9 @@ public abstract class WallCollision : Collision
     // Members
     protected Linedef line;
     protected bool offending;
-    private bool crossing;
+    private readonly bool crossing;
     protected float objradius;
-    private Sidedef startside;
+    private readonly Sidedef startside;
     protected float objheight;
 
     // Elements for calculations

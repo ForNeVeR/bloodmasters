@@ -25,10 +25,10 @@ public class BlockMap
 
     // Blockmap
     private List<Linedef>[,] blocks;
-    private int cols;
-    private int rows;
-    private float ox;
-    private float oy;
+    private readonly int cols;
+    private readonly int rows;
+    private readonly float ox;
+    private readonly float oy;
 
     #endregion
 

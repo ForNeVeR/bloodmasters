@@ -9,7 +9,7 @@ namespace CodeImp.Bloodmasters.Net;
 
 public class NetMessageComparer : IComparer<NetMessage>
 {
-    bool reversed = false;
+    readonly bool reversed = false;
 
     // Constructor
     public NetMessageComparer(bool reversed)

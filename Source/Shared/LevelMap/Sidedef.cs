@@ -15,14 +15,14 @@ public class Sidedef
 
     #region ================== Variables
 
-    private int index;
-    private float tx;				// Texture X offset
-    private float ty;				// Texture Y offset
+    private readonly int index;
+    private readonly float tx;				// Texture X offset
+    private readonly float ty;				// Texture Y offset
     private Sector sector;			// Sector on which the sidedef lies
     private Linedef linedef;		// Linedef on which this sidedef lies
-    private string tlower;			// Lower texture
-    private string tmiddle;			// Middle texture
-    private string tupper;			// Upper texture
+    private readonly string tlower;			// Lower texture
+    private readonly string tmiddle;			// Middle texture
+    private readonly string tupper;			// Upper texture
     private Sidedef otherside;		// Sidedef on the other side of the line
     private float angle;
 

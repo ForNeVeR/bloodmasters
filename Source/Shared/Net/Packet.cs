@@ -33,7 +33,7 @@ public class Packet
     #region ================== Variables
 
     // Target/source address
-    private IPEndPoint address;
+    private readonly IPEndPoint address;
 
     // Packet data
     private MemoryStream data = null;

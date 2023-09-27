@@ -25,7 +25,7 @@ public abstract class Map
     #region ================== Variables
 
     // Map information
-    private string mapname;
+    private readonly string mapname;
     private string title;
     private string author;
     private int rec_players;

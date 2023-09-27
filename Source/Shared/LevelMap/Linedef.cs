@@ -15,21 +15,21 @@ public class Linedef
 
     #region ================== Variables
 
-    private int index;
-    private int vstart;				// Start vertex of the line
-    private int vend;				// End vertex of the line
-    private bool impassable;
-    private bool solid;
-    private LINEFLAG flags;
-    private ACTION action;
-    private int[] arg;				// Action arguments (usage depends on action)
+    private readonly int index;
+    private readonly int vstart;				// Start vertex of the line
+    private readonly int vend;				// End vertex of the line
+    private readonly bool impassable;
+    private readonly bool solid;
+    private readonly LINEFLAG flags;
+    private readonly ACTION action;
+    private readonly int[] arg;				// Action arguments (usage depends on action)
     private Sidedef sfront = null;	// Sidedef on the front (right) side of line
     private Sidedef sback = null;	// Sidedef on the back (left) side of the line
-    private float length;
-    private float lengthsq;
-    private float angle;
+    private readonly float length;
+    private readonly float lengthsq;
+    private readonly float angle;
     private Map map;
-    private float nx, ny;
+    private readonly float nx, ny;
 
     #endregion
 
