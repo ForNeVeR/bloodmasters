@@ -34,11 +34,11 @@ public class NukeDetonation : Projectile
     #region ================== Variables
 
     // Members
-    private Animation ani;
-    private Sprite sprite;
-    private DynamicLight light;
+    private readonly Animation ani;
+    private readonly Sprite sprite;
+    private readonly DynamicLight light;
     private float lightfade = 0f;
-    private int lightfadeouttime;
+    private readonly int lightfadeouttime;
     private int smoketime;
     private float rotate = 0f;
     private float rotatespeed = ROTATE_SPEED;

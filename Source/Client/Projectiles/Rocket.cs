@@ -41,7 +41,7 @@ public class Rocket : Projectile
     private ISound flying;
     private int smoketime;
     private Vector3D exoffset;
-    private DynamicLight light;
+    private readonly DynamicLight light;
 
     #endregion
 

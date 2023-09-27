@@ -15,7 +15,7 @@ public class ShockLight : DynamicLight
 
     #region ================== Variables
 
-    private int timeout;
+    private readonly int timeout;
 
     #endregion
 

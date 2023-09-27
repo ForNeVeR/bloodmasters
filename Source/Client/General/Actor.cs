@@ -91,9 +91,9 @@ public class Actor : VisualObject, IPhysicsState, ILightningNode
     private float aimangle = 0f;
     private float aimanglez = 0f;
     private int teamcolor = 0;
-    private TEAM team;
-    private int clientid;
-    private PhysicsState state;
+    private readonly TEAM team;
+    private readonly int clientid;
+    private readonly PhysicsState state;
     private Vector2D pushvec;
     private bool onfloor = true;
     private bool dead = false;
@@ -132,7 +132,7 @@ public class Actor : VisualObject, IPhysicsState, ILightningNode
 
     // Effects
     private FireEffect fireeffect = null;
-    private List<Lightning> lightnings = new();
+    private readonly List<Lightning> lightnings = new();
     private RageEffect rageeffect = null;
     private int ragecolor = -1;
 

@@ -25,7 +25,7 @@ public class RocketExplodeEffect : VisualObject
 
     private Sprite sprite;
     private Animation ani;
-    private ClientSector sector;
+    private readonly ClientSector sector;
     private bool disposed;
 
     #endregion

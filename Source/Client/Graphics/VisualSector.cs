@@ -46,8 +46,8 @@ public class VisualSector
     // Bounds
     private RectangleF lmbounds;
     private RectangleF secbounds;
-    private float lmscalex, lmscaley;
-    private float secscalex, secscaley;
+    private readonly float lmscalex, lmscaley;
+    private readonly float secscalex, secscaley;
 
     // Vertex buffers
     private VertexBuffer mapvertices = null;
@@ -73,20 +73,20 @@ public class VisualSector
     public static TextureResource ceillightmap = null;
     public static TextureResource sectorshadowstexture = null;
     private bool updatelightmap = true;
-    private bool dynamiclightmap = false;
-    private int lightmapsize;
-    private float lightmapunit;
+    private readonly bool dynamiclightmap = false;
+    private readonly int lightmapsize;
+    private readonly float lightmapunit;
     private int wallslightmapsize;
     private float wallslightmapunit;
-    private int ambientlight;
-    private bool fixedlight;
-    private float lightmapaspect;
+    private readonly int ambientlight;
+    private readonly bool fixedlight;
+    private readonly float lightmapaspect;
 
     // Color for debugging
-    private int debugcolor = 0;
+    private readonly int debugcolor = 0;
 
     // Lists of nearby lights
-    private List<StaticLight> lights = new();
+    private readonly List<StaticLight> lights = new();
 
     #endregion
 

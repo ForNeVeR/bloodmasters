@@ -27,8 +27,8 @@ public abstract class Projectile : VisualObject
 
     // Members
     protected PhysicsState state;
-    private PROJECTILE type;
-    private string id;
+    private readonly PROJECTILE type;
+    private readonly string id;
     private bool disposed = false;
     private int source;
     private TEAM team;

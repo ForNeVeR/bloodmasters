@@ -13,7 +13,7 @@ namespace CodeImp.Bloodmasters.Client.Projectiles;
 public class ProjectileInfo : Attribute
 {
     // Members
-    private PROJECTILE type;
+    private readonly PROJECTILE type;
 
     // Properties
     public PROJECTILE Type { get { return type; } }

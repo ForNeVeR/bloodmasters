@@ -33,7 +33,7 @@ public class WPhoenix : Weapon
 
     // Fire flare
     private Sprite flare;
-    private Animation flareani;
+    private readonly Animation flareani;
     private float flarealpha = 0f;
 
     // States

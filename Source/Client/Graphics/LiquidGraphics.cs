@@ -37,7 +37,7 @@ public class LiquidGraphics : ITextureResource
     private short[] indices;
     private ImageInformation info;
     private Viewport viewport;
-    private float rotatespeed;
+    private readonly float rotatespeed;
 
     #endregion
 

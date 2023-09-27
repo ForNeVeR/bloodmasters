@@ -30,13 +30,13 @@ public class Flames : Projectile
     #region ================== Variables
 
     // Members
-    private int fadeouttime;
+    private readonly int fadeouttime;
     private int spawntime = 0;
     private float intensity = 1f;
-    private ISound firesound = null;
-    private DynamicLight light;
+    private readonly ISound firesound = null;
+    private readonly DynamicLight light;
     private int smoketime = 0;
-    private int fluxoffset;
+    private readonly int fluxoffset;
 
     #endregion
 

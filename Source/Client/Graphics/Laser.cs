@@ -23,7 +23,7 @@ public class Laser
     private const float LASER_OFFSET_Z = 10f;
     private const float LASER_DELTA_ANGLE = 0.43f;
     private const float LASER_DISTANCE = 3f;
-    private static float[] LASER_OPACITY = { 0f, 0.05f, 0.1f, 0.2f, 0.4f };
+    private static readonly float[] LASER_OPACITY = { 0f, 0.05f, 0.1f, 0.2f, 0.4f };
 
     #endregion
 
@@ -33,7 +33,7 @@ public class Laser
     public static int opacity = 2;
     public static TextureResource texture = null;
     public static TextureResource dottexture = null;
-    private static Sprite dot = new Sprite(new Vector3D(0f, 0f, 0f), DOTSIZE, false, true);
+    private static readonly Sprite dot = new Sprite(new Vector3D(0f, 0f, 0f), DOTSIZE, false, true);
 
     #endregion
 

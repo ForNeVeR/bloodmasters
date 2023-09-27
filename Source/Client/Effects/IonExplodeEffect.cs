@@ -28,12 +28,12 @@ public class IonExplodeEffect : VisualObject, ILightningNode
 
     private Sprite sprite;
     private Animation ani;
-    private ClientSector sector;
+    private readonly ClientSector sector;
     private bool disposed;
     private int shockendtime;
-    private List<Lightning> lightnings = new();
-    private int source;
-    private TEAM team;
+    private readonly List<Lightning> lightnings = new();
+    private readonly int source;
+    private readonly TEAM team;
 
     #endregion
 

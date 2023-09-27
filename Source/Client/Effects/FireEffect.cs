@@ -31,11 +31,11 @@ public class FireEffect
     private bool spawnfront = false;
     private Vector3D lightoffset = new Vector3D(0f, 0f, 8f);
     private int smoketime = 0;
-    private int lightcolor = 0;
+    private readonly int lightcolor = 0;
     private float startalpha = 0f;
     private int intensity = 2000;
     private ISound sound;
-    private int fluxoffset;
+    private readonly int fluxoffset;
 
     #endregion
 

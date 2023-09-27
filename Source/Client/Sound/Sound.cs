@@ -30,12 +30,12 @@ internal class Sound : ISound
     private readonly SoundType _soundType;
     private bool repeat = false;
     private bool autodispose = false;
-    private string filename;
-    private string fullfilename;
+    private readonly string filename;
+    private readonly string fullfilename;
     private float volume = 1f;
     private float newvolume = 1f;
     private float absvolume = 0;
-    private bool positional;
+    private readonly bool positional;
     private bool disposed;
     private Vector2D pos;
     private bool update = true;

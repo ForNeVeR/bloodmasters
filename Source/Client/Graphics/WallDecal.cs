@@ -41,7 +41,7 @@ public class WallDecal : Decal
     private TextureResource texture;
 
     // Sidedef and sector where this decal is on
-    private VisualSidedef sidedef;
+    private readonly VisualSidedef sidedef;
 
     // Geometry
     private static VertexBuffer vertices = null;

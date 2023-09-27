@@ -34,7 +34,7 @@ public class PlasmaBall : Projectile
     // Members
     private Sprite sprite;
     private ISound flying;
-    private DynamicLight light;
+    private readonly DynamicLight light;
 
     #endregion
 

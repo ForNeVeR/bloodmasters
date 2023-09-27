@@ -37,9 +37,9 @@ public class GameMenu
     #region ================== Variables
 
     // Appearance
-    private WindowBorder window;
-    private TextResource[] item = new TextResource[ITEMS];
-    private int[] state = new int[ITEMS];
+    private readonly WindowBorder window;
+    private readonly TextResource[] item = new TextResource[ITEMS];
+    private readonly int[] state = new int[ITEMS];
 
     // Interaction
     private bool visible = false;

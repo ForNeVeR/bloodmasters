@@ -59,18 +59,18 @@ public class Scoreboard
     private bool updateneeded = true;
 
     // Clients array
-    private List<Client> clients;
+    private readonly List<Client> clients;
 
     // Window border and lines
-    private WindowBorder window;
-    private Border[] headerline;
+    private readonly WindowBorder window;
+    private readonly Border[] headerline;
 
     // Table cells
     private TextResource[,] cell;
 
     // Flag icons
-    private TextureResource redflag;
-    private TextureResource blueflag;
+    private readonly TextureResource redflag;
+    private readonly TextureResource blueflag;
     private TLVertex[] redflagclient;
     private TLVertex[] blueflagclient;
 

@@ -29,7 +29,7 @@ internal sealed class MouseCursor
 
     // Current mouse cursor
     private static MouseCursor current;
-    private static TLVertex[] vertices = new TLVertex[4];
+    private static readonly TLVertex[] vertices = new TLVertex[4];
 
     // Available cursor
     public static MouseCursor Normal;

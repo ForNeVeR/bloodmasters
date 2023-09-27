@@ -75,7 +75,7 @@ public class Arena
 
     // All game objects for rendering
     // This array is sorted back-to-front every frame
-    private List<VisualObject> objects;
+    private readonly List<VisualObject> objects;
 
     // Lights on the map
     private List<StaticLight> staticlights;
@@ -91,7 +91,7 @@ public class Arena
     private List<Actor> actors;
 
     // Projectiles
-    private Dictionary<string, Projectile> projectiles;
+    private readonly Dictionary<string, Projectile> projectiles;
 
     // Particles
     public ParticleCollection p_dust;

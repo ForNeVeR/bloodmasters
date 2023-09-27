@@ -37,7 +37,7 @@ public class PhoenixFlame : VisualObject
     private ClientSector sector;
     private bool disposed = false;
     private float alpha = 0f;
-    private PhysicsState state;
+    private readonly PhysicsState state;
 
     #endregion
 

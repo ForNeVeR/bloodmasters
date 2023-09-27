@@ -35,14 +35,14 @@ public class Sprite
 
     // Sprite properties
     private Vector3D position;
-    private bool lightmapped;
+    private readonly bool lightmapped;
     private float scale;
     private float rotate;
     private Vector3D prevposition;
     private float prevscale;
     private float prevrotate;
     private float prevrotatex;
-    private float offsetz;
+    private readonly float offsetz;
     private float rotatex;
     private ClientSector sector;
 

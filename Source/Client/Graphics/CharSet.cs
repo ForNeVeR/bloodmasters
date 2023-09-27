@@ -21,7 +21,7 @@ public sealed class CharSet
 
     // Because access to the set must be fast,
     // this collection is public.
-    private CharInfo[] chars = new CharInfo[256];
+    private readonly CharInfo[] chars = new CharInfo[256];
 
     // Color codes
     private byte colorcode_byte;

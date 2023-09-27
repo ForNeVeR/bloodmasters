@@ -41,29 +41,29 @@ public class Particle //: VisualObject
     private Matrix spritescalerotate;
 
     // Position/velocity
-    PhysicsState state;
+    readonly PhysicsState state;
     private float previousz = 0f;
-    private float gravity;
+    private readonly float gravity;
     private ParticleCollection collection;
     private ClientSector sector = null;
     private int sectortesttime = 0;
     private int playertesttime = 0;
 
     // Color/size/fade
-    private int basecolor;
+    private readonly int basecolor;
     private int color;
     private float size;
-    private float resize;
+    private readonly float resize;
     //private float rotation;
 
     // Fade
     private int decaytime;
     private float fade;
-    private bool fadein;
+    private readonly bool fadein;
     private bool disposed = false;
 
     // Lightmap
-    private bool lightmapped;
+    private readonly bool lightmapped;
     private Matrix lightmapoffsets = Matrix.Identity;
 
     #endregion

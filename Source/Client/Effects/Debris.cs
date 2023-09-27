@@ -44,13 +44,13 @@ public abstract class Debris : VisualObject
     private int findsectorinterleave;
 
     // Appearance
-    private Sprite sprite = null;
+    private readonly Sprite sprite = null;
     private Texture texture = null;
     private float size = 3.5f;
     private float fade = 1f;
-    private float size_floor = 0f;
-    private int rotatespeed;
-    private int changedir;
+    private readonly float size_floor = 0f;
+    private readonly int rotatespeed;
+    private readonly int changedir;
     private int direction;
     private int nextdirtime;
     private RawMatrix texdirmatrix;

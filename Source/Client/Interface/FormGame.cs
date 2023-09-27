@@ -27,9 +27,9 @@ internal sealed class FormGame : System.Windows.Forms.Form
     private bool alt = false;
     private bool shift = false;
     private bool ctrl = false;
-    private Dictionary<int, string> macrokeys = new();
-    private Dictionary<int, string> controlkeys = new();
-    private HashSet<string> pressedcontrols = new();
+    private readonly Dictionary<int, string> macrokeys = new();
+    private readonly Dictionary<int, string> controlkeys = new();
+    private readonly HashSet<string> pressedcontrols = new();
 
     // Properties
     public Point Mouse { get { return new Point(lastmousex, lastmousey); } }

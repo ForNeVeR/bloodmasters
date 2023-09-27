@@ -30,10 +30,10 @@ public class Lightning
     // Variables
     private ILightningNode source;
     private ILightningNode target;
-    private float sourceheight;
-    private float targetheight;
+    private readonly float sourceheight;
+    private readonly float targetheight;
     private ISound snd;
-    private float fadechange;
+    private readonly float fadechange;
     private int shocktime;
     private DynamicLight[] lights = new DynamicLight[MAX_LIGHTS];
 

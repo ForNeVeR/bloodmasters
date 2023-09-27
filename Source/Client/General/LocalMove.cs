@@ -16,8 +16,8 @@ namespace CodeImp.Bloodmasters.Client;
 public class LocalMove
 {
     // Variables
-    private int movetime;
-    private float walkangle;
+    private readonly int movetime;
+    private readonly float walkangle;
 
     // Constructor
     public LocalMove(int movetime, float walkangle)

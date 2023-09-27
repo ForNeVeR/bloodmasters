@@ -55,34 +55,34 @@ public class HUD
     public static bool showhud = true;
 
     // Health/Armor/Weapon/Ammo
-    private WindowBorder healthwnd;
-    private WindowBorder armorwnd;
-    private WindowBorder weaponwnd;
-    private WindowBorder powerupwnd;
-    private WindowBorder scorewnd;
-    private TextureResource flashtexture;
-    private TextureResource healthicon;
-    private TextureResource armoricon;
-    private TextureResource[] weaponicons = new TextureResource[(int)WEAPON.TOTAL_WEAPONS];
-    private TextureResource[] powerupicons = new TextureResource[(int)POWERUP.TOTAL_POWERUPS];
-    private TLVertex[] healthverts;
-    private TLVertex[] armorverts;
-    private TLVertex[] barverts;
-    private TLVertex[] weaponverts;
-    private TLVertex[] powerupverts;
-    private TextResource healthtext;
-    private TextResource armortext;
-    private TextResource ammotext;
-    private TextResource poweruptext;
-    private TextResource scoretext;
-    private TextResource callvotetext;
+    private readonly WindowBorder healthwnd;
+    private readonly WindowBorder armorwnd;
+    private readonly WindowBorder weaponwnd;
+    private readonly WindowBorder powerupwnd;
+    private readonly WindowBorder scorewnd;
+    private readonly TextureResource flashtexture;
+    private readonly TextureResource healthicon;
+    private readonly TextureResource armoricon;
+    private readonly TextureResource[] weaponicons = new TextureResource[(int)WEAPON.TOTAL_WEAPONS];
+    private readonly TextureResource[] powerupicons = new TextureResource[(int)POWERUP.TOTAL_POWERUPS];
+    private readonly TLVertex[] healthverts;
+    private readonly TLVertex[] armorverts;
+    private readonly TLVertex[] barverts;
+    private readonly TLVertex[] weaponverts;
+    private readonly TLVertex[] powerupverts;
+    private readonly TextResource healthtext;
+    private readonly TextResource armortext;
+    private readonly TextResource ammotext;
+    private readonly TextResource poweruptext;
+    private readonly TextResource scoretext;
+    private readonly TextResource callvotetext;
     private int prevhealth;
     private int healthflashtime;
 
     // Centered messages
-    private TextResource itemmessage;
-    private TextResource smallmessage;
-    private TextResource bigmessage;
+    private readonly TextResource itemmessage;
+    private readonly TextResource smallmessage;
+    private readonly TextResource bigmessage;
     private float smallfade = 0f;
     private int smallfadeout = 0;
     private float bigfade = 0f;
@@ -95,11 +95,11 @@ public class HUD
     private int fps_lasttime;			// Time FPS was last measured
     private int fps_measuretime;		// Time to measure FPS
     private int fps_count;				// FPS measured
-    private TextResource fps_text;		// The displayed FPS text
-    private TextResource mspf_text;		// The displayed MSPF text
+    private readonly TextResource fps_text;		// The displayed FPS text
+    private readonly TextResource mspf_text;		// The displayed MSPF text
 
     // Screen flashes
-    private Border flashborder;
+    private readonly Border flashborder;
     private float flashalpha;
     private bool showscreenflashes;
 

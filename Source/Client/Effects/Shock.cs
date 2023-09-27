@@ -33,9 +33,9 @@ public class Shock : VisualObject
 
     public static TextureResource texture;
     private float fade = FADE_ALPHA_START;
-    private float fadechange;
+    private readonly float fadechange;
     private MVertex[] verts;
-    private int faces;
+    private readonly int faces;
     private bool disposed;
 
     #endregion

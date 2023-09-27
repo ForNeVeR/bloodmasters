@@ -30,7 +30,7 @@ public class WindowBorder
     public static TextureResource texture;
     private VertexBuffer vertices;
     private RectangleF pos;
-    private float bsize;
+    private readonly float bsize;
     private int faces;
 
     #endregion

@@ -75,7 +75,7 @@ public class StaticLight
     public static TextureResource lightshadow;
 
     // Properties
-    private int thingindex;
+    private readonly int thingindex;
     private int basecolor;
     private int color;
     private float range;
@@ -85,7 +85,7 @@ public class StaticLight
     private float z;
     private Sector sector;
     private bool disposed = false;
-    private bool shadows;
+    private readonly bool shadows;
 
     // Lightmap
     private Texture lightmap = null;

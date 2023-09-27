@@ -32,8 +32,8 @@ public class ChatBox
     #region ================== Variables
 
     // Text input
-    private TextResource prefix;
-    private TextResource panelinput;
+    private readonly TextResource prefix;
+    private readonly TextResource panelinput;
     private string inputstr = "";
 
     // Panel

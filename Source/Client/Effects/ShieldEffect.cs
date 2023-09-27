@@ -36,9 +36,9 @@ public class ShieldEffect : VisualObject
     private Sprite sprite;
     private bool disposed = false;
     private float alpha;
-    private float angle;
-    private float fadeout;
-    private int lightcolor;
+    private readonly float angle;
+    private readonly float fadeout;
+    private readonly int lightcolor;
 
     #endregion
 

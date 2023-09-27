@@ -46,12 +46,12 @@ public class FloorDecal : Decal
     private Matrix decalmatrix;
     private Matrix lightmapmatrix;
     private Matrix dynlightmapoffsets;
-    private float angle;
-    private float origx, origy;
+    private readonly float angle;
+    private readonly float origx, origy;
 
     // Animating
     private float size;
-    private float finalsize;
+    private readonly float finalsize;
 
     #endregion
 

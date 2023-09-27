@@ -40,7 +40,7 @@ public static class SoundSystem
     private static NAudioPlaybackEngine? _playbackEngine;
 
     // Resources
-    private static Dictionary<string, ISound> sounds = new();
+    private static readonly Dictionary<string, ISound> sounds = new();
 
     // Settings
     private static bool playeffects;
@@ -50,7 +50,7 @@ public static class SoundSystem
 
     // 3D Sound
     private static Vector2D listenpos;
-    private static List<ISound> playingsounds = new();
+    private static readonly List<ISound> playingsounds = new();
 
     #endregion
 

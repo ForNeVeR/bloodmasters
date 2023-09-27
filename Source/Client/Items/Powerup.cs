@@ -26,8 +26,8 @@ public class Powerup : Item
     #region ================== Variables
 
     // Light
-    private DynamicLight light;
-    private int color;
+    private readonly DynamicLight light;
+    private readonly int color;
     private int particletime;
 
     #endregion

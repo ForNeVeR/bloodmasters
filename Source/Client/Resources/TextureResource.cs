@@ -19,7 +19,7 @@ public class TextureResource : ITextureResource
     #region ================== Variables
 
     // Texture and info
-    private string filename;
+    private readonly string filename;
     public Texture texture = null;
     public ImageInformation info;
 

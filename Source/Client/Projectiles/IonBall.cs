@@ -37,8 +37,8 @@ public class IonBall : Projectile, ILightningNode
     // Members
     private Sprite sprite;
     private ISound flying;
-    private DynamicLight light;
-    private List<Lightning> lightnings = new();
+    private readonly DynamicLight light;
+    private readonly List<Lightning> lightnings = new();
     private int particletime;
 
     #endregion

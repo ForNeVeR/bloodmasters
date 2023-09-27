@@ -32,13 +32,13 @@ public class DynamicLight
     public static bool dynamiclights = true;
 
     // Properties
-    private int basecolor;
+    private readonly int basecolor;
     private int color;
-    private int template;
+    private readonly int template;
     private bool visible;
-    private float range;
+    private readonly float range;
     private Vector3D pos;
-    private bool disposed = false;
+    private readonly bool disposed = false;
 
     #endregion
 

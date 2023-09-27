@@ -44,13 +44,13 @@ public class GConsole
 
     // Lines on the screen
     private TextResource[] screenlines;
-    private float[] linetimeout;
+    private readonly float[] linetimeout;
 
     // All lines in console
-    private StringCollection alllines;
+    private readonly StringCollection alllines;
 
     // Lines in panel
-    private TextResource[] panellines;
+    private readonly TextResource[] panellines;
     private int paneloffset = -NUM_PANEL_LINES + 2;
 
     // Panel
@@ -58,7 +58,7 @@ public class GConsole
     private bool panelopen = false;
 
     // Text input
-    private TextResource panelinput = null;
+    private readonly TextResource panelinput = null;
     private string inputstr = "";
 
     // Settings

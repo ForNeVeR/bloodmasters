@@ -26,9 +26,9 @@ public class TeleportEffect : VisualObject
 
     private Sprite sprite;
     private Animation ani;
-    private ClientSector sector;
+    private readonly ClientSector sector;
     private bool disposed;
-    private int teamcolor;
+    private readonly int teamcolor;
 
     #endregion
 

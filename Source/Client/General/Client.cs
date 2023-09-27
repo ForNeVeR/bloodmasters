@@ -46,7 +46,7 @@ public class Client
     private Actor actor = null;
 
     // Client properties
-    private int id;
+    private readonly int id;
     private string name;
     private string formattedname;
     private bool spectator = true;
@@ -65,8 +65,8 @@ public class Client
     private int armor;
 
     // Weapons/ammo
-    private int[] ammo = new int[(int)AMMO.TOTAL_AMMO_TYPES];
-    private Weapon[] allweapons = new Weapon[(int)WEAPON.TOTAL_WEAPONS];
+    private readonly int[] ammo = new int[(int)AMMO.TOTAL_AMMO_TYPES];
+    private readonly Weapon[] allweapons = new Weapon[(int)WEAPON.TOTAL_WEAPONS];
     private Weapon currentweapon = null;
     private Weapon switchweapon = null;
     private bool weaponswitchlock = false;

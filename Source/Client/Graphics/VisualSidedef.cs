@@ -32,7 +32,7 @@ public class VisualSidedef
     private VisualSector sector;
 
     // Vertices
-    private int vstart, vend;
+    private readonly int vstart, vend;
 
     // Textures
     private TextureResource tlower = null;
@@ -53,7 +53,7 @@ public class VisualSidedef
     private float lightmapcoordmiddle;  // texture coords
 
     // Color for debugging
-    private int debugcolor = 0;
+    private readonly int debugcolor = 0;
 
     // Geometry info
     private int lowervertexoffset = -1;

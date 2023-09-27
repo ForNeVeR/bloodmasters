@@ -13,7 +13,7 @@ namespace CodeImp.Bloodmasters.Client.Weapons;
 public class WeaponInfo : Attribute
 {
     // Members
-    private WEAPON weaponid;
+    private readonly WEAPON weaponid;
     private int refiredelay;
     private string sound = "";
     private string description = "";

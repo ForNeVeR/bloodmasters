@@ -11,7 +11,7 @@ public class FormServer : System.Windows.Forms.Form
 {
     private System.Windows.Forms.Label lblInfo;
     private System.Windows.Forms.RichTextBox rtbConsole;
-    private System.ComponentModel.Container components = null;
+    private readonly System.ComponentModel.Container components = null;
 
     // Constructor
     public FormServer()

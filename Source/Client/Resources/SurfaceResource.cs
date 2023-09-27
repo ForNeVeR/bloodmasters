@@ -23,11 +23,11 @@ public sealed class SurfaceResource : Resource
     #region ================== Variables
 
     // This is what this class is all about
-    private string resourcefilename = "";
+    private readonly string resourcefilename = "";
     public Surface surface = null;
 
     // Memory pool where to store this resource
-    private Pool memorypool = Pool.Default;
+    private readonly Pool memorypool = Pool.Default;
 
     // Surface properties
     private int width = 0;

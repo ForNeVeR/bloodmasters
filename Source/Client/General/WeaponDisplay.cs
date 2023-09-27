@@ -29,17 +29,17 @@ public class WeaponDisplay : IDisposable
     #region ================== Variables
 
     // Weapon textures
-    private TextureResource[] weaponicons = new TextureResource[(int)WEAPON.TOTAL_WEAPONS];
+    private readonly TextureResource[] weaponicons = new TextureResource[(int)WEAPON.TOTAL_WEAPONS];
 
     // Ammo texts
-    private TextResource[] ammotexts = new TextResource[(int)WEAPON.TOTAL_WEAPONS];
+    private readonly TextResource[] ammotexts = new TextResource[(int)WEAPON.TOTAL_WEAPONS];
 
     // Icon vertices
-    private TLVertex[][] iconvertices = new TLVertex[(int)WEAPON.TOTAL_WEAPONS][];
+    private readonly TLVertex[][] iconvertices = new TLVertex[(int)WEAPON.TOTAL_WEAPONS][];
 
     // Selection
     private TLVertex[] selection;
-    private TextureResource seltexture;
+    private readonly TextureResource seltexture;
 
     // Appearance
     private float alpha;

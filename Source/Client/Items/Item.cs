@@ -44,7 +44,7 @@ public abstract class Item : VisualObject
     private ClientSector sector = null;
 
     // Identification
-    private string key;
+    private readonly string key;
     public static int uniquekeyindex = 0;
 
     // Size in mappixels

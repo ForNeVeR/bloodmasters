@@ -13,7 +13,7 @@ namespace CodeImp.Bloodmasters.Client.Items;
 public class ClientItem : Attribute
 {
     // Members
-    private int thingid;
+    private readonly int thingid;
     private string defaultsprite = "";
     private string description = "";
     private bool visible = true;
