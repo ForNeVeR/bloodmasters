@@ -107,18 +107,18 @@ public abstract class Projectile : VisualObject
         foreach(Type tp in asmtypes)
         {
             // Check if this type is a class
-            if(tp.IsClass && !tp.IsAbstract && !tp.IsArray)
-            {
-                // Check if class has a ProjectileInfo attribute
-                if(Attribute.IsDefined(tp, typeof(ProjectileInfo), false))
-                {
-                    // Get ProjectileInfo attribute
-                    ProjectileInfo attr = (ProjectileInfo)Attribute.GetCustomAttribute(tp, typeof(ProjectileInfo), false);
+            if (!tp.IsClass || tp.IsAbstract || tp.IsArray)
+                continue;
 
-                    // Add projectile type to array
-                    projectiletype[(int)attr.Type] = tp;
-                }
-            }
+            // Check if class has a ProjectileInfo attribute
+            if (!Attribute.IsDefined(tp, typeof(ProjectileInfo), false))
+                continue;
+
+            // Get ProjectileInfo attribute
+            ProjectileInfo attr = (ProjectileInfo)Attribute.GetCustomAttribute(tp, typeof(ProjectileInfo), false);
+
+            // Add projectile type to array
+            projectiletype[(int)attr.Type] = tp;
         }
     }
 
