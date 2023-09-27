@@ -100,20 +100,20 @@ internal sealed class Sound : ISound
     // Dispose
     public void Dispose()
     {
-        if (!disposed)
+        if (disposed)
+            return;
+
+        // Remove from collection
+        SoundSystem.RemovePlayingSound(this);
+
+        // Dispose sound
+        if (_controlSample != null)
         {
-            // Remove from collection
-            SoundSystem.RemovePlayingSound(this);
-
-            // Dispose sound
-            if (_controlSample != null)
-            {
-                _controlSample.Stop();
-            }
-
-            disposed = true;
-            GC.SuppressFinalize(this);
+            _controlSample.Stop();
         }
+
+        disposed = true;
+        GC.SuppressFinalize(this);
     }
 
     #endregion
