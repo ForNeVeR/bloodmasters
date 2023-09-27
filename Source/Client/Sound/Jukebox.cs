@@ -28,32 +28,7 @@ public class Jukebox
     // Constructor
     public Jukebox()
     {
-        // Make playlist from directory
-        string musicdir = Path.Combine(Paths.BundledResourceDir, "Music");
-        playlist = Directory.GetFiles(musicdir, "*.mp3");
-
-        // Randomize playlist?
-        if (General.config.ReadSetting("musicrandom", true))
-        {
-            // Do this many times
-            for (int i = 0; i < playlist.Length * 10; i++)
-            {
-                // Go for all items
-                for (int a = 0; a < playlist.Length; a++)
-                {
-                    // Pick a random entry b
-                    int b = General.random.Next(playlist.Length);
-
-                    // Swap items
-                    (playlist[a], playlist[b]) = (playlist[b], playlist[a]);
-                }
-            }
-        }
-        else
-        {
-            // Sort list alphabetically
-            Array.Sort(playlist);
-        }
+        playlist = GetPlaylistFiles();
 
         // Start playing the first track
         if (playlist.Length > 0)
@@ -65,11 +40,44 @@ public class Jukebox
         }
     }
 
+    private static string[] GetPlaylistFiles()
+    {
+        // Make playlist from directory
+        string musicdir = Path.Combine(Paths.BundledResourceDir, "Music");
+
+        var playlistFiles = Directory.GetFiles(musicdir, "*.mp3");
+
+        // Randomize playlist?
+        if (General.config.ReadSetting("musicrandom", true))
+        {
+            // Do this many times
+            for (int i = 0; i < playlistFiles.Length * 10; i++)
+            {
+                // Go for all items
+                for (int a = 0; a < playlistFiles.Length; a++)
+                {
+                    // Pick a random entry b
+                    int b = General.random.Next(playlistFiles.Length);
+
+                    // Swap items
+                    (playlistFiles[a], playlistFiles[b]) = (playlistFiles[b], playlistFiles[a]);
+                }
+            }
+        }
+        else
+        {
+            // Sort list alphabetically
+            Array.Sort(playlistFiles);
+        }
+
+        return playlistFiles;
+    }
+
     // Disposer
     public void Dispose()
     {
         // Dispose current track
-        if(currenttrack != null) currenttrack.Dispose();
+        if (currenttrack != null) currenttrack.Dispose();
 
         // Clean up
         playlist = null;
@@ -83,22 +91,25 @@ public class Jukebox
     public void Process()
     {
         // Anything in the jukebox?
-        if (playlist.Length > 0)
-        {
-            // Track ended?
-            if (currenttrack.Ended)
-            {
-                // Dispose current track
-                currenttrack.Dispose();
+        if (playlist.Length == 0)
+            return;
 
-                // Go to next track
-                currentitem++;
-                if (currentitem == playlist.Length) currentitem = 0;
-                // TODO[#112]: Load this asynchronously
-                currenttrack = new Track(playlist[currentitem], playlist[currentitem]);
-                currenttrack.Play();
-            }
-        }
+        // Track ended?
+        if (!currenttrack.Ended)
+            return;
+
+        // Dispose current track
+        currenttrack.Dispose();
+
+        // Go to next track
+        currentitem++;
+
+        if (currentitem == playlist.Length)
+            currentitem = 0;
+
+        // TODO[#112]: Load this asynchronously
+        currenttrack = new Track(playlist[currentitem], playlist[currentitem]);
+        currenttrack.Play();
     }
 
     #endregion
