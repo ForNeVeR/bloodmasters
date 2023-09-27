@@ -76,7 +76,7 @@ public class Grenade : Projectile
     {
         // Rotate sprite
         rotation += state.vel.Length() * 0.3f;
-        if(rotation > ((float)Math.PI * 2f)) rotation -= ((float)Math.PI * 2f);
+        if (rotation > ((float)Math.PI * 2f)) rotation -= ((float)Math.PI * 2f);
         spritebody.Rotation = rotation;
 
         // Update sprites
@@ -90,7 +90,7 @@ public class Grenade : Projectile
         base.Update(newpos, newvel);
 
         // Make bounce sound
-        if((sector != null) && sector.VisualSector.InScreen)
+        if ((sector != null) && sector.VisualSector.InScreen)
             SoundSystem.PlaySound("grenadebounce.wav", newpos);
     }
 
@@ -103,20 +103,20 @@ public class Grenade : Projectile
         ClientSector sector = (ClientSector)General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
 
         // Not silent?
-        if((silent == false) && (sector != null))
+        if ((silent == false) && (sector != null))
         {
             // Hitting a player?
-            if(hitplayer != null)
+            if (hitplayer != null)
             {
                 // Player is not carrying a shield?
-                if(hitplayer.Powerup != POWERUP.SHIELDS)
+                if (hitplayer.Powerup != POWERUP.SHIELDS)
                 {
                     // Create particles
-                    for(int i = 0; i < 5; i++)
+                    for (int i = 0; i < 5; i++)
                         General.arena.p_blood.Add(atpos, state.vel * 0.04f, General.ARGB(1f, 1f, 0.0f, 0.0f));
 
                     // Floor decal
-                    if((sector != null) && (sector.Material != (int)SECTORMATERIAL.LIQUID))
+                    if ((sector != null) && (sector.Material != (int)SECTORMATERIAL.LIQUID))
                         FloorDecal.Spawn(sector, state.pos.x, state.pos.y, FloorDecal.blooddecals, false, true, false);
 
                     // Create wall decal
@@ -129,11 +129,11 @@ public class Grenade : Projectile
                 decalpos = atpos - this.state.vel * 2f;
 
                 // Near the floor or ceiling?
-                if(((decalpos.z - sector.CurrentFloor) < 2f) &&
+                if (((decalpos.z - sector.CurrentFloor) < 2f) &&
                    ((decalpos.z - sector.CurrentFloor) > -2f))
                 {
                     // Spawn mark on the floor
-                    if((sector != null) && (sector.Material != (int)SECTORMATERIAL.LIQUID))
+                    if ((sector != null) && (sector.Material != (int)SECTORMATERIAL.LIQUID))
                         FloorDecal.Spawn(sector, decalpos.x, decalpos.y, FloorDecal.explodedecals, false, false, false);
                 }
                 else
@@ -153,32 +153,37 @@ public class Grenade : Projectile
         // Silent destroy
         else if (sector != null)
         {
-            // In a liquid sector?
-            if ((SECTORMATERIAL)sector.Material == SECTORMATERIAL.LIQUID)
-            {
-                // Make splash sound
-                if (sector.VisualSector.InScreen)
-                    SoundSystem.PlaySound("dropwater.wav", atpos);
-
-                // Check if on screen
-                if (sector.VisualSector.InScreen)
-                {
-                    // Determine type of splash to make
-                    switch (sector.LiquidType)
-                    {
-                        case LIQUID.WATER:
-                            FloodedSector.SpawnWaterParticles(atpos, new Vector3D(0f, 0f, 0.5f), 10);
-                            break;
-                        case LIQUID.LAVA:
-                            FloodedSector.SpawnLavaParticles(atpos, new Vector3D(0f, 0f, 0.5f), 10);
-                            break;
-                    }
-                }
-            }
+            HandleSilentDestroy(atpos, sector);
         }
 
         // Destroy base
         base.Destroy(atpos, silent, hitplayer);
+    }
+
+    private static void HandleSilentDestroy(Vector3D atpos, ClientSector sector)
+    {
+        // In a liquid sector?
+        if ((SECTORMATERIAL)sector.Material != SECTORMATERIAL.LIQUID)
+            return;
+
+        // Make splash sound
+        if (sector.VisualSector.InScreen)
+            SoundSystem.PlaySound("dropwater.wav", atpos);
+
+        // Check if on screen
+        if (!sector.VisualSector.InScreen)
+            return;
+
+        // Determine type of splash to make
+        switch (sector.LiquidType)
+        {
+            case LIQUID.WATER:
+                FloodedSector.SpawnWaterParticles(atpos, new Vector3D(0f, 0f, 0.5f), 10);
+                break;
+            case LIQUID.LAVA:
+                FloodedSector.SpawnLavaParticles(atpos, new Vector3D(0f, 0f, 0.5f), 10);
+                break;
+        }
     }
 
     // Process the projectile
@@ -191,7 +196,7 @@ public class Grenade : Projectile
         sector = (ClientSector)General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
 
         // Process physics
-        if(state.pos.z > (sector.CurrentFloor + 0.2f))
+        if (state.pos.z > (sector.CurrentFloor + 0.2f))
         {
             state.vel.z -= Consts.GRENADE_GRAVITY;
             state.vel.x /= 1f + Consts.GRENADE_DECELERATE_AIR;
@@ -199,7 +204,7 @@ public class Grenade : Projectile
         }
         else
         {
-            if(state.vel.z < -0.00000001f) state.vel.z = 0f;
+            if (state.vel.z < -0.00000001f) state.vel.z = 0f;
             state.vel.x /= 1f + Consts.GRENADE_DECELERATE_FLOOR;
             state.vel.y /= 1f + Consts.GRENADE_DECELERATE_FLOOR;
         }
@@ -209,7 +214,7 @@ public class Grenade : Projectile
         UpdateSprites();
 
         // Time to spawn smoke?
-        if((smoketime < SharedGeneral.currenttime) && (state.vel.Length() > 0.5f) && sector.VisualSector.InScreen)
+        if ((smoketime < SharedGeneral.currenttime) && (state.vel.Length() > 0.5f) && sector.VisualSector.InScreen)
         {
             // Make smoke
             Vector3D smokepos = state.pos + new Vector3D(0f, 0f, 0.1f);
@@ -223,34 +228,34 @@ public class Grenade : Projectile
     public override void RenderShadow()
     {
         // Check if in screen
-        if(this.InScreen)
-        {
-            // Render the shadow
-            Shadow.RenderAt(pos.x, pos.y, sector.CurrentFloor, 1.6f,
-                Shadow.AlphaAtHeight(sector.CurrentFloor, pos.z) * 0.5f);
-        }
+        if (!this.InScreen)
+            return;
+
+        // Render the shadow
+        Shadow.RenderAt(pos.x, pos.y, sector.CurrentFloor, 1.6f,
+            Shadow.AlphaAtHeight(sector.CurrentFloor, pos.z) * 0.5f);
     }
 
     // Render the projectile
     public override void Render()
     {
         // Check if in screen
-        if(this.InScreen)
-        {
-            // Set render mode
-            Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
-            Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
-            Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
+        if (!this.InScreen)
+            return;
 
-            // Set lightmap
-            Direct3D.d3dd.SetTexture(1, sector.VisualSector.Lightmap);
+        // Set render mode
+        Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
+        Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+        Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
 
-            // Texture
-            Direct3D.d3dd.SetTexture(0, Grenade.texbody.texture);
+        // Set lightmap
+        Direct3D.d3dd.SetTexture(1, sector.VisualSector.Lightmap);
 
-            // Render body
-            spritebody.Render();
-        }
+        // Texture
+        Direct3D.d3dd.SetTexture(0, Grenade.texbody.texture);
+
+        // Render body
+        spritebody.Render();
     }
 
     #endregion

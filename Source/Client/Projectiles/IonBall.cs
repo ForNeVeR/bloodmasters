@@ -134,24 +134,24 @@ public class IonBall : Projectile, ILightningNode
         var sector = (ClientSector)General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
 
         // Not silent?
-        if((silent == false) && (sector != null))
+        if ((silent == false) && (sector != null))
         {
             // Hitting a player?
-            if(hitplayer != null)
+            if (hitplayer != null)
             {
                 // Player is not carrying a shield?
-                if(hitplayer.Powerup != POWERUP.SHIELDS)
+                if (hitplayer.Powerup != POWERUP.SHIELDS)
                 {
                     // Create particles
-                    for(int i = 0; i < 2; i++)
+                    for (int i = 0; i < 2; i++)
                         General.arena.p_blood.Add(atpos, state.vel * 0.04f, General.ARGB(1f, 1f, 0.0f, 0.0f));
 
                     // Floor decal
-                    if((sector != null) && (sector.Material != (int)SECTORMATERIAL.LIQUID))
+                    if ((sector != null) && (sector.Material != (int)SECTORMATERIAL.LIQUID))
                         FloorDecal.Spawn(sector, state.pos.x, state.pos.y, FloorDecal.blooddecals, false, true, false);
 
                     // Create wall decal
-                    if(General.random.Next(100) < 50)
+                    if (General.random.Next(100) < 50)
                         WallDecal.Spawn(state.pos.x, state.pos.y, state.pos.z + (float)General.random.NextDouble() * 10f - 6f, Consts.PLAYER_DIAMETER, WallDecal.blooddecals, false);
                 }
             }
@@ -161,11 +161,11 @@ public class IonBall : Projectile, ILightningNode
                 decalpos = atpos - this.state.vel;
 
                 // Near the floor?
-                if(((decalpos.z - sector.CurrentFloor) < 2f) &&
+                if (((decalpos.z - sector.CurrentFloor) < 2f) &&
                    ((decalpos.z - sector.CurrentFloor) > -2f))
                 {
                     // Spawn mark on the floor
-                    if((sector != null) && (sector.Material != (int)SECTORMATERIAL.LIQUID))
+                    if ((sector != null) && (sector.Material != (int)SECTORMATERIAL.LIQUID))
                         FloorDecal.Spawn(sector, decalpos.x, decalpos.y, FloorDecal.explodedecals, false, false, false);
                 }
                 else
@@ -188,32 +188,37 @@ public class IonBall : Projectile, ILightningNode
         // Silent destroy
         else if (sector != null)
         {
-            // In a liquid sector?
-            if ((SECTORMATERIAL)sector.Material == SECTORMATERIAL.LIQUID)
-            {
-                // Make splash sound
-                if (sector.VisualSector.InScreen)
-                    SoundSystem.PlaySound("dropwater.wav", atpos);
-
-                // Check if on screen
-                if (sector.VisualSector.InScreen)
-                {
-                    // Determine type of splash to make
-                    switch (sector.LiquidType)
-                    {
-                        case LIQUID.WATER:
-                            FloodedSector.SpawnWaterParticles(atpos, new Vector3D(0f, 0f, 0.5f), 10);
-                            break;
-                        case LIQUID.LAVA:
-                            FloodedSector.SpawnLavaParticles(atpos, new Vector3D(0f, 0f, 0.5f), 10);
-                            break;
-                    }
-                }
-            }
+            HandleSilentDestroy(atpos, sector);
         }
 
         // Destroy base
         base.Destroy(atpos, silent, hitplayer);
+    }
+
+    private static void HandleSilentDestroy(Vector3D atpos, ClientSector? sector)
+    {
+        // In a liquid sector?
+        if ((SECTORMATERIAL)sector.Material != SECTORMATERIAL.LIQUID)
+            return;
+
+        // Make splash sound
+        if (sector.VisualSector.InScreen)
+            SoundSystem.PlaySound("dropwater.wav", atpos);
+
+        // Check if on screen
+        if (!sector.VisualSector.InScreen)
+            return;
+
+        // Determine type of splash to make
+        switch (sector.LiquidType)
+        {
+            case LIQUID.WATER:
+                FloodedSector.SpawnWaterParticles(atpos, new Vector3D(0f, 0f, 0.5f), 10);
+                break;
+            case LIQUID.LAVA:
+                FloodedSector.SpawnLavaParticles(atpos, new Vector3D(0f, 0f, 0.5f), 10);
+                break;
+        }
     }
 
     // Process the projectile
@@ -227,72 +232,72 @@ public class IonBall : Projectile, ILightningNode
         base.Process();
 
         // Go for all actors
-        foreach(Actor a in General.arena.Actors)
+        foreach (Actor a in General.arena.Actors)
         {
             // Not myself?
-            if(a.ClientID != SourceID)
+            if (a.ClientID == SourceID)
+                continue;
+
+            // Presume no lightning
+            haslightning = false;
+
+            // Actor alive
+            if (!a.DeadThreshold)
             {
-                // Presume no lightning
-                haslightning = false;
-
-                // Actor alive
-                if(!a.DeadThreshold)
+                // No team game or on other team?
+                if (!General.teamgame || (a.Team != Team))
                 {
-                    // No team game or on other team?
-                    if(!General.teamgame || (a.Team != Team))
+                    // Determine client position
+                    cpos = a.State.pos + new Vector3D(0f, 0f, 6f);
+
+                    // Calculate distance to this player
+                    Vector3D delta = cpos - this.Position;
+                    delta.z *= Consts.POWERUP_STATIC_Z_SCALE;
+                    float distance = delta.Length();
+                    delta.Normalize();
+
+                    // Within range?
+                    if (distance < Consts.ION_FLYBY_RANGE)
                     {
-                        // Determine client position
-                        cpos = a.State.pos + new Vector3D(0f, 0f, 6f);
-
-                        // Calculate distance to this player
-                        Vector3D delta = cpos - this.Position;
-                        delta.z *= Consts.POWERUP_STATIC_Z_SCALE;
-                        float distance = delta.Length();
-                        delta.Normalize();
-
-                        // Within range?
-                        if(distance < Consts.ION_FLYBY_RANGE)
+                        // Check if nothing blocks in between
+                        if (!General.map.FindRayMapCollision(this.Position, cpos))
                         {
-                            // Check if nothing blocks in between
-                            if(!General.map.FindRayMapCollision(this.Position, cpos))
-                            {
-                                // Check if no lighting to this client yet
-                                foreach(Lightning l in lightnings) if((l.Source == this) && (l.Target == a)) haslightning = true;
+                            // Check if no lighting to this client yet
+                            foreach (Lightning l in lightnings) if ((l.Source == this) && (l.Target == a)) haslightning = true;
 
-                                // Create lighting
-                                if(!haslightning) new Lightning(this, 1f, a, 8f, false, true);
-                                haslightning = true;
-                            }
+                            // Create lighting
+                            if (!haslightning) new Lightning(this, 1f, a, 8f, false, true);
+                            haslightning = true;
                         }
                     }
                 }
+            }
 
-                // Check if lightning should be found and removed
-                if(!haslightning)
+            // Check if lightning should be found and removed
+            if (!haslightning)
+            {
+                // Go for all lightnings
+                foreach (Lightning l in lightnings)
                 {
-                    // Go for all lightnings
-                    foreach(Lightning l in lightnings)
-                    {
-                        // This lightning on this target?
-                        if(l.Target == a)
-                        {
-                            // Remove lightning
-                            l.Dispose();
-                            break;
-                        }
-                    }
+                    // This lightning on this target?
+                    if (l.Target != a)
+                        continue;
+
+                    // Remove lightning
+                    l.Dispose();
+                    break;
                 }
             }
         }
 
         // Process lightnings
-        foreach(Lightning l in lightnings) l.Process();
+        foreach (Lightning l in lightnings) l.Process();
 
         // Time to spawn particles?
-        if((particletime < General.currenttime) && this.InScreen)
+        if ((particletime < General.currenttime) && this.InScreen)
         {
             // Random color
-            switch(General.random.Next(3))
+            switch (General.random.Next(3))
             {
                 case 0: pcolor = General.ARGB(1f, 0.2f, 0.3f, 1f); break;
                 case 1: pcolor = General.ARGB(1f, 0.4f, 0.6f, 1f); break;
@@ -322,44 +327,44 @@ public class IonBall : Projectile, ILightningNode
     public override void Render()
     {
         // Check if in screen
-        if(this.InScreen)
-        {
-            // Set render mode
-            Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-            Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
-            Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
+        if (!this.InScreen)
+            return;
 
-            // No lightmap
-            Direct3D.d3dd.SetTexture(1, null);
+        // Set render mode
+        Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+        Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+        Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
 
-            // Texture
-            Direct3D.d3dd.SetTexture(0, IonBall.plasmaball.texture);
+        // No lightmap
+        Direct3D.d3dd.SetTexture(1, null);
 
-            // Render sprite
-            sprite.Render();
-        }
+        // Texture
+        Direct3D.d3dd.SetTexture(0, IonBall.plasmaball.texture);
+
+        // Render sprite
+        sprite.Render();
     }
 
     // This removes a lightning
     public void RemoveLightning(Lightning l)
     {
-        if(lightnings.Contains(l)) lightnings.Remove(l);
+        if (lightnings.Contains(l)) lightnings.Remove(l);
     }
 
     // This adds a lightning
     public void AddLightning(Lightning l)
     {
-        if(!lightnings.Contains(l)) lightnings.Add(l);
+        if (!lightnings.Contains(l)) lightnings.Add(l);
     }
 
     // This removes all lightnings
     private void RemoveAllLightnings()
     {
         // Are there any lightnings?
-        if(lightnings.Count > 0)
+        if (lightnings.Count > 0)
         {
             // Dispose them all
-            for(int i = lightnings.Count - 1; i >= 0; i--)
+            for (int i = lightnings.Count - 1; i >= 0; i--)
                 lightnings[i].Dispose();
         }
     }

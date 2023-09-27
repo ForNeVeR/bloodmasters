@@ -122,28 +122,28 @@ public class PlasmaBall : Projectile
         ClientSector sector = (ClientSector)General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
 
         // Not silent?
-        if((silent == false) && (sector != null))
+        if ((silent == false) && (sector != null))
         {
             // Hitting a player?
-            if(hitplayer != null)
+            if (hitplayer != null)
             {
                 // Player is not carrying a shield?
-                if(hitplayer.Powerup != POWERUP.SHIELDS)
+                if (hitplayer.Powerup != POWERUP.SHIELDS)
                 {
                     // Check if on screen
-                    if(sector.VisualSector.InScreen)
+                    if (sector.VisualSector.InScreen)
                     {
                         // Create particles
-                        for(int i = 0; i < 2; i++)
+                        for (int i = 0; i < 2; i++)
                             General.arena.p_blood.Add(atpos, state.vel * 0.04f, General.ARGB(1f, 1f, 0.0f, 0.0f));
                     }
 
                     // Floor decal
-                    if((sector != null) && (sector.Material != (int)SECTORMATERIAL.LIQUID) && (General.random.Next(100) < 30))
+                    if ((sector != null) && (sector.Material != (int)SECTORMATERIAL.LIQUID) && (General.random.Next(100) < 30))
                         FloorDecal.Spawn(sector, state.pos.x, state.pos.y, FloorDecal.blooddecals, false, true, false);
 
                     // Create wall decal
-                    if(General.random.Next(100) < 50)
+                    if (General.random.Next(100) < 50)
                         WallDecal.Spawn(state.pos.x, state.pos.y, state.pos.z + (float)General.random.NextDouble() * 10f - 6f, Consts.PLAYER_DIAMETER, WallDecal.blooddecals, false);
                 }
             }
@@ -153,11 +153,11 @@ public class PlasmaBall : Projectile
                 decalpos = atpos - this.state.vel;
 
                 // Near the floor?
-                if(((decalpos.z - sector.CurrentFloor) < 2f) &&
+                if (((decalpos.z - sector.CurrentFloor) < 2f) &&
                    ((decalpos.z - sector.CurrentFloor) > -2f))
                 {
                     // Spawn mark on the floor
-                    if((sector != null) && (sector.Material != (int)SECTORMATERIAL.LIQUID))
+                    if ((sector != null) && (sector.Material != (int)SECTORMATERIAL.LIQUID))
                         FloorDecal.Spawn(sector, decalpos.x, decalpos.y, FloorDecal.plasmadecals, false, false, false);
                 }
                 else
@@ -189,32 +189,37 @@ public class PlasmaBall : Projectile
         // Silent destroy
         else if (sector != null)
         {
-            // In a liquid sector?
-            if ((SECTORMATERIAL)sector.Material == SECTORMATERIAL.LIQUID)
-            {
-                // Make splash sound
-                if (sector.VisualSector.InScreen)
-                    SoundSystem.PlaySound("dropwater.wav", atpos);
-
-                // Check if on screen
-                if (sector.VisualSector.InScreen)
-                {
-                    // Determine type of splash to make
-                    switch (sector.LiquidType)
-                    {
-                        case LIQUID.WATER:
-                            FloodedSector.SpawnWaterParticles(atpos, new Vector3D(0f, 0f, 0.5f), 3);
-                            break;
-                        case LIQUID.LAVA:
-                            FloodedSector.SpawnLavaParticles(atpos, new Vector3D(0f, 0f, 0.5f), 3);
-                            break;
-                    }
-                }
-            }
+            HandleSilentDestroy(atpos, sector);
         }
 
         // Destroy base
         base.Destroy(atpos, silent, hitplayer);
+    }
+
+    private static void HandleSilentDestroy(Vector3D atpos, ClientSector sector)
+    {
+        // In a liquid sector?
+        if ((SECTORMATERIAL)sector.Material != SECTORMATERIAL.LIQUID)
+            return;
+
+        // Make splash sound
+        if (sector.VisualSector.InScreen)
+            SoundSystem.PlaySound("dropwater.wav", atpos);
+
+        // Check if on screen
+        if (!sector.VisualSector.InScreen)
+            return;
+
+        // Determine type of splash to make
+        switch (sector.LiquidType)
+        {
+            case LIQUID.WATER:
+                FloodedSector.SpawnWaterParticles(atpos, new Vector3D(0f, 0f, 0.5f), 3);
+                break;
+            case LIQUID.LAVA:
+                FloodedSector.SpawnLavaParticles(atpos, new Vector3D(0f, 0f, 0.5f), 3);
+                break;
+        }
     }
 
     // Process the projectile
@@ -237,22 +242,22 @@ public class PlasmaBall : Projectile
     public override void Render()
     {
         // Check if in screen
-        if(this.InScreen)
-        {
-            // Set render mode
-            Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-            Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
-            Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
+        if (!this.InScreen)
+            return;
 
-            // No lightmap
-            Direct3D.d3dd.SetTexture(1, null);
+        // Set render mode
+        Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+        Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+        Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
 
-            // Texture
-            Direct3D.d3dd.SetTexture(0, PlasmaBall.plasmaball.texture);
+        // No lightmap
+        Direct3D.d3dd.SetTexture(1, null);
 
-            // Render sprite
-            sprite.Render();
-        }
+        // Texture
+        Direct3D.d3dd.SetTexture(0, PlasmaBall.plasmaball.texture);
+
+        // Render sprite
+        sprite.Render();
     }
 
     #endregion
