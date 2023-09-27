@@ -55,11 +55,11 @@ public class NetMessage
     // Connection
     private Connection conn = null;
     private Gateway gateway;
-    private IPEndPoint address;
+    private readonly IPEndPoint address;
     private bool disposed = false;
 
     // Packet
-    private int cmd;
+    private readonly int cmd;
     private uint id = 0;
     private MemoryStream data = null;
 
@@ -68,7 +68,7 @@ public class NetMessage
     private BinaryWriter writedata = null;
 
     // Encoding for strings
-    private Encoding encoding = Encoding.ASCII;
+    private readonly Encoding encoding = Encoding.ASCII;
 
     // Reliable transmission and ping simulation
     private int resendtime;

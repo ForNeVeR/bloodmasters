@@ -12,10 +12,10 @@ public class ArchiveManager
     #region ================== Variables
 
     // All archives
-    private static Dictionary<string, Archive> archives = new();
+    private static readonly Dictionary<string, Archive> archives = new();
 
     // Temporary path
-    private static string tempPath = Paths.TempDir;
+    private static readonly string tempPath = Paths.TempDir;
 
     #endregion
 

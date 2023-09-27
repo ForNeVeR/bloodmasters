@@ -15,16 +15,16 @@ public class Thing
 
     #region ================== Variables
 
-    private int index;
-    private float x;
-    private float y;
-    private float z;
-    private int type;
-    private float angle;
-    private int tag;
-    private THINGFLAG flags;
-    private ACTION action;			// Thing action (usage depends on thing type)
-    private int[] arg;				// Thing arguments (usage depends on thing type or action)
+    private readonly int index;
+    private readonly float x;
+    private readonly float y;
+    private readonly float z;
+    private readonly int type;
+    private readonly float angle;
+    private readonly int tag;
+    private readonly THINGFLAG flags;
+    private readonly ACTION action;			// Thing action (usage depends on thing type)
+    private readonly int[] arg;				// Thing arguments (usage depends on thing type or action)
     private Sector sector = null;
     private Map map;
 

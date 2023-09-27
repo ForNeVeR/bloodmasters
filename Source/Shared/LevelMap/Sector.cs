@@ -23,19 +23,19 @@ public abstract class Sector
 
     #region ================== Variables
 
-    private int index;
-    private float light;
-    private int color;
-    private SECTOREFFECT effect;
-    private int tag;
-    private string tfloor;
-    private string tceil;
-    private bool dynamic;
+    private readonly int index;
+    private readonly float light;
+    private readonly int color;
+    private readonly SECTOREFFECT effect;
+    private readonly int tag;
+    private readonly string tfloor;
+    private readonly string tceil;
+    private readonly bool dynamic;
     protected Map map;
 
     // Heights as read from the WAD file
-    private float hfloor;
-    private float hceil;
+    private readonly float hfloor;
+    private readonly float hceil;
 
     // Fake height for ceilings
     private float hfceil = float.NaN;
@@ -65,7 +65,7 @@ public abstract class Sector
     protected Sector[] adjsectors;
 
     // Items
-    private List<object> items = new();
+    private readonly List<object> items = new();
 
     #endregion
 

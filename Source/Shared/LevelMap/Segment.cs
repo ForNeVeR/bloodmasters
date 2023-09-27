@@ -18,10 +18,10 @@ public class Segment
     #region ================== Variables
 
     // General
-    private int vstart;				// Start vertex of the segment
-    private int vend;				// End vertex of the segment
+    private readonly int vstart;				// Start vertex of the segment
+    private readonly int vend;				// End vertex of the segment
     private Linedef linedef = null; // Linedef on which this segment lies
-    private int side;				// Side of linedef where this segment lies (0=front/right 1=back/left)
+    private readonly int side;				// Side of linedef where this segment lies (0=front/right 1=back/left)
     private Sidedef sidedef = null;	// Sidedef of segment (-1 when not on a line)
 
     #endregion

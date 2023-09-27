@@ -51,13 +51,13 @@ public class Connection
     #region ================== Variables
 
     // References
-    private Gateway gateway;
-    private IPEndPoint address;
+    private readonly Gateway gateway;
+    private readonly IPEndPoint address;
 
     // Messages IDs
     private uint out_id = 0;
     private uint in_id = 0;
-    private int randomid;
+    private readonly int randomid;
 
     // State and timeout
     private bool disposed = false;

@@ -21,16 +21,16 @@ public class Node
     Map map;
 
     // Split line
-    private float x1;
-    private float y1;
-    private float x2;
-    private float y2;
-    private float dx;
-    private float dy;
+    private readonly float x1;
+    private readonly float y1;
+    private readonly float x2;
+    private readonly float y2;
+    private readonly float dx;
+    private readonly float dy;
 
     // Sides
-    private int leftnode = -1;
-    private int rightnode = -1;
+    private readonly int leftnode = -1;
+    private readonly int rightnode = -1;
 
     // SubSectors
     private SubSector leftssec = null;
