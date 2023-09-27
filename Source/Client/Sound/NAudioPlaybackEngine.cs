@@ -5,7 +5,7 @@ using NAudio.Wave.SampleProviders;
 
 namespace CodeImp.Bloodmasters.Client;
 
-internal class NAudioPlaybackEngine : IDisposable
+internal sealed class NAudioPlaybackEngine : IDisposable
 {
     private readonly WaveFormat _waveFormat;
     private readonly IWavePlayer _outputDevice;

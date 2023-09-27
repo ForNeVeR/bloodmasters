@@ -14,7 +14,7 @@ using NAudio.Wave;
 namespace CodeImp.Bloodmasters.Client;
 
 [DebuggerDisplay("{filename}")]
-internal class Sound : ISound
+internal sealed class Sound : ISound
 {
     #region ================== Variables
 
@@ -138,48 +138,48 @@ internal class Sound : ISound
         float vol, pan;
 
         // Update needed?
-        if ((update || positional) && (General.realtime > nextupdatetime))
+        if (!update && !positional || General.realtime <= nextupdatetime)
+            return;
+
+        // Leave when disposed
+        if (disposed) return;
+
+        // Volume changed?
+        if (newvolume != volume)
         {
-            // Leave when disposed
-            if (disposed) return;
-
-            // Volume changed?
-            if (newvolume != volume)
-            {
-                // Recalculate volume
-                volume = newvolume;
-                absvolume = SoundSystem.CalcVolumeScale(volume);
-            }
-
-            // Positional?
-            if (positional)
-            {
-                // Get positional settings
-                SoundSystem.GetPositionalEffect(pos, out posvol, out pospan);
-
-                // Calculate and clip final volume
-                pan = pospan;
-                vol = SoundSystem.GetVolume(_soundType) - posvol + absvolume;
-                if (vol > 0) vol = 0;
-                else if (vol < -10000) vol = -10000;
-                if (pan > 10000) pan = 10000;
-                else if (pan < -10000) pan = -10000;
-
-                // Apply final volume
-                _controlSample.VolumeHundredthsOfDb = vol;
-                _controlSample.Pan = pan / 10000f;
-            }
-            else
-            {
-                // Apply volume
-                _controlSample.VolumeHundredthsOfDb = SoundSystem.GetVolume(_soundType) + absvolume;
-            }
-
-            // Set next update time
-            nextupdatetime = General.realtime + SoundSystem.UPDATE_INTERVAL;
-            // Stop updating until something changes
-            update = false;
+            // Recalculate volume
+            volume = newvolume;
+            absvolume = SoundSystem.CalcVolumeScale(volume);
         }
+
+        // Positional?
+        if (positional)
+        {
+            // Get positional settings
+            SoundSystem.GetPositionalEffect(pos, out posvol, out pospan);
+
+            // Calculate and clip final volume
+            pan = pospan;
+            vol = SoundSystem.GetVolume(_soundType) - posvol + absvolume;
+            if (vol > 0) vol = 0;
+            else if (vol < -10000) vol = -10000;
+            if (pan > 10000) pan = 10000;
+            else if (pan < -10000) pan = -10000;
+
+            // Apply final volume
+            _controlSample.VolumeHundredthsOfDb = vol;
+            _controlSample.Pan = pan / 10000f;
+        }
+        else
+        {
+            // Apply volume
+            _controlSample.VolumeHundredthsOfDb = SoundSystem.GetVolume(_soundType) + absvolume;
+        }
+
+        // Set next update time
+        nextupdatetime = General.realtime + SoundSystem.UPDATE_INTERVAL;
+        // Stop updating until something changes
+        update = false;
     }
 
     // This sets the sound in a random playing position
