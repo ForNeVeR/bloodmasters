@@ -143,24 +143,24 @@ public class Rocket : Projectile
         ClientSector sector = (ClientSector)General.map.GetSubSectorAt(state.pos.x, state.pos.y).Sector;
 
         // Not silent?
-        if((silent == false) && (sector != null))
+        if ((silent == false) && (sector != null))
         {
             // Hitting a player?
-            if(hitplayer != null)
+            if (hitplayer != null)
             {
                 // Player is not carrying a shield?
-                if(hitplayer.Powerup != POWERUP.SHIELDS)
+                if (hitplayer.Powerup != POWERUP.SHIELDS)
                 {
                     // Check if on screen
-                    if(sector.VisualSector.InScreen)
+                    if (sector.VisualSector.InScreen)
                     {
                         // Create particles
-                        for(int i = 0; i < 5; i++)
+                        for (int i = 0; i < 5; i++)
                             General.arena.p_blood.Add(atpos, state.vel * 0.04f, General.ARGB(1f, 1f, 0.0f, 0.0f));
                     }
 
                     // Floor decal
-                    if((sector != null) && (sector.Material != (int)SECTORMATERIAL.LIQUID))
+                    if ((sector != null) && (sector.Material != (int)SECTORMATERIAL.LIQUID))
                         FloorDecal.Spawn(sector, state.pos.x, state.pos.y, FloorDecal.blooddecals, false, true, false);
 
                     // Create wall decal
@@ -173,11 +173,11 @@ public class Rocket : Projectile
                 decalpos = atpos - this.state.vel * 2f;
 
                 // Near the floor or ceiling?
-                if(((decalpos.z - sector.CurrentFloor) < 2f) &&
+                if (((decalpos.z - sector.CurrentFloor) < 2f) &&
                    ((decalpos.z - sector.CurrentFloor) > -2f))
                 {
                     // Spawn mark on the floor
-                    if((sector != null) && (sector.Material != (int)SECTORMATERIAL.LIQUID))
+                    if ((sector != null) && (sector.Material != (int)SECTORMATERIAL.LIQUID))
                         FloorDecal.Spawn(sector, decalpos.x, decalpos.y, FloorDecal.explodedecals, false, false, false);
                 }
                 else
@@ -191,37 +191,46 @@ public class Rocket : Projectile
             flying.Stop();
 
             // Make hit sound
-            if(sector.VisualSector.InScreen)
+            if (sector.VisualSector.InScreen)
                 SoundSystem.PlaySound("rockethit.wav", atpos);
 
             // Spawn explosion effect
             new RocketExplodeEffect(decalpos);
         }
         // Silent destroy
-        else if(sector != null)
+        else if (sector != null)
         {
-            // In a liquid sector?
-            if((SECTORMATERIAL)sector.Material == SECTORMATERIAL.LIQUID)
-            {
-                // Make splash sound
-                if(sector.VisualSector.InScreen)
-                    SoundSystem.PlaySound("dropwater.wav", atpos);
-
-                // Check if on screen
-                if(sector.VisualSector.InScreen)
-                {
-                    // Determine type of splash to make
-                    switch(sector.LiquidType)
-                    {
-                        case LIQUID.WATER: FloodedSector.SpawnWaterParticles(atpos, new Vector3D(0f, 0f, 0.5f), 10); break;
-                        case LIQUID.LAVA: FloodedSector.SpawnLavaParticles(atpos, new Vector3D(0f, 0f, 0.5f), 10); break;
-                    }
-                }
-            }
+            HandleSilentDestroy(atpos, sector);
         }
 
         // Destroy base
         base.Destroy(atpos, silent, hitplayer);
+    }
+
+    private static void HandleSilentDestroy(Vector3D atpos, ClientSector sector)
+    {
+        // In a liquid sector?
+        if ((SECTORMATERIAL)sector.Material != SECTORMATERIAL.LIQUID)
+            return;
+
+        // Make splash sound
+        if (sector.VisualSector.InScreen)
+            SoundSystem.PlaySound("dropwater.wav", atpos);
+
+        // Check if on screen
+        if (!sector.VisualSector.InScreen)
+            return;
+
+        // Determine type of splash to make
+        switch (sector.LiquidType)
+        {
+            case LIQUID.WATER:
+                FloodedSector.SpawnWaterParticles(atpos, new Vector3D(0f, 0f, 0.5f), 10);
+                break;
+            case LIQUID.LAVA:
+                FloodedSector.SpawnLavaParticles(atpos, new Vector3D(0f, 0f, 0.5f), 10);
+                break;
+        }
     }
 
     // Process the projectile
@@ -238,7 +247,7 @@ public class Rocket : Projectile
         light.Position = this.state.pos;
 
         // Time to spawn smoke?
-        if((smoketime < SharedGeneral.currenttime) && this.InScreen)
+        if ((smoketime < SharedGeneral.currenttime) && this.InScreen)
         {
             // Make smoke
             Vector3D smokepos = state.pos + new Vector3D(0f, 0f, -5f);
@@ -255,33 +264,33 @@ public class Rocket : Projectile
     public override void Render()
     {
         // Check if in screen
-        if(this.InScreen)
-        {
-            // Set render mode
-            Direct3D.SetDrawMode(DRAWMODE.NALPHA);
-            Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
-            Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
+        if (!this.InScreen)
+            return;
 
-            // No lightmap
-            Direct3D.d3dd.SetTexture(1, null);
+        // Set render mode
+        Direct3D.SetDrawMode(DRAWMODE.NALPHA);
+        Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+        Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
 
-            // Texture
-            Direct3D.d3dd.SetTexture(0, Rocket.texbody.texture);
+        // No lightmap
+        Direct3D.d3dd.SetTexture(1, null);
 
-            // Render body
-            spritebody.Render();
+        // Texture
+        Direct3D.d3dd.SetTexture(0, Rocket.texbody.texture);
 
-            // Set render mode
-            Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-            Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
-            Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
+        // Render body
+        spritebody.Render();
 
-            // Texture
-            Direct3D.d3dd.SetTexture(0, Rocket.texexhaust.texture);
+        // Set render mode
+        Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+        Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+        Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
 
-            // Render exhaust
-            spriteexhaust.Render();
-        }
+        // Texture
+        Direct3D.d3dd.SetTexture(0, Rocket.texexhaust.texture);
+
+        // Render exhaust
+        spriteexhaust.Render();
     }
 
     #endregion
