@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using CodeImp.Bloodmasters.LevelMap;
 
-namespace CodeImp.Bloodmasters.Launcher;
+namespace CodeImp.Bloodmasters.Launcher.Map;
 
-public class LauncherMap : Map
+public class LauncherMap : CodeImp.Bloodmasters.LevelMap.Map
 {
     public LauncherMap(string mapname, bool infoonly, string temppath) : base(mapname, infoonly, temppath)
     {
