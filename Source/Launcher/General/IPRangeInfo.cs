@@ -5,13 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.IO;
-using System.Text;
-using System.Globalization;
-using System.Collections.Specialized;
-
-namespace CodeImp;
+namespace CodeImp.Bloodmasters.Launcher.General;
 
 // Struct for IP Ranges
 public struct IPRangeInfo
