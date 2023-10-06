@@ -7,10 +7,11 @@
 
 using System.Collections.Generic;
 using System.Windows.Forms;
+using CodeImp.Bloodmasters.Launcher.General;
 using SharpDX.Direct3D9;
 
-namespace CodeImp.Bloodmasters.Launcher;
-
+namespace CodeImp.Bloodmasters.Launcher.Interface;
+using General = CodeImp.Bloodmasters.Launcher.General.Generall;
 public class FormOptions : System.Windows.Forms.Form
 {
     private int last_fsaa;
@@ -126,18 +127,18 @@ public class FormOptions : System.Windows.Forms.Form
         cmbMoveMethod.SelectedIndex = General.config.ReadSetting("movemethod", 0);
 
         // Setup Graphics
-        last_mode = Direct3D.DisplayMode;
-        last_fsaa = Direct3D.DisplayFSAA;
-        Direct3D.FillAdaptersList(cmbAdapter);
-        chkWindowed.Checked = Direct3D.DisplayWindowed;
-        chkSyncRate.Checked = Direct3D.DisplaySyncRefresh;
+        last_mode = CustomDirect3D.DisplayMode;
+        last_fsaa = CustomDirect3D.DisplayFSAA;
+        CustomDirect3D.FillAdaptersList(cmbAdapter);
+        chkWindowed.Checked = CustomDirect3D.DisplayWindowed;
+        chkSyncRate.Checked = CustomDirect3D.DisplaySyncRefresh;
         chkShowFPS.Checked = General.config.ReadSetting("showfps", false);
         chkDynamicLights.Checked = General.config.ReadSetting("dynamiclights", true);
         chkShowDecals.Checked = General.config.ReadSetting("showdecals", true);
         chkShowGibs.Checked = General.config.ReadSetting("showgibs", true);
         chkScreenFlashes.Checked = General.config.ReadSetting("screenflashes", true);
         chkHighTextures.Checked = General.config.ReadSetting("hightextures", true);
-        trkGamma.Value = Direct3D.DisplayGamma;
+        trkGamma.Value = CustomDirect3D.DisplayGamma;
 
         // Setup Sound
         chkPlaySounds.Checked = General.config.ReadSetting("sounds", true);
@@ -1202,12 +1203,12 @@ public class FormOptions : System.Windows.Forms.Form
         General.config.WriteSetting("movemethod", cmbMoveMethod.SelectedIndex);
 
         // Apply Graphics
-        Direct3D.SelectAdapter(((DisplayAdapterItem)cmbAdapter.SelectedItem).ordinal);
-        Direct3D.DisplayMode = ((DisplayModeItem)cmbResolution.SelectedItem).mode;
-        Direct3D.DisplayWindowed = chkWindowed.Checked;
-        Direct3D.DisplaySyncRefresh = chkSyncRate.Checked;
-        Direct3D.DisplayFSAA = cmbFSAA.SelectedIndex - 1;
-        Direct3D.DisplayGamma = trkGamma.Value;
+        CustomDirect3D.SelectAdapter(((DisplayAdapterItem)cmbAdapter.SelectedItem).ordinal);
+        CustomDirect3D.DisplayMode = ((DisplayModeItem)cmbResolution.SelectedItem).mode;
+        CustomDirect3D.DisplayWindowed = chkWindowed.Checked;
+        CustomDirect3D.DisplaySyncRefresh = chkSyncRate.Checked;
+        CustomDirect3D.DisplayFSAA = cmbFSAA.SelectedIndex - 1;
+        CustomDirect3D.DisplayGamma = trkGamma.Value;
         General.config.WriteSetting("dynamiclights", chkDynamicLights.Checked);
         General.config.WriteSetting("showdecals", chkShowDecals.Checked);
         General.config.WriteSetting("showgibs", chkShowGibs.Checked);
@@ -1238,7 +1239,7 @@ public class FormOptions : System.Windows.Forms.Form
         if(cmbAdapter.SelectedIndex > -1)
         {
             // Fill resolutions list
-            Direct3D.FillResolutionsList(cmbResolution, ((DisplayAdapterItem)cmbAdapter.SelectedItem).ordinal,
+            CustomDirect3D.FillResolutionsList(cmbResolution, ((DisplayAdapterItem)cmbAdapter.SelectedItem).ordinal,
                 last_mode.Width, last_mode.Height, (int)last_mode.Format, last_mode.RefreshRate);
         }
     }
@@ -1250,8 +1251,8 @@ public class FormOptions : System.Windows.Forms.Form
         if(cmbResolution.SelectedIndex > -1)
         {
             // Check if the selected resolution is supported windowed and fullscreen
-            bool supwindowed = Direct3D.ValidateDisplayMode(((DisplayModeItem)cmbResolution.SelectedItem).mode, true);
-            bool supfullscreen = Direct3D.ValidateDisplayMode(((DisplayModeItem)cmbResolution.SelectedItem).mode, false);
+            bool supwindowed = CustomDirect3D.ValidateDisplayMode(((DisplayModeItem)cmbResolution.SelectedItem).mode, true);
+            bool supfullscreen = CustomDirect3D.ValidateDisplayMode(((DisplayModeItem)cmbResolution.SelectedItem).mode, false);
             if(supwindowed && supfullscreen)
             {
                 // Optional
@@ -1266,7 +1267,7 @@ public class FormOptions : System.Windows.Forms.Form
 
             // Fill antialiasing list
             last_mode = ((DisplayModeItem)cmbResolution.SelectedItem).mode;
-            Direct3D.FillAntialiasingList(cmbFSAA, ((DisplayAdapterItem)cmbAdapter.SelectedItem).ordinal,
+            CustomDirect3D.FillAntialiasingList(cmbFSAA, ((DisplayAdapterItem)cmbAdapter.SelectedItem).ordinal,
                 last_mode.Format, chkWindowed.Checked, last_fsaa);
             cmbFSAA.Enabled = (cmbFSAA.Items.Count > 1);
             lblFSAA.Enabled = cmbFSAA.Enabled;

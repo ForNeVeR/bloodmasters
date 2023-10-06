@@ -8,10 +8,11 @@
 using System.Drawing;
 using System.Net;
 using System.Windows.Forms;
+using CodeImp.Bloodmasters.Launcher.General;
 using CodeImp.Bloodmasters.Net;
 
-namespace CodeImp.Bloodmasters.Launcher;
-
+namespace CodeImp.Bloodmasters.Launcher.Interface;
+using General = CodeImp.Bloodmasters.Launcher.General.Generall;
 public class GamesListItem
 {
     #region ================== Constants
