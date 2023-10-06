@@ -6,9 +6,11 @@
 \********************************************************************/
 
 using System;
+using CodeImp.Bloodmasters.Launcher.General;
 using SharpDX.Direct3D9;
 
-namespace CodeImp.Bloodmasters.Launcher;
+
+namespace CodeImp.Bloodmasters.Launcher.Interface;
 
 public struct DisplayModeItem : IComparable
 {
@@ -24,7 +26,7 @@ public struct DisplayModeItem : IComparable
     public override string ToString()
     {
         return mode.Width + " x " + mode.Height + " x " +
-               Direct3D.GetBitDepth(mode.Format) + " @ " +
+               CustomDirect3D.GetBitDepth(mode.Format) + " @ " +
                mode.RefreshRate + " Hz";
     }
 
@@ -32,7 +34,7 @@ public struct DisplayModeItem : IComparable
     public override int GetHashCode()
     {
         // Make a value for this mode that can be used for comparing
-        return ((mode.Width + mode.Height / 2) << 16) | (Direct3D.GetBitDepth(mode.Format) << 10) | mode.RefreshRate;
+        return ((mode.Width + mode.Height / 2) << 16) | (CustomDirect3D.GetBitDepth(mode.Format) << 10) | mode.RefreshRate;
     }
 
     // Compare

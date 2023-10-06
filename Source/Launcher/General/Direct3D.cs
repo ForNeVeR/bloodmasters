@@ -10,10 +10,12 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using SharpDX.Direct3D9;
+using CodeImp.Bloodmasters.Launcher.Interface;
+
 
 namespace CodeImp.Bloodmasters.Launcher.General;
 
-internal sealed class Direct3D
+internal sealed class CustomDirect3D : Direct3D
 {
     #region ================== Constants
 

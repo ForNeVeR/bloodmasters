@@ -13,10 +13,11 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using CodeImp.Bloodmasters;
 using CodeImp;
+using CodeImp.Bloodmasters.Launcher.General;
 using CodeImp.Bloodmasters.Net;
 
-namespace CodeImp.Bloodmasters.Launcher;
-
+namespace CodeImp.Bloodmasters.Launcher.Interface;
+using General = CodeImp.Bloodmasters.Launcher.General.Generall;
 public class FormGameInfo : System.Windows.Forms.Form
 {
     private System.Windows.Forms.Label lblTitle;

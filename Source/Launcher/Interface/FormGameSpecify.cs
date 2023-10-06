@@ -10,8 +10,8 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace CodeImp.Bloodmasters.Launcher;
-
+namespace CodeImp.Bloodmasters.Launcher.Interface;
+using General = CodeImp.Bloodmasters.Launcher.General.Generall;
 public class FormGameSpecify : System.Windows.Forms.Form
 {
     private System.Windows.Forms.GroupBox groupBox2;

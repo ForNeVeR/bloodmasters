@@ -15,8 +15,8 @@ using System.Threading;
 using CodeImp.Bloodmasters.Launcher.Net;
 using CodeImp.Bloodmasters.Net;
 
-namespace CodeImp.Bloodmasters.Launcher;
-
+namespace CodeImp.Bloodmasters.Launcher.Interface;
+using General = CodeImp.Bloodmasters.Launcher.General.Generall;
 public class ServerBrowser
 {
     #region ================== Variables

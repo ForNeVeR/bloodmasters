@@ -15,8 +15,8 @@ using System.Reflection;
 using System.Windows.Forms;
 using CodeImp.Bloodmasters.LevelMap;
 
-namespace CodeImp.Bloodmasters.Launcher;
-
+namespace CodeImp.Bloodmasters.Launcher.Interface;
+using General = CodeImp.Bloodmasters.Launcher.General.Generall;
 public class FormMain : System.Windows.Forms.Form
 {
     private ServerBrowser browser;
