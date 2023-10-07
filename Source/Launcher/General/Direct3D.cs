@@ -15,7 +15,7 @@ using CodeImp.Bloodmasters.Launcher.Interface;
 
 namespace CodeImp.Bloodmasters.Launcher.General;
 
-internal sealed class CustomDirect3D : Direct3D
+internal sealed class Direct3D
 {
     #region ================== Constants
 
