@@ -79,7 +79,7 @@ public class Generall
         DeployTemplateConfig();
 
         // Initialize DirectX
-        try { CustomDirect3D.InitDX(); }
+        try { Direct3D.InitDX(); }
         catch(Exception)
         {
             // DirectX not installed?
@@ -105,7 +105,7 @@ public class Generall
 
     private static void Deinitialize()
     {
-        CustomDirect3D.DeinitDirectX();
+        Direct3D.DeinitDirectX();
     }
 
     // Main program entry
@@ -178,7 +178,7 @@ public class Generall
                     mainwindow.ShowStatus("Initializing video adapter...");
                     try
                     {
-                        CustomDirect3D.SelectAdapter(Generall.config.ReadSetting("displaydriver", 0));
+                        Direct3D.SelectAdapter(Generall.config.ReadSetting("displaydriver", 0));
                     }
                     catch (Exception)
                     {
@@ -190,7 +190,7 @@ public class Generall
                     }
 
                     // Validate adapter and, if not valid, select a valid adapter
-                    deviceerror = CustomDirect3D.SelectValidAdapter();
+                    deviceerror = Direct3D.SelectValidAdapter();
                     if (deviceerror == null)
                     {
                         // Try loading the flags?
@@ -302,14 +302,14 @@ public class Generall
             }
 
             // Apply configuration settings
-            CustomDirect3D.DisplayWidth = config.ReadSetting("displaywidth", 800);
-            CustomDirect3D.DisplayHeight = config.ReadSetting("displayheight", 600);
-            CustomDirect3D.DisplayFormat = config.ReadSetting("displayformat", (int)Format.X8R8G8B8);
-            CustomDirect3D.DisplayRefreshRate = config.ReadSetting("displayrate", 70);
-            CustomDirect3D.DisplayWindowed = config.ReadSetting("displaywindowed", false);
-            CustomDirect3D.DisplaySyncRefresh = config.ReadSetting("displaysync", true);
-            CustomDirect3D.DisplayFSAA = config.ReadSetting("displayfsaa", 0);
-            CustomDirect3D.DisplayGamma = config.ReadSetting("displaygamma", 0);
+            Direct3D.DisplayWidth = config.ReadSetting("displaywidth", 800);
+            Direct3D.DisplayHeight = config.ReadSetting("displayheight", 600);
+            Direct3D.DisplayFormat = config.ReadSetting("displayformat", (int)Format.X8R8G8B8);
+            Direct3D.DisplayRefreshRate = config.ReadSetting("displayrate", 70);
+            Direct3D.DisplayWindowed = config.ReadSetting("displaywindowed", false);
+            Direct3D.DisplaySyncRefresh = config.ReadSetting("displaysync", true);
+            Direct3D.DisplayFSAA = config.ReadSetting("displayfsaa", 0);
+            Direct3D.DisplayGamma = config.ReadSetting("displaygamma", 0);
             Generall.playername = config.ReadSetting("playername", "Newbie");
 
             // Check if a weaponorder structure exists
@@ -345,15 +345,15 @@ public class Generall
     public static void SaveConfiguration()
     {
         // Write settings that could have changed during the game
-        config.WriteSetting("displaywidth", CustomDirect3D.DisplayWidth);
-        config.WriteSetting("displayheight", CustomDirect3D.DisplayHeight);
-        config.WriteSetting("displayformat", CustomDirect3D.DisplayFormat);
-        config.WriteSetting("displayrate", CustomDirect3D.DisplayRefreshRate);
-        config.WriteSetting("displaywindowed", CustomDirect3D.DisplayWindowed);
-        config.WriteSetting("displaysync", CustomDirect3D.DisplaySyncRefresh);
-        config.WriteSetting("displayfsaa", CustomDirect3D.DisplayFSAA);
+        config.WriteSetting("displaywidth", Direct3D.DisplayWidth);
+        config.WriteSetting("displayheight", Direct3D.DisplayHeight);
+        config.WriteSetting("displayformat", Direct3D.DisplayFormat);
+        config.WriteSetting("displayrate", Direct3D.DisplayRefreshRate);
+        config.WriteSetting("displaywindowed", Direct3D.DisplayWindowed);
+        config.WriteSetting("displaysync", Direct3D.DisplaySyncRefresh);
+        config.WriteSetting("displayfsaa", Direct3D.DisplayFSAA);
         config.WriteSetting("playername", Generall.playername);
-        config.WriteSetting("displaygamma", CustomDirect3D.DisplayGamma);
+        config.WriteSetting("displaygamma", Direct3D.DisplayGamma);
 
         // Save current configuration to file
         config.SaveConfiguration(configfilename);
