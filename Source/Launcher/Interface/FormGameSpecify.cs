@@ -11,7 +11,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace CodeImp.Bloodmasters.Launcher.Interface;
-using General = CodeImp.Bloodmasters.Launcher.General.Generall;
+
 public class FormGameSpecify : System.Windows.Forms.Form
 {
     private System.Windows.Forms.GroupBox groupBox2;
@@ -33,9 +33,9 @@ public class FormGameSpecify : System.Windows.Forms.Form
         InitializeComponent();
 
         // Fill with last used settings
-        txtJoinAddress.Text = General.config.ReadSetting("joinaddress", "");
-        txtJoinPort.Text = General.config.ReadSetting("joinport", "0");
-        txtJoinPassword.Text = General.config.ReadSetting("joinpassword", "");
+        txtJoinAddress.Text = Program.config.ReadSetting("joinaddress", "");
+        txtJoinPort.Text = Program.config.ReadSetting("joinport", "0");
+        txtJoinPassword.Text = Program.config.ReadSetting("joinpassword", "");
     }
 
     // Clean up any resources being used.
@@ -207,8 +207,8 @@ public class FormGameSpecify : System.Windows.Forms.Form
     private void btnJoin_Click(object sender, System.EventArgs e)
     {
         // Write settings
-        General.config.WriteSetting("joinaddress", txtJoinAddress.Text);
-        General.config.WriteSetting("joinport", txtJoinPort.Text);
-        General.config.WriteSetting("joinpassword", txtJoinPassword.Text);
+        Program.config.WriteSetting("joinaddress", txtJoinAddress.Text);
+        Program.config.WriteSetting("joinport", txtJoinPort.Text);
+        Program.config.WriteSetting("joinpassword", txtJoinPassword.Text);
     }
 }

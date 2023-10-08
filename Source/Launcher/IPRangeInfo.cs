@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Launcher.General;
+namespace CodeImp.Bloodmasters.Launcher;
 
 // Struct for IP Ranges
 public struct IPRangeInfo

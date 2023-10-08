@@ -12,7 +12,7 @@ using System.Globalization;
 using System.Collections.Generic;
 using System.Net;
 
-namespace CodeImp.Bloodmasters.Launcher.General;
+namespace CodeImp.Bloodmasters.Launcher;
 
 public class IP2Country
 {

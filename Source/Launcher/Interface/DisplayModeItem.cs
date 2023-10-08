@@ -6,10 +6,7 @@
 \********************************************************************/
 
 using System;
-using CodeImp.Bloodmasters.Launcher.General;
 using SharpDX.Direct3D9;
-
-using Direct3D = CodeImp.Bloodmasters.Launcher.General.Direct3D;
 
 namespace CodeImp.Bloodmasters.Launcher.Interface;
 
