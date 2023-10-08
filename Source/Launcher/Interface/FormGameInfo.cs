@@ -13,11 +13,10 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using CodeImp.Bloodmasters;
 using CodeImp;
-using CodeImp.Bloodmasters.Launcher.General;
 using CodeImp.Bloodmasters.Net;
 
 namespace CodeImp.Bloodmasters.Launcher.Interface;
-using General = CodeImp.Bloodmasters.Launcher.General.Generall;
+
 public class FormGameInfo : System.Windows.Forms.Form
 {
     private System.Windows.Forms.Label lblTitle;
@@ -643,14 +642,14 @@ public class FormGameInfo : System.Windows.Forms.Form
     public void UpdateSettings()
     {
         // Lookup country information
-        IPRangeInfo cinfo = General.ip2country.LookupIP(item.Address.Address.ToString());
+        IPRangeInfo cinfo = Program.ip2country.LookupIP(item.Address.Address.ToString());
 
         // Setup interface with game item information
         lastrevision = item.Revision;
         lblTitle.Text = item.Title;
         lblWebsite.Text = item.Website;
         lblMap.Text = item.MapName;
-        lblGameType.Text = General.GameTypeDescription(item.GameType);
+        lblGameType.Text = Program.GameTypeDescription(item.GameType);
         lblPlayers.Text = item.Players.ToString();
         lblClients.Text = item.Clients.ToString();
         lblMaxPlayers.Text = item.MaxPlayers.ToString();
@@ -660,7 +659,7 @@ public class FormGameInfo : System.Windows.Forms.Form
 
         // Set flag icon and location
         //try { picLocation.Image = formmain.GetFlagIcon(cinfo.ccode1); } catch(Exception) { }
-        picLocation.Image = General.mainwindow.GetFlagIcon(cinfo.ccode1);
+        picLocation.Image = Program.mainwindow.GetFlagIcon(cinfo.ccode1);
         if(picLocation.Image != null) lblLocation.Left = picLocation.Right + 2;
         lblLocation.Text = cinfo.country;
 
@@ -724,7 +723,7 @@ public class FormGameInfo : System.Windows.Forms.Form
         {
             // Open website
             this.Cursor = Cursors.WaitCursor;
-            General.OpenWebsite(lblWebsite.Text);
+            Program.OpenWebsite(lblWebsite.Text);
             this.Cursor = Cursors.Default;
         }
     }

@@ -15,14 +15,14 @@
         <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="SharpDX.Direct3D9" Version="4.2.0"/>
-        <PackageReference Include="SharpDX.Mathematics" Version="4.2.0"/>
+        <PackageReference Include="SharpDX.Direct3D9" Version="4.2.0" />
+        <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Shared\Bloodmasters.Shared.csproj"/>
+        <ProjectReference Include="..\Shared\Bloodmasters.Shared.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <Content Include="..\..\.bloodmasters.dev.marker" CopyToOutputDirectory="Always" CopyToPublishDirectory="Never"/>
-        <Content Include="..\Config\Bloodmasters.cfg" CopyToOutputDirectory="Never" CopyToPublishDirectory="Always"/>
+        <Content Include="..\..\.bloodmasters.dev.marker" CopyToOutputDirectory="Always" CopyToPublishDirectory="Never" />
+        <Content Include="..\Config\Bloodmasters.cfg" CopyToOutputDirectory="Never" CopyToPublishDirectory="Always" />
     </ItemGroup>
 </Project>
