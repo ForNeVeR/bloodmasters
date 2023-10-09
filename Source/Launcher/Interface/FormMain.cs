@@ -13,7 +13,6 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
-using CodeImp.Bloodmasters.Launcher.General;
 using CodeImp.Bloodmasters.Launcher.Map;
 
 namespace CodeImp.Bloodmasters.Launcher.Interface;
