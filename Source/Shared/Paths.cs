@@ -11,6 +11,7 @@ internal enum StartupMode
 
 public abstract class Paths
 {
+    public const string GameName = "Bloodmasters";
     public const string DefaultConfigFileName = "Bloodmasters.cfg";
 
     protected const string ClientExecutableFileName = "Bloodmasters.exe";
@@ -18,6 +19,9 @@ public abstract class Paths
 
     private static readonly Lazy<Paths> _instance
         = new(() => Create(StartupMode.Usual));
+
+    public static readonly Paths Instance
+        = _instance.Value;
 
     internal static Paths Create(StartupMode startupMode)
         => startupMode switch
@@ -35,7 +39,7 @@ public abstract class Paths
     {
         var modulePath = Assembly.GetEntryAssembly()?.Location ?? Process.GetCurrentProcess().MainModule?.FileName;
 
-        if (modulePath == null)
+        if (modulePath is null)
         {
             return Environment.CurrentDirectory;
         }
@@ -52,9 +56,6 @@ public abstract class Paths
 
         return Directory.CreateDirectory(targetPath).FullName;
     }
-
-    public static Paths Instance
-        => _instance.Value;
 
     public abstract string ClientExecutablePath { get; }
 
@@ -76,18 +77,18 @@ public abstract class Paths
     public string ScreenshotsDir { get; } =
         EvaluateDir(
             Environment.SpecialFolder.MyPictures,
-            "Bloodmasters");
+            GameName);
 
     /// <summary>Directory for the downloaded resources. Read + write access.</summary>
     public string DownloadedResourceDir { get; } =
         EvaluateDir(
             Environment.SpecialFolder.LocalApplicationData,
-            "Bloodmasters",
+            GameName,
             "Downloads");
 
     /// <summary>Directory for temporary data. Read + write access.</summary>
     public string TempDir { get; } =
-        Directory.CreateTempSubdirectory(prefix: "Bloodmasters").FullName;
+        Directory.CreateTempSubdirectory(GameName).FullName;
 }
 
 file sealed class UsualPaths : Paths
@@ -108,7 +109,7 @@ file sealed class UsualPaths : Paths
     public override string ConfigDirPath { get; } =
         EvaluateDir(
             Environment.SpecialFolder.ApplicationData,
-            "Bloodmasters",
+            GameName,
             "Config");
 }
 

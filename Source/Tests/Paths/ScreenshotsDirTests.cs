@@ -6,7 +6,7 @@ public class ScreenshotsDirTests
     public void ScreenshotsDirShouldBeNamedBloodmasters()
     {
         // Arrange
-        var dirName = Path.GetFileName(CodeImp.Bloodmasters.Paths.ScreenshotsDir);
+        var dirName = Path.GetFileName(CodeImp.Bloodmasters.Paths.Instance.ScreenshotsDir);
 
         // Assert
         Assert.Equal("Bloodmasters", dirName);

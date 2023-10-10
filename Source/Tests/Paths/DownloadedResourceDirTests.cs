@@ -6,7 +6,7 @@ public class DownloadedResourceDirTests
     public void DownloadedResourceDirShouldBeNamedBloodmasters()
     {
         // Arrange
-        var dirName = Path.GetFileName(CodeImp.Bloodmasters.Paths.DownloadedResourceDir);
+        var dirName = Path.GetFileName(CodeImp.Bloodmasters.Paths.Instance.DownloadedResourceDir);
 
         // Assert
         Assert.Equal("Downloads", dirName);
@@ -16,7 +16,7 @@ public class DownloadedResourceDirTests
     public void DownloadedResourceDirShouldBeSubdirectoryOfBloodmasters()
     {
         // Arrange
-        var dirPath = CodeImp.Bloodmasters.Paths.DownloadedResourceDir;
+        var dirPath = CodeImp.Bloodmasters.Paths.Instance.DownloadedResourceDir;
         var bloodmastersDirPath = Path.GetDirectoryName(dirPath);
 
         // Assert

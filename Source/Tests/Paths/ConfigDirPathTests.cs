@@ -2,25 +2,36 @@ namespace CodeImp.Bloodmasters.Tests.Paths;
 
 public class ConfigDirPathTests
 {
-    [Fact(DisplayName = "ConfigDirPath should be named 'Debug' in dev mode and 'Config' otherwise")]
-    public void ConfigDirPathShouldBeNamedDebugInDevModeAndConfigOtherwise()
+    [Fact(DisplayName = "ConfigDirPath should be named 'Config' in usual mode")]
+    public void ConfigDirPathShouldBeNamedConfigInUsualMode()
     {
         // Arrange
-        var dirName = Path.GetFileName(CodeImp.Bloodmasters.Paths.ConfigDirPath);
+        var sut = CodeImp.Bloodmasters.Paths.Instance;
+        var dirName = Path.GetFileName(sut.ConfigDirPath);
 
         // Assert
-        Assert.Equal(
-            CodeImp.Bloodmasters.Paths.IsDevModeBuild ? "Debug" : "Config",
-            dirName);
+        Assert.Equal("Config", dirName);
     }
 
-    [Fact(DisplayName = "ConfigDirPath should be subdirectory of the 'Bloodmasters' directory in dev mode")]
-    public void DownloadedResourceDirShouldBeSubdirectoryOfBloodmasters()
+    [Fact(DisplayName = "ConfigDirPath should be named 'Debug' in dev mode",
+        Skip = "Dev mode requires .bloodmasters.dev.marker file")]
+    public void ConfigDirPathShouldBeNamedDebugInDevMode()
     {
-        if (CodeImp.Bloodmasters.Paths.IsDevModeBuild) return;
-
         // Arrange
-        var dirPath = CodeImp.Bloodmasters.Paths.ConfigDirPath;
+        var sut = CodeImp.Bloodmasters.Paths.Create(StartupMode.Dev);
+        var dirName = Path.GetFileName(sut.ConfigDirPath);
+
+        // Assert
+        Assert.Equal("Debug", dirName);
+    }
+
+    [Fact(DisplayName = "ConfigDirPath should be subdirectory of the 'Bloodmasters' directory in dev mode",
+        Skip = "Dev mode requires .bloodmasters.dev.marker file")]
+    public void ConfigDirPathShouldBeSubdirectoryOfBloodmastersInDevMode()
+    {
+        // Arrange
+        var sut = CodeImp.Bloodmasters.Paths.Create(StartupMode.Dev);
+        var dirPath = sut.ConfigDirPath;
         var bloodmastersDirPath = Path.GetDirectoryName(dirPath);
 
         // Assert
