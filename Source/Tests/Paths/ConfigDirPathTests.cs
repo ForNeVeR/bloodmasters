@@ -2,8 +2,8 @@ namespace CodeImp.Bloodmasters.Tests.Paths;
 
 public class ConfigDirPathTests
 {
-    [Fact(DisplayName = "ConfigDirPath should be named 'Config' in usual mode")]
-    public void ConfigDirPathShouldBeNamedConfigInUsualMode()
+    [Fact(DisplayName = "ConfigDirPath should be named 'Config' in production mode")]
+    public void ConfigDirPathShouldBeNamedConfigInProductionMode()
     {
         // Arrange
         var sut = CodeImp.Bloodmasters.Paths.Instance;
