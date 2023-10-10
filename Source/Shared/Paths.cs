@@ -71,7 +71,8 @@ public abstract class Paths
 
     /// <summary>Directory for the log files. Write access.</summary>
     // TODO[#93]: Logs in production should be moved to another place
-    public string LogDirPath { get; } = AppBaseDir;
+    public string LogDirPath
+        => AppBaseDir;
 
     /// <summary>Directory for screenshots. Write access.</summary>
     public string ScreenshotsDir { get; } =
