@@ -5,7 +5,7 @@ namespace CodeImp.Bloodmasters;
 
 internal enum StartupMode
 {
-    Usual,
+    Production,
     Dev
 }
 
@@ -18,7 +18,7 @@ public abstract class Paths
     protected const string LauncherExecutableFileName = "BMLauncher.exe";
 
     private static readonly Lazy<Paths> _instance
-        = new(() => Create(StartupMode.Usual));
+        = new(() => Create(StartupMode.Production));
 
     public static readonly Paths Instance
         = _instance.Value;
@@ -26,7 +26,7 @@ public abstract class Paths
     internal static Paths Create(StartupMode startupMode)
         => startupMode switch
         {
-            StartupMode.Usual => new UsualPaths(),
+            StartupMode.Production => new ProductionPaths(),
             StartupMode.Dev => new DevPaths(),
             _ => throw new NotSupportedException()
         };
@@ -91,7 +91,7 @@ public abstract class Paths
         Directory.CreateTempSubdirectory(GameName).FullName;
 }
 
-file sealed class UsualPaths : Paths
+file sealed class ProductionPaths : Paths
 {
     /// <inheritdoc />
     public override string ClientExecutablePath
