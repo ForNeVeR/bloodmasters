@@ -52,10 +52,10 @@ internal sealed class General : SharedGeneral
         appname = Assembly.GetExecutingAssembly().GetName().Name;
 
         // Open all archives with archivemanager
-        ArchiveManager.Initialize(Paths.BundledResourceDir);
+        ArchiveManager.Initialize(Paths.Instance.BundledResourceDir);
 
         // Setup filenames
-        logfilename = Path.Combine(Paths.LogDirPath, appname + ".log");
+        logfilename = Path.Combine(Paths.Instance.LogDirPath, appname + ".log");
 
         // Setup clock
         SharedGeneral.previoustime = SharedGeneral.GetCurrentTime();
@@ -80,7 +80,7 @@ internal sealed class General : SharedGeneral
         ArchiveManager.Dispose();
 
         // Delete the temporary directory
-        if(!string.IsNullOrEmpty(Paths.TempDir)) Directory.Delete(Paths.TempDir, true);
+        if(!string.IsNullOrEmpty(Paths.Instance.TempDir)) Directory.Delete(Paths.Instance.TempDir, true);
 
         // End of program
         //Application.Exit();
@@ -94,7 +94,7 @@ internal sealed class General : SharedGeneral
     public static string LoadServerConfiguration(string[] args)
     {
         // Determine config file
-        string configfile = Path.Combine(Paths.ConfigDirPath, "bmserver.cfg");
+        string configfile = Path.Combine(Paths.Instance.ConfigDirPath, "bmserver.cfg");
         if(args.Length > 0) configfile = args[args.Length - 1];
 
         // Load the config file
@@ -116,7 +116,7 @@ internal sealed class General : SharedGeneral
             else
             {
                 // Make path relative to app path
-                logfilename = Path.Combine(Paths.LogDirPath, logfile);
+                logfilename = Path.Combine(Paths.Instance.LogDirPath, logfile);
             }
         }
 

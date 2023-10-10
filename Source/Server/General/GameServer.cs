@@ -588,7 +588,7 @@ public sealed class GameServer
         Write("Server is loading map \"" + nextmapname + "\"...", true);
 
         // Load the map title
-        Map mapcfg = new ServerMap(nextmapname, true, Paths.TempDir);
+        Map mapcfg = new ServerMap(nextmapname, true, Paths.Instance.TempDir);
         string maptitle = mapcfg.Title;
         mapcfg.Dispose();
 
@@ -612,7 +612,7 @@ public sealed class GameServer
         LoadLocalBans();
 
         // Load the map
-        map = new ServerMap(nextmapname, false, Paths.TempDir);
+        map = new ServerMap(nextmapname, false, Paths.Instance.TempDir);
 
         // New items
         items = new Dictionary<string, Item>();

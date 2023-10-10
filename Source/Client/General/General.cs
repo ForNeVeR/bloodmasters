@@ -180,16 +180,16 @@ internal sealed class General : SharedGeneral
         appname = Assembly.GetExecutingAssembly().GetName().Name;
 
         // Setup filenames
-        configfilename = Path.Combine(Paths.ConfigDirPath, configfilename);
-        logfilename = Path.Combine(Paths.LogDirPath, appname + ".log");
+        configfilename = Path.Combine(Paths.Instance.ConfigDirPath, configfilename);
+        logfilename = Path.Combine(Paths.Instance.LogDirPath, appname + ".log");
 
         // Ensure a Music directory exists
-        string musicdir = Path.Combine(Paths.BundledResourceDir, "Music");
+        string musicdir = Path.Combine(Paths.Instance.BundledResourceDir, "Music");
         if(!Directory.Exists(musicdir)) Directory.CreateDirectory(musicdir);
 
         // Open all archives with archivemanager
-        ArchiveManager.Initialize(Paths.BundledResourceDir);
-        ArchiveManager.OpenArchive(Path.Combine(Paths.BundledResourceDir, "Sprites"));
+        ArchiveManager.Initialize(Paths.Instance.BundledResourceDir);
+        ArchiveManager.OpenArchive(Path.Combine(Paths.Instance.BundledResourceDir, "Sprites"));
 
         // Get the high resolution clock frequency
         timefrequency = TimeProvider.System.TimestampFrequency;
@@ -352,8 +352,8 @@ internal sealed class General : SharedGeneral
         ArchiveManager.Dispose();
 
         // Delete the temporary directory
-        if(!string.IsNullOrEmpty(Paths.TempDir))
-            try { Directory.Delete(Paths.TempDir, true); } catch(Exception) { }
+        if(!string.IsNullOrEmpty(Paths.Instance.TempDir))
+            try { Directory.Delete(Paths.Instance.TempDir, true); } catch(Exception) { }
 
         // End of program
         Application.Exit();
@@ -404,7 +404,7 @@ internal sealed class General : SharedGeneral
         if(!File.Exists(allargs))
         {
             // Try in local path
-            if(!File.Exists(Path.Combine(Paths.ConfigDirPath, allargs)))
+            if(!File.Exists(Path.Combine(Paths.Instance.ConfigDirPath, allargs)))
             {
                 // Cannot find configuration
                 MessageBox.Show("Unable to load the configuration file " + Path.GetFileName(allargs) + ".", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -413,7 +413,7 @@ internal sealed class General : SharedGeneral
             else
             {
                 // Its in the local path
-                allargs = Path.Combine(Paths.ConfigDirPath, allargs);
+                allargs = Path.Combine(Paths.Instance.ConfigDirPath, allargs);
             }
         }
 
@@ -1999,7 +1999,7 @@ internal sealed class General : SharedGeneral
         clients[localclientid] = General.localclient;
 
         // Load the map
-        try { map = new ClientMap(mapname, false, Paths.TempDir); }
+        try { map = new ClientMap(mapname, false, Paths.Instance.TempDir); }
         catch(FileNotFoundException) { return "You do not have the map \"" + mapname + "\"."; }
 
         // Load the arena
@@ -2216,7 +2216,7 @@ internal sealed class General : SharedGeneral
         {
             // No proper commands given
             // Run the standard launcher
-            Process.Start(Paths.LauncherExecutablePath);
+            Process.Start(Paths.Instance.LauncherExecutablePath);
             return;
         }
 
@@ -2266,7 +2266,7 @@ internal sealed class General : SharedGeneral
                                 serverrunning = true;
 
                                 // Correct path if needed
-                                if (!File.Exists(hostfile)) hostfile = Path.Combine(Paths.ConfigDirPath, hostfile);
+                                if (!File.Exists(hostfile)) hostfile = Path.Combine(Paths.Instance.ConfigDirPath, hostfile);
 
                                 // Load server configuration
                                 Configuration scfg = new Configuration(true);
@@ -2288,7 +2288,7 @@ internal sealed class General : SharedGeneral
                                 serverrunning = true;
 
                                 // Correct path if needed
-                                if (!File.Exists(dedfile)) hostfile = Path.Combine(Paths.ConfigDirPath, dedfile);
+                                if (!File.Exists(dedfile)) hostfile = Path.Combine(Paths.Instance.ConfigDirPath, dedfile);
 
                                 // Load server configuration
                                 Configuration scfg = new Configuration(true);

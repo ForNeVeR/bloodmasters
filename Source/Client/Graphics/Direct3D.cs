@@ -1450,7 +1450,7 @@ internal sealed class Direct3D
         if(mipmap) mipmaplevels = 2;
 
         // Check if the file exists
-        if(File.Exists(Path.Combine(Paths.BundledResourceDir, filename)))
+        if(File.Exists(Path.Combine(Paths.Instance.BundledResourceDir, filename)))
         {
             // Check if already loaded
             if((textures.TryGetValue(filename, out TextureResource textureResource)) && (usecache == true))
@@ -1461,7 +1461,7 @@ internal sealed class Direct3D
             else
             {
                 // Load texture file
-                t =  Texture.FromFile(d3dd, Path.Combine(Paths.BundledResourceDir, filename), width, height, mipmaplevels, Usage.None, Format.Unknown,
+                t =  Texture.FromFile(d3dd, Path.Combine(Paths.Instance.BundledResourceDir, filename), width, height, mipmaplevels, Usage.None, Format.Unknown,
                     Pool.Default, Filter.Linear | Filter.MirrorU | Filter.MirrorV | Filter.Dither,
                     Filter.Triangle, 0, out i);
 

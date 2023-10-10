@@ -300,7 +300,7 @@ public class FormDownload : System.Windows.Forms.Form
         if(contentlength > 0) prgStatus.Maximum = contentlength;
 
         // Make the file
-        filename = Path.Combine(Paths.DownloadedResourceDir, server.MapName + ".zip");
+        filename = Path.Combine(Paths.Instance.DownloadedResourceDir, server.MapName + ".zip");
         file = File.Open(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.None);
 
         // Get the http download

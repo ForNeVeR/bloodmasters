@@ -490,7 +490,7 @@ public class Arena
         int dynvissecs = 0;
 
         // Open file for writing
-        FileStream outfile = File.Open(Path.Combine(Paths.LogDirPath, "mapinfo.txt"),
+        FileStream outfile = File.Open(Path.Combine(Paths.Instance.LogDirPath, "mapinfo.txt"),
             FileMode.Create, FileAccess.Write, FileShare.Read);
         StreamWriter writer = new StreamWriter(outfile);
 

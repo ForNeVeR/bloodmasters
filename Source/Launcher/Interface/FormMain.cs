@@ -1292,7 +1292,7 @@ public class FormMain : System.Windows.Forms.Form
                 string mname = wfparts[1].Substring(0, wfparts[1].Length - 4);
 
                 // Load the map information
-                Map wadmap = new LauncherMap(mname, true, Paths.TempDir);
+                Map wadmap = new LauncherMap(mname, true, Paths.Instance.TempDir);
 
                 // Check if game type is supported
                 if (((cmbServerType.SelectedIndex == 0) && wadmap.SupportsDM) ||
@@ -1520,7 +1520,7 @@ public class FormMain : System.Windows.Forms.Form
         General.SaveConfiguration();
 
         // Make the server configuration file
-        string scfgfile = General.MakeUniqueFilename(Paths.ConfigDirPath, "server_", ".cfg");
+        string scfgfile = General.MakeUniqueFilename(Paths.Instance.ConfigDirPath, "server_", ".cfg");
         Configuration scfg = MakeServerConfig(true);
         scfg.SaveConfiguration(scfgfile);
 
@@ -1662,7 +1662,7 @@ public class FormMain : System.Windows.Forms.Form
             try
             {
                 // Load the map information
-                Map wadmap = new LauncherMap(lstMaps.SelectedItem.ToString(), true, Paths.TempDir);
+                Map wadmap = new LauncherMap(lstMaps.SelectedItem.ToString(), true, Paths.Instance.TempDir);
 
                 // Display map information
                 lblMapTitle.Text = wadmap.Title;
@@ -1803,7 +1803,7 @@ public class FormMain : System.Windows.Forms.Form
                         download.Dispose();
 
                         // Check if new file exists
-                        filename = Path.Combine(Paths.DownloadedResourceDir, gitem.MapName + ".zip");
+                        filename = Path.Combine(Paths.Instance.DownloadedResourceDir, gitem.MapName + ".zip");
                         if (File.Exists(filename))
                         {
                             // Busy!

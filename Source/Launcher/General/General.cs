@@ -71,9 +71,9 @@ public class General
         appname = Assembly.GetExecutingAssembly().GetName().Name;
 
         // Setup filenames
-        configfilename = Path.Combine(Paths.ConfigDirPath, configfilename);
-        logfilename = Path.Combine(Paths.LogDirPath, appname + ".log");
-        ip2countryfilename = Path.Combine(Paths.BundledResourceDir, ip2countryfilename);
+        configfilename = Path.Combine(Paths.Instance.ConfigDirPath, configfilename);
+        logfilename = Path.Combine(Paths.Instance.LogDirPath, appname + ".log");
+        ip2countryfilename = Path.Combine(Paths.Instance.BundledResourceDir, ip2countryfilename);
 
         DeployTemplateConfig();
 
@@ -93,7 +93,7 @@ public class General
     private static void DeployTemplateConfig()
     {
         if (File.Exists(configfilename)) return;
-        var templateConfig = Path.Combine(Paths.BundledResourceDir, DefaultConfigFileName);
+        var templateConfig = Path.Combine(Paths.Instance.BundledResourceDir, DefaultConfigFileName);
         if (!File.Exists(templateConfig)) return;
         var configDirectory = Path.GetDirectoryName(configfilename);
         if (configDirectory != null)
@@ -168,7 +168,7 @@ public class General
 
                     // Open all archives with archivemanager
                     mainwindow.ShowStatus("Loading data archives...");
-                    ArchiveManager.Initialize(Paths.BundledResourceDir);
+                    ArchiveManager.Initialize(Paths.Instance.BundledResourceDir);
 
                     // Refrehs maps in list
                     mainwindow.RefreshMapsLists();
@@ -269,8 +269,8 @@ public class General
         ArchiveManager.Dispose();
 
         // Delete the temporary directory
-        if(!string.IsNullOrEmpty(Paths.TempDir))
-            try { Directory.Delete(Paths.TempDir, true); } catch(Exception) { }
+        if(!string.IsNullOrEmpty(Paths.Instance.TempDir))
+            try { Directory.Delete(Paths.Instance.TempDir, true); } catch(Exception) { }
 
         // End of program
         Application.Exit();
@@ -407,7 +407,7 @@ public class General
         mainwindow.ShowStatus("Launching game...");
 
         // Determine launch filename
-        string launchfile = MakeUniqueFilename(Paths.ConfigDirPath, "launch_", ".cfg");
+        string launchfile = MakeUniqueFilename(Paths.Instance.ConfigDirPath, "launch_", ".cfg");
         serverfile = servfile;
 
         // Write launch file
@@ -415,8 +415,8 @@ public class General
 
         // Make the process
         bmproc = new Process();
-        bmproc.StartInfo.FileName = Paths.ClientExecutablePath;
-        bmproc.StartInfo.WorkingDirectory = Path.GetDirectoryName(Paths.ClientExecutablePath);
+        bmproc.StartInfo.FileName = Paths.Instance.ClientExecutablePath;
+        bmproc.StartInfo.WorkingDirectory = Path.GetDirectoryName(Paths.Instance.ClientExecutablePath);
         bmproc.StartInfo.Arguments = launchfile;
         bmproc.StartInfo.CreateNoWindow = false;
         bmproc.StartInfo.ErrorDialog = false;

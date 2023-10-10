@@ -15,7 +15,7 @@ public class ArchiveManager
     private static readonly Dictionary<string, Archive> archives = new();
 
     // Temporary path
-    private static readonly string tempPath = Paths.TempDir;
+    private static readonly string tempPath = Paths.Instance.TempDir;
 
     #endregion
 

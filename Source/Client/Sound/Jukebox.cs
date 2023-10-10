@@ -43,7 +43,7 @@ public class Jukebox
     private static string[] GetPlaylistFiles()
     {
         // Make playlist from directory
-        string musicdir = Path.Combine(Paths.BundledResourceDir, "Music");
+        string musicdir = Path.Combine(Paths.Instance.BundledResourceDir, "Music");
 
         var playlistFiles = Directory.GetFiles(musicdir, "*.mp3");
 
