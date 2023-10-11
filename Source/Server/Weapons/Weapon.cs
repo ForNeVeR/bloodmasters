@@ -14,6 +14,12 @@ public abstract class Weapon
 {
     #region ================== Constants
 
+    private const float ShootInitialPositionOffsetX = 1f;
+    private const float ShootInitialPositionOffsetY = -1f;
+    private const float ShootInitialPositionOffsetZ = 10f;
+    private const float ShootInitialPositionAngle = 0.43f;
+    private const float ShootInitialPositionLength = 2f;
+
     #endregion
 
     #region ================== Variables
@@ -123,6 +129,17 @@ public abstract class Weapon
 
         // Nothing found!
         return null;
+    }
+
+    public static Vector3D GetProjectileInitialPosition(Client client)
+    {
+        // Move projectil somewhat forward
+        var position = client.State.pos + Vector3D.FromActorAngle(client.AimAngle, client.AimAngleZ, ShootInitialPositionLength);
+        var roundedAngle = client.AimAngle + ShootInitialPositionAngle * (float)Math.PI;
+
+        return position +
+            new Vector3D(ShootInitialPositionOffsetX, ShootInitialPositionOffsetY, ShootInitialPositionOffsetZ) +
+            Vector3D.FromAnimationAngle(roundedAngle, ShootInitialPositionLength);
     }
 
     // This is called when the weapon (re)fires
