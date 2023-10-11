@@ -144,16 +144,16 @@ public abstract class Weapon : VisualObject
     }
 
     // This determines the flare position
-    public static Vector3D GetFlarePosition(Actor a)
+    public static Vector3D GetFlarePosition(Actor actor)
     {
         // Make rounded angle of actor
-        float rangle = Actor.AngleFromDir(Actor.DirFromAngle(a.AimAngle, 0, 16), 0, 16);
-        rangle += FLARE_DELTA_ANGLE * (float)Math.PI;
+        var roundedAngle = Actor.AngleFromDir(Actor.DirFromAngle(actor.AimAngle, 0, 16), 0, 16) +
+            FLARE_DELTA_ANGLE * (float)Math.PI;
 
         // Position flare
-        return a.Position +
-               new Vector3D(FLARE_OFFSET_X, FLARE_OFFSET_Y, FLARE_OFFSET_Z) +
-               Vector3D.FromAnimationAngle(rangle, FLARE_DISTANCE);
+        return actor.Position +
+            new Vector3D(FLARE_OFFSET_X, FLARE_OFFSET_Y, FLARE_OFFSET_Z) +
+            Vector3D.FromAnimationAngle(roundedAngle, FLARE_DISTANCE);
     }
 
     // This is called when the weapon (re)fires

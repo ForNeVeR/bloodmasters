@@ -40,16 +40,16 @@ public class Laser
     #region ================== Methods
 
     // This determines the source of the laser for an actor
-    public static Vector3D GetSourcePosition(Actor a)
+    public static Vector3D GetSourcePosition(Actor actor)
     {
         // Make rounded angle of actor
-        //float rangle = Actor.AngleFromDir(Actor.DirFromAngle(a.AimAngle, 0, 16), 0, 16);
-        float rangle = a.AimAngle + LASER_DELTA_ANGLE * (float)Math.PI;
+        // float rangle = Actor.AngleFromDir(Actor.DirFromAngle(a.AimAngle, 0, 16), 0, 16);
+        float roundedAngle = actor.AimAngle + LASER_DELTA_ANGLE * (float)Math.PI;
 
         // Position
-        return a.Position +
-               new Vector3D(LASER_OFFSET_X, LASER_OFFSET_Y, LASER_OFFSET_Z) +
-               Vector3D.FromAnimationAngle(rangle, LASER_DISTANCE);
+        return actor.Position +
+            new Vector3D(LASER_OFFSET_X, LASER_OFFSET_Y, LASER_OFFSET_Z) +
+            Vector3D.FromAnimationAngle(roundedAngle, LASER_DISTANCE);
     }
 
     #endregion
