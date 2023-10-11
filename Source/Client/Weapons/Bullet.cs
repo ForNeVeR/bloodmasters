@@ -60,7 +60,7 @@ public class Bullet : VisualObject
         Sector s;
 
         // Make start and end points of bullet trajectory
-        start = source.Position + new Vector3D(0f, 0f, BULLET_Z);
+        start = Laser.GetSourcePosition(source);
         pend = start + Vector3D.FromActorAngle(source.AimAngle, source.AimAngleZ, BULLET_RANGE);
 
         // Add spread circle
