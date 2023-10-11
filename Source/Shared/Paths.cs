@@ -5,6 +5,7 @@ namespace CodeImp.Bloodmasters;
 
 internal enum StartupMode
 {
+    AutoDetect,
     Production,
     Dev
 }
@@ -16,20 +17,6 @@ public abstract class Paths
 
     protected const string ClientExecutableFileName = "Bloodmasters.exe";
     protected const string LauncherExecutableFileName = "BMLauncher.exe";
-
-    private static readonly Lazy<Paths> _instance
-        = new(() => Create(StartupMode.Production));
-
-    public static readonly Paths Instance
-        = _instance.Value;
-
-    internal static Paths Create(StartupMode startupMode)
-        => startupMode switch
-        {
-            StartupMode.Production => new ProductionPaths(),
-            StartupMode.Dev => new DevPaths(),
-            _ => throw new NotSupportedException()
-        };
 
     /// <summary>Directory of the entry binary.</summary>
     /// <remarks>In dev mode, it looks like <c>Source/Client/bin/Debug/net7.0-windows</c>.</remarks>
@@ -46,6 +33,21 @@ public abstract class Paths
 
         return Path.GetDirectoryName(modulePath) ?? Environment.CurrentDirectory;
     }
+
+    internal static Paths Create(StartupMode startupMode)
+        => startupMode switch
+        {
+            StartupMode.AutoDetect when DevPaths.HasDevModeMarker => new DevPaths(),
+            StartupMode.AutoDetect or StartupMode.Production => new ProductionPaths(),
+            StartupMode.Dev => new DevPaths(),
+            _ => throw new NotSupportedException()
+        };
+
+    private static readonly Lazy<Paths> _instance
+        = new(() => Create(StartupMode.AutoDetect));
+
+    public static readonly Paths Instance
+        = _instance.Value;
 
     protected static string EvaluateDir(Environment.SpecialFolder specialFolder, params string[] additionalPaths)
     {
@@ -126,6 +128,9 @@ file sealed class DevPaths : Paths
         "Release";
 #endif
 
+    public static readonly bool HasDevModeMarker =
+        File.Exists(Path.Combine(AppBaseDir, DevModeMarkerFileName));
+
     private static readonly string SolutionRootPath =
         FindSolutionRootRelativelyTo(AppBaseDir)
             ?? throw new InvalidOperationException("Unable to find solution root");
@@ -144,7 +149,7 @@ file sealed class DevPaths : Paths
 
     public DevPaths()
     {
-        if (!File.Exists(Path.Combine(AppBaseDir, DevModeMarkerFileName)))
+        if (!HasDevModeMarker)
         {
             throw new InvalidOperationException(
                 $"{nameof(DevPaths)} can only be used if the file \"{DevModeMarkerFileName}\" exists");
