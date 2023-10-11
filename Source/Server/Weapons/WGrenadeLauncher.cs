@@ -50,11 +50,8 @@ public class WGrenadeLauncher : Weapon
         // Extra Z boost
         vel.z += 0.5f;
 
-        // Move projectile somewhat forward
-        Vector3D pos = client.State.pos + Vector3D.FromActorAngle(client.AimAngle, client.AimAngleZ, PROJECTILE_OFFSET);
-
         // Spawn projectile
-        new Grenade(pos + new Vector3D(0f, 0f, PROJECTILE_Z), vel, client);
+        new Grenade(GetProjectileInitialPosition(client), vel, client);
     }
 
     #endregion

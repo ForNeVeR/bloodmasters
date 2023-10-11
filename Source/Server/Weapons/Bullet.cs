@@ -26,7 +26,7 @@ public class Bullet
         object obj;
 
         // Make start and end points of bullet trajectory
-        start = source.State.pos + new Vector3D(0f, 0f, BULLET_Z);
+        start = Weapon.GetProjectileInitialPosition(source);
         pend = start + Vector3D.FromActorAngle(source.AimAngle, source.AimAngleZ, BULLET_RANGE);
 
         // Add spread circle

@@ -47,11 +47,8 @@ public class WRocketLauncher : Weapon
         // Determine projectile velocity
         Vector3D vel = Vector3D.FromActorAngle(client.AimAngle, client.AimAngleZ, PROJECTILE_VELOCITY);
 
-        // Move projectil somewhat forward
-        Vector3D pos = client.State.pos + Vector3D.FromActorAngle(client.AimAngle, client.AimAngleZ, PROJECTILE_OFFSET);
-
         // Spawn projectile
-        new Rocket(pos + new Vector3D(0f, 0f, PROJECTILE_Z), vel, client);
+        new Rocket(GetProjectileInitialPosition(client), vel, client);
     }
 
     #endregion
