@@ -121,8 +121,8 @@ internal sealed class General : SharedGeneral
     public static string playername;
     public static int scorelimit;
     public static GAMETYPE gametype;
-    public static Client[] clients = null;
-    public static Client localclient = null;
+    public static Client[]? clients;
+    public static Client? localclient;
     public static GAMESTATE gamestate;
     public static int gamestateend;
     public static int[] teamscore = new int[3];

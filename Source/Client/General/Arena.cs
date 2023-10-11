@@ -1424,15 +1424,11 @@ public class Arena
         }
         */
 
-        // Client available?
-        if(General.localclient != null)
+        // Client available and client in game?
+        if (General.localclient?.Actor != null)
         {
-            // Client in game?
-            if(General.localclient.Actor != null)
-            {
-                // Render laser
-                Laser.Render(Laser.GetSourcePosition(General.localclient.Actor), hitonmap);
-            }
+            // Render laser
+            Laser.Render(Laser.GetSourcePosition(General.localclient.Actor), hitonmap);
         }
 
         // Render all particles
