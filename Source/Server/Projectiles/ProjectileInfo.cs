@@ -8,7 +8,7 @@
 namespace CodeImp.Bloodmasters.Server;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple=true, Inherited=false)]
-public class ProjectileInfo : Attribute
+public class ProjectileInfo : EntityAttribute
 {
     // Members
     private PROJECTILE type;

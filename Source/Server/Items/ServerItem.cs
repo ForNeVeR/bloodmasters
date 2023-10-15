@@ -8,7 +8,7 @@
 namespace CodeImp.Bloodmasters.Server;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple=true, Inherited=false)]
-public class ServerItem : Attribute
+public class ServerItem : EntityAttribute
 {
     // Members
     private int thingid;

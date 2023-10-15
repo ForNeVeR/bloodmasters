@@ -10,7 +10,7 @@ using System;
 namespace CodeImp.Bloodmasters.Client.Items;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple=true, Inherited=false)]
-public class ClientItem : Attribute
+public class ClientItem : EntityAttribute
 {
     // Members
     private readonly int thingid;
