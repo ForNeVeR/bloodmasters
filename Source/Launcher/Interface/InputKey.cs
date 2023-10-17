@@ -1,6 +1,6 @@
 using System.Windows.Forms;
 
-namespace CodeImp.Bloodmasters.Launcher;
+namespace CodeImp.Bloodmasters.Launcher.Interface;
 
 public struct InputKey
 {

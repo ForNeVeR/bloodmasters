@@ -10,7 +10,7 @@ using System.Net;
 using System.Windows.Forms;
 using CodeImp.Bloodmasters.Net;
 
-namespace CodeImp.Bloodmasters.Launcher;
+namespace CodeImp.Bloodmasters.Launcher.Interface;
 
 public class GamesListItem
 {
@@ -145,7 +145,7 @@ public class GamesListItem
         item.SubItems[5].Text = mapname;
 
         // Check if the map exists and apply color
-        if(General.mainwindow.CheckMapExists(mapname))
+        if(Program.mainwindow.CheckMapExists(mapname))
             item.SubItems[5].ForeColor = SystemColors.WindowText;
         else
             item.SubItems[5].ForeColor = Color.FromArgb(200, 0, 0);
@@ -199,8 +199,8 @@ public class GamesListItem
         numclients = msg.GetByte();
         numplayers = msg.GetByte();
         protocol = msg.GetByte();
-        cinfo = General.ip2country.LookupIP(msg.Address.Address.ToString());
-        flagindex = General.mainwindow.GetFlagIconIndex(cinfo.ccode1);
+        cinfo = Program.ip2country.LookupIP(msg.Address.Address.ToString());
+        flagindex = Program.mainwindow.GetFlagIconIndex(cinfo.ccode1);
 
         // Check if the protocol is correct
         // Different protocols may have different

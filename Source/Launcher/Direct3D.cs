@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using SharpDX.Direct3D9;
+using CodeImp.Bloodmasters.Launcher.Interface;
+
 
 namespace CodeImp.Bloodmasters.Launcher;
 
@@ -252,7 +254,7 @@ internal sealed class Direct3D
         }
 
         // Write setting to configuration
-        General.config.WriteSetting("displaydriver", adapterIndex);
+        Program.config.WriteSetting("displaydriver", adapterIndex);
     }
 
     #endregion

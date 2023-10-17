@@ -13,9 +13,9 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
-using CodeImp.Bloodmasters.LevelMap;
+using CodeImp.Bloodmasters.Launcher.Map;
 
-namespace CodeImp.Bloodmasters.Launcher;
+namespace CodeImp.Bloodmasters.Launcher.Interface;
 
 public class FormMain : System.Windows.Forms.Form
 {
@@ -123,7 +123,7 @@ public class FormMain : System.Windows.Forms.Form
         this.UpdateStyles();
 
         // Load window state from configuration
-        this.WindowState = (FormWindowState)General.config.ReadSetting("windowstate", 0);
+        this.WindowState = (FormWindowState)Program.config.ReadSetting("windowstate", 0);
 
         // Required for Windows Form Designer support
         InitializeComponent();
@@ -137,38 +137,38 @@ public class FormMain : System.Windows.Forms.Form
         browser.OnFilteredListChanged += new ServerBrowser.FilteredListChanged(FilteredListChanged);
 
         // Load window size and location from configuration
-        this.Location = new Point(General.config.ReadSetting("windowleft", 200),
-            General.config.ReadSetting("windowtop", 200));
-        this.Size = new Size(General.config.ReadSetting("windowwidth", this.Size.Width),
-            General.config.ReadSetting("windowheight", this.Size.Height));
+        this.Location = new Point(Program.config.ReadSetting("windowleft", 200),
+            Program.config.ReadSetting("windowtop", 200));
+        this.Size = new Size(Program.config.ReadSetting("windowwidth", this.Size.Width),
+            Program.config.ReadSetting("windowheight", this.Size.Height));
 
         // Load the interface settings from configuration
-        maxclients = General.config.ReadSetting("serverclients", 10);
-        maxplayers = General.config.ReadSetting("serverplayers", 10);
+        maxclients = Program.config.ReadSetting("serverclients", 10);
+        maxplayers = Program.config.ReadSetting("serverplayers", 10);
         if (maxclients > (int)txtServerClients.Maximum) maxclients = (int)txtServerClients.Maximum;
         if (maxplayers > (int)txtServerPlayers.Maximum) maxplayers = (int)txtServerPlayers.Maximum;
-        txtFilterTitles.Text = General.config.ReadSetting("filtertitle", "");
-        chkShowFull.Checked = General.config.ReadSetting("filterfull", true);
-        chkShowEmpty.Checked = General.config.ReadSetting("filterempty", true);
-        cmbType.SelectedIndex = General.config.ReadSetting("filtertype", 0);
-        cmbMap.Text = General.config.ReadSetting("filtermap", "");
-        txtServerTitle.Text = General.config.ReadSetting("servertitle", "");
-        txtServerWebsite.Text = General.config.ReadSetting("serverwebsite", "");
-        txtServerPassword.Text = General.config.ReadSetting("serverpassword", "");
-        cmbServerType.SelectedIndex = General.config.ReadSetting("servertype", 0);
-        chkServerDedicated.Checked = General.config.ReadSetting("serverdedicated", false);
-        chkServerAddToMaster.Checked = General.config.ReadSetting("serverpublic", true);
+        txtFilterTitles.Text = Program.config.ReadSetting("filtertitle", "");
+        chkShowFull.Checked = Program.config.ReadSetting("filterfull", true);
+        chkShowEmpty.Checked = Program.config.ReadSetting("filterempty", true);
+        cmbType.SelectedIndex = Program.config.ReadSetting("filtertype", 0);
+        cmbMap.Text = Program.config.ReadSetting("filtermap", "");
+        txtServerTitle.Text = Program.config.ReadSetting("servertitle", "");
+        txtServerWebsite.Text = Program.config.ReadSetting("serverwebsite", "");
+        txtServerPassword.Text = Program.config.ReadSetting("serverpassword", "");
+        cmbServerType.SelectedIndex = Program.config.ReadSetting("servertype", 0);
+        chkServerDedicated.Checked = Program.config.ReadSetting("serverdedicated", false);
+        chkServerAddToMaster.Checked = Program.config.ReadSetting("serverpublic", true);
         txtServerClients.Value = maxclients;
         txtServerPlayers.Value = maxplayers;
-        txtServerFraglimit.Value = General.config.ReadSetting("serverscorelimit", 20);
-        txtServerTimelimit.Value = General.config.ReadSetting("servertimelimit", 15);
-        chkServerJoinSmallest.Checked = General.config.ReadSetting("serverjoinsmallest", true);
-        txtServerPort.Value = General.config.ReadSetting("serverport", Consts.DEFAULT_SERVER_PORT);
+        txtServerFraglimit.Value = Program.config.ReadSetting("serverscorelimit", 20);
+        txtServerTimelimit.Value = Program.config.ReadSetting("servertimelimit", 15);
+        chkServerJoinSmallest.Checked = Program.config.ReadSetting("serverjoinsmallest", true);
+        txtServerPort.Value = Program.config.ReadSetting("serverport", Consts.DEFAULT_SERVER_PORT);
         //servermaps = General.config.ReadSetting("servermaps", new Hashtable());
 
         // Apply sort comparer
-        ascending = General.config.ReadSetting("sortascending", true);
-        subitemindex = General.config.ReadSetting("sortitem", 6);
+        ascending = Program.config.ReadSetting("sortascending", true);
+        subitemindex = Program.config.ReadSetting("sortitem", 6);
         lstGames.ListViewItemSorter = new GamesListItemComparer(subitemindex, ascending);
 
         // DEBUG:
@@ -1292,7 +1292,7 @@ public class FormMain : System.Windows.Forms.Form
                 string mname = wfparts[1].Substring(0, wfparts[1].Length - 4);
 
                 // Load the map information
-                Map wadmap = new LauncherMap(mname, true, Paths.Instance.TempDir);
+                LevelMap.Map wadmap = new LauncherMap(mname, true, Paths.Instance.TempDir);
 
                 // Check if game type is supported
                 if (((cmbServerType.SelectedIndex == 0) && wadmap.SupportsDM) ||
@@ -1438,7 +1438,7 @@ public class FormMain : System.Windows.Forms.Form
         browser.StopQuery();
 
         // Save the settings
-        General.SaveConfiguration();
+        Program.SaveConfiguration();
 
         // Make arguments
         Configuration args = new Configuration();
@@ -1446,7 +1446,7 @@ public class FormMain : System.Windows.Forms.Form
         args.WriteSetting("password", password);
 
         // Start the game
-        General.LaunchBloodmasters(args, "");
+        Program.LaunchBloodmasters(args, "");
 
         // Re-enable games list
         lstGames.Enabled = true;
@@ -1517,10 +1517,10 @@ public class FormMain : System.Windows.Forms.Form
         browser.StopQuery();
 
         // Save the settings
-        General.SaveConfiguration();
+        Program.SaveConfiguration();
 
         // Make the server configuration file
-        string scfgfile = General.MakeUniqueFilename(Paths.Instance.ConfigDirPath, "server_", ".cfg");
+        string scfgfile = Program.MakeUniqueFilename(Paths.Instance.ConfigDirPath, "server_", ".cfg");
         Configuration scfg = MakeServerConfig(true);
         scfg.SaveConfiguration(scfgfile);
 
@@ -1532,7 +1532,7 @@ public class FormMain : System.Windows.Forms.Form
             args.WriteSetting("dedicated", scfgfile);
 
         // Start the game
-        General.LaunchBloodmasters(args, scfgfile);
+        Program.LaunchBloodmasters(args, scfgfile);
     }
 
     // This makes a server configuration
@@ -1553,7 +1553,7 @@ public class FormMain : System.Windows.Forms.Form
         cfg.WriteSetting("maxplayers", (int)txtServerPlayers.Value);
         cfg.WriteSetting("timelimit", (int)txtServerTimelimit.Value);
         cfg.WriteSetting("public", chkServerAddToMaster.Checked);
-        if (includercon) cfg.WriteSetting("rconpassword", General.RandomString(20));
+        if (includercon) cfg.WriteSetting("rconpassword", Program.RandomString(20));
 
         // Map names
         ListDictionary maps = new ListDictionary();
@@ -1568,7 +1568,7 @@ public class FormMain : System.Windows.Forms.Form
     {
         // Open website
         this.Cursor = Cursors.WaitCursor;
-        General.OpenWebsite("http://www.bloodmasters.com/");
+        Program.OpenWebsite("http://www.bloodmasters.com/");
         this.Cursor = Cursors.Default;
     }
 
@@ -1662,7 +1662,7 @@ public class FormMain : System.Windows.Forms.Form
             try
             {
                 // Load the map information
-                Map wadmap = new LauncherMap(lstMaps.SelectedItem.ToString(), true, Paths.Instance.TempDir);
+                LevelMap.Map wadmap = new LauncherMap(lstMaps.SelectedItem.ToString(), true, Paths.Instance.TempDir);
 
                 // Display map information
                 lblMapTitle.Text = wadmap.Title;
@@ -1708,27 +1708,27 @@ public class FormMain : System.Windows.Forms.Form
         // Save the interface settings to configuration
         if (this.WindowState == FormWindowState.Normal)
         {
-            General.config.WriteSetting("windowleft", this.Location.X);
-            General.config.WriteSetting("windowtop", this.Location.Y);
+            Program.config.WriteSetting("windowleft", this.Location.X);
+            Program.config.WriteSetting("windowtop", this.Location.Y);
         }
-        General.config.WriteSetting("servertitle", txtServerTitle.Text);
-        General.config.WriteSetting("serverwebsite", txtServerWebsite.Text);
-        General.config.WriteSetting("serverpassword", txtServerPassword.Text);
-        General.config.WriteSetting("servertype", cmbServerType.SelectedIndex);
-        General.config.WriteSetting("serverdedicated", chkServerDedicated.Checked);
-        General.config.WriteSetting("serverpublic", chkServerAddToMaster.Checked);
-        General.config.WriteSetting("serverclients", (int)txtServerClients.Value);
-        General.config.WriteSetting("serverplayers", (int)txtServerPlayers.Value);
-        General.config.WriteSetting("serverscorelimit", (int)txtServerFraglimit.Value);
-        General.config.WriteSetting("servertimelimit", (int)txtServerTimelimit.Value);
-        General.config.WriteSetting("serverjoinsmallest", chkServerJoinSmallest.Checked);
-        General.config.WriteSetting("serverport", (int)txtServerPort.Value);
-        General.config.WriteSetting("servermaps", maplist);
-        General.config.WriteSetting("filtertitle", txtFilterTitles.Text);
-        General.config.WriteSetting("filterfull", chkShowFull.Checked);
-        General.config.WriteSetting("filterempty", chkShowEmpty.Checked);
-        General.config.WriteSetting("filtertype", cmbType.SelectedIndex);
-        General.config.WriteSetting("filtermap", cmbMap.Text);
+        Program.config.WriteSetting("servertitle", txtServerTitle.Text);
+        Program.config.WriteSetting("serverwebsite", txtServerWebsite.Text);
+        Program.config.WriteSetting("serverpassword", txtServerPassword.Text);
+        Program.config.WriteSetting("servertype", cmbServerType.SelectedIndex);
+        Program.config.WriteSetting("serverdedicated", chkServerDedicated.Checked);
+        Program.config.WriteSetting("serverpublic", chkServerAddToMaster.Checked);
+        Program.config.WriteSetting("serverclients", (int)txtServerClients.Value);
+        Program.config.WriteSetting("serverplayers", (int)txtServerPlayers.Value);
+        Program.config.WriteSetting("serverscorelimit", (int)txtServerFraglimit.Value);
+        Program.config.WriteSetting("servertimelimit", (int)txtServerTimelimit.Value);
+        Program.config.WriteSetting("serverjoinsmallest", chkServerJoinSmallest.Checked);
+        Program.config.WriteSetting("serverport", (int)txtServerPort.Value);
+        Program.config.WriteSetting("servermaps", maplist);
+        Program.config.WriteSetting("filtertitle", txtFilterTitles.Text);
+        Program.config.WriteSetting("filterfull", chkShowFull.Checked);
+        Program.config.WriteSetting("filterempty", chkShowEmpty.Checked);
+        Program.config.WriteSetting("filtertype", cmbType.SelectedIndex);
+        Program.config.WriteSetting("filtermap", cmbMap.Text);
     }
 
     // Window is resized
@@ -1740,17 +1740,17 @@ public class FormMain : System.Windows.Forms.Form
         if (this.WindowState == FormWindowState.Normal)
         {
             // Store window size and location
-            General.config.WriteSetting("windowleft", this.Location.X);
-            General.config.WriteSetting("windowtop", this.Location.Y);
-            General.config.WriteSetting("windowwidth", this.Size.Width);
-            General.config.WriteSetting("windowheight", this.Size.Height);
+            Program.config.WriteSetting("windowleft", this.Location.X);
+            Program.config.WriteSetting("windowtop", this.Location.Y);
+            Program.config.WriteSetting("windowwidth", this.Size.Width);
+            Program.config.WriteSetting("windowheight", this.Size.Height);
         }
 
         // Store window state
         if (this.WindowState != FormWindowState.Minimized)
-            General.config.WriteSetting("windowstate", (int)this.WindowState);
+            Program.config.WriteSetting("windowstate", (int)this.WindowState);
         else
-            General.config.WriteSetting("windowstate", (int)FormWindowState.Normal);
+            Program.config.WriteSetting("windowstate", (int)FormWindowState.Normal);
     }
 
     // Export configuration clicked
@@ -1792,7 +1792,7 @@ public class FormMain : System.Windows.Forms.Form
             if (!CheckMapExists(gitem.MapName))
             {
                 // Auto-download?
-                if (General.config.ReadSetting("autodownload", true))
+                if (Program.config.ReadSetting("autodownload", true))
                 {
                     // Server URL valid?
                     if (gitem.Website.ToLower().StartsWith("http://"))
@@ -1803,7 +1803,7 @@ public class FormMain : System.Windows.Forms.Form
                         download.Dispose();
 
                         // Check if new file exists
-                        filename = Path.Combine(Paths.Instance.DownloadedResourceDir, gitem.MapName + ".zip");
+                        filename = Path.Combine(Paths.DownloadedResourceDir, gitem.MapName + ".zip");
                         if (File.Exists(filename))
                         {
                             // Busy!
@@ -1926,7 +1926,7 @@ public class FormMain : System.Windows.Forms.Form
         if (updatelist)
         {
             // Dont refresh the list
-            General.LockWindowUpdate(lstGames.Handle);
+            Program.LockWindowUpdate(lstGames.Handle);
             lstGames.BeginUpdate();
 
             // Get the whole list
@@ -1963,7 +1963,7 @@ public class FormMain : System.Windows.Forms.Form
 
             // Redraw the list
             lstGames.EndUpdate();
-            General.LockWindowUpdate(IntPtr.Zero);
+            Program.LockWindowUpdate(IntPtr.Zero);
             updatelist = false;
         }
     }
@@ -2152,7 +2152,7 @@ public class FormMain : System.Windows.Forms.Form
             {
                 // Open website
                 this.Cursor = Cursors.WaitCursor;
-                General.OpenWebsite(gitem.Website);
+                Program.OpenWebsite(gitem.Website);
                 this.Cursor = Cursors.Default;
             }
         }
@@ -2162,7 +2162,7 @@ public class FormMain : System.Windows.Forms.Form
     private void lstGames_ColumnClick(object sender, System.Windows.Forms.ColumnClickEventArgs e)
     {
         int subitemindex = 0;
-        bool ascending = General.config.ReadSetting("sortascending", true);
+        bool ascending = Program.config.ReadSetting("sortascending", true);
 
         // Determine subitem to sort by for this column
         switch (e.Column)
@@ -2176,7 +2176,7 @@ public class FormMain : System.Windows.Forms.Form
         }
 
         // Already sorted by this subitem?
-        if (General.config.ReadSetting("sortitem", 6) == subitemindex)
+        if (Program.config.ReadSetting("sortitem", 6) == subitemindex)
         {
             // Change sort order
             ascending = !ascending;
@@ -2186,7 +2186,7 @@ public class FormMain : System.Windows.Forms.Form
         lstGames.ListViewItemSorter = new GamesListItemComparer(subitemindex, ascending);
 
         // Save settings
-        General.config.WriteSetting("sortitem", subitemindex);
-        General.config.WriteSetting("sortascending", ascending);
+        Program.config.WriteSetting("sortitem", subitemindex);
+        Program.config.WriteSetting("sortascending", ascending);
     }
 }

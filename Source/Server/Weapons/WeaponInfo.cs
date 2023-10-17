@@ -8,7 +8,7 @@
 namespace CodeImp.Bloodmasters.Server;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple=true, Inherited=false)]
-public class WeaponInfo : Attribute
+public class WeaponInfo : EntityAttribute
 {
     // Members
     private WEAPON weaponid;

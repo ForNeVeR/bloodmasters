@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using CodeImp.Bloodmasters;
 using CodeImp;
 
-namespace CodeImp.Bloodmasters.Launcher;
+namespace CodeImp.Bloodmasters.Launcher.Interface;
 
 internal sealed class FormError : System.Windows.Forms.Form
 {

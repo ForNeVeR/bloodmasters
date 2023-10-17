@@ -9,8 +9,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using SharpDX.Direct3D9;
 
-namespace CodeImp.Bloodmasters.Launcher;
-
+namespace CodeImp.Bloodmasters.Launcher.Interface;
 public class FormOptions : System.Windows.Forms.Form
 {
     private int last_fsaa;
@@ -88,18 +87,18 @@ public class FormOptions : System.Windows.Forms.Form
         InitializeComponent();
 
         // Setup General
-        txtPlayerName.Text = General.playername;
-        chkFixedPort.Checked = General.config.ReadSetting("fixedclientport", false);
-        chkStartRefresh.Checked = General.config.ReadSetting("startuprefresh", true);
-        txtClientPort.Value = General.config.ReadSetting("clientport", 7777);
-        trkQuerySpeed.Value = General.config.ReadSetting("queryspeed", 50);
-        trkSnapsSpeed.Value = General.config.ReadSetting("snapsspeed", 20);
-        chkAutoScreenshot.Checked = General.config.ReadSetting("autoscreenshot", false);
-        chkAutoDownload.Checked = General.config.ReadSetting("autodownload", true);
-        chkAutoSwitchWeapon.Checked = General.config.ReadSetting("autoswitchweapon", true);
-        chkLaserIntensity.Checked = (General.config.ReadSetting("laserintensity", 2) > 0);
-        if(chkLaserIntensity.Checked) chkLaserIntensity.Tag = General.config.ReadSetting("laserintensity", 2); else chkLaserIntensity.Tag = 2;
-        chkTeamColoredNames.Checked = General.config.ReadSetting("teamcolorednames", false);
+        txtPlayerName.Text = Program.playername;
+        chkFixedPort.Checked = Program.config.ReadSetting("fixedclientport", false);
+        chkStartRefresh.Checked = Program.config.ReadSetting("startuprefresh", true);
+        txtClientPort.Value = Program.config.ReadSetting("clientport", 7777);
+        trkQuerySpeed.Value = Program.config.ReadSetting("queryspeed", 50);
+        trkSnapsSpeed.Value = Program.config.ReadSetting("snapsspeed", 20);
+        chkAutoScreenshot.Checked = Program.config.ReadSetting("autoscreenshot", false);
+        chkAutoDownload.Checked = Program.config.ReadSetting("autodownload", true);
+        chkAutoSwitchWeapon.Checked = Program.config.ReadSetting("autoswitchweapon", true);
+        chkLaserIntensity.Checked = (Program.config.ReadSetting("laserintensity", 2) > 0);
+        if(chkLaserIntensity.Checked) chkLaserIntensity.Tag = Program.config.ReadSetting("laserintensity", 2); else chkLaserIntensity.Tag = 2;
+        chkTeamColoredNames.Checked = Program.config.ReadSetting("teamcolorednames", false);
 
         // Fill the controls combobox with some special keys
         cmbControl.Items.Add(Keys.None);
@@ -115,15 +114,15 @@ public class FormOptions : System.Windows.Forms.Form
         foreach(ListViewItem c in lstControls.Items)
         {
             // Get the control key
-            int keycode = General.config.ReadSetting("controls/" + c.Tag, (int)Keys.None);
+            int keycode = Program.config.ReadSetting("controls/" + c.Tag, (int)Keys.None);
             if(c.SubItems.Count < 2) c.SubItems.Add("");
             c.SubItems[1].Text = InputKey.GetKeyName(keycode);
             controlkeys.Add((string)c.Tag, keycode);
         }
 
         // Other options in control
-        chkScrollWeapons.Checked = General.config.ReadSetting("scrollweapons", true);
-        cmbMoveMethod.SelectedIndex = General.config.ReadSetting("movemethod", 0);
+        chkScrollWeapons.Checked = Program.config.ReadSetting("scrollweapons", true);
+        cmbMoveMethod.SelectedIndex = Program.config.ReadSetting("movemethod", 0);
 
         // Setup Graphics
         last_mode = Direct3D.DisplayMode;
@@ -131,22 +130,22 @@ public class FormOptions : System.Windows.Forms.Form
         Direct3D.FillAdaptersList(cmbAdapter);
         chkWindowed.Checked = Direct3D.DisplayWindowed;
         chkSyncRate.Checked = Direct3D.DisplaySyncRefresh;
-        chkShowFPS.Checked = General.config.ReadSetting("showfps", false);
-        chkDynamicLights.Checked = General.config.ReadSetting("dynamiclights", true);
-        chkShowDecals.Checked = General.config.ReadSetting("showdecals", true);
-        chkShowGibs.Checked = General.config.ReadSetting("showgibs", true);
-        chkScreenFlashes.Checked = General.config.ReadSetting("screenflashes", true);
-        chkHighTextures.Checked = General.config.ReadSetting("hightextures", true);
+        chkShowFPS.Checked = Program.config.ReadSetting("showfps", false);
+        chkDynamicLights.Checked = Program.config.ReadSetting("dynamiclights", true);
+        chkShowDecals.Checked = Program.config.ReadSetting("showdecals", true);
+        chkShowGibs.Checked = Program.config.ReadSetting("showgibs", true);
+        chkScreenFlashes.Checked = Program.config.ReadSetting("screenflashes", true);
+        chkHighTextures.Checked = Program.config.ReadSetting("hightextures", true);
         trkGamma.Value = Direct3D.DisplayGamma;
 
         // Setup Sound
-        chkPlaySounds.Checked = General.config.ReadSetting("sounds", true);
-        chkPlayChatBeep.Checked = General.config.ReadSetting("soundchatbeep", true);
-        chkPlayTeamBeep.Checked = General.config.ReadSetting("soundteambeep", true);
-        trkSoundVolume.Value = General.config.ReadSetting("soundsvolume", 100);
-        chkPlayMusic.Checked = General.config.ReadSetting("music", true);
-        chkRandomMusic.Checked = General.config.ReadSetting("musicrandom", true);
-        trkMusicVolume.Value = General.config.ReadSetting("musicvolume", 50);
+        chkPlaySounds.Checked = Program.config.ReadSetting("sounds", true);
+        chkPlayChatBeep.Checked = Program.config.ReadSetting("soundchatbeep", true);
+        chkPlayTeamBeep.Checked = Program.config.ReadSetting("soundteambeep", true);
+        trkSoundVolume.Value = Program.config.ReadSetting("soundsvolume", 100);
+        chkPlayMusic.Checked = Program.config.ReadSetting("music", true);
+        chkRandomMusic.Checked = Program.config.ReadSetting("musicrandom", true);
+        trkMusicVolume.Value = Program.config.ReadSetting("musicvolume", 50);
     }
 
     // Clean up any resources being used.
@@ -1180,26 +1179,26 @@ public class FormOptions : System.Windows.Forms.Form
     private void btnOK_Click(object sender, System.EventArgs e)
     {
         // Apply General
-        General.playername = txtPlayerName.Text;
-        General.config.WriteSetting("fixedclientport", chkFixedPort.Checked);
-        General.config.WriteSetting("startuprefresh", chkStartRefresh.Checked);
-        General.config.WriteSetting("clientport", (int)txtClientPort.Value);
-        General.config.WriteSetting("queryspeed", (int)trkQuerySpeed.Value);
-        General.config.WriteSetting("snapsspeed", (int)trkSnapsSpeed.Value);
-        General.config.WriteSetting("autoscreenshot", chkAutoScreenshot.Checked);
-        General.config.WriteSetting("autodownload", chkAutoDownload.Checked);
-        General.config.WriteSetting("autoswitchweapon", chkAutoSwitchWeapon.Checked);
-        General.config.WriteSetting("teamcolorednames", chkTeamColoredNames.Checked);
+        Program.playername = txtPlayerName.Text;
+        Program.config.WriteSetting("fixedclientport", chkFixedPort.Checked);
+        Program.config.WriteSetting("startuprefresh", chkStartRefresh.Checked);
+        Program.config.WriteSetting("clientport", (int)txtClientPort.Value);
+        Program.config.WriteSetting("queryspeed", (int)trkQuerySpeed.Value);
+        Program.config.WriteSetting("snapsspeed", (int)trkSnapsSpeed.Value);
+        Program.config.WriteSetting("autoscreenshot", chkAutoScreenshot.Checked);
+        Program.config.WriteSetting("autodownload", chkAutoDownload.Checked);
+        Program.config.WriteSetting("autoswitchweapon", chkAutoSwitchWeapon.Checked);
+        Program.config.WriteSetting("teamcolorednames", chkTeamColoredNames.Checked);
 
         // Apply controls
         foreach((string key, int value) in controlkeys)
         {
-            General.config.WriteSetting("controls/" + key, value);
+            Program.config.WriteSetting("controls/" + key, value);
         }
 
         // Apply other options in controls
-        General.config.WriteSetting("scrollweapons", chkScrollWeapons.Checked);
-        General.config.WriteSetting("movemethod", cmbMoveMethod.SelectedIndex);
+        Program.config.WriteSetting("scrollweapons", chkScrollWeapons.Checked);
+        Program.config.WriteSetting("movemethod", cmbMoveMethod.SelectedIndex);
 
         // Apply Graphics
         Direct3D.SelectAdapter(((DisplayAdapterItem)cmbAdapter.SelectedItem).ordinal);
@@ -1208,27 +1207,27 @@ public class FormOptions : System.Windows.Forms.Form
         Direct3D.DisplaySyncRefresh = chkSyncRate.Checked;
         Direct3D.DisplayFSAA = cmbFSAA.SelectedIndex - 1;
         Direct3D.DisplayGamma = trkGamma.Value;
-        General.config.WriteSetting("dynamiclights", chkDynamicLights.Checked);
-        General.config.WriteSetting("showdecals", chkShowDecals.Checked);
-        General.config.WriteSetting("showgibs", chkShowGibs.Checked);
-        General.config.WriteSetting("showfps", chkShowFPS.Checked);
-        General.config.WriteSetting("screenflashes", chkScreenFlashes.Checked);
-        General.config.WriteSetting("hightextures", chkHighTextures.Checked);
+        Program.config.WriteSetting("dynamiclights", chkDynamicLights.Checked);
+        Program.config.WriteSetting("showdecals", chkShowDecals.Checked);
+        Program.config.WriteSetting("showgibs", chkShowGibs.Checked);
+        Program.config.WriteSetting("showfps", chkShowFPS.Checked);
+        Program.config.WriteSetting("screenflashes", chkScreenFlashes.Checked);
+        Program.config.WriteSetting("hightextures", chkHighTextures.Checked);
 
         // Laser intensity
         if(chkLaserIntensity.Checked)
-            General.config.WriteSetting("laserintensity", (int)chkLaserIntensity.Tag);
+            Program.config.WriteSetting("laserintensity", (int)chkLaserIntensity.Tag);
         else
-            General.config.WriteSetting("laserintensity", 0);
+            Program.config.WriteSetting("laserintensity", 0);
 
         // Apply Sound
-        General.config.WriteSetting("sounds", chkPlaySounds.Checked);
-        General.config.WriteSetting("soundchatbeep", chkPlayChatBeep.Checked);
-        General.config.WriteSetting("soundteambeep", chkPlayTeamBeep.Checked);
-        General.config.WriteSetting("soundsvolume", trkSoundVolume.Value);
-        General.config.WriteSetting("music", chkPlayMusic.Checked);
-        General.config.WriteSetting("musicrandom", chkRandomMusic.Checked);
-        General.config.WriteSetting("musicvolume", trkMusicVolume.Value);
+        Program.config.WriteSetting("sounds", chkPlaySounds.Checked);
+        Program.config.WriteSetting("soundchatbeep", chkPlayChatBeep.Checked);
+        Program.config.WriteSetting("soundteambeep", chkPlayTeamBeep.Checked);
+        Program.config.WriteSetting("soundsvolume", trkSoundVolume.Value);
+        Program.config.WriteSetting("music", chkPlayMusic.Checked);
+        Program.config.WriteSetting("musicrandom", chkRandomMusic.Checked);
+        Program.config.WriteSetting("musicvolume", trkMusicVolume.Value);
     }
 
     // Display Driver selected
@@ -1468,7 +1467,7 @@ public class FormOptions : System.Windows.Forms.Form
         string playernameerror;
 
         // Check player name
-        playernameerror = General.ValidatePlayerName(txtPlayerName.Text);
+        playernameerror = Program.ValidatePlayerName(txtPlayerName.Text);
         if(playernameerror != null)
         {
             // Invalid player name

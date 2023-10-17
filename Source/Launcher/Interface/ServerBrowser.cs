@@ -15,7 +15,7 @@ using System.Threading;
 using CodeImp.Bloodmasters.Launcher.Net;
 using CodeImp.Bloodmasters.Net;
 
-namespace CodeImp.Bloodmasters.Launcher;
+namespace CodeImp.Bloodmasters.Launcher.Interface;
 
 public class ServerBrowser
 {
@@ -70,7 +70,7 @@ public class ServerBrowser
     public ServerBrowser()
     {
         // Read masterserver query timeout
-        mastertimeout = General.config.ReadSetting("mastertimeout", 5000);
+        mastertimeout = Program.config.ReadSetting("mastertimeout", 5000);
 
         // Clients will query the first masterserver in the list first
         // and try the second when the first one fails and so on.
@@ -263,8 +263,8 @@ public class ServerBrowser
         StopQuery();
 
         // Determine port number
-        if(General.config.ReadSetting("fixedclientport", false))
-            port = General.config.ReadSetting("clientport", 0);
+        if(Program.config.ReadSetting("fixedclientport", false))
+            port = Program.config.ReadSetting("clientport", 0);
 
         // Create a gateway
         gateway = new LauncherGateway(port, 0, 0);
@@ -275,7 +275,7 @@ public class ServerBrowser
         processthread.Start();
 
         // Schedule querying
-        queryinterval = (int)(1000f / (float)General.config.ReadSetting("queryspeed", 50));
+        queryinterval = (int)(1000f / (float)Program.config.ReadSetting("queryspeed", 50));
         nexttime = SharedGeneral.GetCurrentTime();
         nextaddress = 0;
     }

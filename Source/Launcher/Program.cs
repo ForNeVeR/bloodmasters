@@ -14,13 +14,14 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using CodeImp.Bloodmasters.Launcher.Interface;
 using CodeImp.Bloodmasters.Net;
 using Microsoft.Win32;
 using SharpDX.Direct3D9;
 
 namespace CodeImp.Bloodmasters.Launcher;
 
-public class General
+public class Program
 {
     // API declarations
     [DllImport("user32.dll")] public static extern int LockWindowUpdate(IntPtr hwnd);
@@ -177,7 +178,7 @@ public class General
                     mainwindow.ShowStatus("Initializing video adapter...");
                     try
                     {
-                        Direct3D.SelectAdapter(General.config.ReadSetting("displaydriver", 0));
+                        Direct3D.SelectAdapter(Program.config.ReadSetting("displaydriver", 0));
                     }
                     catch (Exception)
                     {
@@ -217,11 +218,11 @@ public class General
                         }
 
                         // Refresh list if preferred
-                        if (General.config.ReadSetting("startuprefresh", true))
+                        if (Program.config.ReadSetting("startuprefresh", true))
                             mainwindow.RefreshGamesList();
 
                         // New player?
-                        if (General.playername.ToLower().Trim() == "newbie")
+                        if (Program.playername.ToLower().Trim() == "newbie")
                         {
                             // Ask to change the name
                             MessageBox.Show(mainwindow,
@@ -235,7 +236,7 @@ public class General
                         Application.Run(mainwindow);
 
                         // Save configuration
-                        General.SaveConfiguration();
+                        Program.SaveConfiguration();
                     }
                     else
                     {
@@ -309,7 +310,7 @@ public class General
             Direct3D.DisplaySyncRefresh = config.ReadSetting("displaysync", true);
             Direct3D.DisplayFSAA = config.ReadSetting("displayfsaa", 0);
             Direct3D.DisplayGamma = config.ReadSetting("displaygamma", 0);
-            General.playername = config.ReadSetting("playername", "Newbie");
+            Program.playername = config.ReadSetting("playername", "Newbie");
 
             // Check if a weaponorder structure exists
             weaponorder = config.ReadSetting("weaponorder", new Hashtable());
@@ -351,7 +352,7 @@ public class General
         config.WriteSetting("displaywindowed", Direct3D.DisplayWindowed);
         config.WriteSetting("displaysync", Direct3D.DisplaySyncRefresh);
         config.WriteSetting("displayfsaa", Direct3D.DisplayFSAA);
-        config.WriteSetting("playername", General.playername);
+        config.WriteSetting("playername", Program.playername);
         config.WriteSetting("displaygamma", Direct3D.DisplayGamma);
 
         // Save current configuration to file
