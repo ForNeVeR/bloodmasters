@@ -131,10 +131,6 @@ file sealed class DevPaths : Paths
     public static readonly bool HasDevModeMarker =
         File.Exists(Path.Combine(AppBaseDir, DevModeMarkerFileName));
 
-    private static readonly string SolutionRootPath =
-        FindSolutionRootRelativelyTo(AppBaseDir)
-            ?? throw new InvalidOperationException("Unable to find solution root");
-
     private static string? FindSolutionRootRelativelyTo(string appBaseDir)
     {
         var currentDir = appBaseDir;
@@ -147,6 +143,8 @@ file sealed class DevPaths : Paths
         return currentDir;
     }
 
+    private readonly string _solutionRootPath;
+
     public DevPaths()
     {
         if (!HasDevModeMarker)
@@ -154,12 +152,16 @@ file sealed class DevPaths : Paths
             throw new InvalidOperationException(
                 $"{nameof(DevPaths)} can only be used if the file \"{DevModeMarkerFileName}\" exists");
         }
+
+        _solutionRootPath =
+            FindSolutionRootRelativelyTo(AppBaseDir)
+                ?? throw new InvalidOperationException("Unable to find solution root");
     }
 
     /// <inheritdoc />
     public override string ClientExecutablePath
         => Path.Combine(
-            SolutionRootPath,
+            _solutionRootPath,
             "Source",
             "Client",
             "bin",
@@ -169,12 +171,12 @@ file sealed class DevPaths : Paths
 
     /// <inheritdoc />
     public override string ContentDirPath
-        => Path.Combine(SolutionRootPath, "Source", "Content");
+        => Path.Combine(_solutionRootPath, "Source", "Content");
 
     /// <inheritdoc />
     public override string LauncherExecutablePath
         => Path.Combine(
-            SolutionRootPath,
+            _solutionRootPath,
             "Source",
             "Launcher",
             "bin",
@@ -184,5 +186,5 @@ file sealed class DevPaths : Paths
 
     /// <inheritdoc />
     public override string ConfigDirPath
-        => Path.Combine(SolutionRootPath, "Source", "Config", "Debug");
+        => Path.Combine(_solutionRootPath, "Source", "Config", "Debug");
 }
