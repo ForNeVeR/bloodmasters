@@ -59,6 +59,8 @@ public abstract class Paths
         return Directory.CreateDirectory(targetPath).FullName;
     }
 
+    internal abstract StartupMode CurrentMode { get; }
+
     public abstract string ClientExecutablePath { get; }
 
     public abstract string ContentDirPath { get; }
@@ -96,6 +98,10 @@ public abstract class Paths
 
 file sealed class ProductionPaths : Paths
 {
+    /// <inheritdoc />
+    internal override StartupMode CurrentMode
+        => StartupMode.Production;
+
     /// <inheritdoc />
     public override string ClientExecutablePath
         => Path.Combine(AppBaseDir, ClientExecutableFileName);
@@ -157,6 +163,10 @@ file sealed class DevPaths : Paths
             FindSolutionRootRelativelyTo(AppBaseDir)
                 ?? throw new InvalidOperationException("Unable to find solution root");
     }
+
+    /// <inheritdoc />
+    internal override StartupMode CurrentMode
+        => StartupMode.Dev;
 
     /// <inheritdoc />
     public override string ClientExecutablePath
