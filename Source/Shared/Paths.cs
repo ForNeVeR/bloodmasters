@@ -37,8 +37,8 @@ public abstract class Paths
     internal static Paths Create(StartupMode startupMode)
         => startupMode switch
         {
-            StartupMode.AutoDetect when DevPaths.HasDevModeMarker => new DevPaths(),
-            StartupMode.AutoDetect or StartupMode.Production => new ProductionPaths(),
+            StartupMode.AutoDetect => DevPaths.HasDevModeMarker ? new DevPaths() : new ProductionPaths(),
+            StartupMode.Production => new ProductionPaths(),
             StartupMode.Dev => new DevPaths(),
             _ => throw new NotSupportedException()
         };
