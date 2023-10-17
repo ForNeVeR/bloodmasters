@@ -1803,7 +1803,7 @@ public class FormMain : System.Windows.Forms.Form
                         download.Dispose();
 
                         // Check if new file exists
-                        filename = Path.Combine(Paths.DownloadedResourceDir, gitem.MapName + ".zip");
+                        filename = Path.Combine(Paths.Instance.DownloadedResourceDir, gitem.MapName + ".zip");
                         if (File.Exists(filename))
                         {
                             // Busy!
