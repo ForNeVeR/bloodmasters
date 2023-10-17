@@ -24,13 +24,7 @@ public abstract class Paths
 
     private static string EvaluateAppBaseDir()
     {
-        var modulePath = Assembly.GetEntryAssembly()?.Location ?? Process.GetCurrentProcess().MainModule?.FileName;
-
-        if (modulePath is null)
-        {
-            return Environment.CurrentDirectory;
-        }
-
+        var modulePath = Assembly.GetCallingAssembly().Location;
         return Path.GetDirectoryName(modulePath) ?? Environment.CurrentDirectory;
     }
 

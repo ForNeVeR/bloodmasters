@@ -6,15 +6,14 @@ public class ConfigDirPathTests
     public void ConfigDirPathShouldBeNamedConfigInProductionMode()
     {
         // Arrange
-        var sut = CodeImp.Bloodmasters.Paths.Instance;
+        var sut = CodeImp.Bloodmasters.Paths.Create(StartupMode.Production);
         var dirName = Path.GetFileName(sut.ConfigDirPath);
 
         // Assert
         Assert.Equal("Config", dirName);
     }
 
-    [Fact(DisplayName = "ConfigDirPath should be named 'Debug' in dev mode",
-        Skip = "Dev mode requires .bloodmasters.dev.marker file")]
+    [Fact(DisplayName = "ConfigDirPath should be named 'Debug' in dev mode")]
     public void ConfigDirPathShouldBeNamedDebugInDevMode()
     {
         // Arrange
@@ -25,16 +24,24 @@ public class ConfigDirPathTests
         Assert.Equal("Debug", dirName);
     }
 
-    [Fact(DisplayName = "ConfigDirPath should be subdirectory of the 'Bloodmasters' directory in dev mode",
-        Skip = "Dev mode requires .bloodmasters.dev.marker file")]
+    [Fact(DisplayName = "ConfigDirPath should be subdirectory of the 'Bloodmasters' directory in production mode")]
+    public void ConfigDirPathShouldBeSubdirectoryOfBloodmastersInProductionMode()
+    {
+        // Arrange
+        var sut = CodeImp.Bloodmasters.Paths.Create(StartupMode.Production);
+        var bloodmastersDirPath = Path.GetDirectoryName(sut.ConfigDirPath);
+
+        // Assert
+        Assert.Equal("Bloodmasters", Path.GetFileName(bloodmastersDirPath));
+    }
+
+    [Fact(DisplayName = "ConfigDirPath should be subdirectory of the 'Bloodmasters' directory in dev mode")]
     public void ConfigDirPathShouldBeSubdirectoryOfBloodmastersInDevMode()
     {
         // Arrange
         var sut = CodeImp.Bloodmasters.Paths.Create(StartupMode.Dev);
-        var dirPath = sut.ConfigDirPath;
-        var bloodmastersDirPath = Path.GetDirectoryName(dirPath);
 
         // Assert
-        Assert.Equal("Bloodmasters", Path.GetFileName(bloodmastersDirPath));
+        Assert.Contains("bloodmasters", sut.ConfigDirPath.Split(Path.DirectorySeparatorChar));
     }
 }

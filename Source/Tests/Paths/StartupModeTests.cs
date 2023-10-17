@@ -12,8 +12,7 @@ public sealed class StartupModeTests
         Assert.Equal(StartupMode.Production, sut.CurrentMode);
     }
 
-    [Fact(DisplayName = "StartupMode should be Dev when paths created",
-        Skip = "Dev mode requires .bloodmasters.dev.marker file")]
+    [Fact(DisplayName = "StartupMode should be Dev when paths created")]
     public void ShouldCreateProductionPathsWhenProductionModePassed()
     {
         // Arrange
