@@ -10,7 +10,6 @@ using Bloodmasters.Client.Graphics;
 using Bloodmasters.Client.LevelMap;
 using SharpDX.Direct3D9;
 using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
-using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
 
 namespace Bloodmasters.Client.Effects;
 
@@ -32,7 +31,7 @@ public class PhoenixFlame : VisualObject
 
     #region ================== Variables
 
-    private Graphics_Sprite sprite;
+    private Graphics.Sprite sprite;
     private Animation ani;
     private ClientSector sector;
     private bool disposed = false;
@@ -66,7 +65,7 @@ public class PhoenixFlame : VisualObject
         sector = (ClientSector)General.map.GetSubSectorAt(this.pos.x, this.pos.y).Sector;
 
         // Make the sprite
-        sprite = new Graphics_Sprite(this.pos, SIZE_START, false, true);
+        sprite = new Graphics.Sprite(this.pos, SIZE_START, false, true);
         sprite.Update();
 
         // Create animation

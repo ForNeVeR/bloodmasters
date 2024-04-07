@@ -8,7 +8,6 @@
 using System;
 using Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;
-using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
 
 namespace Bloodmasters.Client.Weapons;
 
@@ -33,7 +32,7 @@ public class WMinigun : Weapon
 
     // Fire flare
     public static TextureResource flaretex;
-    private Graphics_Sprite flare;
+    private Graphics.Sprite flare;
     private float flarealpha = 0f;
 
     // States
@@ -51,7 +50,7 @@ public class WMinigun : Weapon
     public WMinigun(Client client) : base(client)
     {
         // Make fire flare sprite
-        flare = new Graphics_Sprite(new Vector3D(), FLARE_SIZE_START, false, true);
+        flare = new Graphics.Sprite(new Vector3D(), FLARE_SIZE_START, false, true);
     }
 
     // Disposer

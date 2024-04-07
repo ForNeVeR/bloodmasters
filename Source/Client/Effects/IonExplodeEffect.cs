@@ -12,7 +12,6 @@ using Bloodmasters.Client.LevelMap;
 using Bloodmasters.Client.Lights;
 using SharpDX.Direct3D9;
 using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
-using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
 
 namespace Bloodmasters.Client.Effects;
 
@@ -26,7 +25,7 @@ public class IonExplodeEffect : VisualObject, ILightningNode
 
     #region ================== Variables
 
-    private Graphics_Sprite sprite;
+    private Graphics.Sprite sprite;
     private Animation ani;
     private readonly ClientSector sector;
     private bool disposed;
@@ -82,7 +81,7 @@ public class IonExplodeEffect : VisualObject, ILightningNode
         }
 
         // Make effect
-        sprite = new Graphics_Sprite(spawnpos + new Vector3D(2f, -2f, 15f), 15f, false, true);
+        sprite = new Graphics.Sprite(spawnpos + new Vector3D(2f, -2f, 15f), 15f, false, true);
         ani = Animation.CreateFrom("sprites/ionexplode.cfg");
 
         // Go for all actors

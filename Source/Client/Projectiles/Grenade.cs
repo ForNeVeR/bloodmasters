@@ -13,7 +13,6 @@ using Bloodmasters.Client.LevelMap;
 using Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;
 using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
-using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
 
 namespace Bloodmasters.Client.Projectiles;
 
@@ -33,7 +32,7 @@ public class Grenade : Projectile
     public static TextureResource texbody;
 
     // Members
-    private Graphics_Sprite spritebody;
+    private Graphics.Sprite spritebody;
     private int smoketime;
     private float rotation;
     private ClientSector sector;
@@ -53,7 +52,7 @@ public class Grenade : Projectile
         smoketime = SharedGeneral.currenttime - 1;
 
         // Make the rocket sprites
-        spritebody = new Graphics_Sprite(start, SPRITE_BODY_SIZE, true, true);
+        spritebody = new Graphics.Sprite(start, SPRITE_BODY_SIZE, true, true);
         UpdateSprites();
     }
 

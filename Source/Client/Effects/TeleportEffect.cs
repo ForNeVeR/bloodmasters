@@ -12,7 +12,6 @@ using Bloodmasters.Client.LevelMap;
 using Bloodmasters.Client.Lights;
 using SharpDX.Direct3D9;
 using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
-using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
 
 namespace Bloodmasters.Client.Effects;
 
@@ -24,7 +23,7 @@ public class TeleportEffect : VisualObject
 
     #region ================== Variables
 
-    private Graphics_Sprite sprite;
+    private Graphics.Sprite sprite;
     private Animation ani;
     private readonly ClientSector sector;
     private bool disposed;
@@ -95,7 +94,7 @@ public class TeleportEffect : VisualObject
                 Vector3D.Random(General.random, 0.02f, 0.02f, 0.01f), General.ARGB(1f, 0.6f, 0.6f, 0.6f));
 
         // Make effect
-        sprite = new Graphics_Sprite(spawnpos + new Vector3D(0f, 0f, 3f), spritescale, false, true);
+        sprite = new Graphics.Sprite(spawnpos + new Vector3D(0f, 0f, 3f), spritescale, false, true);
         ani = Animation.CreateFrom("sprites/teleport.cfg");
         ani.FrameTime = (int)((float)ani.FrameTime * animationscale);
     }

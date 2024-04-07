@@ -14,7 +14,6 @@ using Bloodmasters.Client.Lights;
 using Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;
 using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
-using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
 
 namespace Bloodmasters.Client.Projectiles;
 
@@ -36,8 +35,8 @@ public class Rocket : Projectile
     public static TextureResource texexhaust;
 
     // Members
-    private Graphics_Sprite spritebody;
-    private Graphics_Sprite spriteexhaust;
+    private Graphics.Sprite spritebody;
+    private Graphics.Sprite spriteexhaust;
     private ISound flying;
     private int smoketime;
     private Vector3D exoffset;
@@ -58,8 +57,8 @@ public class Rocket : Projectile
         smoketime = SharedGeneral.currenttime - 1;
 
         // Make the rocket sprites
-        spritebody = new Graphics_Sprite(start, SPRITE_BODY_SIZE, false, true);
-        spriteexhaust = new Graphics_Sprite(start, SPRITE_EXHAUST_SIZE, false, true);
+        spritebody = new Graphics.Sprite(start, SPRITE_BODY_SIZE, false, true);
+        spriteexhaust = new Graphics.Sprite(start, SPRITE_EXHAUST_SIZE, false, true);
         UpdateSprites();
 
         // Make the light

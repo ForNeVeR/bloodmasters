@@ -12,7 +12,6 @@ using SharpDX;
 using SharpDX.Direct3D9;
 using SharpDX.Mathematics.Interop;
 using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
-using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
 
 namespace Bloodmasters.Client.Effects;
 
@@ -44,7 +43,7 @@ public abstract class Debris : VisualObject
     private int findsectorinterleave;
 
     // Appearance
-    private readonly Graphics_Sprite sprite = null;
+    private readonly Graphics.Sprite sprite = null;
     private Texture texture = null;
     private float size = 3.5f;
     private float fade = 1f;
@@ -79,7 +78,7 @@ public abstract class Debris : VisualObject
         this.vel = vel;
 
         // Set up sprite
-        sprite = new Graphics_Sprite(pos, size, true, true);
+        sprite = new Graphics.Sprite(pos, size, true, true);
         sprite.RotateX = (float)Math.PI * 0.7f;
 
         // Where are we now?

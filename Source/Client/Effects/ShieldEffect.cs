@@ -11,7 +11,6 @@ using Bloodmasters.Client.Lights;
 using Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;
 using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
-using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
 
 namespace Bloodmasters.Client.Effects;
 
@@ -33,7 +32,7 @@ public class ShieldEffect : VisualObject
     private Vector3D offset = new Vector3D(1f, -1f, 12f);
     private DynamicLight light;
     private Actor actor;
-    private Graphics_Sprite sprite;
+    private Graphics.Sprite sprite;
     private bool disposed = false;
     private float alpha;
     private readonly float angle;
@@ -64,7 +63,7 @@ public class ShieldEffect : VisualObject
         light = new DynamicLight(this.pos, 16f, lightcolor, 3);
 
         // Make the sprite
-        sprite = new Graphics_Sprite(this.pos + offset, 6f, false, true);
+        sprite = new Graphics.Sprite(this.pos + offset, 6f, false, true);
         sprite.RotateX = (float)Math.PI * 0.7f;
         sprite.Rotation = angle - (float)Math.PI * 0.35f;
         sprite.Update();

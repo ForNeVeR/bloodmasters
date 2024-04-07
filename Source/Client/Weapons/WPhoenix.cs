@@ -9,7 +9,6 @@ using System;
 using Bloodmasters.Client.Graphics;
 using SharpDX.Direct3D9;
 using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
-using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
 
 namespace Bloodmasters.Client.Weapons;
 
@@ -32,7 +31,7 @@ public class WPhoenix : Weapon
     #region ================== Variables
 
     // Fire flare
-    private Graphics_Sprite flare;
+    private Graphics.Sprite flare;
     private readonly Animation flareani;
     private float flarealpha = 0f;
 
@@ -51,7 +50,7 @@ public class WPhoenix : Weapon
     public WPhoenix(Client client) : base(client)
     {
         // Make fire flare sprite
-        flare = new Graphics_Sprite(new Vector3D(), FLARE_SIZE_START, false, false);
+        flare = new Graphics.Sprite(new Vector3D(), FLARE_SIZE_START, false, false);
         flareani = Animation.CreateFrom("sprites/phoenixflare.cfg");
     }
 

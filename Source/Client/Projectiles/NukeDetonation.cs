@@ -9,7 +9,6 @@ using Bloodmasters.Client.Graphics;
 using Bloodmasters.Client.Lights;
 using SharpDX.Direct3D9;
 using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
-using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
 
 namespace Bloodmasters.Client.Projectiles;
 
@@ -35,7 +34,7 @@ public class NukeDetonation : Projectile
 
     // Members
     private readonly Animation ani;
-    private readonly Graphics_Sprite sprite;
+    private readonly Graphics.Sprite sprite;
     private readonly DynamicLight light;
     private float lightfade = 0f;
     private readonly int lightfadeouttime;
@@ -65,7 +64,7 @@ public class NukeDetonation : Projectile
         this.renderpass = 2;
 
         // Make the explosion sprite and animation
-        sprite = new Graphics_Sprite(pos, EXPLOSION_SIZE, false, true);
+        sprite = new Graphics.Sprite(pos, EXPLOSION_SIZE, false, true);
         ani = Animation.CreateFrom("sprites/nukeexplode.cfg");
     }
 

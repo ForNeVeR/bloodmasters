@@ -15,7 +15,6 @@ using Bloodmasters.Client.Lights;
 using Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;
 using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
-using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
 
 namespace Bloodmasters.Client.Projectiles;
 
@@ -35,7 +34,7 @@ public class IonBall : Projectile, ILightningNode
     public static TextureResource plasmaball;
 
     // Members
-    private Graphics_Sprite sprite;
+    private Graphics.Sprite sprite;
     private ISound flying;
     private readonly DynamicLight light;
     private readonly List<Lightning> lightnings = new();
@@ -56,7 +55,7 @@ public class IonBall : Projectile, ILightningNode
         particletime = General.currenttime - 1;
 
         // Make the ball sprite
-        sprite = new Graphics_Sprite(start, SPRITE_SIZE, false, true);
+        sprite = new Graphics.Sprite(start, SPRITE_SIZE, false, true);
         UpdateSprite();
 
         // Make the light

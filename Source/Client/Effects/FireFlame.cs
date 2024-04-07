@@ -9,7 +9,6 @@ using System;
 using Bloodmasters.Client.Graphics;
 using SharpDX.Direct3D9;
 using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
-using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
 
 namespace Bloodmasters.Client.Effects;
 
@@ -29,7 +28,7 @@ public class FireFlame : VisualObject
     #region ================== Variables
 
     private Actor actor;
-    private Graphics_Sprite sprite;
+    private Graphics.Sprite sprite;
     private Vector3D offset;
     private Animation ani;
     private bool disposed = false;
@@ -59,7 +58,7 @@ public class FireFlame : VisualObject
         this.pos = actor.Position + offset;
 
         // Make the sprite
-        sprite = new Graphics_Sprite(this.pos, 6f, false, true);
+        sprite = new Graphics.Sprite(this.pos, 6f, false, true);
         sprite.Update();
 
         // Create animation
