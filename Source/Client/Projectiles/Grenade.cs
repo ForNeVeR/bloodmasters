@@ -245,15 +245,15 @@ public class Grenade : Projectile
             return;
 
         // Set render mode
-        SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
-        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
-        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
+        Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
+        Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+        Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
 
         // Set lightmap
-        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, sector.VisualSector.Lightmap);
+        Direct3D.d3dd.SetTexture(1, sector.VisualSector.Lightmap);
 
         // Texture
-        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, Grenade.texbody.texture);
+        Direct3D.d3dd.SetTexture(0, Grenade.texbody.texture);
 
         // Render body
         spritebody.Render();

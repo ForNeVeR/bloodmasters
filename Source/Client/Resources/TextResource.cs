@@ -234,11 +234,11 @@ public sealed class TextResource : Resource
             if(numfaces > 0)
             {
                 // Set the texture
-                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, texture);
+                Direct3D.d3dd.SetTexture(0, texture);
 
                 // Render the text
-                SharpDX.Direct3D9.Direct3D.d3dd.SetStreamSource(0, textbuffer, 0, TLVertex.Stride);
-                SharpDX.Direct3D9.Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, numfaces);
+                Direct3D.d3dd.SetStreamSource(0, textbuffer, 0, TLVertex.Stride);
+                Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, numfaces);
             }
         }
     }
@@ -276,7 +276,7 @@ public sealed class TextResource : Resource
         if(numvertices == 0) return;
 
         // Create VertexBuffer
-        textbuffer = new VertexBuffer(SharpDX.Direct3D9.Direct3D.d3dd, sizeof(TLVertex) * numvertices,
+        textbuffer = new VertexBuffer(Direct3D.d3dd, sizeof(TLVertex) * numvertices,
             Usage.WriteOnly | Usage.DoNotClip,
             TLVertex.Format, Pool.Default);
 
@@ -284,8 +284,8 @@ public sealed class TextResource : Resource
         var vertices = textbuffer.Lock<TLVertex>(0, numvertices);
 
         // Calculate the absolute viewport
-        view = new RectangleF(viewport.X * SharpDX.Direct3D9.Direct3D.DisplayWidth, viewport.Y * SharpDX.Direct3D9.Direct3D.DisplayHeight,
-            viewport.Width * SharpDX.Direct3D9.Direct3D.DisplayWidth, viewport.Height * SharpDX.Direct3D9.Direct3D.DisplayHeight);
+        view = new RectangleF(viewport.X * Direct3D.DisplayWidth, viewport.Y * Direct3D.DisplayHeight,
+            viewport.Width * Direct3D.DisplayWidth, viewport.Height * Direct3D.DisplayHeight);
 
         // Calculate the text size
         textsize = charset.GetTextSize(text, scale);

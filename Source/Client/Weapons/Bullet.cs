@@ -231,7 +231,7 @@ public class Bullet : VisualObject
     public static unsafe void CreateGeometry()
     {
         // Create vertex buffer
-        vertices = new VertexBuffer(SharpDX.Direct3D9.Direct3D.d3dd, sizeof(MVertex) * 4,
+        vertices = new VertexBuffer(Direct3D.d3dd, sizeof(MVertex) * 4,
             Usage.WriteOnly, MVertex.Format, Pool.Default);
 
         // Lock vertex buffer
@@ -304,23 +304,23 @@ public class Bullet : VisualObject
         if(flashalpha > 0f)
         {
             // Set render mode
-            SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-            SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
+            Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+            Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
             if(flashalpha > 1f)
-                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(1f, 0.8f, 0.7f, 0.4f));
+                Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(1f, 0.8f, 0.7f, 0.4f));
             else
-                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(flashalpha, 0.8f, 0.7f, 0.4f));
+                Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(flashalpha, 0.8f, 0.7f, 0.4f));
 
             // Apply matrices
-            SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.World, matflash);
+            Direct3D.d3dd.SetTransform(TransformState.World, matflash);
 
             // Set the sprite texture
-            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, bulletflash.texture);
-            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, null);
+            Direct3D.d3dd.SetTexture(0, bulletflash.texture);
+            Direct3D.d3dd.SetTexture(1, null);
 
             // Render
-            SharpDX.Direct3D9.Direct3D.d3dd.SetStreamSource(0, vertices, 0, MVertex.Stride);
-            SharpDX.Direct3D9.Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
+            Direct3D.d3dd.SetStreamSource(0, vertices, 0, MVertex.Stride);
+            Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
 
             // DEBUG:
             if(SHOW_BULLET_TRAJECTORIES)

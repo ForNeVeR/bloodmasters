@@ -120,14 +120,14 @@ public class RageEffect : VisualObject
         if(actor.Sector.VisualSector.InScreen && !disposed)
         {
             // Set render mode
-            SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-            SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(ALPHA, 1f, 1f, 1f));
+            Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+            Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(ALPHA, 1f, 1f, 1f));
 
             // No lightmap
-            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, null);
+            Direct3D.d3dd.SetTexture(1, null);
 
             // Set texture
-            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, ani.CurrentFrame.texture);
+            Direct3D.d3dd.SetTexture(0, ani.CurrentFrame.texture);
 
             // Render sprite
             sprite.Render();

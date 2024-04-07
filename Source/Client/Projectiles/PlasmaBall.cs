@@ -247,15 +247,15 @@ public class PlasmaBall : Projectile
             return;
 
         // Set render mode
-        SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
-        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
+        Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+        Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+        Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
 
         // No lightmap
-        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, null);
+        Direct3D.d3dd.SetTexture(1, null);
 
         // Texture
-        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, PlasmaBall.plasmaball.texture);
+        Direct3D.d3dd.SetTexture(0, PlasmaBall.plasmaball.texture);
 
         // Render sprite
         sprite.Render();

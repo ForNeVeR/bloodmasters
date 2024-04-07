@@ -179,7 +179,7 @@ public class StaticLight
         else if(range < 40f) lightmapsize = LIGHTMAP_BASE_SIZE / 2;
         else lightmapsize = LIGHTMAP_BASE_SIZE;
         if(highlightmaps == false) lightmapsize /= 2;
-        if(SharpDX.Direct3D9.Direct3D.hightextures == false) lightmapsize /= 2;
+        if(Direct3D.hightextures == false) lightmapsize /= 2;
 
         // Lightmap scale relative to map coordinates
         lightmapscale = (1f / (range * 2f)) * (float)lightmapsize;
@@ -321,14 +321,14 @@ public class StaticLight
         Format lmformat;
 
         // Determine format to use
-        lmformat = (Format)SharpDX.Direct3D9.Direct3D.DisplayFormat;
+        lmformat = (Format)Direct3D.DisplayFormat;
 
         // Make a rendertarget for lightmap
-        lightmap = new Texture(SharpDX.Direct3D9.Direct3D.d3dd, lightmapsize, lightmapsize, 1,
+        lightmap = new Texture(Direct3D.d3dd, lightmapsize, lightmapsize, 1,
             Usage.RenderTarget, lmformat, Pool.Default);
 
         // Make a rendertarget for walls lightmap
-        wallslightmap = new Texture(SharpDX.Direct3D9.Direct3D.d3dd, WALL_PIXELS_X, wallslightmapsize, 1,
+        wallslightmap = new Texture(Direct3D.d3dd, WALL_PIXELS_X, wallslightmapsize, 1,
             Usage.RenderTarget, lmformat, Pool.Default);
 
         // Need to redraw the lightmap
@@ -524,13 +524,13 @@ public class StaticLight
         t2 = ((v2 - o) * lightmapscale) / (float)lightmapsize;
 
         // Make vertices
-        TLVertex[] rect = SharpDX.Direct3D9.Direct3D.TLRect(-0.5f, vot, t1.x, t1.y,
+        TLVertex[] rect = Direct3D.TLRect(-0.5f, vot, t1.x, t1.y,
             (float)WALL_PIXELS_X -0.5f, vot, t2.x, t2.y,
             -0.5f, vob, t1.x, t1.y,
             (float)WALL_PIXELS_X -0.5f, vob, t2.x, t2.y);
 
         // Render the vertices
-        SharpDX.Direct3D9.Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, rect);
+        Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, rect);
     }
 
     // This renders wall shadows on a wall
@@ -614,31 +614,31 @@ public class StaticLight
                     s4 *= (float)WALL_PIXELS_X;
 
                     // Make vertices for first edge
-                    rect = SharpDX.Direct3D9.Direct3D.TLRect(s1 - 0.5f, vot, SHADOW_COORD_X1A, SHADOW_COORD_END,
+                    rect = Direct3D.TLRect(s1 - 0.5f, vot, SHADOW_COORD_X1A, SHADOW_COORD_END,
                         s3 - 0.5f, vot, SHADOW_COORD_BEGIN, SHADOW_COORD_END,
                         s1 - 0.5f, vob, SHADOW_COORD_X1A, SHADOW_COORD_END,
                         s3 - 0.5f, vob, SHADOW_COORD_BEGIN, SHADOW_COORD_END);
 
                     // Render first edge
-                    SharpDX.Direct3D9.Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, rect);
+                    Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, rect);
 
                     // Make vertices for shadow middle
-                    rect = SharpDX.Direct3D9.Direct3D.TLRect(s1 - 0.5f, vot, SHADOW_COORD_X1A, SHADOW_COORD_END,
+                    rect = Direct3D.TLRect(s1 - 0.5f, vot, SHADOW_COORD_X1A, SHADOW_COORD_END,
                         s2 - 0.5f, vot, SHADOW_COORD_X2B, SHADOW_COORD_END,
                         s1 - 0.5f, vob, SHADOW_COORD_X1A, SHADOW_COORD_END,
                         s2 - 0.5f, vob, SHADOW_COORD_X2B, SHADOW_COORD_END);
 
                     // Render shadow middle
-                    SharpDX.Direct3D9.Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, rect);
+                    Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, rect);
 
                     // Make vertices for second edge
-                    rect = SharpDX.Direct3D9.Direct3D.TLRect(s4 - 0.5f, vot, SHADOW_COORD_END, SHADOW_COORD_END,
+                    rect = Direct3D.TLRect(s4 - 0.5f, vot, SHADOW_COORD_END, SHADOW_COORD_END,
                         s2 - 0.5f, vot, SHADOW_COORD_X2B, SHADOW_COORD_END,
                         s4 - 0.5f, vob, SHADOW_COORD_END, SHADOW_COORD_END,
                         s2 - 0.5f, vob, SHADOW_COORD_X2B, SHADOW_COORD_END);
 
                     // Render second edge
-                    SharpDX.Direct3D9.Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, rect);
+                    Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, rect);
                 }
             }
         }
@@ -670,7 +670,7 @@ public class StaticLight
                 TLVertex[] poly = MakeShadowPolygon(v1, v2, v3, v4, v5, v6);
 
                 // Render the vertices
-                SharpDX.Direct3D9.Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 4, poly);
+                Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 4, poly);
             }
         }
     }
@@ -696,54 +696,54 @@ public class StaticLight
             // Copy original light image
             imagerect = new Rectangle(0, 0, lightimages[template].Width, lightimages[template].Height);
             maprect = new Rectangle(0, 0, lightmapsize, lightmapsize);
-            SharpDX.Direct3D9.Direct3D.d3dd.StretchRectangle(lightimages[template].surface, imagerect, lightmapsurface, maprect, TextureFilter.None);
+            Direct3D.d3dd.StretchRectangle(lightimages[template].surface, imagerect, lightmapsurface, maprect, TextureFilter.None);
 
             // Begin of rendering routine
-            SharpDX.Direct3D9.Direct3D.d3dd.DepthStencilSurface = null;
-            SharpDX.Direct3D9.Direct3D.d3dd.SetRenderTarget(0, wallslightmapsurface);
-            SharpDX.Direct3D9.Direct3D.d3dd.BeginScene();
+            Direct3D.d3dd.DepthStencilSurface = null;
+            Direct3D.d3dd.SetRenderTarget(0, wallslightmapsurface);
+            Direct3D.d3dd.BeginScene();
 
             // Clear all wall lightmaps
-            SharpDX.Direct3D9.Direct3D.d3dd.Clear(ClearFlags.Target, ColorOperator.FromArgb(General.ARGB(1f, 1f, 0f, 0f)), 1f, 0);
+            Direct3D.d3dd.Clear(ClearFlags.Target, ColorOperator.FromArgb(General.ARGB(1f, 1f, 0f, 0f)), 1f, 0);
 
             // Set drawing modes
-            SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.TLLIGHTDRAW, true);
+            Direct3D.SetDrawMode(DRAWMODE.TLLIGHTDRAW, true);
 
             // Render all the wall lightmaps
-            SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.AlphaBlendEnable, false);
-            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, lightmap);
+            Direct3D.d3dd.SetRenderState(RenderState.AlphaBlendEnable, false);
+            Direct3D.d3dd.SetTexture(0, lightmap);
             foreach(VisualSidedef sd in visualsides) RenderWallLightmap(sd.Sidedef);
 
             // Shadows on the walls?
             if(shadows)
             {
                 // Render all the wall shadows
-                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.AlphaBlendEnable, true);
-                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, lightshadow.texture);
+                Direct3D.d3dd.SetRenderState(RenderState.AlphaBlendEnable, true);
+                Direct3D.d3dd.SetTexture(0, lightshadow.texture);
                 foreach(VisualSidedef sd in visualsides) RenderWallShadows(sd.Sidedef);
             }
 
             // Done rendering
-            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, null);
-            SharpDX.Direct3D9.Direct3D.d3dd.EndScene();
+            Direct3D.d3dd.SetTexture(0, null);
+            Direct3D.d3dd.EndScene();
 
             // Shadows on the floor?
             if(shadows)
             {
                 // Begin of rendering routine
-                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderTarget(0, lightmapsurface);
-                SharpDX.Direct3D9.Direct3D.d3dd.BeginScene();
+                Direct3D.d3dd.SetRenderTarget(0, lightmapsurface);
+                Direct3D.d3dd.BeginScene();
 
                 // Set drawing mode
-                SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.TLLIGHTDRAW, true);
+                Direct3D.SetDrawMode(DRAWMODE.TLLIGHTDRAW, true);
 
                 // Render shadows on the floor
-                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, lightshadow.texture);
+                Direct3D.d3dd.SetTexture(0, lightshadow.texture);
                 RenderFloorShadows();
 
                 // Done rendering
-                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, null);
-                SharpDX.Direct3D9.Direct3D.d3dd.EndScene();
+                Direct3D.d3dd.SetTexture(0, null);
+                Direct3D.d3dd.EndScene();
             }
 
             // Clean up
@@ -756,10 +756,10 @@ public class StaticLight
 
             // Make permanent
             oldlightmap = lightmap;
-            lightmap = SharpDX.Direct3D9.Direct3D.CreateManagedTexture(lightmap);
+            lightmap = Direct3D.CreateManagedTexture(lightmap);
             oldlightmap.Dispose();
             oldlightmap = wallslightmap;
-            wallslightmap = SharpDX.Direct3D9.Direct3D.CreateManagedTexture(wallslightmap);
+            wallslightmap = Direct3D.CreateManagedTexture(wallslightmap);
             oldlightmap.Dispose();
 
             // All nearby sectors require updating
@@ -795,19 +795,19 @@ public class StaticLight
             float rb = vs.LightmapScaledY(y + range) * (float)vs.LightmapSize;
 
             // Make vertices
-            TLVertex[] rect = SharpDX.Direct3D9.Direct3D.TLRect(rl, rt, 0f, 0f,
+            TLVertex[] rect = Direct3D.TLRect(rl, rt, 0f, 0f,
                 rr, rt, 1f, 0f,
                 rl, rb, 0f, 1f,
                 rr, rb, 1f, 1f, vc);
 
             // Set the lightmap as texture
-            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, lightmap);
+            Direct3D.d3dd.SetTexture(0, lightmap);
 
             // Render the vertices
-            SharpDX.Direct3D9.Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, rect);
+            Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, rect);
 
             // Unset the lightmap as texture
-            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, null);
+            Direct3D.d3dd.SetTexture(0, null);
         }
     }
 
@@ -828,19 +828,19 @@ public class StaticLight
                 float vo = (po + (float)WALL_PIXELS_Y * 0.5f) * wallslightmapunit;
 
                 // Make vertices
-                TLVertex[] rect = SharpDX.Direct3D9.Direct3D.TLRect(0f, pix_top, 1f / WALL_PIXELS_X, vo,
+                TLVertex[] rect = Direct3D.TLRect(0f, pix_top, 1f / WALL_PIXELS_X, vo,
                     VisualSector.WALL_LIGHTMAP_X, pix_top, 1f - 1f / WALL_PIXELS_X, vo,
                     0f, pix_bottom, 1f / WALL_PIXELS_X, vo,
                     VisualSector.WALL_LIGHTMAP_X, pix_bottom, 1f - 1f / WALL_PIXELS_X, vo, color);
 
                 // Set the lightmap as texture
-                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, wallslightmap);
+                Direct3D.d3dd.SetTexture(0, wallslightmap);
 
                 // Render the vertices
-                SharpDX.Direct3D9.Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, rect);
+                Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, rect);
 
                 // Unset the lightmap as texture
-                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, null);
+                Direct3D.d3dd.SetTexture(0, null);
             }
         }
     }

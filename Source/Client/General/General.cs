@@ -247,10 +247,10 @@ internal sealed class General : SharedGeneral
             font_shaded = Graphics.Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/font_shaded.tga"), false, true);
 
             // Window
-            WindowBorder.texture = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/window.tga"), false, false);
+            WindowBorder.texture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/window.tga"), false, false);
 
             // Load the background
-            background = SharpDX.Direct3D9.Direct3D.LoadSurfaceResource(ArchiveManager.ExtractFile("general.zip/background.bmp"), Pool.SystemMemory);
+            background = Direct3D.LoadSurfaceResource(ArchiveManager.ExtractFile("general.zip/background.bmp"), Pool.SystemMemory);
 
             // Make the console
             console = new GConsole();
@@ -287,18 +287,18 @@ internal sealed class General : SharedGeneral
     private static void Terminate()
     {
         // If device was initialized
-        if(SharpDX.Direct3D9.Direct3D.d3dd != null)
+        if(Direct3D.d3dd != null)
         {
             // Clear screen
-            try { SharpDX.Direct3D9.Direct3D.ClearScreen(); }
+            try { Direct3D.ClearScreen(); }
             catch(Exception) { }
 
             // Erase device references
-            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, null);
-            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, null);
-            SharpDX.Direct3D9.Direct3D.d3dd.SetStreamSource(0, null, 0, 0);
-            SharpDX.Direct3D9.Direct3D.d3dd.Indices = null;
-            SharpDX.Direct3D9.Direct3D.d3dd.EvictManagedResources();
+            Direct3D.d3dd.SetTexture(0, null);
+            Direct3D.d3dd.SetTexture(1, null);
+            Direct3D.d3dd.SetStreamSource(0, null, 0, 0);
+            Direct3D.d3dd.Indices = null;
+            Direct3D.d3dd.EvictManagedResources();
         }
 
         // Disconnect immediately
@@ -326,7 +326,7 @@ internal sealed class General : SharedGeneral
         MouseCursor.Terminate();
 
         // Terminate Direct3D
-        SharpDX.Direct3D9.Direct3D.Terminate();
+        Direct3D.Terminate();
 
         // Terminate server stuff
         if(server != null) server.Dispose();
@@ -433,15 +433,15 @@ internal sealed class General : SharedGeneral
             config = config + cargs;
 
             // Apply configuration settings
-            SharpDX.Direct3D9.Direct3D.DisplayWidth = config.ReadSetting("displaywidth", 800);
-            SharpDX.Direct3D9.Direct3D.DisplayHeight = config.ReadSetting("displayheight", 600);
-            SharpDX.Direct3D9.Direct3D.DisplayFormat = config.ReadSetting("displayformat", (int)Format.X8R8G8B8);
-            SharpDX.Direct3D9.Direct3D.DisplayRefreshRate = config.ReadSetting("displayrate", 70);
-            SharpDX.Direct3D9.Direct3D.DisplayWindowed = config.ReadSetting("displaywindowed", false);
-            SharpDX.Direct3D9.Direct3D.DisplaySyncRefresh = config.ReadSetting("displaysync", true);
-            SharpDX.Direct3D9.Direct3D.DisplayFSAA = config.ReadSetting("displayfsaa", 0);
-            SharpDX.Direct3D9.Direct3D.DisplayGamma = config.ReadSetting("displaygamma", 0);
-            SharpDX.Direct3D9.Direct3D.hightextures = config.ReadSetting("hightextures", true);
+            Direct3D.DisplayWidth = config.ReadSetting("displaywidth", 800);
+            Direct3D.DisplayHeight = config.ReadSetting("displayheight", 600);
+            Direct3D.DisplayFormat = config.ReadSetting("displayformat", (int)Format.X8R8G8B8);
+            Direct3D.DisplayRefreshRate = config.ReadSetting("displayrate", 70);
+            Direct3D.DisplayWindowed = config.ReadSetting("displaywindowed", false);
+            Direct3D.DisplaySyncRefresh = config.ReadSetting("displaysync", true);
+            Direct3D.DisplayFSAA = config.ReadSetting("displayfsaa", 0);
+            Direct3D.DisplayGamma = config.ReadSetting("displaygamma", 0);
+            Direct3D.hightextures = config.ReadSetting("hightextures", true);
             General.playername = config.ReadSetting("playername", "Newbie");
             General.scrollweapons = config.ReadSetting("scrollweapons", true);
             General.autoswitchweapon = config.ReadSetting("autoswitchweapon", true);
@@ -1810,15 +1810,15 @@ internal sealed class General : SharedGeneral
             if(render)
             {
                 // Begin rendering procedure if possible
-                if(SharpDX.Direct3D9.Direct3D.StartRendering())
+                if(Direct3D.StartRendering())
                 {
                     // Prepare for rendering
                     if(arena != null) arena.PrepareRendering();
 
                     // Begin scene rendering
-                    SharpDX.Direct3D9.Direct3D.d3dd.SetRenderTarget(0, SharpDX.Direct3D9.Direct3D.backbuffer);
-                    SharpDX.Direct3D9.Direct3D.d3dd.DepthStencilSurface = SharpDX.Direct3D9.Direct3D.depthbuffer;
-                    SharpDX.Direct3D9.Direct3D.d3dd.BeginScene();
+                    Direct3D.d3dd.SetRenderTarget(0, Direct3D.backbuffer);
+                    Direct3D.d3dd.DepthStencilSurface = Direct3D.depthbuffer;
+                    Direct3D.d3dd.BeginScene();
 
 
                     // Render a game frame
@@ -1843,15 +1843,15 @@ internal sealed class General : SharedGeneral
 
 
                     // Unset textures and streams
-                    SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, null);
-                    SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, null);
-                    SharpDX.Direct3D9.Direct3D.d3dd.SetStreamSource(0, null, 0, 0);
+                    Direct3D.d3dd.SetTexture(0, null);
+                    Direct3D.d3dd.SetTexture(1, null);
+                    Direct3D.d3dd.SetStreamSource(0, null, 0, 0);
 
                     // Done rendering
-                    SharpDX.Direct3D9.Direct3D.d3dd.EndScene();
+                    Direct3D.d3dd.EndScene();
 
                     // Present the scene
-                    SharpDX.Direct3D9.Direct3D.FinishRendering();
+                    Direct3D.FinishRendering();
 
                     // Time to make a screenshot?
                     if((screenshottime > 0) && (screenshottime < realtime) && autoscreenshot)
@@ -1880,11 +1880,11 @@ internal sealed class General : SharedGeneral
     private static void RenderBackground()
     {
         // Determine target position
-        Point pos = new Point((int)((float)(SharpDX.Direct3D9.Direct3D.DisplayWidth - background.Width) * 0.5f),
-            (int)((float)(SharpDX.Direct3D9.Direct3D.DisplayHeight - background.Height) * 0.5f));
+        Point pos = new Point((int)((float)(Direct3D.DisplayWidth - background.Width) * 0.5f),
+            (int)((float)(Direct3D.DisplayHeight - background.Height) * 0.5f));
 
         // Draw background logo on screen
-        try { SharpDX.Direct3D9.Direct3D.d3dd.UpdateSurface(background.surface, null, SharpDX.Direct3D9.Direct3D.backbuffer, pos); }
+        try { Direct3D.d3dd.UpdateSurface(background.surface, null, Direct3D.backbuffer, pos); }
         catch(Exception) { }
     }
 
@@ -1901,28 +1901,28 @@ internal sealed class General : SharedGeneral
         DoOneFrame(false, true, false);
 
         // Load generic images/textures
-        General.console_edge = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/console.bmp"), false, true);
-        Shadow.texture = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/objshadow.tga"), false, true);
-        StaticLight.lightshadow = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/lightshadow.tga"), true);
-        Weapons.Bullet.bulletflash = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/bulletflash.bmp"), true);
-        Laser.texture = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/laser.tga"), true);
-        Laser.dottexture = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/laserdot.tga"), true);
-        Weapons.WLightChaingun.flaretex = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/chain1flare.tga"), true);
-        Weapons.WMinigun.flaretex = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/chain1flare.tga"), true);
-        Weapons.WPlasmaCannon.flaretex = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/plasmaflare.tga"), true);
-        Weapons.WRocketLauncher.flaretex = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/chain1flare.tga"), true);
-        Weapons.WGrenadeLauncher.flaretex = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/chain1flare.tga"), true);
-        WIonCannon.flaretex = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/ioncannonflare.tga"), true);
-        Projectiles.PlasmaBall.plasmaball = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/plasmaball.tga"), true);
-        Projectiles.Rocket.texbody = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/rocketbody.tga"), true);
-        Projectiles.Rocket.texexhaust = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/rocketexhaust.tga"), true);
-        Projectiles.Grenade.texbody = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/grenadebody.tga"), true);
-        Projectiles.IonBall.plasmaball = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/ionball.tga"), true);
-        Shock.texture = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/shock.tga"), true);
-        VisualSector.ceillightmap = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/white.bmp"), true);
-        VisualSector.sectorshadowstexture = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/sectorshadow.tga"), true);
-        ShieldEffect.shieldimage = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/effect_shield.tga"), true);
-        NukeSign.texture = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/effect_nuke.tga"), true);
+        General.console_edge = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/console.bmp"), false, true);
+        Shadow.texture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/objshadow.tga"), false, true);
+        StaticLight.lightshadow = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/lightshadow.tga"), true);
+        Weapons.Bullet.bulletflash = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/bulletflash.bmp"), true);
+        Laser.texture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/laser.tga"), true);
+        Laser.dottexture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/laserdot.tga"), true);
+        Weapons.WLightChaingun.flaretex = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/chain1flare.tga"), true);
+        Weapons.WMinigun.flaretex = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/chain1flare.tga"), true);
+        Weapons.WPlasmaCannon.flaretex = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/plasmaflare.tga"), true);
+        Weapons.WRocketLauncher.flaretex = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/chain1flare.tga"), true);
+        Weapons.WGrenadeLauncher.flaretex = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/chain1flare.tga"), true);
+        WIonCannon.flaretex = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/ioncannonflare.tga"), true);
+        Projectiles.PlasmaBall.plasmaball = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/plasmaball.tga"), true);
+        Projectiles.Rocket.texbody = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/rocketbody.tga"), true);
+        Projectiles.Rocket.texexhaust = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/rocketexhaust.tga"), true);
+        Projectiles.Grenade.texbody = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/grenadebody.tga"), true);
+        Projectiles.IonBall.plasmaball = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/ionball.tga"), true);
+        Shock.texture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/shock.tga"), true);
+        VisualSector.ceillightmap = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/white.bmp"), true);
+        VisualSector.sectorshadowstexture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/sectorshadow.tga"), true);
+        ShieldEffect.shieldimage = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/effect_shield.tga"), true);
+        NukeSign.texture = Direct3D.LoadTexture(ArchiveManager.ExtractFile("sprites/effect_nuke.tga"), true);
         FleshDebris.LoadGibLimps();
         WallDecal.LoadTextures();
         FloorDecal.LoadTextures();
@@ -1944,7 +1944,7 @@ internal sealed class General : SharedGeneral
         for(int i = 0; i < StaticLight.NUM_LIGHT_TEMPLATES; i++)
         {
             // Load light template
-            StaticLight.lightimages[i] = SharpDX.Direct3D9.Direct3D.LoadSurfaceResource(ArchiveManager.ExtractFile("general.zip/lightimage" + i.ToString(CultureInfo.InvariantCulture) + ".bmp"), Pool.Default);
+            StaticLight.lightimages[i] = Direct3D.LoadSurfaceResource(ArchiveManager.ExtractFile("general.zip/lightimage" + i.ToString(CultureInfo.InvariantCulture) + ".bmp"), Pool.Default);
         }
 
         // Only when using dynamic lights
@@ -1954,12 +1954,12 @@ internal sealed class General : SharedGeneral
             for(int i = 0; i < StaticLight.NUM_LIGHT_TEMPLATES; i++)
             {
                 // Load light template
-                DynamicLight.lightimages[i] = SharpDX.Direct3D9.Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/lightimage" + i.ToString(CultureInfo.InvariantCulture) + ".bmp"), true, false);
+                DynamicLight.lightimages[i] = Direct3D.LoadTexture(ArchiveManager.ExtractFile("general.zip/lightimage" + i.ToString(CultureInfo.InvariantCulture) + ".bmp"), true, false);
             }
         }
 
         // Create geometry
-        SharpDX.Direct3D9.Sprite.CreateGeometry();
+        Sprite.CreateGeometry();
         WallDecal.CreateGeometry();
         Shadow.CreateGeometry();
         Weapons.Bullet.CreateGeometry();
@@ -1972,7 +1972,7 @@ internal sealed class General : SharedGeneral
     private static void UnloadGenericResources()
     {
         // Destroy generic stuff
-        SharpDX.Direct3D9.Sprite.DestroyGeometry();
+        Sprite.DestroyGeometry();
         WallDecal.DestroyGeometry();
         Shadow.DestroyGeometry();
         Weapons.Bullet.DestroyGeometry();
@@ -2238,10 +2238,10 @@ internal sealed class General : SharedGeneral
                     if (ApplyCmdConfiguration(args))
                     {
                         // Select adapter
-                        SharpDX.Direct3D9.Direct3D.SelectAdapter(General.config.ReadSetting("displaydriver", 0));
+                        Direct3D.SelectAdapter(General.config.ReadSetting("displaydriver", 0));
 
                         // Validate adapter and, if not valid, select a valid adapter
-                        deviceerror = SharpDX.Direct3D9.Direct3D.SelectValidAdapter();
+                        deviceerror = Direct3D.SelectValidAdapter();
                         if (deviceerror == null)
                         {
                             // Get the command-line instructions
@@ -2319,7 +2319,7 @@ internal sealed class General : SharedGeneral
             }
             finally
             {
-                SharpDX.Direct3D9.Direct3D.DeinitDirectX();
+                Direct3D.DeinitDirectX();
             }
         }
     }
@@ -2337,10 +2337,10 @@ internal sealed class General : SharedGeneral
         if(clientrunning)
         {
             // Load game window
-            gamewindow = new FormGame(SharpDX.Direct3D9.Direct3D.DisplayWindowed);
+            gamewindow = new FormGame(Direct3D.DisplayWindowed);
 
             // Initialize Direct3D
-            if(!SharpDX.Direct3D9.Direct3D.Initialize(gamewindow)) return;
+            if(!Direct3D.Initialize(gamewindow)) return;
 
             // Initialize the sound system
             if (!SoundSystem.Initialize(gamewindow)) return;

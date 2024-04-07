@@ -250,10 +250,10 @@ public abstract class Item : VisualObject
         lightmapoffsets *= Matrix.Scaling(width * sector.VisualSector.LightmapScaleX, 0f, 1f);
         lightmapoffsets *= Matrix.RotationZ(ITEM_ANGLE_Z);
         lightmapoffsets *= Matrix.Scaling(1f, sector.VisualSector.LightmapAspect, 1f);
-        lightmapoffsets *= SharpDX.Direct3D9.Direct3D.MatrixTranslateTx(lx, ly);
+        lightmapoffsets *= Direct3D.MatrixTranslateTx(lx, ly);
 
         // Make the dynamic lightmap matrix
-        dynlightmapoffsets = SharpDX.Direct3D9.Direct3D.MatrixTranslateTx(pos.x, pos.y);
+        dynlightmapoffsets = Direct3D.MatrixTranslateTx(pos.x, pos.y);
     }
 
     // This is called when the item is taken
@@ -377,11 +377,11 @@ public abstract class Item : VisualObject
             if(visible && !taken && (animation != null))
             {
                 // Set render mode
-                SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
-                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
+                Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
+                Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
 
                 // Not transparent
-                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+                Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
 
                 // Determine bob Z
                 if(bob) bobz += (float)(ITEM_BOB_FLOAT + Math.Sin(SharedGeneral.currenttime * 0.01f + boboffset)) * ITEM_BOB_AMOUNT;
@@ -390,22 +390,22 @@ public abstract class Item : VisualObject
                 Matrix apos = Matrix.Translation(pos.x - spriteoffset, pos.y + spriteoffset, bobz + spriteoffset);
 
                 // Apply world matrix
-                SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Multiply(spritescalerotate, apos));
+                Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Multiply(spritescalerotate, apos));
 
                 // Apply lightmap matrix
-                SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
-                SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture1, lightmapoffsets);
-                SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture2, dynlightmapoffsets * General.arena.LightmapMatrix);
+                Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
+                Direct3D.d3dd.SetTransform(TransformState.Texture1, lightmapoffsets);
+                Direct3D.d3dd.SetTransform(TransformState.Texture2, dynlightmapoffsets * General.arena.LightmapMatrix);
 
                 // Set the item texture and vertices stream
-                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, animation.CurrentFrame.texture);
-                SharpDX.Direct3D9.Direct3D.d3dd.SetStreamSource(0, SharpDX.Direct3D9.Sprite.Vertices, 0, MVertex.Stride);
+                Direct3D.d3dd.SetTexture(0, animation.CurrentFrame.texture);
+                Direct3D.d3dd.SetStreamSource(0, Sprite.Vertices, 0, MVertex.Stride);
 
                 // Set the lightmap from visual sector
-                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, sector.VisualSector.Lightmap);
+                Direct3D.d3dd.SetTexture(1, sector.VisualSector.Lightmap);
 
                 // Render it!
-                SharpDX.Direct3D9.Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
+                Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
             }
         }
     }

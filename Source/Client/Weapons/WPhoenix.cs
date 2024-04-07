@@ -206,12 +206,12 @@ public class WPhoenix : Weapon
         if(flarealpha > 0f)
         {
             // Set render mode
-            SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-            SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(flarealpha, 1f, 1f, 1f));
+            Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+            Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(flarealpha, 1f, 1f, 1f));
 
             // Set the sprite texture
-            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, flareani.CurrentFrame.texture);
-            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, null);
+            Direct3D.d3dd.SetTexture(0, flareani.CurrentFrame.texture);
+            Direct3D.d3dd.SetTexture(1, null);
 
             // Render
             flare.Render();

@@ -142,7 +142,7 @@ public class DynamicLight
                     // Set the light color
                     sa = StaticLight.CalculateHeightAlpha(s, pos.z);
                     sc = ColorOperator.Scale(color, sa);
-                    SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, sc);
+                    Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, sc);
 
                     // Render the sector geometry
                     s.VisualSector.RenderFlat();

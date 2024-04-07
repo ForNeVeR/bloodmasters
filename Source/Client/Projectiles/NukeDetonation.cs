@@ -146,12 +146,12 @@ public class NukeDetonation : Projectile
     public override void Render()
     {
         // Set render mode
-        SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
-        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZEnable, false);
+        Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+        Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+        Direct3D.d3dd.SetRenderState(RenderState.ZEnable, false);
 
         // Texture
-        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, ani.CurrentFrame.texture);
+        Direct3D.d3dd.SetTexture(0, ani.CurrentFrame.texture);
 
         // Render the sprite
         sprite.Render();

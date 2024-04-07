@@ -156,7 +156,7 @@ public class ClientWallCollision : WallCollision, IClientCollision
 		}
 
 		// Draw line
-		SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NLINES);
-		SharpDX.Direct3D9.Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.LineList, primitives, verts);
+		Direct3D.SetDrawMode(DRAWMODE.NLINES);
+		Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.LineList, primitives, verts);
 	}
 }

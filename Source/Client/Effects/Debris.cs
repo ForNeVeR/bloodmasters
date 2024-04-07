@@ -278,7 +278,7 @@ public abstract class Debris : VisualObject
         // Make the matrix for the cell
         cell = Matrix.Identity;
         cell *= Matrix.Scaling(0.25f, 0.25f, 1f);
-        cell *= SharpDX.Direct3D9.Direct3D.MatrixTranslateTx(cellx * 0.25f, celly * 0.25f);
+        cell *= Direct3D.MatrixTranslateTx(cellx * 0.25f, celly * 0.25f);
 
         // Return result
         return cell;
@@ -315,13 +315,13 @@ public abstract class Debris : VisualObject
             if(sector.VisualSector.InScreen)
             {
                 // Set render mode
-                SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
-                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(fade, 1f, 1f, 1f));
+                Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
+                Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(fade, 1f, 1f, 1f));
 
                 // Set texture
-                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, texture);
-                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, sector.VisualSector.Lightmap);
-                SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture0, texdirmatrix);
+                Direct3D.d3dd.SetTexture(0, texture);
+                Direct3D.d3dd.SetTexture(1, sector.VisualSector.Lightmap);
+                Direct3D.d3dd.SetTransform(TransformState.Texture0, texdirmatrix);
 
                 // Render the sprite
                 sprite.Render();
