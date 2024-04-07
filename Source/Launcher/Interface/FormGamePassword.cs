@@ -10,7 +10,7 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace CodeImp.Bloodmasters.Launcher;
+namespace Bloodmasters.Launcher;
 
 public class FormGamePassword : System.Windows.Forms.Form
 {

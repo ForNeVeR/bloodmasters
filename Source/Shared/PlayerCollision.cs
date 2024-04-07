@@ -7,7 +7,7 @@
 
 using System.Drawing;
 
-namespace CodeImp.Bloodmasters;
+namespace Bloodmasters;
 
 public abstract class PlayerCollision : Collision
 {

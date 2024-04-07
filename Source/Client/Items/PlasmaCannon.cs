@@ -5,9 +5,9 @@
 *                                                                   *
 \********************************************************************/
 
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.LevelMap;
 
-namespace CodeImp.Bloodmasters.Client.Items;
+namespace Bloodmasters.Client.Items;
 
 [ClientItem(1003, Sprite="plasma.tga",
     Bob = true,

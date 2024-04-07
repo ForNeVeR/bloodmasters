@@ -6,16 +6,17 @@
 \********************************************************************/
 
 using System;
-using CodeImp.Bloodmasters.Client.Effects;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Items;
-using CodeImp.Bloodmasters.Client.LevelMap;
-using CodeImp.Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Effects;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Items;
+using Bloodmasters.Client.LevelMap;
+using Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
-using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
+using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
+using Sprite = Bloodmasters.Client.Graphics.Sprite;
 
-namespace CodeImp.Bloodmasters.Client.Projectiles;
+namespace Bloodmasters.Client.Projectiles;
 
 [ProjectileInfo(PROJECTILE.GRENADE)]
 public class Grenade : Projectile
@@ -33,7 +34,7 @@ public class Grenade : Projectile
     public static TextureResource texbody;
 
     // Members
-    private Sprite spritebody;
+    private Graphics_Sprite spritebody;
     private int smoketime;
     private float rotation;
     private ClientSector sector;
@@ -53,7 +54,7 @@ public class Grenade : Projectile
         smoketime = SharedGeneral.currenttime - 1;
 
         // Make the rocket sprites
-        spritebody = new Sprite(start, SPRITE_BODY_SIZE, true, true);
+        spritebody = new Graphics_Sprite(start, SPRITE_BODY_SIZE, true, true);
         UpdateSprites();
     }
 
@@ -244,15 +245,15 @@ public class Grenade : Projectile
             return;
 
         // Set render mode
-        Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
-        Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
-        Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
+        SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
 
         // Set lightmap
-        Direct3D.d3dd.SetTexture(1, sector.VisualSector.Lightmap);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, sector.VisualSector.Lightmap);
 
         // Texture
-        Direct3D.d3dd.SetTexture(0, Grenade.texbody.texture);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, Grenade.texbody.texture);
 
         // Render body
         spritebody.Render();

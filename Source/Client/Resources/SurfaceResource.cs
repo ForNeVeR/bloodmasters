@@ -14,9 +14,9 @@ using System;
 using System.Drawing;
 using System.IO;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
 
-namespace CodeImp.Bloodmasters.Client.Resources;
+namespace Bloodmasters.Client.Resources;
 
 public sealed class SurfaceResource : Resource
 {
@@ -79,7 +79,7 @@ public sealed class SurfaceResource : Resource
             GC.Collect();
 
             // Create the surface
-            surface = Surface.CreateOffscreenPlain(Direct3D.d3dd, width, height, (Format)Direct3D.DisplayFormat, memorypool);
+            surface = Surface.CreateOffscreenPlain(Graphics.Direct3D.d3dd, width, height, (Format)Graphics.Direct3D.DisplayFormat, memorypool);
 
             // Load the file into the surface
             Surface.FromFile(surface, resourcefilename, Filter.None, 0);

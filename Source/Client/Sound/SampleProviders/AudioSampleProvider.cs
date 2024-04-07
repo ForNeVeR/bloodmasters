@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using NAudio.Wave;
 
-namespace CodeImp.Bloodmasters.Client.SampleProviders;
+namespace Bloodmasters.Client.SampleProviders;
 
 [DebuggerDisplay("{_fileName}")]
 public class AudioSampleProvider : ISampleProvider

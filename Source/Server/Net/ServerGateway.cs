@@ -1,6 +1,6 @@
-using CodeImp.Bloodmasters.Net;
+using Bloodmasters.Net;
 
-namespace CodeImp.Bloodmasters.Server.Net;
+namespace Bloodmasters.Server.Net;
 
 public class ServerGateway : Gateway
 {

@@ -7,7 +7,7 @@
 
 using System;
 
-namespace CodeImp.Bloodmasters.Client.Weapons;
+namespace Bloodmasters.Client.Weapons;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple=true, Inherited=false)]
 public class WeaponInfo : Attribute

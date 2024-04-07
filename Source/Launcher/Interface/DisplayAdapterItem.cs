@@ -8,7 +8,7 @@
 
 using SharpDX.Direct3D9;
 
-namespace CodeImp.Bloodmasters.Launcher.Interface;
+namespace Bloodmasters.Launcher.Interface;
 
 public struct DisplayAdapterItem
 {

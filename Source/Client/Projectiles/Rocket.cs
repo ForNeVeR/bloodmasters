@@ -6,17 +6,18 @@
 \********************************************************************/
 
 using System;
-using CodeImp.Bloodmasters.Client.Effects;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Items;
-using CodeImp.Bloodmasters.Client.LevelMap;
-using CodeImp.Bloodmasters.Client.Lights;
-using CodeImp.Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Effects;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Items;
+using Bloodmasters.Client.LevelMap;
+using Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
-using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
+using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
+using Sprite = Bloodmasters.Client.Graphics.Sprite;
 
-namespace CodeImp.Bloodmasters.Client.Projectiles;
+namespace Bloodmasters.Client.Projectiles;
 
 [ProjectileInfo(PROJECTILE.ROCKET)]
 public class Rocket : Projectile
@@ -36,8 +37,8 @@ public class Rocket : Projectile
     public static TextureResource texexhaust;
 
     // Members
-    private Sprite spritebody;
-    private Sprite spriteexhaust;
+    private Graphics_Sprite spritebody;
+    private Graphics_Sprite spriteexhaust;
     private ISound flying;
     private int smoketime;
     private Vector3D exoffset;
@@ -58,8 +59,8 @@ public class Rocket : Projectile
         smoketime = SharedGeneral.currenttime - 1;
 
         // Make the rocket sprites
-        spritebody = new Sprite(start, SPRITE_BODY_SIZE, false, true);
-        spriteexhaust = new Sprite(start, SPRITE_EXHAUST_SIZE, false, true);
+        spritebody = new Graphics_Sprite(start, SPRITE_BODY_SIZE, false, true);
+        spriteexhaust = new Graphics_Sprite(start, SPRITE_EXHAUST_SIZE, false, true);
         UpdateSprites();
 
         // Make the light
@@ -268,26 +269,26 @@ public class Rocket : Projectile
             return;
 
         // Set render mode
-        Direct3D.SetDrawMode(DRAWMODE.NALPHA);
-        Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
-        Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
+        SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NALPHA);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
 
         // No lightmap
-        Direct3D.d3dd.SetTexture(1, null);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, null);
 
         // Texture
-        Direct3D.d3dd.SetTexture(0, Rocket.texbody.texture);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, Rocket.texbody.texture);
 
         // Render body
         spritebody.Render();
 
         // Set render mode
-        Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-        Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
-        Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
+        SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
 
         // Texture
-        Direct3D.d3dd.SetTexture(0, Rocket.texexhaust.texture);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, Rocket.texexhaust.texture);
 
         // Render exhaust
         spriteexhaust.Render();

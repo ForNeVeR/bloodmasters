@@ -6,10 +6,10 @@
 \********************************************************************/
 
 using System;
-using CodeImp.Bloodmasters.Client.Effects;
-using CodeImp.Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Effects;
+using Bloodmasters.Client.Lights;
 
-namespace CodeImp.Bloodmasters.Client.Projectiles;
+namespace Bloodmasters.Client.Projectiles;
 
 [ProjectileInfo(PROJECTILE.FLAMES)]
 public class Flames : Projectile

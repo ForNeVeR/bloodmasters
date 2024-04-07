@@ -7,13 +7,13 @@
 
 using System;
 using System.Collections.Generic;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Resources;
 using SharpDX;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
 
-namespace CodeImp.Bloodmasters.Client.Effects;
+namespace Bloodmasters.Client.Effects;
 
 public class Shock : VisualObject
 {
@@ -77,9 +77,9 @@ public class Shock : VisualObject
         Vector3D v1, v2, v3, v4, p3, p4, trjnorm;
 
         // Determine scales
-        rnd_offset = CORNER_RND_OFFSET * ((float)Direct3D.DisplayWidth / 640f);
-        rnd_width = CORNER_RND_WIDTH * ((float)Direct3D.DisplayWidth / 640f);
-        min_width = CORNER_MIN_WIDTH * ((float)Direct3D.DisplayWidth / 640f);
+        rnd_offset = CORNER_RND_OFFSET * ((float)SharpDX.Direct3D9.Direct3D.DisplayWidth / 640f);
+        rnd_width = CORNER_RND_WIDTH * ((float)SharpDX.Direct3D9.Direct3D.DisplayWidth / 640f);
+        min_width = CORNER_MIN_WIDTH * ((float)SharpDX.Direct3D9.Direct3D.DisplayWidth / 640f);
 
         // Determine coordinates
         delta = to - from;
@@ -141,7 +141,7 @@ public class Shock : VisualObject
             }
 
             // Make real vertices
-            v.AddRange(Direct3D.MQuadList(v1, 0f, 0f, v2, 0f, 1f, v3, 1f, 0f, v4, 1f, 1f));
+            v.AddRange(SharpDX.Direct3D9.Direct3D.MQuadList(v1, 0f, 0f, v2, 0f, 1f, v3, 1f, 0f, v4, 1f, 1f));
 
             // Copy values for next segment
             segstart = segend;
@@ -186,23 +186,23 @@ public class Shock : VisualObject
     public override void Render()
     {
         // Set render mode
-        Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-        Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
+        SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
         if(fade > 1f)
-            Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(1f, 1f, 1f, 1f));
+            SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(1f, 1f, 1f, 1f));
         else
-            Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(fade, 1f, 1f, 1f));
+            SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(fade, 1f, 1f, 1f));
 
         // Set textures
-        Direct3D.d3dd.SetTexture(0, texture.texture);
-        Direct3D.d3dd.SetTexture(1, null);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, texture.texture);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, null);
 
         // Set matrices
-        Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
-        Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
 
         // Render the shock
-        Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleList, faces, verts);
+        SharpDX.Direct3D9.Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleList, faces, verts);
     }
 
     #endregion

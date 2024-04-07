@@ -39,7 +39,7 @@ Command 130 = Reliable message 2
 using System.Net;
 using System.Text;
 
-namespace CodeImp.Bloodmasters.Net;
+namespace Bloodmasters.Net;
 
 public class NetMessage
 {

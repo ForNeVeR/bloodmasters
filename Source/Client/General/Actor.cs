@@ -8,18 +8,18 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using CodeImp.Bloodmasters.Client.Effects;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.LevelMap;
-using CodeImp.Bloodmasters.Client.Resources;
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.Client.Effects;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.LevelMap;
+using Bloodmasters.Client.Resources;
+using Bloodmasters.LevelMap;
 using SharpDX;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
 using RectangleF = System.Drawing.RectangleF;
-using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
+using Sprite = Bloodmasters.Client.Graphics.Sprite;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 public class Actor : VisualObject, IPhysicsState, ILightningNode
 {
@@ -204,7 +204,7 @@ public class Actor : VisualObject, IPhysicsState, ILightningNode
         alpha = 1f;
 
         // Create HUD name
-        name = Direct3D.CreateTextResource(General.charset_shaded);
+        name = SharpDX.Direct3D9.Direct3D.CreateTextResource(General.charset_shaded);
         name.Texture = General.font_shaded.texture;
         name.HorizontalAlign = TextAlignX.Center;
         name.VerticalAlign = TextAlignY.Middle;
@@ -591,10 +591,10 @@ public class Actor : VisualObject, IPhysicsState, ILightningNode
         lightmapoffsets *= Matrix.Scaling(TORSO_SCALE * sector.VisualSector.LightmapScaleX, 0f, 1f);
         lightmapoffsets *= Matrix.RotationZ(SPRITE_ANGLE_Z);
         lightmapoffsets *= Matrix.Scaling(1f, sector.VisualSector.LightmapAspect, 1f);
-        lightmapoffsets *= Direct3D.MatrixTranslateTx(lx, ly);
+        lightmapoffsets *= SharpDX.Direct3D9.Direct3D.MatrixTranslateTx(lx, ly);
 
         // Make dynamic lightmap matrix
-        dynlightmapoffsets = Direct3D.MatrixTranslateTx(v.x, v.y);
+        dynlightmapoffsets = SharpDX.Direct3D9.Direct3D.MatrixTranslateTx(v.x, v.y);
 
         // Check if we can consider this "walking"
         //float dx = pos.x - v.x;
@@ -831,7 +831,7 @@ public class Actor : VisualObject, IPhysicsState, ILightningNode
         // Make the matrix for the cell
         cell = Matrix.Identity;
         cell *= Matrix.Scaling(0.25f, 0.25f, 1f);
-        cell *= Direct3D.MatrixTranslateTx(cellx * 0.25f, celly * 0.25f);
+        cell *= SharpDX.Direct3D9.Direct3D.MatrixTranslateTx(cellx * 0.25f, celly * 0.25f);
 
         // Return result
         return cell;
@@ -1090,7 +1090,7 @@ public class Actor : VisualObject, IPhysicsState, ILightningNode
         {
             // Determine text coordinates
             Vector3 apos = General.arena.Projected(new Vector3(pos.x + NAME_OFFSET, pos.y - NAME_OFFSET, pos.z));
-            name.Viewport = new RectangleF(apos.X / Direct3D.DisplayWidth, apos.Y / Direct3D.DisplayHeight, 0f, 0f);
+            name.Viewport = new RectangleF(apos.X / SharpDX.Direct3D9.Direct3D.DisplayWidth, apos.Y / SharpDX.Direct3D9.Direct3D.DisplayHeight, 0f, 0f);
 
             // Render the actor name
             name.Render();
@@ -1103,11 +1103,11 @@ public class Actor : VisualObject, IPhysicsState, ILightningNode
         Matrix apos;
 
         // Set the lightmap from visual sector
-        Direct3D.d3dd.SetTexture(1, sector.VisualSector.Lightmap);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, sector.VisualSector.Lightmap);
 
         // Apply lightmap matrix
-        Direct3D.d3dd.SetTransform(TransformState.Texture1, lightmapoffsets);
-        Direct3D.d3dd.SetTransform(TransformState.Texture2, dynlightmapoffsets * General.arena.LightmapMatrix);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture1, lightmapoffsets);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture2, dynlightmapoffsets * General.arena.LightmapMatrix);
 
         // Check if in screen
         if(sector.VisualSector.InScreen && !disposed)
@@ -1116,18 +1116,18 @@ public class Actor : VisualObject, IPhysicsState, ILightningNode
             if(shownuke)
             {
                 // Set render mode
-                Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-                Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
-                Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(0.5f, 1f, 1f, 1f));
+                SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(0.5f, 1f, 1f, 1f));
 
                 // Set matrices
-                Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
 
                 // Set vertices stream
-                Direct3D.d3dd.SetStreamSource(0, Shadow.vertices, 0, MVertex.Stride);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetStreamSource(0, Shadow.vertices, 0, MVertex.Stride);
 
                 // Set the nuke texture
-                Direct3D.d3dd.SetTexture(0, NukeSign.texture.texture);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, NukeSign.texture.texture);
 
                 // Render nuke sign
                 NukeSign.RenderAt(pos.x, pos.y, pos.z);
@@ -1137,42 +1137,42 @@ public class Actor : VisualObject, IPhysicsState, ILightningNode
             if(showring)
             {
                 // Set render mode
-                Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-                Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
-                Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.TeamColor(team, 0.8f));
+                SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.TeamColor(team, 0.8f));
 
                 // Set matrices
-                Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
 
                 // Set vertices stream
-                Direct3D.d3dd.SetStreamSource(0, Shadow.vertices, 0, MVertex.Stride);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetStreamSource(0, Shadow.vertices, 0, MVertex.Stride);
 
                 // Set the ring texture
-                Direct3D.d3dd.SetTexture(0, RingSign.texture.texture);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, RingSign.texture.texture);
 
                 // Render ring sign
                 RingSign.RenderAt(pos.x, pos.y, pos.z);
             }
 
             // Set render mode
-            Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
-            Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
-            Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(alpha, 1f, 1f, 1f));
+            SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(alpha, 1f, 1f, 1f));
 
             // Set vertices stream
-            Direct3D.d3dd.SetStreamSource(0, Sprite.Vertices, 0, MVertex.Stride);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetStreamSource(0, SharpDX.Direct3D9.Sprite.Vertices, 0, MVertex.Stride);
 
             // Legs are only shown when not dead
             if(!dead)
             {
                 // Position matrix for the legs
                 apos = Matrix.Translation(pos.x + LEGS_OFFSET_X, pos.y + LEGS_OFFSET_Y, pos.z + LEGS_OFFSET_Z);
-                Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Multiply(legs_scalerotate, apos));
-                Direct3D.d3dd.SetTransform(TransformState.Texture0, DirectionCellMatrix(DirFromAngle(aimangle, 0, 16)));
+                SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Multiply(legs_scalerotate, apos));
+                SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture0, DirectionCellMatrix(DirFromAngle(aimangle, 0, 16)));
 
                 // Render with the legs animation frame
-                Direct3D.d3dd.SetTexture(0, legs_ani.CurrentFrame.texture);
-                Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, legs_ani.CurrentFrame.texture);
+                SharpDX.Direct3D9.Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
             }
 
             // Different torso Z when dead
@@ -1188,15 +1188,15 @@ public class Actor : VisualObject, IPhysicsState, ILightningNode
             }
 
             // Apply matrices
-            Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Multiply(torso_scalerotate, apos));
-            Direct3D.d3dd.SetTransform(TransformState.Texture0, DirectionCellMatrix(DirFromAngle(aimangle, 0, 16)));
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Multiply(torso_scalerotate, apos));
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture0, DirectionCellMatrix(DirFromAngle(aimangle, 0, 16)));
 
             // Render with the body animation frame
-            Direct3D.d3dd.SetTexture(0, torso_ani.CurrentFrame.texture);
-            Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, torso_ani.CurrentFrame.texture);
+            SharpDX.Direct3D9.Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
 
             // Reset texture matrix
-            Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
 
             // Render collision info
             if((state.showcol != null) && Client.showcollisions) ((IClientCollision)state.showcol).Render();

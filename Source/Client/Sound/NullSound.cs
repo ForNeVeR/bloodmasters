@@ -1,4 +1,4 @@
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 /// <summary>
 /// Summary description for NullSound.
@@ -26,11 +26,11 @@ public class NullSound : ISound
     {
     }
 
-    void CodeImp.Bloodmasters.Client.ISound.Play(bool repeat)
+    void ISound.Play(bool repeat)
     {
     }
 
-    void CodeImp.Bloodmasters.Client.ISound.Play(float volume, bool repeat)
+    void ISound.Play(float volume, bool repeat)
     {
     }
 

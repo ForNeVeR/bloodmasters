@@ -5,9 +5,9 @@
 *                                                                   *
 \********************************************************************/
 
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.LevelMap;
 
-namespace CodeImp.Bloodmasters.Client.Items;
+namespace Bloodmasters.Client.Items;
 
 [ClientItem(9002, Visible=false, OnFloor=false)]
 public class FallingEffect : Item

@@ -1,6 +1,6 @@
-using CodeImp.Bloodmasters.Net;
+using Bloodmasters.Net;
 
-namespace CodeImp.Bloodmasters.Launcher.Net;
+namespace Bloodmasters.Launcher.Net;
 
 public class LauncherGateway : Gateway
 {

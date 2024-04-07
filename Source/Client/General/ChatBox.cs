@@ -8,13 +8,13 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Resources;
-using CodeImp.Bloodmasters.Net;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Resources;
+using Bloodmasters.Net;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 public class ChatBox
 {
@@ -60,7 +60,7 @@ public class ChatBox
     public ChatBox()
     {
         // Initialize prefix resource
-        prefix = Direct3D.CreateTextResource(General.charset_shaded);
+        prefix = Graphics.Direct3D.CreateTextResource(General.charset_shaded);
         prefix.Texture = General.font_shaded.texture;
         prefix.HorizontalAlign = TextAlignX.Right;
         prefix.VerticalAlign = TextAlignY.Top;
@@ -69,7 +69,7 @@ public class ChatBox
         prefix.Scale = 0.4f;
 
         // Initialize input resource
-        panelinput = Direct3D.CreateTextResource(General.charset_shaded);
+        panelinput = Graphics.Direct3D.CreateTextResource(General.charset_shaded);
         panelinput.Texture = General.font_shaded.texture;
         panelinput.HorizontalAlign = TextAlignX.Left;
         panelinput.VerticalAlign = TextAlignY.Top;
@@ -117,7 +117,7 @@ public class ChatBox
     public unsafe void CreateGeometry()
     {
         // Create vertex buffer
-        vertices = new VertexBuffer(Direct3D.d3dd, sizeof(TLVertex) * 6,
+        vertices = new VertexBuffer(Graphics.Direct3D.d3dd, sizeof(TLVertex) * 6,
             Usage.WriteOnly, TLVertex.Format, Pool.Default);
 
         // Lock vertex buffer
@@ -133,7 +133,7 @@ public class ChatBox
         verts[0].rhw = 1f;
 
         // Righttop
-        verts[1].x = Direct3D.DisplayWidth;
+        verts[1].x = SharpDX.Direct3D9.Direct3D.DisplayWidth;
         verts[1].y = 0f;
         verts[1].z = 0f;
         verts[1].tu = PANEL_TEXTURE_REPEAT;
@@ -143,7 +143,7 @@ public class ChatBox
 
         // Leftbottom
         verts[2].x = 0f;
-        verts[2].y = INPUT_HEIGHT * Direct3D.DisplayHeight;
+        verts[2].y = INPUT_HEIGHT * SharpDX.Direct3D9.Direct3D.DisplayHeight;
         verts[2].z = 0f;
         verts[2].tu = 0f;
         verts[2].tv = 0.015625f;
@@ -151,8 +151,8 @@ public class ChatBox
         verts[2].rhw = 1f;
 
         // Rightbottom
-        verts[3].x = Direct3D.DisplayWidth;
-        verts[3].y = INPUT_HEIGHT * Direct3D.DisplayHeight;
+        verts[3].x = SharpDX.Direct3D9.Direct3D.DisplayWidth;
+        verts[3].y = INPUT_HEIGHT * SharpDX.Direct3D9.Direct3D.DisplayHeight;
         verts[3].z = 0f;
         verts[3].tu = PANEL_TEXTURE_REPEAT;
         verts[3].tv = 0.015625f;
@@ -161,7 +161,7 @@ public class ChatBox
 
         // Leftbottom
         verts[4].x = 0f;
-        verts[4].y = (INPUT_HEIGHT + PANEL_BAR_HEIGHT) * Direct3D.DisplayHeight;
+        verts[4].y = (INPUT_HEIGHT + PANEL_BAR_HEIGHT) * SharpDX.Direct3D9.Direct3D.DisplayHeight;
         verts[4].z = 0f;
         verts[4].tu = 0f;
         verts[4].tv = 0.984375f;
@@ -169,8 +169,8 @@ public class ChatBox
         verts[4].rhw = 1f;
 
         // Rightbottom
-        verts[5].x = Direct3D.DisplayWidth;
-        verts[5].y = (INPUT_HEIGHT + PANEL_BAR_HEIGHT) * Direct3D.DisplayHeight;
+        verts[5].x = SharpDX.Direct3D9.Direct3D.DisplayWidth;
+        verts[5].y = (INPUT_HEIGHT + PANEL_BAR_HEIGHT) * SharpDX.Direct3D9.Direct3D.DisplayHeight;
         verts[5].z = 0f;
         verts[5].tu = PANEL_TEXTURE_REPEAT;
         verts[5].tv = 0.984375f;
@@ -292,7 +292,7 @@ public class ChatBox
             string newtext = inputstr + e.KeyChar.ToString();
 
             // Check if the new text fits in the box
-            if(panelinput.CharSet.GetTextSize(newtext + INPUT_CURSOR, panelinput.Scale).Width < (Direct3D.DisplayWidth * panelinput.Width))
+            if(panelinput.CharSet.GetTextSize(newtext + INPUT_CURSOR, panelinput.Scale).Width < (SharpDX.Direct3D9.Direct3D.DisplayWidth * panelinput.Width))
             {
                 // Apply the new text string
                 inputstr = newtext;
@@ -311,13 +311,13 @@ public class ChatBox
         if(panelopen)
         {
             // Set drawing mode
-            Direct3D.SetDrawMode(DRAWMODE.TLMODALPHA);
-            Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+            SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.TLMODALPHA);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
 
             // Render the panel
-            Direct3D.d3dd.SetTexture(0, General.console_edge.texture);
-            Direct3D.d3dd.SetStreamSource(0, vertices, 0, TLVertex.Stride);
-            Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 4);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, General.console_edge.texture);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetStreamSource(0, vertices, 0, TLVertex.Stride);
+            SharpDX.Direct3D9.Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 4);
 
             // Render the prefix and input
             prefix.Render();

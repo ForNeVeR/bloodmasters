@@ -5,10 +5,10 @@
 *                                                                   *
 \********************************************************************/
 
-using CodeImp.Bloodmasters.LevelMap;
-using CodeImp.Bloodmasters.Net;
+using Bloodmasters.LevelMap;
+using Bloodmasters.Net;
 
-namespace CodeImp.Bloodmasters.Server;
+namespace Bloodmasters.Server;
 
 public abstract class DynamicSector
 {

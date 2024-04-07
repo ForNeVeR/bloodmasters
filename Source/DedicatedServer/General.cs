@@ -16,10 +16,10 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using CodeImp.Bloodmasters.Net;
-using CodeImp.Bloodmasters.Server;
+using Bloodmasters.Net;
+using Bloodmasters.Server;
 
-namespace CodeImp.Bloodmasters.DedicatedServer;
+namespace Bloodmasters.DedicatedServer;
 
 internal sealed class General : SharedGeneral
 {

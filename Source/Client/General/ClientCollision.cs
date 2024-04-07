@@ -1,4 +1,4 @@
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 internal interface IClientCollision
 {

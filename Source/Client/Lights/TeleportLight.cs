@@ -5,9 +5,9 @@
 *                                                                   *
 \********************************************************************/
 
-using CodeImp.Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Graphics;
 
-namespace CodeImp.Bloodmasters.Client.Lights;
+namespace Bloodmasters.Client.Lights;
 
 public class TeleportLight : DynamicLight
 {

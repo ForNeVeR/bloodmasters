@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client.Effects;
+namespace Bloodmasters.Client.Effects;
 
 public interface ILightningNode
 {

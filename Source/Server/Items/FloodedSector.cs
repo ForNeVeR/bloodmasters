@@ -5,9 +5,9 @@
 *                                                                   *
 \********************************************************************/
 
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.LevelMap;
 
-namespace CodeImp.Bloodmasters.Server;
+namespace Bloodmasters.Server;
 
 [ServerItem(9003, OnFloor=false)]
 public class FloodedSector : Item

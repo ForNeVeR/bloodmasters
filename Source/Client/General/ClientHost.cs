@@ -1,8 +1,8 @@
 using System;
-using CodeImp.Bloodmasters.Net;
-using CodeImp.Bloodmasters.Server;
+using Bloodmasters.Net;
+using Bloodmasters.Server;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 public class ClientHost : IHost
 {

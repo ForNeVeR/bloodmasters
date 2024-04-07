@@ -6,13 +6,13 @@
 \********************************************************************/
 
 using System;
-using CodeImp.Bloodmasters.Client.LevelMap;
-using CodeImp.Bloodmasters.Client.Resources;
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.Client.LevelMap;
+using Bloodmasters.Client.Resources;
+using Bloodmasters.LevelMap;
 using SharpDX;
 using SharpDX.Direct3D9;
 
-namespace CodeImp.Bloodmasters.Client.Graphics;
+namespace Bloodmasters.Client.Graphics;
 
 public class FloorDecal : Decal
 {

@@ -6,12 +6,12 @@
 \********************************************************************/
 
 using System;
-using CodeImp.Bloodmasters.Client.LevelMap;
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.Client.LevelMap;
+using Bloodmasters.LevelMap;
 using SharpDX;
 using SharpDX.Direct3D9;
 
-namespace CodeImp.Bloodmasters.Client.Graphics;
+namespace Bloodmasters.Client.Graphics;
 
 public class Sprite
 {

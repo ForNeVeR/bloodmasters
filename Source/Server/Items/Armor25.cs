@@ -5,9 +5,9 @@
 *                                                                   *
 \********************************************************************/
 
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.LevelMap;
 
-namespace CodeImp.Bloodmasters.Server;
+namespace Bloodmasters.Server;
 
 [ServerItem(2004, RespawnTime=10000)]
 public class Armor25 : Item

@@ -7,9 +7,9 @@
 
 // This controls the physics in the game
 
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.LevelMap;
 
-namespace CodeImp.Bloodmasters;
+namespace Bloodmasters;
 
 public abstract class PhysicsState
 {

@@ -11,12 +11,12 @@ using System.Globalization;
 using System.Net;
 using System.Reflection;
 using System.Text;
-using CodeImp.Bloodmasters.LevelMap;
-using CodeImp.Bloodmasters.Net;
-using CodeImp.Bloodmasters.Server.LevelMap;
-using CodeImp.Bloodmasters.Server.Net;
+using Bloodmasters.LevelMap;
+using Bloodmasters.Net;
+using Bloodmasters.Server.LevelMap;
+using Bloodmasters.Server.Net;
 
-namespace CodeImp.Bloodmasters.Server;
+namespace Bloodmasters.Server;
 
 public sealed class GameServer
 {

@@ -5,10 +5,10 @@
 *                                                                   *
 \********************************************************************/
 
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.LevelMap;
 
-namespace CodeImp.Bloodmasters.Client.Items;
+namespace Bloodmasters.Client.Items;
 
 [ClientItem(7002, Temporary=true, OnFloor=false)]
 public class DecalWall : Item

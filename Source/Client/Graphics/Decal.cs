@@ -7,7 +7,7 @@
 
 using System;
 
-namespace CodeImp.Bloodmasters.Client.Graphics;
+namespace Bloodmasters.Client.Graphics;
 
 public abstract class Decal
 {

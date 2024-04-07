@@ -7,7 +7,7 @@
 
 using System;
 
-namespace CodeImp.Bloodmasters;
+namespace Bloodmasters;
 
 // Global constants
 public class Consts

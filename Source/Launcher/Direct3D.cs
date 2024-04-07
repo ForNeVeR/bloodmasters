@@ -9,11 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using Bloodmasters.Launcher.Interface;
 using SharpDX.Direct3D9;
-using CodeImp.Bloodmasters.Launcher.Interface;
 
 
-namespace CodeImp.Bloodmasters.Launcher;
+namespace Bloodmasters.Launcher;
 
 internal sealed class Direct3D
 {

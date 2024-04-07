@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Reflection;
 
-namespace CodeImp.Bloodmasters;
+namespace Bloodmasters;
 
 internal enum StartupMode
 {

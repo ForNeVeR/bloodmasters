@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Server;
+namespace Bloodmasters.Server;
 
 [WeaponInfo(WEAPON.PHOENIX, RefireDelay=100, Description="Phoenix",
     AmmoType=AMMO.FUEL, InitialAmmo=20, UseAmmo=1)]

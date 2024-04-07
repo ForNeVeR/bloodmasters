@@ -9,15 +9,15 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
-using CodeImp.Bloodmasters.Client.Effects;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Items;
-using CodeImp.Bloodmasters.Client.Lights;
-using CodeImp.Bloodmasters.Client.Weapons;
-using CodeImp.Bloodmasters.LevelMap;
-using CodeImp.Bloodmasters.Net;
+using Bloodmasters.Client.Effects;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Items;
+using Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Weapons;
+using Bloodmasters.LevelMap;
+using Bloodmasters.Net;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 public class Client
 {

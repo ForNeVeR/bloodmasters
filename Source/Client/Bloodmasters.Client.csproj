@@ -6,6 +6,7 @@
         <TargetFramework>net7.0-windows</TargetFramework>
         <UseWindowsForms>true</UseWindowsForms>
         <PublishDir>$(ClientPublishDir)</PublishDir>
+        <EnableWindowsTargeting>true</EnableWindowsTargeting>
     </PropertyGroup>
 
     <ItemGroup>
@@ -22,7 +23,7 @@
 
     <PropertyGroup>
         <ApplicationIcon>..\..\Resources\bm.ico</ApplicationIcon>
-        <RootNamespace>CodeImp.Bloodmasters.Client</RootNamespace>
+        <RootNamespace>Bloodmasters.Client</RootNamespace>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
     <ItemGroup>

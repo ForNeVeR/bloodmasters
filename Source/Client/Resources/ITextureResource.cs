@@ -7,7 +7,7 @@
 
 using SharpDX.Direct3D9;
 
-namespace CodeImp.Bloodmasters.Client.Resources;
+namespace Bloodmasters.Client.Resources;
 
 public interface ITextureResource
 {

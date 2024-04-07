@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client.Lights;
+namespace Bloodmasters.Client.Lights;
 
 public class ShockLight : DynamicLight
 {

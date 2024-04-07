@@ -1,7 +1,7 @@
 using System.IO;
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.LevelMap;
 
-namespace CodeImp.Bloodmasters.Client.LevelMap;
+namespace Bloodmasters.Client.LevelMap;
 
 public class ClientMap : Map
 {

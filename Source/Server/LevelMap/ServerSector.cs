@@ -1,6 +1,6 @@
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.LevelMap;
 
-namespace CodeImp.Bloodmasters.Server.LevelMap;
+namespace Bloodmasters.Server.LevelMap;
 
 public class ServerSector : Sector
 {

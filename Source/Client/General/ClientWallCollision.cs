@@ -1,11 +1,11 @@
 using System;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.LevelMap;
 using SharpDX;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 public class ClientWallCollision : WallCollision, IClientCollision
 {
@@ -28,7 +28,7 @@ public class ClientWallCollision : WallCollision, IClientCollision
 		Vector2D tvec = new Vector2D();
 
 		// Using actual coordinates, dont transform them
-		Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
+		Graphics.Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
 
 		// Get line vertices
 		Vector2D v1 = General.map.Vertices[line.v1];
@@ -156,7 +156,7 @@ public class ClientWallCollision : WallCollision, IClientCollision
 		}
 
 		// Draw line
-		Direct3D.SetDrawMode(DRAWMODE.NLINES);
-		Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.LineList, primitives, verts);
+		SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NLINES);
+		SharpDX.Direct3D9.Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.LineList, primitives, verts);
 	}
 }

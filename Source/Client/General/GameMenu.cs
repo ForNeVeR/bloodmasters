@@ -12,12 +12,11 @@ using System.Globalization;
 using System.Collections.Specialized;
 using System.Reflection;
 using System.Windows.Forms;
-using CodeImp.Bloodmasters;
-using CodeImp;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Resources;
+using Bloodmasters;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 public class GameMenu
 {

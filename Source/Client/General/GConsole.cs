@@ -14,13 +14,13 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Resources;
-using CodeImp.Bloodmasters.Net;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Resources;
+using Bloodmasters.Net;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 public class GConsole
 {
@@ -111,7 +111,7 @@ public class GConsole
         for(int i = 0; i < NUM_PANEL_LINES; i++) panellines[i] = null;
 
         // Initialize input resource
-        panelinput = Direct3D.CreateTextResource(General.charset_shaded);
+        panelinput = Graphics.Direct3D.CreateTextResource(General.charset_shaded);
         panelinput.Texture = General.font_shaded.texture;
         panelinput.HorizontalAlign = TextAlignX.Left;
         panelinput.VerticalAlign = TextAlignY.Top;
@@ -173,7 +173,7 @@ public class GConsole
         float linesheight = LINES_OFFSET + LINE_HEIGHT * NUM_PANEL_LINES;
 
         // Create vertex buffer
-        vertices = new VertexBuffer(Direct3D.d3dd, sizeof(TLVertex) * 6,
+        vertices = new VertexBuffer(Graphics.Direct3D.d3dd, sizeof(TLVertex) * 6,
             Usage.WriteOnly, TLVertex.Format, Pool.Default);
 
         // Lock vertex buffer
@@ -189,7 +189,7 @@ public class GConsole
         verts[0].rhw = 1f;
 
         // Righttop
-        verts[1].x = Direct3D.DisplayWidth;
+        verts[1].x = SharpDX.Direct3D9.Direct3D.DisplayWidth;
         verts[1].y = 0f;
         verts[1].z = 0f;
         verts[1].tu = PANEL_TEXTURE_REPEAT;
@@ -199,7 +199,7 @@ public class GConsole
 
         // Leftbottom
         verts[2].x = 0f;
-        verts[2].y = linesheight * Direct3D.DisplayHeight;
+        verts[2].y = linesheight * SharpDX.Direct3D9.Direct3D.DisplayHeight;
         verts[2].z = 0f;
         verts[2].tu = 0f;
         verts[2].tv = 0.015625f;
@@ -207,8 +207,8 @@ public class GConsole
         verts[2].rhw = 1f;
 
         // Rightbottom
-        verts[3].x = Direct3D.DisplayWidth;
-        verts[3].y = linesheight * Direct3D.DisplayHeight;
+        verts[3].x = SharpDX.Direct3D9.Direct3D.DisplayWidth;
+        verts[3].y = linesheight * SharpDX.Direct3D9.Direct3D.DisplayHeight;
         verts[3].z = 0f;
         verts[3].tu = PANEL_TEXTURE_REPEAT;
         verts[3].tv = 0.015625f;
@@ -217,7 +217,7 @@ public class GConsole
 
         // Leftbottom
         verts[4].x = 0f;
-        verts[4].y = (linesheight + PANEL_BAR_HEIGHT) * Direct3D.DisplayHeight;
+        verts[4].y = (linesheight + PANEL_BAR_HEIGHT) * SharpDX.Direct3D9.Direct3D.DisplayHeight;
         verts[4].z = 0f;
         verts[4].tu = 0f;
         verts[4].tv = 0.984375f;
@@ -225,8 +225,8 @@ public class GConsole
         verts[4].rhw = 1f;
 
         // Rightbottom
-        verts[5].x = Direct3D.DisplayWidth;
-        verts[5].y = (linesheight + PANEL_BAR_HEIGHT) * Direct3D.DisplayHeight;
+        verts[5].x = SharpDX.Direct3D9.Direct3D.DisplayWidth;
+        verts[5].y = (linesheight + PANEL_BAR_HEIGHT) * SharpDX.Direct3D9.Direct3D.DisplayHeight;
         verts[5].z = 0f;
         verts[5].tu = PANEL_TEXTURE_REPEAT;
         verts[5].tv = 0.984375f;
@@ -334,7 +334,7 @@ public class GConsole
     private TextResource MakeMessage(string msg, int pos)
     {
         // Make TextResource for message
-        TextResource tr = Direct3D.CreateTextResource(General.charset_shaded);
+        TextResource tr = SharpDX.Direct3D9.Direct3D.CreateTextResource(General.charset_shaded);
         tr.Texture = General.font_shaded.texture;
         tr.HorizontalAlign = TextAlignX.Left;
         tr.VerticalAlign = TextAlignY.Top;
@@ -513,7 +513,7 @@ public class GConsole
             string newtext = inputstr + e.KeyChar.ToString();
 
             // Check if the new text fits in the box
-            if(panelinput.CharSet.GetTextSize(newtext + INPUT_PROMPT + INPUT_CURSOR, panelinput.Scale).Width < Direct3D.DisplayWidth)
+            if(panelinput.CharSet.GetTextSize(newtext + INPUT_PROMPT + INPUT_CURSOR, panelinput.Scale).Width < SharpDX.Direct3D9.Direct3D.DisplayWidth)
             {
                 // Apply the new text string
                 inputstr = newtext;
@@ -674,7 +674,7 @@ public class GConsole
         if(!Directory.Exists(pathname)) Directory.CreateDirectory(pathname);
 
         // Save screenshot now
-        Direct3D.SaveScreenshot(filepathname);
+        SharpDX.Direct3D9.Direct3D.SaveScreenshot(filepathname);
         AddMessage("Screenshot saved as " + filename, true);
     }
 
@@ -951,8 +951,8 @@ public class GConsole
     public void Render()
     {
         // Set drawing mode
-        Direct3D.SetDrawMode(DRAWMODE.TLMODALPHA);
-        Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(1f, 1f, 1f, 1f));
+        SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.TLMODALPHA);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(1f, 1f, 1f, 1f));
 
         // Show the lines?
         if(HUD.showhud && !panelopen)
@@ -969,9 +969,9 @@ public class GConsole
         if(panelopen)
         {
             // Render the panel
-            Direct3D.d3dd.SetTexture(0, General.console_edge.texture);
-            Direct3D.d3dd.SetStreamSource(0, vertices, 0, TLVertex.Stride);
-            Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 4);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, General.console_edge.texture);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetStreamSource(0, vertices, 0, TLVertex.Stride);
+            SharpDX.Direct3D9.Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 4);
 
             // Go for all panel messages
             for(int i = 0; i < NUM_PANEL_LINES; i++)

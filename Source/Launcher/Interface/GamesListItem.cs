@@ -8,9 +8,9 @@
 using System.Drawing;
 using System.Net;
 using System.Windows.Forms;
-using CodeImp.Bloodmasters.Net;
+using Bloodmasters.Net;
 
-namespace CodeImp.Bloodmasters.Launcher.Interface;
+namespace Bloodmasters.Launcher.Interface;
 
 public class GamesListItem
 {

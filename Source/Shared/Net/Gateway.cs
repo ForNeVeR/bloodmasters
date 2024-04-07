@@ -25,7 +25,7 @@ The Gateway
 using System.Net;
 using System.Net.Sockets;
 
-namespace CodeImp.Bloodmasters.Net;
+namespace Bloodmasters.Net;
 
 public abstract class Gateway
 {

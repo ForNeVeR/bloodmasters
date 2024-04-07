@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.LevelMap;
+namespace Bloodmasters.LevelMap;
 
 public class Thing
 {

@@ -1,6 +1,6 @@
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.LevelMap;
 
-namespace CodeImp.Bloodmasters.Server.LevelMap;
+namespace Bloodmasters.Server.LevelMap;
 
 internal class ServerMap : Map
 {

@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Server;
+namespace Bloodmasters.Server;
 
 [ProjectileInfo(PROJECTILE.NUKEDETONATION)]
 public class NukeDetonation : Projectile

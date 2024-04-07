@@ -1,4 +1,4 @@
-namespace CodeImp.Bloodmasters.Tests.Paths;
+namespace Bloodmasters.Tests.Paths;
 
 public class GeneralTests
 {
@@ -18,9 +18,9 @@ public class GeneralTests
 
     public static IEnumerable<object[]> GetAllDirPaths()
     {
-        yield return new object[] { CodeImp.Bloodmasters.Paths.Instance.TempDir };
-        yield return new object[] { CodeImp.Bloodmasters.Paths.Instance.DownloadedResourceDir };
-        yield return new object[] { CodeImp.Bloodmasters.Paths.Instance.ConfigDirPath };
-        yield return new object[] { CodeImp.Bloodmasters.Paths.Instance.ScreenshotsDir };
+        yield return new object[] { Bloodmasters.Paths.Instance.TempDir };
+        yield return new object[] { Bloodmasters.Paths.Instance.DownloadedResourceDir };
+        yield return new object[] { Bloodmasters.Paths.Instance.ConfigDirPath };
+        yield return new object[] { Bloodmasters.Paths.Instance.ScreenshotsDir };
     }
 }

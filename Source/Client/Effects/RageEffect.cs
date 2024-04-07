@@ -6,13 +6,14 @@
 \********************************************************************/
 
 using System;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Lights;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
-using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
+using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
+using Sprite = Bloodmasters.Client.Graphics.Sprite;
 
-namespace CodeImp.Bloodmasters.Client.Effects;
+namespace Bloodmasters.Client.Effects;
 
 public class RageEffect : VisualObject
 {
@@ -27,7 +28,7 @@ public class RageEffect : VisualObject
 
     private DynamicLight light;
     private Actor actor;
-    private Sprite sprite;
+    private Graphics_Sprite sprite;
     private Animation ani;
     private ISound sound;
     private bool disposed = false;
@@ -61,7 +62,7 @@ public class RageEffect : VisualObject
         light = new DynamicLight(actor.Position, 12f, General.ARGB(1f, 1f, 0.2f, 0.1f), 2);
 
         // Make the sprite
-        sprite = new Sprite(this.pos, 12f, false, true);
+        sprite = new Graphics_Sprite(this.pos, 12f, false, true);
         sprite.Update();
 
         // Create animation
@@ -119,14 +120,14 @@ public class RageEffect : VisualObject
         if(actor.Sector.VisualSector.InScreen && !disposed)
         {
             // Set render mode
-            Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-            Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(ALPHA, 1f, 1f, 1f));
+            SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(ALPHA, 1f, 1f, 1f));
 
             // No lightmap
-            Direct3D.d3dd.SetTexture(1, null);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, null);
 
             // Set texture
-            Direct3D.d3dd.SetTexture(0, ani.CurrentFrame.texture);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, ani.CurrentFrame.texture);
 
             // Render sprite
             sprite.Render();

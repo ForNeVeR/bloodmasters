@@ -7,7 +7,7 @@
 
 using System;
 
-namespace CodeImp.Bloodmasters.Client.Items;
+namespace Bloodmasters.Client.Items;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple=true, Inherited=false)]
 public class ClientItem : EntityAttribute

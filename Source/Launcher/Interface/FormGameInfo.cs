@@ -11,11 +11,10 @@ using System.Net;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Diagnostics;
-using CodeImp.Bloodmasters;
-using CodeImp;
-using CodeImp.Bloodmasters.Net;
+using Bloodmasters.Net;
+using Bloodmasters;
 
-namespace CodeImp.Bloodmasters.Launcher.Interface;
+namespace Bloodmasters.Launcher.Interface;
 
 public class FormGameInfo : System.Windows.Forms.Form
 {

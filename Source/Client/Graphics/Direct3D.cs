@@ -15,16 +15,17 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
-using CodeImp.Bloodmasters.Client.Lights;
-using CodeImp.Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Resources;
 using SharpDX;
 using SharpDX.Direct3D9;
 using SharpDX.Mathematics.Interop;
 using Color = System.Drawing.Color;
 using Rectangle = System.Drawing.Rectangle;
-using Resource = CodeImp.Bloodmasters.Client.Resources.Resource;
+using Resource = Bloodmasters.Client.Resources.Resource;
+using Resources_Resource = Bloodmasters.Client.Resources.Resource;
 
-namespace CodeImp.Bloodmasters.Client.Graphics;
+namespace Bloodmasters.Client.Graphics;
 
 internal sealed class Direct3D
 {
@@ -60,7 +61,7 @@ internal sealed class Direct3D
     private static Rectangle screencliprect;
 
     // Resources
-    private static Dictionary<string, Resource> resources;
+    private static Dictionary<string, Resources_Resource> resources;
     private static Dictionary<string, TextureResource> textures;
     private static int resourceid = 0;
 
@@ -1122,7 +1123,7 @@ internal sealed class Direct3D
         //Device.IsUsingEventHandlers = false;
 
         // Make dictionaries for resources
-        resources = new Dictionary<string, Resource>();
+        resources = new Dictionary<string, Resources_Resource>();
         textures = new Dictionary<string, TextureResource>();
 
         // Set the render target
@@ -1549,7 +1550,7 @@ internal sealed class Direct3D
     public static void DestroyResource(string referencename)
     {
         // Check if this resource exists
-        if(resources.TryGetValue(referencename, out Resource res))
+        if(resources.TryGetValue(referencename, out Resources_Resource res))
         {
             // Unload the resource
             res.Unload();
@@ -1560,10 +1561,10 @@ internal sealed class Direct3D
     }
 
     // Find a resource
-    public static Resource GetResource(string referencename)
+    public static Resources_Resource GetResource(string referencename)
     {
         // Check if this resource exists
-        if(resources.TryGetValue(referencename, out Resource res))
+        if(resources.TryGetValue(referencename, out Resources_Resource res))
         {
             // Return the resource object
             return res;
@@ -1587,7 +1588,7 @@ internal sealed class Direct3D
         if(General.gamemenu != null) General.gamemenu.UnloadResources();
 
         // Go for all resources
-        foreach(Resource res in resources.Values)
+        foreach(Resources_Resource res in resources.Values)
         {
             // Unload this resource
             res.Unload();
@@ -1601,7 +1602,7 @@ internal sealed class Direct3D
     private static void ReloadAllResources()
     {
         // Go for all resources
-        foreach(Resource res in resources.Values)
+        foreach(Resources_Resource res in resources.Values)
         {
             // Reload this resource
             res.Reload();

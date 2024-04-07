@@ -6,16 +6,16 @@
 \********************************************************************/
 
 using System;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.LevelMap;
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.LevelMap;
+using Bloodmasters.LevelMap;
 using SharpDX;
 using SharpDX.Direct3D9;
 using Color = System.Drawing.Color;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
-using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
+using Sprite = Bloodmasters.Client.Graphics.Sprite;
 
-namespace CodeImp.Bloodmasters.Client.Items;
+namespace Bloodmasters.Client.Items;
 
 public abstract class Item : VisualObject
 {
@@ -250,10 +250,10 @@ public abstract class Item : VisualObject
         lightmapoffsets *= Matrix.Scaling(width * sector.VisualSector.LightmapScaleX, 0f, 1f);
         lightmapoffsets *= Matrix.RotationZ(ITEM_ANGLE_Z);
         lightmapoffsets *= Matrix.Scaling(1f, sector.VisualSector.LightmapAspect, 1f);
-        lightmapoffsets *= Direct3D.MatrixTranslateTx(lx, ly);
+        lightmapoffsets *= SharpDX.Direct3D9.Direct3D.MatrixTranslateTx(lx, ly);
 
         // Make the dynamic lightmap matrix
-        dynlightmapoffsets = Direct3D.MatrixTranslateTx(pos.x, pos.y);
+        dynlightmapoffsets = SharpDX.Direct3D9.Direct3D.MatrixTranslateTx(pos.x, pos.y);
     }
 
     // This is called when the item is taken
@@ -377,11 +377,11 @@ public abstract class Item : VisualObject
             if(visible && !taken && (animation != null))
             {
                 // Set render mode
-                Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
-                Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
+                SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
 
                 // Not transparent
-                Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
 
                 // Determine bob Z
                 if(bob) bobz += (float)(ITEM_BOB_FLOAT + Math.Sin(SharedGeneral.currenttime * 0.01f + boboffset)) * ITEM_BOB_AMOUNT;
@@ -390,22 +390,22 @@ public abstract class Item : VisualObject
                 Matrix apos = Matrix.Translation(pos.x - spriteoffset, pos.y + spriteoffset, bobz + spriteoffset);
 
                 // Apply world matrix
-                Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Multiply(spritescalerotate, apos));
+                SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Multiply(spritescalerotate, apos));
 
                 // Apply lightmap matrix
-                Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
-                Direct3D.d3dd.SetTransform(TransformState.Texture1, lightmapoffsets);
-                Direct3D.d3dd.SetTransform(TransformState.Texture2, dynlightmapoffsets * General.arena.LightmapMatrix);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture1, lightmapoffsets);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture2, dynlightmapoffsets * General.arena.LightmapMatrix);
 
                 // Set the item texture and vertices stream
-                Direct3D.d3dd.SetTexture(0, animation.CurrentFrame.texture);
-                Direct3D.d3dd.SetStreamSource(0, Sprite.Vertices, 0, MVertex.Stride);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, animation.CurrentFrame.texture);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetStreamSource(0, SharpDX.Direct3D9.Sprite.Vertices, 0, MVertex.Stride);
 
                 // Set the lightmap from visual sector
-                Direct3D.d3dd.SetTexture(1, sector.VisualSector.Lightmap);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, sector.VisualSector.Lightmap);
 
                 // Render it!
-                Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
+                SharpDX.Direct3D9.Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
             }
         }
     }

@@ -1,7 +1,7 @@
-using CodeImp.Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Graphics;
 using SharpDX;
 
-namespace CodeImp.Bloodmasters.Tests.Graphics;
+namespace Bloodmasters.Tests.Graphics;
 
 public class VectorExTests
 {

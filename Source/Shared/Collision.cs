@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters;
+namespace Bloodmasters;
 
 public abstract class Collision : IComparable<Collision>
 {

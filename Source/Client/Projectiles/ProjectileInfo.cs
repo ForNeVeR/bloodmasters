@@ -7,7 +7,7 @@
 
 using System;
 
-namespace CodeImp.Bloodmasters.Client.Projectiles;
+namespace Bloodmasters.Client.Projectiles;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple=true, Inherited=false)]
 public class ProjectileInfo : EntityAttribute

@@ -1,6 +1,6 @@
 using SharpDX;
 
-namespace CodeImp.Bloodmasters.Client.Graphics;
+namespace Bloodmasters.Client.Graphics;
 
 internal static class VectorEx
 {

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using SharpDX.Direct3D9;
 
-namespace CodeImp.Bloodmasters.Launcher.Interface;
+namespace Bloodmasters.Launcher.Interface;
 public class FormOptions : System.Windows.Forms.Form
 {
     private int last_fsaa;

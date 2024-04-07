@@ -13,9 +13,9 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
-using CodeImp.Bloodmasters.Launcher.Map;
+using Bloodmasters.Launcher.Map;
 
-namespace CodeImp.Bloodmasters.Launcher.Interface;
+namespace Bloodmasters.Launcher.Interface;
 
 public class FormMain : System.Windows.Forms.Form
 {

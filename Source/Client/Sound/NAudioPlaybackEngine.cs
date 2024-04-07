@@ -3,7 +3,7 @@ using JetBrains.Lifetimes;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 internal sealed class NAudioPlaybackEngine : IDisposable
 {

@@ -6,12 +6,12 @@
 \********************************************************************/
 
 using System;
-using CodeImp.Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Resources;
 using SharpDX;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
 
-namespace CodeImp.Bloodmasters.Client.Effects;
+namespace Bloodmasters.Client.Effects;
 
 public class RingSign
 {
@@ -42,10 +42,10 @@ public class RingSign
         Matrix scale = Matrix.Scaling(size, size, 1f);
         Matrix position = Matrix.Translation(x, y, z + Z_BIAS);
         Matrix rotate = Matrix.RotationZ((float)SharedGeneral.currenttime * 0.004f);
-        Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Multiply(Matrix.Multiply(rotate, scale), position));
+        Graphics.Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Multiply(Matrix.Multiply(rotate, scale), position));
 
         // Render shadow
-        Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
+        Graphics.Direct3D.d3dd.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
     }
 
     #endregion

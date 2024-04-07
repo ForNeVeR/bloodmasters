@@ -9,10 +9,9 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using Bloodmasters;
 
-namespace CodeImp.Bloodmasters.Launcher.Interface;
+namespace Bloodmasters.Launcher.Interface;
 
 public class GamesListItemComparer : IComparer
 {

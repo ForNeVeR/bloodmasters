@@ -1,13 +1,13 @@
 using System;
 using System.Drawing;
 using System.Globalization;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Resources;
-using CodeImp.Bloodmasters.Client.Weapons;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Weapons;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 public class WeaponDisplay : IDisposable
 {
@@ -67,12 +67,12 @@ public class WeaponDisplay : IDisposable
         {
             int weaponnum = i + 1;
             tempfile = ArchiveManager.ExtractFile("General.zip/weapon" + weaponnum.ToString(CultureInfo.InvariantCulture) + "icon.tga");
-            weaponicons[i] = Direct3D.LoadTexture(tempfile, true);
+            weaponicons[i] = SharpDX.Direct3D9.Direct3D.LoadTexture(tempfile, true);
         }
 
         // Selection texture
         tempfile = ArchiveManager.ExtractFile("General.zip/white.bmp");
-        seltexture = Direct3D.LoadTexture(tempfile, true);
+        seltexture = SharpDX.Direct3D9.Direct3D.LoadTexture(tempfile, true);
     }
 
     // Disposer
@@ -108,17 +108,17 @@ public class WeaponDisplay : IDisposable
         for(int i = 0; i < weapons; i++)
         {
             // Setup box
-            box = Direct3D.TLRect(x * Direct3D.DisplayWidth,
-                BOX_TOP * Direct3D.DisplayHeight,
-                (x + BOX_WIDTH) * Direct3D.DisplayWidth,
-                (BOX_TOP + BOX_HEIGHT) * Direct3D.DisplayHeight,
+            box = SharpDX.Direct3D9.Direct3D.TLRect(x * SharpDX.Direct3D9.Direct3D.DisplayWidth,
+                BOX_TOP * SharpDX.Direct3D9.Direct3D.DisplayHeight,
+                (x + BOX_WIDTH) * SharpDX.Direct3D9.Direct3D.DisplayWidth,
+                (BOX_TOP + BOX_HEIGHT) * SharpDX.Direct3D9.Direct3D.DisplayHeight,
                 128f, 64f);
 
             // Put in array
             iconvertices[i] = box;
 
             // Setup ammo text
-            ammotexts[i] = Direct3D.CreateTextResource(General.charset_shaded);
+            ammotexts[i] = SharpDX.Direct3D9.Direct3D.CreateTextResource(General.charset_shaded);
             ammotexts[i].Texture = General.font_shaded.texture;
             ammotexts[i].HorizontalAlign = TextAlignX.Center;
             ammotexts[i].VerticalAlign = TextAlignY.Top;
@@ -205,10 +205,10 @@ public class WeaponDisplay : IDisposable
         x = ((1f - totalwidth) * 0.5f) + (selected * (BOX_WIDTH + SPACING));
 
         // Make the selection box
-        selection = Direct3D.TLRect(x * Direct3D.DisplayWidth,
-            SEL_TOP * Direct3D.DisplayHeight,
-            (x + SEL_WIDTH) * Direct3D.DisplayWidth,
-            (SEL_TOP + SEL_HEIGHT) * Direct3D.DisplayHeight,
+        selection = SharpDX.Direct3D9.Direct3D.TLRect(x * SharpDX.Direct3D9.Direct3D.DisplayWidth,
+            SEL_TOP * SharpDX.Direct3D9.Direct3D.DisplayHeight,
+            (x + SEL_WIDTH) * SharpDX.Direct3D9.Direct3D.DisplayWidth,
+            (SEL_TOP + SEL_HEIGHT) * SharpDX.Direct3D9.Direct3D.DisplayHeight,
             32f, 32f);
     }
 
@@ -258,12 +258,12 @@ public class WeaponDisplay : IDisposable
             if(updateammo) DoUpdateAmmo();
 
             // Set drawing mode
-            Direct3D.SetDrawMode(DRAWMODE.TLMODALPHA);
+            SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.TLMODALPHA);
 
             // Render selection
-            Direct3D.d3dd.SetTexture(0, seltexture.texture);
-            Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(alpha * 0.5f, 0.7f, 0.7f, 0.7f));
-            Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, selection);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, seltexture.texture);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(alpha * 0.5f, 0.7f, 0.7f, 0.7f));
+            SharpDX.Direct3D9.Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, selection);
 
             // Go for all the weapons
             foreach(Weapon w in General.localclient.AllWeapons)
@@ -275,9 +275,9 @@ public class WeaponDisplay : IDisposable
                     if(General.localclient.Ammo[(int)w.AmmoType] > 0) c = 1f; else c = 0.4f;
 
                     // Render weapon
-                    Direct3D.d3dd.SetTexture(0, weaponicons[(int)w.WeaponID].texture);
-                    Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(alpha * c, 1f, 1f, 1f));
-                    Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, iconvertices[i]);
+                    SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, weaponicons[(int)w.WeaponID].texture);
+                    SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(alpha * c, 1f, 1f, 1f));
+                    SharpDX.Direct3D9.Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, iconvertices[i]);
 
                     // Render ammo text
                     ammotexts[i].Render();

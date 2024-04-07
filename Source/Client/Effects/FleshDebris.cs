@@ -7,13 +7,13 @@
 
 using System;
 using System.Globalization;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Items;
-using CodeImp.Bloodmasters.Client.LevelMap;
-using CodeImp.Bloodmasters.Client.Resources;
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Items;
+using Bloodmasters.Client.LevelMap;
+using Bloodmasters.Client.Resources;
+using Bloodmasters.LevelMap;
 
-namespace CodeImp.Bloodmasters.Client.Effects;
+namespace Bloodmasters.Client.Effects;
 
 public class FleshDebris : Debris
 {

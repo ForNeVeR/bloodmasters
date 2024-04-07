@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics;
 
-namespace CodeImp.Bloodmasters.Client.Extensions;
+namespace Bloodmasters.Client.Extensions;
 
 public static class FloatSpanExtensions
 {

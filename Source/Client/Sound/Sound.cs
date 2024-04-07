@@ -7,11 +7,11 @@
 
 using System;
 using System.Diagnostics;
-using CodeImp.Bloodmasters.Client.SampleProviders;
+using Bloodmasters.Client.SampleProviders;
 using JetBrains.Lifetimes;
 using NAudio.Wave;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 [DebuggerDisplay("{filename}")]
 internal sealed class Sound : ISound

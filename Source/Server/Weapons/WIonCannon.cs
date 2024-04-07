@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Server;
+namespace Bloodmasters.Server;
 
 [WeaponInfo(WEAPON.IONCANNON, RefireDelay=500, Description="Ion Cannon",
     AmmoType=AMMO.PLASMA, InitialAmmo=60, UseAmmo=20)]

@@ -7,7 +7,7 @@
 
 using System.Drawing;
 
-namespace CodeImp.Bloodmasters.LevelMap;
+namespace Bloodmasters.LevelMap;
 
 public class SubSector
 {

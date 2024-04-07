@@ -6,10 +6,10 @@
 \********************************************************************/
 
 using System;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Lights;
 
-namespace CodeImp.Bloodmasters.Client.Effects;
+namespace Bloodmasters.Client.Effects;
 
 public class FireEffect
 {

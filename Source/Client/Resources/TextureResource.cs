@@ -10,9 +10,9 @@
 // to create a texture resource of this type.
 
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
 
-namespace CodeImp.Bloodmasters.Client.Resources;
+namespace Bloodmasters.Client.Resources;
 
 public class TextureResource : ITextureResource
 {
@@ -51,7 +51,7 @@ public class TextureResource : ITextureResource
     public void Dispose()
     {
         // Remove from cache
-        Direct3D.RemoveTextureCache(filename);
+        Graphics.Direct3D.RemoveTextureCache(filename);
 
         // Clean up
         if(texture != null) texture.Dispose();

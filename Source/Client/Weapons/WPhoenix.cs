@@ -6,12 +6,13 @@
 \********************************************************************/
 
 using System;
-using CodeImp.Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Graphics;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
-using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
+using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
+using Sprite = Bloodmasters.Client.Graphics.Sprite;
 
-namespace CodeImp.Bloodmasters.Client.Weapons;
+namespace Bloodmasters.Client.Weapons;
 
 [WeaponInfo(WEAPON.PHOENIX, RefireDelay=50, Description="Phoenix",
     AmmoType=AMMO.FUEL, UseAmmo=1)]
@@ -32,7 +33,7 @@ public class WPhoenix : Weapon
     #region ================== Variables
 
     // Fire flare
-    private Sprite flare;
+    private Graphics_Sprite flare;
     private readonly Animation flareani;
     private float flarealpha = 0f;
 
@@ -51,7 +52,7 @@ public class WPhoenix : Weapon
     public WPhoenix(Client client) : base(client)
     {
         // Make fire flare sprite
-        flare = new Sprite(new Vector3D(), FLARE_SIZE_START, false, false);
+        flare = new Graphics_Sprite(new Vector3D(), FLARE_SIZE_START, false, false);
         flareani = Animation.CreateFrom("sprites/phoenixflare.cfg");
     }
 
@@ -205,12 +206,12 @@ public class WPhoenix : Weapon
         if(flarealpha > 0f)
         {
             // Set render mode
-            Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-            Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(flarealpha, 1f, 1f, 1f));
+            SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(flarealpha, 1f, 1f, 1f));
 
             // Set the sprite texture
-            Direct3D.d3dd.SetTexture(0, flareani.CurrentFrame.texture);
-            Direct3D.d3dd.SetTexture(1, null);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, flareani.CurrentFrame.texture);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, null);
 
             // Render
             flare.Render();

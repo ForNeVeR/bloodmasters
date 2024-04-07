@@ -4,7 +4,7 @@ using System.Net;
 using System.Text;
 using System.Windows.Forms;
 
-namespace CodeImp.Bloodmasters.Launcher.Interface;
+namespace Bloodmasters.Launcher.Interface;
 
 public class FormDownload : System.Windows.Forms.Form
 {

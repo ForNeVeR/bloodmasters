@@ -124,7 +124,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Text;
 
-namespace CodeImp.Bloodmasters;
+namespace Bloodmasters;
 
 // Configuration interface
 public interface IConfiguration

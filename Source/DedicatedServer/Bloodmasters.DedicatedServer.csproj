@@ -4,7 +4,7 @@
         <OutputType>WinExe</OutputType>
         <TargetFramework>net7.0</TargetFramework>
         <PublishDir>$(ServerPublishDir)</PublishDir>
-        <RootNamespace>CodeImp.Bloodmasters.DedicatedServer</RootNamespace>
+        <RootNamespace>Bloodmasters.DedicatedServer</RootNamespace>
     </PropertyGroup>
 
     <Target Name="CopyConfigFile" BeforeTargets="Build"

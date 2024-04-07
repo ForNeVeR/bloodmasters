@@ -7,9 +7,8 @@
 
 using System;
 using System.Drawing;
-using CodeImp;
 
-namespace CodeImp.Bloodmasters;
+namespace Bloodmasters;
 
 public interface IPhysicsState
 {

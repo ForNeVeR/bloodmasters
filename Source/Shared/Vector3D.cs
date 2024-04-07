@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters;
+namespace Bloodmasters;
 
 public struct Vector3D
 {

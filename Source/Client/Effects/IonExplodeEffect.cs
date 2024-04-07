@@ -7,14 +7,15 @@
 
 using System;
 using System.Collections.Generic;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.LevelMap;
-using CodeImp.Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.LevelMap;
+using Bloodmasters.Client.Lights;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
-using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
+using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
+using Sprite = Bloodmasters.Client.Graphics.Sprite;
 
-namespace CodeImp.Bloodmasters.Client.Effects;
+namespace Bloodmasters.Client.Effects;
 
 public class IonExplodeEffect : VisualObject, ILightningNode
 {
@@ -26,7 +27,7 @@ public class IonExplodeEffect : VisualObject, ILightningNode
 
     #region ================== Variables
 
-    private Sprite sprite;
+    private Graphics_Sprite sprite;
     private Animation ani;
     private readonly ClientSector sector;
     private bool disposed;
@@ -82,7 +83,7 @@ public class IonExplodeEffect : VisualObject, ILightningNode
         }
 
         // Make effect
-        sprite = new Sprite(spawnpos + new Vector3D(2f, -2f, 15f), 15f, false, true);
+        sprite = new Graphics_Sprite(spawnpos + new Vector3D(2f, -2f, 15f), 15f, false, true);
         ani = Animation.CreateFrom("sprites/ionexplode.cfg");
 
         // Go for all actors
@@ -204,15 +205,15 @@ public class IonExplodeEffect : VisualObject, ILightningNode
             if(sector.VisualSector.InScreen)
             {
                 // Set render mode
-                Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-                Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+                SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
                 //Direct3D.d3dd.SetRenderState(RenderState.ZEnable, false);
 
                 // No lightmap
-                Direct3D.d3dd.SetTexture(1, null);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, null);
 
                 // Set animation frame
-                Direct3D.d3dd.SetTexture(0, ani.CurrentFrame.texture);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, ani.CurrentFrame.texture);
 
                 // Render sprite
                 sprite.Render();

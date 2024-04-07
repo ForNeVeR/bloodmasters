@@ -6,12 +6,13 @@
 \********************************************************************/
 
 using System;
-using CodeImp.Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
-using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
+using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
+using Sprite = Bloodmasters.Client.Graphics.Sprite;
 
-namespace CodeImp.Bloodmasters.Client.Weapons;
+namespace Bloodmasters.Client.Weapons;
 
 [WeaponInfo(WEAPON.IONCANNON, RefireDelay=500, Description="Ion Cannon",
     Sound="ioncannon_fire.wav", AmmoType=AMMO.PLASMA, UseAmmo=20)]
@@ -32,7 +33,7 @@ public class WIonCannon : Weapon
 
     // Fire flare
     public static TextureResource flaretex;
-    private Sprite flare;
+    private Graphics_Sprite flare;
     private float flarealpha = 0f;
 
     // States
@@ -50,7 +51,7 @@ public class WIonCannon : Weapon
     public WIonCannon(Client client) : base(client)
     {
         // Make fire flare sprite
-        flare = new Sprite(new Vector3D(), FLARE_SIZE_START, false, true);
+        flare = new Graphics_Sprite(new Vector3D(), FLARE_SIZE_START, false, true);
     }
 
     // Disposer
@@ -196,12 +197,12 @@ public class WIonCannon : Weapon
         if(flarealpha > 0f)
         {
             // Set render mode
-            Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-            Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(flarealpha, 1f, 1f, 1f));
+            Graphics.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+            Graphics.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(flarealpha, 1f, 1f, 1f));
 
             // Set the sprite texture
-            Direct3D.d3dd.SetTexture(0, flaretex.texture);
-            Direct3D.d3dd.SetTexture(1, null);
+            Graphics.Direct3D.d3dd.SetTexture(0, flaretex.texture);
+            Graphics.Direct3D.d3dd.SetTexture(1, null);
 
             // Render
             flare.Render();

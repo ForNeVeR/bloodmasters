@@ -1,4 +1,4 @@
-namespace CodeImp.Bloodmasters;
+namespace Bloodmasters;
 
 public class SharedGeneral
 {

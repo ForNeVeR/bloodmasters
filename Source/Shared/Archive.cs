@@ -11,7 +11,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO.Compression;
 
-namespace CodeImp.Bloodmasters;
+namespace Bloodmasters;
 
 public sealed class Archive
 {

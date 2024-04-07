@@ -1,4 +1,6 @@
-namespace CodeImp.Bloodmasters.Tests.Paths;
+using Bloodmasters;
+
+namespace Bloodmasters.Tests.Paths;
 
 public class ConfigDirPathTests
 {
@@ -6,7 +8,7 @@ public class ConfigDirPathTests
     public void ConfigDirPathShouldBeNamedConfigInProductionMode()
     {
         // Arrange
-        var sut = CodeImp.Bloodmasters.Paths.Create(StartupMode.Production);
+        var sut = Bloodmasters.Paths.Create(StartupMode.Production);
         var dirName = Path.GetFileName(sut.ConfigDirPath);
 
         // Assert
@@ -17,7 +19,7 @@ public class ConfigDirPathTests
     public void ConfigDirPathShouldBeNamedDebugInDevMode()
     {
         // Arrange
-        var sut = CodeImp.Bloodmasters.Paths.Create(StartupMode.Dev);
+        var sut = Bloodmasters.Paths.Create(StartupMode.Dev);
         var dirName = Path.GetFileName(sut.ConfigDirPath);
 
         // Assert
@@ -28,7 +30,7 @@ public class ConfigDirPathTests
     public void ConfigDirPathShouldBeSubdirectoryOfBloodmastersInProductionMode()
     {
         // Arrange
-        var sut = CodeImp.Bloodmasters.Paths.Create(StartupMode.Production);
+        var sut = Bloodmasters.Paths.Create(StartupMode.Production);
         var bloodmastersDirPath = Path.GetDirectoryName(sut.ConfigDirPath);
 
         // Assert
@@ -39,7 +41,7 @@ public class ConfigDirPathTests
     public void ConfigDirPathShouldBeSubdirectoryOfBloodmastersInDevMode()
     {
         // Arrange
-        var sut = CodeImp.Bloodmasters.Paths.Create(StartupMode.Dev);
+        var sut = Bloodmasters.Paths.Create(StartupMode.Dev);
 
         // Assert
         Assert.Contains("bloodmasters", sut.ConfigDirPath.Split(Path.DirectorySeparatorChar));

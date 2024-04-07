@@ -5,10 +5,10 @@
 *                                                                   *
 \********************************************************************/
 
-using CodeImp.Bloodmasters.Client.LevelMap;
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.Client.LevelMap;
+using Bloodmasters.LevelMap;
 
-namespace CodeImp.Bloodmasters.Client.Items;
+namespace Bloodmasters.Client.Items;
 
 [ClientItem(9999, Temporary=true)]
 public class MovementSound : Item

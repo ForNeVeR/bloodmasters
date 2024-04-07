@@ -5,13 +5,14 @@
 *                                                                   *
 \********************************************************************/
 
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Lights;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
-using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
+using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
+using Sprite = Bloodmasters.Client.Graphics.Sprite;
 
-namespace CodeImp.Bloodmasters.Client.Projectiles;
+namespace Bloodmasters.Client.Projectiles;
 
 [ProjectileInfo(PROJECTILE.NUKEDETONATION)]
 public class NukeDetonation : Projectile
@@ -35,7 +36,7 @@ public class NukeDetonation : Projectile
 
     // Members
     private readonly Animation ani;
-    private readonly Sprite sprite;
+    private readonly Graphics_Sprite sprite;
     private readonly DynamicLight light;
     private float lightfade = 0f;
     private readonly int lightfadeouttime;
@@ -65,7 +66,7 @@ public class NukeDetonation : Projectile
         this.renderpass = 2;
 
         // Make the explosion sprite and animation
-        sprite = new Sprite(pos, EXPLOSION_SIZE, false, true);
+        sprite = new Graphics_Sprite(pos, EXPLOSION_SIZE, false, true);
         ani = Animation.CreateFrom("sprites/nukeexplode.cfg");
     }
 
@@ -145,12 +146,12 @@ public class NukeDetonation : Projectile
     public override void Render()
     {
         // Set render mode
-        Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-        Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
-        Direct3D.d3dd.SetRenderState(RenderState.ZEnable, false);
+        SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZEnable, false);
 
         // Texture
-        Direct3D.d3dd.SetTexture(0, ani.CurrentFrame.texture);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, ani.CurrentFrame.texture);
 
         // Render the sprite
         sprite.Render();

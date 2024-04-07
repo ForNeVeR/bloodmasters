@@ -11,9 +11,8 @@
 using System;
 using System.IO;
 using System.Text;
-using CodeImp;
 
-namespace CodeImp.Bloodmasters;
+namespace Bloodmasters;
 
 public class Wad
 {

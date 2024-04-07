@@ -8,7 +8,7 @@
 using System;
 using System.IO;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 public class Jukebox
 {

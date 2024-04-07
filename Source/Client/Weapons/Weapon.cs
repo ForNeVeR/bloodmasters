@@ -8,10 +8,10 @@
 using System;
 using System.Globalization;
 using System.Reflection;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Lights;
 
-namespace CodeImp.Bloodmasters.Client.Weapons;
+namespace Bloodmasters.Client.Weapons;
 
 public abstract class Weapon : VisualObject
 {

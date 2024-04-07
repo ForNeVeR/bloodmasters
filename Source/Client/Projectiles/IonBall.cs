@@ -7,17 +7,18 @@
 
 using System;
 using System.Collections.Generic;
-using CodeImp.Bloodmasters.Client.Effects;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Items;
-using CodeImp.Bloodmasters.Client.LevelMap;
-using CodeImp.Bloodmasters.Client.Lights;
-using CodeImp.Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Effects;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Items;
+using Bloodmasters.Client.LevelMap;
+using Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
-using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
+using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
+using Sprite = Bloodmasters.Client.Graphics.Sprite;
 
-namespace CodeImp.Bloodmasters.Client.Projectiles;
+namespace Bloodmasters.Client.Projectiles;
 
 [ProjectileInfo(PROJECTILE.IONBALL)]
 public class IonBall : Projectile, ILightningNode
@@ -35,7 +36,7 @@ public class IonBall : Projectile, ILightningNode
     public static TextureResource plasmaball;
 
     // Members
-    private Sprite sprite;
+    private Graphics_Sprite sprite;
     private ISound flying;
     private readonly DynamicLight light;
     private readonly List<Lightning> lightnings = new();
@@ -56,7 +57,7 @@ public class IonBall : Projectile, ILightningNode
         particletime = General.currenttime - 1;
 
         // Make the ball sprite
-        sprite = new Sprite(start, SPRITE_SIZE, false, true);
+        sprite = new Graphics_Sprite(start, SPRITE_SIZE, false, true);
         UpdateSprite();
 
         // Make the light
@@ -331,15 +332,15 @@ public class IonBall : Projectile, ILightningNode
             return;
 
         // Set render mode
-        Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-        Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
-        Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
+        SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
 
         // No lightmap
-        Direct3D.d3dd.SetTexture(1, null);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, null);
 
         // Texture
-        Direct3D.d3dd.SetTexture(0, IonBall.plasmaball.texture);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, IonBall.plasmaball.texture);
 
         // Render sprite
         sprite.Render();

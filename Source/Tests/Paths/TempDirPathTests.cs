@@ -1,4 +1,4 @@
-namespace CodeImp.Bloodmasters.Tests.Paths;
+namespace Bloodmasters.Tests.Paths;
 
 public sealed class TempDirPathTests
 {
@@ -6,7 +6,7 @@ public sealed class TempDirPathTests
     public void TemporaryDirectoryShouldContainSuffixBloodmasters()
     {
         // Arrange
-        var dirName = Path.GetFileName(CodeImp.Bloodmasters.Paths.Instance.TempDir);
+        var dirName = Path.GetFileName(Bloodmasters.Paths.Instance.TempDir);
 
         // Assert
         Assert.StartsWith("Bloodmasters", dirName);

@@ -6,16 +6,17 @@
 \********************************************************************/
 
 using System;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Items;
-using CodeImp.Bloodmasters.Client.LevelMap;
-using CodeImp.Bloodmasters.Client.Lights;
-using CodeImp.Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Items;
+using Bloodmasters.Client.LevelMap;
+using Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
-using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
+using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
+using Sprite = Bloodmasters.Client.Graphics.Sprite;
 
-namespace CodeImp.Bloodmasters.Client.Projectiles;
+namespace Bloodmasters.Client.Projectiles;
 
 [ProjectileInfo(PROJECTILE.PLASMABALL)]
 public class PlasmaBall : Projectile
@@ -32,7 +33,7 @@ public class PlasmaBall : Projectile
     public static TextureResource plasmaball;
 
     // Members
-    private Sprite sprite;
+    private Graphics_Sprite sprite;
     private ISound flying;
     private readonly DynamicLight light;
 
@@ -48,7 +49,7 @@ public class PlasmaBall : Projectile
         state.vel = vel;
 
         // Make the ball sprite
-        sprite = new Sprite(start, SPRITE_SIZE, false, true);
+        sprite = new Graphics_Sprite(start, SPRITE_SIZE, false, true);
         UpdateSprite();
 
         // Make the light
@@ -246,15 +247,15 @@ public class PlasmaBall : Projectile
             return;
 
         // Set render mode
-        Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-        Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
-        Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
+        SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
 
         // No lightmap
-        Direct3D.d3dd.SetTexture(1, null);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, null);
 
         // Texture
-        Direct3D.d3dd.SetTexture(0, PlasmaBall.plasmaball.texture);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, PlasmaBall.plasmaball.texture);
 
         // Render sprite
         sprite.Render();

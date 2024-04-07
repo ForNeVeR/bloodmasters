@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Net;
+namespace Bloodmasters.Net;
 
 // Message commands
 public enum MsgCmd : int

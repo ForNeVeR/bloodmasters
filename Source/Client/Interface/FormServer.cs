@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Client.Interface;
+namespace Bloodmasters.Client.Interface;
 
 public class FormServer : System.Windows.Forms.Form
 {

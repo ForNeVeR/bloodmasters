@@ -7,15 +7,15 @@
 
 using System;
 using System.Collections.Generic;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.LevelMap;
-using CodeImp.Bloodmasters.Client.Resources;
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.LevelMap;
+using Bloodmasters.Client.Resources;
+using Bloodmasters.LevelMap;
 using SharpDX;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
 
-namespace CodeImp.Bloodmasters.Client.Lights;
+namespace Bloodmasters.Client.Lights;
 
 public class DynamicLight
 {
@@ -106,13 +106,13 @@ public class DynamicLight
         if(visible)
         {
             // Set drawing mode
-            Direct3D.SetDrawMode(DRAWMODE.NLIGHTBLEND);
+            Graphics.Direct3D.SetDrawMode(DRAWMODE.NLIGHTBLEND);
 
             // Matrix to position light texture in world coordinates
             lightinworld = Matrix.Identity;
-            lightinworld *= Direct3D.MatrixTranslateTx(-pos.x + range, -pos.y + range);
+            lightinworld *= Graphics.Direct3D.MatrixTranslateTx(-pos.x + range, -pos.y + range);
             lightinworld *= Matrix.Scaling(1f / (range * 2f), 1f / (range * 2f), 1f);
-            Direct3D.d3dd.SetTransform(TransformState.Texture0, lightinworld);
+            Graphics.Direct3D.d3dd.SetTransform(TransformState.Texture0, lightinworld);
 
             // Set the light texture
             //Direct3D.d3dd.SetTexture(0, DynamicLight.lightimages[template].texture);
@@ -142,7 +142,7 @@ public class DynamicLight
                     // Set the light color
                     sa = StaticLight.CalculateHeightAlpha(s, pos.z);
                     sc = ColorOperator.Scale(color, sa);
-                    Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, sc);
+                    SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, sc);
 
                     // Render the sector geometry
                     s.VisualSector.RenderFlat();

@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using NAudio.Wave;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 public static class SoundSystem
 {

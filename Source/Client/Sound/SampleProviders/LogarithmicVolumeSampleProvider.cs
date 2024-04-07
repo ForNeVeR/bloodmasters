@@ -1,8 +1,8 @@
 using System;
-using CodeImp.Bloodmasters.Client.Extensions;
+using Bloodmasters.Client.Extensions;
 using NAudio.Wave;
 
-namespace CodeImp.Bloodmasters.Client.SampleProviders;
+namespace Bloodmasters.Client.SampleProviders;
 
 public class LogarithmicVolumeSampleProvider : ISampleProvider
 {

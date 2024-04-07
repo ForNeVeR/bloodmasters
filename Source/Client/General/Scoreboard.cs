@@ -11,13 +11,13 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Items;
-using CodeImp.Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Items;
+using Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 public class Scoreboard
 {
@@ -106,9 +106,9 @@ public class Scoreboard
 
         // Load the flag icons
         tempfile = ArchiveManager.ExtractFile("Sprites/redflag_hud.tga");
-        redflag = Direct3D.LoadTexture(tempfile, true, false);
+        redflag = SharpDX.Direct3D9.Direct3D.LoadTexture(tempfile, true, false);
         tempfile = ArchiveManager.ExtractFile("Sprites/blueflag_hud.tga");
-        blueflag = Direct3D.LoadTexture(tempfile, true, false);
+        blueflag = SharpDX.Direct3D9.Direct3D.LoadTexture(tempfile, true, false);
 
         // Create header lines
         headerline = new Border[4];
@@ -256,7 +256,7 @@ public class Scoreboard
     private TextResource CreateTextResource(string text)
     {
         // Make text resource
-        TextResource t = Direct3D.CreateTextResource(General.charset_shaded);
+        TextResource t = SharpDX.Direct3D9.Direct3D.CreateTextResource(General.charset_shaded);
         t.Texture = General.font_shaded.texture;
         t.HorizontalAlign = TextAlignX.Left;
         t.VerticalAlign = TextAlignY.Middle;
@@ -343,19 +343,19 @@ public class Scoreboard
                 if(c.Carrying is RedFlag)
                 {
                     // Setup red flag icon for this player
-                    redflagclient = Direct3D.TLRect(left * Direct3D.DisplayWidth,
-                        top * Direct3D.DisplayHeight,
-                        right * Direct3D.DisplayWidth,
-                        bottom * Direct3D.DisplayHeight,
+                    redflagclient = SharpDX.Direct3D9.Direct3D.TLRect(left * SharpDX.Direct3D9.Direct3D.DisplayWidth,
+                        top * SharpDX.Direct3D9.Direct3D.DisplayHeight,
+                        right * SharpDX.Direct3D9.Direct3D.DisplayWidth,
+                        bottom * SharpDX.Direct3D9.Direct3D.DisplayHeight,
                         32f, 32f);
                 }
                 else
                 {
                     // Setup blue flag icon for this player
-                    blueflagclient = Direct3D.TLRect(left * Direct3D.DisplayWidth,
-                        top * Direct3D.DisplayHeight,
-                        right * Direct3D.DisplayWidth,
-                        bottom * Direct3D.DisplayHeight,
+                    blueflagclient = SharpDX.Direct3D9.Direct3D.TLRect(left * SharpDX.Direct3D9.Direct3D.DisplayWidth,
+                        top * SharpDX.Direct3D9.Direct3D.DisplayHeight,
+                        right * SharpDX.Direct3D9.Direct3D.DisplayWidth,
+                        bottom * SharpDX.Direct3D9.Direct3D.DisplayHeight,
                         32f, 32f);
                 }
             }
@@ -594,18 +594,18 @@ public class Scoreboard
             for(int x = 0; x < TABLE_COLS; x++)
             {
                 // Render cell
-                Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, cell[x, y].ModulateColor);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, cell[x, y].ModulateColor);
                 cell[x, y].Render();
             }
 
             // Normal blending
-            Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
 
             // Render flag icons
-            Direct3D.d3dd.SetTexture(0, redflag.texture);
-            if(redflagclient != null) Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, redflagclient);
-            Direct3D.d3dd.SetTexture(0, blueflag.texture);
-            if(blueflagclient != null) Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, blueflagclient);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, redflag.texture);
+            if(redflagclient != null) SharpDX.Direct3D9.Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, redflagclient);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, blueflag.texture);
+            if(blueflagclient != null) SharpDX.Direct3D9.Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, blueflagclient);
 
             // Render the lines
             for(int i = 0; i < 4; i++)

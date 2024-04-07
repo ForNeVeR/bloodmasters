@@ -6,14 +6,15 @@
 \********************************************************************/
 
 using System;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Lights;
-using CodeImp.Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
-using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
+using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
+using Sprite = Bloodmasters.Client.Graphics.Sprite;
 
-namespace CodeImp.Bloodmasters.Client.Effects;
+namespace Bloodmasters.Client.Effects;
 
 public class ShieldEffect : VisualObject
 {
@@ -33,7 +34,7 @@ public class ShieldEffect : VisualObject
     private Vector3D offset = new Vector3D(1f, -1f, 12f);
     private DynamicLight light;
     private Actor actor;
-    private Sprite sprite;
+    private Graphics_Sprite sprite;
     private bool disposed = false;
     private float alpha;
     private readonly float angle;
@@ -64,7 +65,7 @@ public class ShieldEffect : VisualObject
         light = new DynamicLight(this.pos, 16f, lightcolor, 3);
 
         // Make the sprite
-        sprite = new Sprite(this.pos + offset, 6f, false, true);
+        sprite = new Graphics_Sprite(this.pos + offset, 6f, false, true);
         sprite.RotateX = (float)Math.PI * 0.7f;
         sprite.Rotation = angle - (float)Math.PI * 0.35f;
         sprite.Update();
@@ -136,17 +137,17 @@ public class ShieldEffect : VisualObject
         if(actor.Sector.VisualSector.InScreen && !disposed)
         {
             // Set render mode
-            Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+            SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
             if(alpha > 1f)
-                Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
             else
-                Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(alpha, 1f, 1f, 1f));
+                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, General.ARGB(alpha, 1f, 1f, 1f));
 
             // No lightmap
-            Direct3D.d3dd.SetTexture(1, null);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, null);
 
             // Set shield texture
-            Direct3D.d3dd.SetTexture(0, shieldimage.texture);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, shieldimage.texture);
 
             // Render sprite
             sprite.Render();

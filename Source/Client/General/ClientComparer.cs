@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 public class ClientComparer : IComparer<Client>
 {

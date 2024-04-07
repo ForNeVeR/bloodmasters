@@ -1,4 +1,6 @@
-namespace CodeImp.Bloodmasters.Tests.Graphics;
+using Bloodmasters;
+
+namespace Bloodmasters.Tests.Graphics;
 
 public class Vector3DTests
 {

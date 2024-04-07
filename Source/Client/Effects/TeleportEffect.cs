@@ -7,14 +7,15 @@
 
 using System;
 using System.Drawing;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.LevelMap;
-using CodeImp.Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.LevelMap;
+using Bloodmasters.Client.Lights;
 using SharpDX.Direct3D9;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
-using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
+using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
+using Sprite = Bloodmasters.Client.Graphics.Sprite;
 
-namespace CodeImp.Bloodmasters.Client.Effects;
+namespace Bloodmasters.Client.Effects;
 
 public class TeleportEffect : VisualObject
 {
@@ -24,7 +25,7 @@ public class TeleportEffect : VisualObject
 
     #region ================== Variables
 
-    private Sprite sprite;
+    private Graphics_Sprite sprite;
     private Animation ani;
     private readonly ClientSector sector;
     private bool disposed;
@@ -95,7 +96,7 @@ public class TeleportEffect : VisualObject
                 Vector3D.Random(General.random, 0.02f, 0.02f, 0.01f), General.ARGB(1f, 0.6f, 0.6f, 0.6f));
 
         // Make effect
-        sprite = new Sprite(spawnpos + new Vector3D(0f, 0f, 3f), spritescale, false, true);
+        sprite = new Graphics_Sprite(spawnpos + new Vector3D(0f, 0f, 3f), spritescale, false, true);
         ani = Animation.CreateFrom("sprites/teleport.cfg");
         ani.FrameTime = (int)((float)ani.FrameTime * animationscale);
     }
@@ -143,21 +144,21 @@ public class TeleportEffect : VisualObject
             if(sector.VisualSector.InScreen)
             {
                 // Set render mode
-                Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
-                Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, teamcolor);
-                Direct3D.d3dd.SetRenderState(RenderState.ZEnable, false);
+                SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NADDITIVEALPHA);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, teamcolor);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZEnable, false);
 
                 // No lightmap
-                Direct3D.d3dd.SetTexture(1, null);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, null);
 
                 // Set animation frame
-                Direct3D.d3dd.SetTexture(0, ani.CurrentFrame.texture);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, ani.CurrentFrame.texture);
 
                 // Render sprite
                 sprite.Render();
 
                 // Restore Z buffer
-                Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
+                SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZEnable, true);
             }
         }
     }

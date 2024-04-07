@@ -19,7 +19,7 @@ stream, ready for transmitting over the network.
 
 using System.Net;
 
-namespace CodeImp.Bloodmasters.Net;
+namespace Bloodmasters.Net;
 
 public class Packet
 {

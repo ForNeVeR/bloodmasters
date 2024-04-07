@@ -14,21 +14,21 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.Client.Items;
-using CodeImp.Bloodmasters.Client.LevelMap;
-using CodeImp.Bloodmasters.Client.Lights;
-using CodeImp.Bloodmasters.Client.Projectiles;
-using CodeImp.Bloodmasters.Client.Weapons;
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Items;
+using Bloodmasters.Client.LevelMap;
+using Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Projectiles;
+using Bloodmasters.Client.Weapons;
+using Bloodmasters.LevelMap;
 using SharpDX;
 using SharpDX.Direct3D9;
 using SharpDX.Mathematics.Interop;
 using Color = System.Drawing.Color;
-using Direct3D = CodeImp.Bloodmasters.Client.Graphics.Direct3D;
-using Sprite = CodeImp.Bloodmasters.Client.Graphics.Sprite;
+using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
+using Sprite = Bloodmasters.Client.Graphics.Sprite;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 public class Arena
 {
@@ -572,7 +572,7 @@ public class Arena
         liquidwater.UnloadResources();
 
         // Destroy generic stuff
-        Sprite.DestroyGeometry();
+        SharpDX.Direct3D9.Sprite.DestroyGeometry();
         WallDecal.DestroyGeometry();
         Shadow.DestroyGeometry();
         Bullet.DestroyGeometry();
@@ -599,7 +599,7 @@ public class Arena
         liquidwater.ReloadResources();
 
         // Reload generic stuff
-        Sprite.CreateGeometry();
+        SharpDX.Direct3D9.Sprite.CreateGeometry();
         WallDecal.CreateGeometry();
         Shadow.CreateGeometry();
         Bullet.CreateGeometry();
@@ -616,8 +616,8 @@ public class Arena
         if(DynamicLight.dynamiclights)
         {
             // Make a rendertarget for lightmap
-            dynamiclightmap = new Texture(Direct3D.d3dd, DYNAMIC_LIGHTMAP_SIZE, DYNAMIC_LIGHTMAP_SIZE, 1,
-                Usage.RenderTarget, Direct3D.LightmapFormat, Pool.Default);
+            dynamiclightmap = new Texture(SharpDX.Direct3D9.Direct3D.d3dd, DYNAMIC_LIGHTMAP_SIZE, DYNAMIC_LIGHTMAP_SIZE, 1,
+                Usage.RenderTarget, SharpDX.Direct3D9.Direct3D.LightmapFormat, Pool.Default);
         }
     }
 
@@ -972,9 +972,9 @@ public class Arena
                 if(!float.IsNaN(vactor.X) && !float.IsNaN(vactor.Y))
                 {
                     // Determine angle to move camera in
-                    float dx = (float)General.gamewindow.Mouse.X - (float)Direct3D.DisplayWidth * 0.5f;
-                    float dy = (float)General.gamewindow.Mouse.Y - (float)Direct3D.DisplayHeight * 0.5f;
-                    float resolutionlen = (float)Math.Sqrt(Direct3D.DisplayWidth * Direct3D.DisplayWidth + Direct3D.DisplayHeight * Direct3D.DisplayHeight);
+                    float dx = (float)General.gamewindow.Mouse.X - (float)SharpDX.Direct3D9.Direct3D.DisplayWidth * 0.5f;
+                    float dy = (float)General.gamewindow.Mouse.Y - (float)SharpDX.Direct3D9.Direct3D.DisplayHeight * 0.5f;
+                    float resolutionlen = (float)Math.Sqrt(SharpDX.Direct3D9.Direct3D.DisplayWidth * SharpDX.Direct3D9.Direct3D.DisplayWidth + SharpDX.Direct3D9.Direct3D.DisplayHeight * SharpDX.Direct3D9.Direct3D.DisplayHeight);
                     float length = ((float)Math.Sqrt(dx * dx + dy * dy) / resolutionlen) * CAMERA_AIM_LENGTH;
                     float angle = (float)Math.Atan2(dy, dx) + (float)Math.PI * 0.25f;
 
@@ -1010,7 +1010,7 @@ public class Arena
 
         // Create lightmap transformation matrix
         lightmaptransform = Matrix.Identity;
-        lightmaptransform *= Direct3D.MatrixTranslateTx(-lightmapx, -lightmapy);
+        lightmaptransform *= SharpDX.Direct3D9.Direct3D.MatrixTranslateTx(-lightmapx, -lightmapy);
         lightmaptransform *= Matrix.Scaling(1f / SCREEN_AREA_WIDTH, 1f / SCREEN_AREA_HEIGHT, 1f);
     }
 
@@ -1038,14 +1038,14 @@ public class Arena
     public Vector3 Projected(Vector3 pos)
     {
         // Project coordinates
-        return pos.Project(Direct3D.d3dd.Viewport, c_norm_projection, c_matrix, Matrix.Identity);
+        return pos.Project(SharpDX.Direct3D9.Direct3D.d3dd.Viewport, c_norm_projection, c_matrix, Matrix.Identity);
     }
 
     // This projects coordinates from screen space to world space
     public Vector3 Unprojected(Vector3 pos)
     {
         // Project coordinates
-        return pos.Unproject(Direct3D.d3dd.Viewport,
+        return pos.Unproject(SharpDX.Direct3D9.Direct3D.d3dd.Viewport,
             c_norm_projection, c_matrix, Matrix.Identity);
     }
 
@@ -1059,10 +1059,10 @@ public class Arena
         // coordinates to screen space, then back to
         // the camera space without Z.
         vactor = new Vector3(a.Position.x, a.Position.y, a.Position.z);
-        acscreen = vactor.Project(Direct3D.d3dd.Viewport,
+        acscreen = vactor.Project(SharpDX.Direct3D9.Direct3D.d3dd.Viewport,
             c_norm_projection, c_matrix, Matrix.Identity);
         acscreen.Z = 0.1f;
-        vactor = acscreen.Unproject(Direct3D.d3dd.Viewport,
+        vactor = acscreen.Unproject(SharpDX.Direct3D9.Direct3D.d3dd.Viewport,
             c_norm_projection, c_matrix, Matrix.Identity);
 
         // Return coordinates
@@ -1154,11 +1154,11 @@ public class Arena
         float my = General.gamewindow.Mouse.Y;
 
         // Unproject mouse coordinates for ray start
-        r1 = new Vector3(mx, my, 0f).Unproject(Direct3D.d3dd.Viewport,
+        r1 = new Vector3(mx, my, 0f).Unproject(SharpDX.Direct3D9.Direct3D.d3dd.Viewport,
             c_norm_projection, c_matrix, Matrix.Identity);
 
         // Unproject mouse coordinates for ray end
-        r2 = new Vector3(mx, my, 1f).Unproject(Direct3D.d3dd.Viewport,
+        r2 = new Vector3(mx, my, 1f).Unproject(SharpDX.Direct3D9.Direct3D.d3dd.Viewport,
             c_norm_projection, c_matrix, Matrix.Identity);
 
         // Do a ray-map intersection test
@@ -1254,11 +1254,11 @@ public class Arena
         verts[5].z = pos.z + zlen;
 
         // No matrices
-        Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
 
         // Draw line
-        Direct3D.SetDrawMode(DRAWMODE.NLINES);
-        Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.LineList, 3, verts);
+        SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NLINES);
+        SharpDX.Direct3D9.Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.LineList, 3, verts);
     }
 
     // This will render a line at given coordinates
@@ -1276,11 +1276,11 @@ public class Arena
         verts[1].z = end.z;
 
         // No matrices
-        Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
 
         // Draw line
-        Direct3D.SetDrawMode(DRAWMODE.NLINES);
-        Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.LineList, 1, verts);
+        SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NLINES);
+        SharpDX.Direct3D9.Direct3D.d3dd.DrawUserPrimitives(PrimitiveType.LineList, 1, verts);
     }
 
     // This will prepare for rendering
@@ -1318,22 +1318,22 @@ public class Arena
         {
             // Begin dynamic lightmap rendering
             lightmapsurface = dynamiclightmap.GetSurfaceLevel(0);
-            Direct3D.d3dd.DepthStencilSurface = null;
-            Direct3D.d3dd.SetRenderTarget(0, lightmapsurface);
-            Direct3D.d3dd.Clear(ClearFlags.Target, new RawColorBGRA(), 0f, 0);
-            Direct3D.d3dd.BeginScene();
+            SharpDX.Direct3D9.Direct3D.d3dd.DepthStencilSurface = null;
+            SharpDX.Direct3D9.Direct3D.d3dd.SetRenderTarget(0, lightmapsurface);
+            SharpDX.Direct3D9.Direct3D.d3dd.Clear(ClearFlags.Target, new RawColorBGRA(), 0f, 0);
+            SharpDX.Direct3D9.Direct3D.d3dd.BeginScene();
 
             // Setup matrices
-            Direct3D.d3dd.SetTransform(TransformState.Projection, c_light_projection);
-            Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
-            Direct3D.d3dd.SetTransform(TransformState.View, Matrix.Translation(-c_pos.X + DYNAMIC_LIGHTMAP_ADJUST_X,
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Projection, c_light_projection);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.View, Matrix.Translation(-c_pos.X + DYNAMIC_LIGHTMAP_ADJUST_X,
                 -c_pos.Y + DYNAMIC_LIGHTMAP_ADJUST_Y, 0f));
 
             // Set drawing mode
-            Direct3D.SetDrawMode(DRAWMODE.NLIGHTBLEND);
+            SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NLIGHTBLEND);
 
             // Set the light texture
-            Direct3D.d3dd.SetTexture(0, DynamicLight.lightimages[2].texture);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, DynamicLight.lightimages[2].texture);
 
             // Go for all dynamic lights
             foreach(DynamicLight d in dynamiclights)
@@ -1343,7 +1343,7 @@ public class Arena
             }
 
             // Done rendering lightmap
-            Direct3D.d3dd.EndScene();
+            SharpDX.Direct3D9.Direct3D.d3dd.EndScene();
 
             // Clean up
             lightmapsurface.Dispose();
@@ -1354,15 +1354,15 @@ public class Arena
     public void Render()
     {
         // Setup matrices
-        Direct3D.d3dd.SetTransform(TransformState.Projection, c_norm_projection);
-        Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
-        Direct3D.d3dd.SetTransform(TransformState.View, c_matrix);
-        Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
-        Direct3D.d3dd.SetTransform(TransformState.Texture1, Matrix.Identity);
-        if(DynamicLight.dynamiclights) Direct3D.d3dd.SetTransform(TransformState.Texture2, lightmaptransform);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Projection, c_norm_projection);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.World, Matrix.Identity);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.View, c_matrix);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture1, Matrix.Identity);
+        if(DynamicLight.dynamiclights) SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture2, lightmaptransform);
 
         // Setup dynamic lightmap
-        if(DynamicLight.dynamiclights) Direct3D.d3dd.SetTexture(2, dynamiclightmap);
+        if(DynamicLight.dynamiclights) SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(2, dynamiclightmap);
 
         // Go for all sectors
         foreach(VisualSector s in visualSectors)
@@ -1374,9 +1374,9 @@ public class Arena
         if(Decal.showdecals)
         {
             // Render mode for decals
-            Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
-            Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
-            Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
+            SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NLIGHTMAPALPHA);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
+            SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
 
             // Go for all decals
             foreach(Decal d in decals)
@@ -1390,8 +1390,8 @@ public class Arena
         for(int p = 0; p < 2; p++) RenderObjectsPass(p);
 
         // Set drawing mode
-        Direct3D.SetDrawMode(DRAWMODE.TLMODALPHA);
-        Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
+        SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.TLMODALPHA);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.TextureFactor, -1);
 
         // Go for all actors
         foreach(Actor a in actors)
@@ -1456,10 +1456,10 @@ public class Arena
         */
 
         // Unset textures and streams
-        Direct3D.d3dd.SetTexture(0, null);
-        Direct3D.d3dd.SetTexture(1, null);
-        Direct3D.d3dd.SetTexture(2, null);
-        Direct3D.d3dd.SetStreamSource(0, null, 0, 0);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, null);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, null);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(2, null);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetStreamSource(0, null, 0, 0);
 
         // No longer first frame
         firstframe = false;
@@ -1469,13 +1469,13 @@ public class Arena
     private void RenderObjectsPass(int pass)
     {
         // Render mode for shadows
-        Direct3D.SetDrawMode(DRAWMODE.NALPHA);
-        Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
+        SharpDX.Direct3D9.Direct3D.SetDrawMode(DRAWMODE.NALPHA);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetRenderState(RenderState.ZWriteEnable, false);
 
         // Shadow texture and vertices
-        Direct3D.d3dd.SetTexture(0, Shadow.texture.texture);
-        Direct3D.d3dd.SetTexture(1, null);
-        Direct3D.d3dd.SetStreamSource(0, Shadow.vertices, 0, MVertex.Stride);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(0, Shadow.texture.texture);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTexture(1, null);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetStreamSource(0, Shadow.vertices, 0, MVertex.Stride);
 
         // Go for all visual objects
         foreach(VisualObject vo in objects)
@@ -1485,7 +1485,7 @@ public class Arena
         }
 
         // Render mode for objects
-        Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
+        SharpDX.Direct3D9.Direct3D.d3dd.SetTransform(TransformState.Texture0, Matrix.Identity);
 
         // Go for all visual objects
         foreach(VisualObject vo in objects)

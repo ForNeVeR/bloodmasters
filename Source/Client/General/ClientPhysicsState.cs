@@ -1,7 +1,7 @@
-using CodeImp.Bloodmasters.Client.Graphics;
-using CodeImp.Bloodmasters.LevelMap;
+using Bloodmasters.Client.Graphics;
+using Bloodmasters.LevelMap;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 public class ClientPhysicsState : PhysicsState
 {

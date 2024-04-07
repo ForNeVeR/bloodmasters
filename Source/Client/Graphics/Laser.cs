@@ -6,11 +6,11 @@
 \********************************************************************/
 
 using System;
-using CodeImp.Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Resources;
 using SharpDX;
 using SharpDX.Direct3D9;
 
-namespace CodeImp.Bloodmasters.Client.Graphics;
+namespace Bloodmasters.Client.Graphics;
 
 public class Laser
 {

@@ -1,6 +1,6 @@
 using JetBrains.Annotations;
 
-namespace CodeImp.Bloodmasters;
+namespace Bloodmasters;
 
 /// <summary>
 /// Classes marked with this attribute are instantiated in runtime via reflection, and thus should be excluded from the

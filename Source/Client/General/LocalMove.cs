@@ -8,10 +8,9 @@
 using System;
 using System.Drawing;
 using System.Globalization;
-using CodeImp.Bloodmasters;
-using CodeImp;
+using Bloodmasters;
 
-namespace CodeImp.Bloodmasters.Client;
+namespace Bloodmasters.Client;
 
 public class LocalMove
 {

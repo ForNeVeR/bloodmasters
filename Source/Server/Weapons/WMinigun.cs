@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace CodeImp.Bloodmasters.Server;
+namespace Bloodmasters.Server;
 
 [WeaponInfo(WEAPON.MINIGUN, RefireDelay=50, Description="Minigun",
     AmmoType=AMMO.BULLETS, InitialAmmo=50, UseAmmo=1)]
