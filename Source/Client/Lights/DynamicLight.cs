@@ -106,13 +106,13 @@ public class DynamicLight
         if(visible)
         {
             // Set drawing mode
-            Graphics.Direct3D.SetDrawMode(DRAWMODE.NLIGHTBLEND);
+            Direct3D.SetDrawMode(DRAWMODE.NLIGHTBLEND);
 
             // Matrix to position light texture in world coordinates
             lightinworld = Matrix.Identity;
-            lightinworld *= Graphics.Direct3D.MatrixTranslateTx(-pos.x + range, -pos.y + range);
+            lightinworld *= Direct3D.MatrixTranslateTx(-pos.x + range, -pos.y + range);
             lightinworld *= Matrix.Scaling(1f / (range * 2f), 1f / (range * 2f), 1f);
-            Graphics.Direct3D.d3dd.SetTransform(TransformState.Texture0, lightinworld);
+            Direct3D.d3dd.SetTransform(TransformState.Texture0, lightinworld);
 
             // Set the light texture
             //Direct3D.d3dd.SetTexture(0, DynamicLight.lightimages[template].texture);
