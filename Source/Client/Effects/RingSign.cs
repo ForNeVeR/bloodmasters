@@ -9,7 +9,6 @@ using System;
 using Bloodmasters.Client.Resources;
 using SharpDX;
 using SharpDX.Direct3D9;
-using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
 
 namespace Bloodmasters.Client.Effects;
 

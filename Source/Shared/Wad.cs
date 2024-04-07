@@ -8,8 +8,6 @@
 // This is not a complete WAD file manager, it only provides
 // a way to read lumps from a WAD file. Thats all I need for now :)
 
-using System;
-using System.IO;
 using System.Text;
 
 namespace Bloodmasters;

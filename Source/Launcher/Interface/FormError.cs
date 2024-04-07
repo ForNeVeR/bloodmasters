@@ -5,12 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Bloodmasters;
-
 namespace Bloodmasters.Launcher.Interface;
 
 internal sealed class FormError : System.Windows.Forms.Form

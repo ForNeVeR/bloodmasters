@@ -5,11 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-
 namespace Bloodmasters.Launcher.Interface;
 
 public class FormGameSpecify : System.Windows.Forms.Form

@@ -14,7 +14,6 @@ using System;
 using System.Drawing;
 using System.IO;
 using SharpDX.Direct3D9;
-using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
 
 namespace Bloodmasters.Client.Resources;
 

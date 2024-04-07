@@ -22,7 +22,6 @@ using SharpDX.Direct3D9;
 using SharpDX.Mathematics.Interop;
 using Color = System.Drawing.Color;
 using Rectangle = System.Drawing.Rectangle;
-using Resource = Bloodmasters.Client.Resources.Resource;
 using Resources_Resource = Bloodmasters.Client.Resources.Resource;
 
 namespace Bloodmasters.Client.Graphics;

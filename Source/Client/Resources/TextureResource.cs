@@ -10,7 +10,6 @@
 // to create a texture resource of this type.
 
 using SharpDX.Direct3D9;
-using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
 
 namespace Bloodmasters.Client.Resources;
 

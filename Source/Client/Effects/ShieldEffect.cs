@@ -12,7 +12,6 @@ using Bloodmasters.Client.Resources;
 using SharpDX.Direct3D9;
 using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
 using Graphics_Sprite = Bloodmasters.Client.Graphics.Sprite;
-using Sprite = Bloodmasters.Client.Graphics.Sprite;
 
 namespace Bloodmasters.Client.Effects;
 

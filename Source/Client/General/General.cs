@@ -34,23 +34,9 @@ using Bloodmasters.Net;
 using Bloodmasters.Server;
 using SharpDX;
 using SharpDX.Direct3D9;
-using Bullet = Bloodmasters.Client.Weapons.Bullet;
-using CharSet = Bloodmasters.Client.Graphics.CharSet;
 using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
-using Flag = Bloodmasters.Client.Items.Flag;
 using GameServer = Bloodmasters.Server.GameServer;
-using Grenade = Bloodmasters.Client.Projectiles.Grenade;
-using IonBall = Bloodmasters.Client.Projectiles.IonBall;
-using Item = Bloodmasters.Client.Items.Item;
-using PlasmaBall = Bloodmasters.Client.Projectiles.PlasmaBall;
-using Projectile = Bloodmasters.Client.Projectiles.Projectile;
-using Rocket = Bloodmasters.Client.Projectiles.Rocket;
 using Sprite = Bloodmasters.Client.Graphics.Sprite;
-using WGrenadeLauncher = Bloodmasters.Client.Weapons.WGrenadeLauncher;
-using WLightChaingun = Bloodmasters.Client.Weapons.WLightChaingun;
-using WMinigun = Bloodmasters.Client.Weapons.WMinigun;
-using WPlasmaCannon = Bloodmasters.Client.Weapons.WPlasmaCannon;
-using WRocketLauncher = Bloodmasters.Client.Weapons.WRocketLauncher;
 
 #endregion
 

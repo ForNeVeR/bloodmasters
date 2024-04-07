@@ -5,9 +5,6 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-
 namespace Bloodmasters;
 
 public interface IPhysicsState

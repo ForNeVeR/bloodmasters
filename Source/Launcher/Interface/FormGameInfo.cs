@@ -5,14 +5,8 @@
 *                                                                   *
 \********************************************************************/
 
-using System;
-using System.Drawing;
-using System.Net;
-using System.ComponentModel;
 using System.Windows.Forms;
-using System.Diagnostics;
 using Bloodmasters.Net;
-using Bloodmasters;
 
 namespace Bloodmasters.Launcher.Interface;
 

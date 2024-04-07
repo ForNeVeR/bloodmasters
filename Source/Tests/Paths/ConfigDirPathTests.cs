@@ -1,5 +1,3 @@
-using Bloodmasters;
-
 namespace Bloodmasters.Tests.Paths;
 
 public class ConfigDirPathTests
