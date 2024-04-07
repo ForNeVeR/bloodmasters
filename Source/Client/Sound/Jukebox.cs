@@ -8,7 +8,7 @@
 using System;
 using System.IO;
 
-namespace Bloodmasters.Client;
+namespace Bloodmasters.Client.Sound;
 
 public class Jukebox
 {

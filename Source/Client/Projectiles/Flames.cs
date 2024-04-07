@@ -8,6 +8,7 @@
 using System;
 using Bloodmasters.Client.Effects;
 using Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Sound;
 
 namespace Bloodmasters.Client.Projectiles;
 

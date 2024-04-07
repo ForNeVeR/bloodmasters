@@ -7,7 +7,7 @@
 
 using Bloodmasters.LevelMap;
 
-namespace Bloodmasters.Server;
+namespace Bloodmasters.Server.Items;
 
 [ServerItem(2003, RespawnTime=30000)]
 public class HealthMega : Item

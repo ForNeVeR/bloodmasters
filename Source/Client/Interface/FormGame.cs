@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Sound;
 
 namespace Bloodmasters.Client.Interface;
 

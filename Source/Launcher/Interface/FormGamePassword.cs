@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace Bloodmasters.Launcher;
+namespace Bloodmasters.Launcher.Interface;
 
 public class FormGamePassword : System.Windows.Forms.Form
 {

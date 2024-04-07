@@ -2,7 +2,7 @@ using System;
 using Bloodmasters.Client.Extensions;
 using NAudio.Wave;
 
-namespace Bloodmasters.Client.SampleProviders;
+namespace Bloodmasters.Client.Sound.SampleProviders;
 
 public class LogarithmicVolumeSampleProvider : ISampleProvider
 {

@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Bloodmasters.Client.Graphics;
 using Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Sound;
 
 namespace Bloodmasters.Client;
 

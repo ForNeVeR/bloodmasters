@@ -4,7 +4,7 @@ using System.IO;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 
-namespace Bloodmasters.Client.SampleProviders;
+namespace Bloodmasters.Client.Sound.SampleProviders;
 
 [DebuggerDisplay("{_fileName}")]
 public class CombinedSampleProvider : ISampleProvider

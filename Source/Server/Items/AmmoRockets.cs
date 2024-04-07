@@ -7,7 +7,7 @@
 
 using Bloodmasters.LevelMap;
 
-namespace Bloodmasters.Server;
+namespace Bloodmasters.Server.Items;
 
 [ServerItem(8003, RespawnTime=5000)]
 public class AmmoRockets : Item

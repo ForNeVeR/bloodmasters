@@ -5,7 +5,9 @@
 *                                                                   *
 \********************************************************************/
 
-namespace Bloodmasters.Server;
+using Bloodmasters.Server.Projectiles;
+
+namespace Bloodmasters.Server.Weapons;
 
 [WeaponInfo(WEAPON.ROCKET_LAUNCHER, RefireDelay=500, Description="Rocket Launcher",
     AmmoType=AMMO.ROCKETS, InitialAmmo=10, UseAmmo=1)]

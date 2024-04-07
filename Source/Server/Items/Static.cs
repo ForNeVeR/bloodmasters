@@ -7,7 +7,7 @@
 
 using Bloodmasters.LevelMap;
 
-namespace Bloodmasters.Server;
+namespace Bloodmasters.Server.Items;
 
 [ServerItem(3007, RespawnTime=90000)]
 public class Static : Item

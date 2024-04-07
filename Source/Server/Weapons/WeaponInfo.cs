@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace Bloodmasters.Server;
+namespace Bloodmasters.Server.Weapons;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple=true, Inherited=false)]
 public class WeaponInfo : EntityAttribute

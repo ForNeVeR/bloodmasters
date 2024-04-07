@@ -13,6 +13,7 @@ using Bloodmasters.Client.Effects;
 using Bloodmasters.Client.Graphics;
 using Bloodmasters.Client.Items;
 using Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Sound;
 using Bloodmasters.Client.Weapons;
 using Bloodmasters.LevelMap;
 using Bloodmasters.Net;

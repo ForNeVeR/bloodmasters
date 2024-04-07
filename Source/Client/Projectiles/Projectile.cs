@@ -9,6 +9,7 @@ using System;
 using System.Reflection;
 using Bloodmasters.Client.Effects;
 using Bloodmasters.Client.Graphics;
+using Bloodmasters.Client.Sound;
 
 namespace Bloodmasters.Client.Projectiles;
 

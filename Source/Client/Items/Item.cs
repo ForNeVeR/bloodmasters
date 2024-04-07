@@ -8,6 +8,7 @@
 using System;
 using Bloodmasters.Client.Graphics;
 using Bloodmasters.Client.LevelMap;
+using Bloodmasters.Client.Sound;
 using Bloodmasters.LevelMap;
 using SharpDX;
 using SharpDX.Direct3D9;

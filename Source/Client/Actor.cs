@@ -12,6 +12,7 @@ using Bloodmasters.Client.Effects;
 using Bloodmasters.Client.Graphics;
 using Bloodmasters.Client.LevelMap;
 using Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Sound;
 using Bloodmasters.LevelMap;
 using SharpDX;
 using SharpDX.Direct3D9;

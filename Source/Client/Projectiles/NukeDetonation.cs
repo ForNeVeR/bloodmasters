@@ -7,6 +7,7 @@
 
 using Bloodmasters.Client.Graphics;
 using Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Sound;
 using SharpDX.Direct3D9;
 using Direct3D = Bloodmasters.Client.Graphics.Direct3D;
 

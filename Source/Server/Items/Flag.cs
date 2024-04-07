@@ -7,7 +7,7 @@
 
 using Bloodmasters.LevelMap;
 
-namespace Bloodmasters.Server;
+namespace Bloodmasters.Server.Items;
 
 public class Flag : Item
 {

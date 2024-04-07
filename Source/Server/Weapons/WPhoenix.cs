@@ -5,7 +5,9 @@
 *                                                                   *
 \********************************************************************/
 
-namespace Bloodmasters.Server;
+using Bloodmasters.Server.Projectiles;
+
+namespace Bloodmasters.Server.Weapons;
 
 [WeaponInfo(WEAPON.PHOENIX, RefireDelay=100, Description="Phoenix",
     AmmoType=AMMO.FUEL, InitialAmmo=20, UseAmmo=1)]

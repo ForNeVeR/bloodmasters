@@ -7,7 +7,7 @@
 
 using Bloodmasters.LevelMap;
 
-namespace Bloodmasters.Server;
+namespace Bloodmasters.Server.Projectiles;
 
 [ProjectileInfo(PROJECTILE.IONBALL)]
 public class IonBall : Projectile

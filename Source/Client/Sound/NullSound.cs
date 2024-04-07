@@ -1,4 +1,4 @@
-namespace Bloodmasters.Client;
+namespace Bloodmasters.Client.Sound;
 
 /// <summary>
 /// Summary description for NullSound.

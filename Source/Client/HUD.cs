@@ -14,6 +14,7 @@ using System.Globalization;
 using Bloodmasters.Client.Graphics;
 using Bloodmasters.Client.Items;
 using Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Sound;
 using Bloodmasters.Client.Weapons;
 using SharpDX.Direct3D9;
 using Direct3D = Bloodmasters.Client.Graphics.Direct3D;

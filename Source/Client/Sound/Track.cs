@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace Bloodmasters.Client;
+namespace Bloodmasters.Client.Sound;
 
 public class Track
 {

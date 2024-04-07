@@ -7,6 +7,9 @@
 
 using Bloodmasters.LevelMap;
 using Bloodmasters.Net;
+using Bloodmasters.Server.Items;
+using Bloodmasters.Server.Projectiles;
+using Bloodmasters.Server.Weapons;
 
 namespace Bloodmasters.Server;
 

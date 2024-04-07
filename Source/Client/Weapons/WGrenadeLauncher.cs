@@ -7,6 +7,7 @@
 
 using System;
 using Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Sound;
 using SharpDX.Direct3D9;
 
 namespace Bloodmasters.Client.Weapons;

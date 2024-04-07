@@ -7,7 +7,7 @@
 
 using System;
 
-namespace Bloodmasters.Client;
+namespace Bloodmasters.Client.Sound;
 
 public interface ISound : IDisposable
 {

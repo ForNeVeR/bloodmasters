@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace Bloodmasters.Server;
+namespace Bloodmasters.Server.Projectiles;
 
 [ProjectileInfo(PROJECTILE.FLAMES)]
 public class Flames : Projectile

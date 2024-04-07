@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace Bloodmasters.Server;
+namespace Bloodmasters.Server.Weapons;
 
 public class Bullet
 {

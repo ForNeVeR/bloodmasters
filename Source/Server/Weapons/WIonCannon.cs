@@ -5,7 +5,9 @@
 *                                                                   *
 \********************************************************************/
 
-namespace Bloodmasters.Server;
+using Bloodmasters.Server.Projectiles;
+
+namespace Bloodmasters.Server.Weapons;
 
 [WeaponInfo(WEAPON.IONCANNON, RefireDelay=500, Description="Ion Cannon",
     AmmoType=AMMO.PLASMA, InitialAmmo=60, UseAmmo=20)]

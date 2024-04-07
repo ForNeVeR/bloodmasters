@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace Bloodmasters.Server;
+namespace Bloodmasters.Server.Projectiles;
 
 [ProjectileInfo(PROJECTILE.NUKEDETONATION)]
 public class NukeDetonation : Projectile

@@ -19,6 +19,7 @@ using Bloodmasters.Client.Items;
 using Bloodmasters.Client.LevelMap;
 using Bloodmasters.Client.Lights;
 using Bloodmasters.Client.Projectiles;
+using Bloodmasters.Client.Sound;
 using Bloodmasters.Client.Weapons;
 using Bloodmasters.LevelMap;
 using SharpDX;

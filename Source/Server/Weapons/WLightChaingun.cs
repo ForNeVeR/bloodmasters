@@ -5,7 +5,7 @@
 *                                                                   *
 \********************************************************************/
 
-namespace Bloodmasters.Server;
+namespace Bloodmasters.Server.Weapons;
 
 [WeaponInfo(WEAPON.SMG, RefireDelay=100, Description="SMG",
     AmmoType=AMMO.BULLETS, InitialAmmo=100, UseAmmo=1)]

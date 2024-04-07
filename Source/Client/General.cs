@@ -28,6 +28,7 @@ using Bloodmasters.Client.LevelMap;
 using Bloodmasters.Client.Lights;
 using Bloodmasters.Client.Net;
 using Bloodmasters.Client.Resources;
+using Bloodmasters.Client.Sound;
 using Bloodmasters.Client.Weapons;
 using Bloodmasters.LevelMap;
 using Bloodmasters.Net;

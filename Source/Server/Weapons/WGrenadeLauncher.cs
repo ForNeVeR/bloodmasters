@@ -5,7 +5,9 @@
 *                                                                   *
 \********************************************************************/
 
-namespace Bloodmasters.Server;
+using Bloodmasters.Server.Projectiles;
+
+namespace Bloodmasters.Server.Weapons;
 
 [WeaponInfo(WEAPON.GRENADE_LAUNCHER, RefireDelay=500, Description="Grenade Launcher",
     AmmoType=AMMO.GRENADES, InitialAmmo=10, UseAmmo=1)]

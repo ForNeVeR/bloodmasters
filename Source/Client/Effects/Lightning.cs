@@ -7,6 +7,7 @@
 
 using System;
 using Bloodmasters.Client.Lights;
+using Bloodmasters.Client.Sound;
 
 namespace Bloodmasters.Client.Effects;
 

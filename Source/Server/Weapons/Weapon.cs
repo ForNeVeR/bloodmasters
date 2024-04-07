@@ -8,7 +8,7 @@
 using System.Globalization;
 using System.Reflection;
 
-namespace Bloodmasters.Server;
+namespace Bloodmasters.Server.Weapons;
 
 public abstract class Weapon
 {
