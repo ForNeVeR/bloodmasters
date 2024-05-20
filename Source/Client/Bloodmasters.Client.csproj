@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="JetBrains.Lifetimes" Version="2023.3.1"/>
+        <PackageReference Include="JetBrains.Lifetimes" Version="2023.3.3"/>
         <PackageReference Include="Microsoft.DXSDK.D3DX" Version="9.29.952.8" GeneratePathProperty="true"/>
     </ItemGroup>
 
