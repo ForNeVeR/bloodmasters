@@ -31,8 +31,9 @@
     </ItemGroup>
 
     <Target Name="CreateArchives" BeforeTargets="Publish">
-        <MakeDir Directories="$(ClientPublishDir)"/>
-        <ZipDirectory DestinationFile="@(ZipContent->'$(ClientPublishDir)\%(Filename).zip')"
+        <MakeDir Directories="$(ClientPublishDir)" Condition=" $(SkipClient) != 'true' "/>
+        <ZipDirectory Condition=" $(SkipClient) != 'true' "
+                      DestinationFile="@(ZipContent->'$(ClientPublishDir)\%(Filename).zip')"
                       SourceDirectory="%(ZipContent.Identity)"
                       Overwrite="true"/>
         <MakeDir Directories="$(ServerPublishDir)"/>
@@ -40,7 +41,7 @@
                       SourceDirectory="%(ZipContent.Identity)"
                       Overwrite="true"/>
     </Target>
-    <Target Name="CopyClientContent" BeforeTargets="Publish">
+    <Target Name="CopyClientContent" BeforeTargets="Publish" Condition=" $(SkipClient) != 'true' ">
         <Copy SourceFiles="@(Content)"
               DestinationFiles="$(ClientPublishDir)\%(Identity)"
               SkipUnchangedFiles="true"/>
