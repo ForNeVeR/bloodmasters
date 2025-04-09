@@ -14,7 +14,7 @@ on:
 jobs:
   main:
     name: 'test.windows'
-    runs-on: 'windows-2022'
+    runs-on: 'windows-2025'
 
     env:
       DOTNET_NOLOGO: 1
