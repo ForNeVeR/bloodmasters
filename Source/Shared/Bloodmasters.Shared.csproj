@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2025.2.1" />
+        <PackageReference Include="JetBrains.Annotations" Version="2025.2.2" />
         <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="9.0.8" />
         <PackageReference Include="NAudio" Version="2.2.1" />
     </ItemGroup>
