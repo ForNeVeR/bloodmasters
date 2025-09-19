@@ -32,7 +32,7 @@ jobs:
           key: ${{ runner.os }}.nuget.${{ hashFiles('**/*.csproj') }}
 
       - name: Set up .NET SDK
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '7.0.x'
 
