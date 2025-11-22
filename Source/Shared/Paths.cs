@@ -119,7 +119,7 @@ file sealed class DevPaths : Paths
 {
     private const string DevModeMarkerFileName = ".bloodmasters.dev.marker";
     private const string DevSolutionRootMarkerFileName = ".bloodmasters.solution-root.marker";
-    private const string ExecutablesTargetFramework = "net7.0-windows";
+    private const string ExecutablesTargetFramework = "net10.0-windows";
     private const string BuildConfiguration =
 #if DEBUG
         "Debug";

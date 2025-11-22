@@ -33,8 +33,6 @@ jobs:
 
       - name: Set up .NET SDK
         uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: '7.0.x'
 
       - name: Build
         run: dotnet build Source\Bloodmasters.sln --configuration Release
