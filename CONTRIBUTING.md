@@ -5,7 +5,7 @@ Build
 -----
 ### Prerequisites
 - Windows OS (for now)
-- [.NET 7 SDK][dotnet-sdk] or a later compatible version
+- [.NET 10 SDK][dotnet-sdk] or a later compatible version
 
 ### Commands
 Build the solutions using the following shell command:
