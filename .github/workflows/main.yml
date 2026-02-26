@@ -42,13 +42,13 @@ jobs:
         run: dotnet publish Source\Bloodmasters.sln --configuration Release --self-contained --runtime win-x64
 
       - name: Upload client
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: Bloodmasters
           path: Publish/Client
 
       - name: Upload server
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: BMServer
           path: Publish/Server
